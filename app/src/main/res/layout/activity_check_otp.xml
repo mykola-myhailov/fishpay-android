@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.myhailov.mykola.fishpay.activities.BeginActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.LoginActivity">
 
-
-    <TextView
-        android:id="@+id/tvVersion"
+    <ImageView
+        android:id="@+id/ivBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -37,27 +36,60 @@
         android:layout_marginTop="36dp"
         android:text="@string/your_phone_number"
         android:textSize="18sp"
-        android:textColor="@color/black1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
-        tools:ignore="MissingPrefix" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
 
     <EditText
         android:id="@+id/etPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:ems="13"
+        android:ems="10"
         android:inputType="phone"
-        android:maxEms="13"
         android:textSize="30sp"
-        android:textColor="@color/blue1"
         android:theme="@style/editTextTheme"
+        android:textColor="@color/black1"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvPhone"
         app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        android:labelFor="@+id/etPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="176dp"
+        android:text="@string/sms_password"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="30sp"
+        android:theme="@style/editTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvPassword"
+        app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
+
 
     <ImageView
         android:id="@+id/ivNext"
@@ -67,7 +99,7 @@
         android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:srcCompat="@drawable/arrow_next_contacts"
         tools:ignore="ContentDescription" />
 
@@ -79,9 +111,8 @@
         android:layout_marginTop="32dp"
         android:text="@string/next"
         android:textSize="24sp"
-        android:textColor="@color/blue1"
         app:layout_constraintEnd_toStartOf="@+id/ivNext"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
-
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
 </android.support.constraint.ConstraintLayout>
+

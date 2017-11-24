@@ -1,15 +1,86 @@
 package com.myhailov.mykola.fishpay.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
+import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
-public class BeginActivity extends AppCompatActivity {
+
+public class BeginActivity extends BaseActivity {
+
+    EditText etPhone;
+    String phone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
+
+        etPhone = findViewById(R.id.etPhone);
+        String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
+        ((TextView) findViewById(R.id.tvVersion)).setText(versionText);
+        (findViewById(R.id.tvNext)).setOnClickListener(this);
+        (findViewById(R.id.ivNext)).setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tvNext:
+            case R.id.ivNext:
+                phone = etPhone.getText().toString();
+                if (phone.equals("")) {
+                    Utils.toast(context, getString(R.string.enter_phone_number));
+                    return;
+                }
+                if (phone.substring(0, 1).equals("+")) phone = phone.substring(1);
+                if (phone.length() < 12) Utils.toast(context, getString(R.string.short_number));
+                else if (phone.length() > 13) Utils.toast(context, getString(R.string.long_number));
+                else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+                else checkMobileRequest();
+                break;
+        }
+    }
+
+    private void checkMobileRequest() {
+        ApiClient.getApiClient()
+                .checkMobile(phone)
+                .enqueue(new BaseCallback<CheckMobileResult>(context, true) {
+                    @Override
+                    protected void onResult(int code, @Nullable CheckMobileResult result) {
+                        Intent intent;
+
+                        switch (code){
+                            case 200:  //there is user with this phone number in DB.
+                                intent = new Intent(context, LoginActivity.class);
+                                intent.putExtra(Keys.PHONE, phone);
+                                startActivity(intent); // go to LoginActivity;
+                                break;
+                            case  201:  //there is no user with this phone number in DB.
+                                if (result == null) return;
+                                String codeOTP = result.getCodeOTP();
+                                intent = new Intent(context, CheckOTPActivity.class);
+                                intent.putExtra(Keys.PHONE, phone);
+                                intent.putExtra(Keys.CODE_OTP, codeOTP);
+                                startActivity(intent); // go to CheckOTPActivity;
+                                break;
+                        }
+
+                    }
+                });
+    }
+
 }

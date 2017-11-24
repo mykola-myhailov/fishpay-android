@@ -30,6 +30,17 @@
         <item name="android:topBright">@color/transparent</item>
         <item name="android:topDark">@color/transparent</item>
     </style>
+    
+    <style name="editTextTheme" parent="AppTheme">
+        <item name="colorControlNormal">#30000000</item>
+        <item name="colorControlActivated">#30000000</item>
+        <item name="colorControlHighlight">#30000000</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 
 </resources>

@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">fishpay</string>
+    <string name="your_phone_number">Ваш номер телефона</string>
+    <string name="next">Далее</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
+    <string name="no_internet">Нет соединения с интернетом</string>
+    <string name="short_number">Номер слишком короткий</string>
+    <string name="incorrect_number">Номер некорректен</string>
+    <string name="long_number">Номер слишком длинный</string>
+    <string name="sms_password">СМС-пароль</string>
+    <string name="version">version</string>
+    <string name="enter_otp_code">Введите код из смс</string>
+    <string name="plus">+</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="short_password">Пароль должен состоять не менее чем из 8 символов</string>
+    <string name="show_password">Показать пароль</string>
+    <string name="save">Сохранить</string>
+    <string name="enter_name">Введите имя</string>
+    <string name="enter_birthday">Введите дату рождения</string>
+    <string name="enter_surname">Введите фамилию</string>
+    <string name="wrong_surname">Фамилия должна быть длиной от 2 до 20 символов</string>
+    <string name="hide_password">Спрятать пароль</string>
+    <string name="it_is_not_i">Произошла ошибка, это не я</string>
+    <string name="create_password">Создайте пароль для входа в систему</string>
+    <string name="welcome">Добро пожаловать</string>
+    <string name="password8">Пароль должен состоять не менее чем из 8 символов</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="email">Електронная почта</string>
 </resources>

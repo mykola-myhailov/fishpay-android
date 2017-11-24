@@ -9,8 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_API_URL = "http://138.68.74.23/rest/api/";
-
+    private static final String BASE_API_URL = "http://bank4u.pp.ua/rest/api/";
 
     private static Retrofit retrofit = null;
 

@@ -1,15 +1,18 @@
 package com.myhailov.mykola.fishpay.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -20,21 +23,24 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends BaseActivity{
+public class CheckOTPActivity extends BaseActivity {
 
-    private String phone;
+    private String phone, otpCode, deviceId, deviceInfo;
     private EditText etPassword;
-    private String deviceId, deviceInfo;
+    private SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_check_otp);
         Bundle extras  = getIntent().getExtras();
 
         assert extras != null;
         phone = extras.getString(Keys.PHONE);
+        otpCode = extras.getString(Keys.CODE_OTP);
+
 
         String visiblePhone = "+" + phone;
         ((EditText) findViewById(R.id.etPhone)).setText(visiblePhone);
@@ -44,6 +50,16 @@ public class LoginActivity extends BaseActivity{
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
+
+        new AlertDialog.Builder(context)
+                .setTitle("OTP:").setMessage(otpCode)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create().show();
     }
 
     @Override
@@ -54,31 +70,25 @@ public class LoginActivity extends BaseActivity{
                 break;
             case R.id.tvNext:
             case R.id.ivNext:
-                login();
+                registration();
                 break;
         }
     }
 
-    private void login() {
-        String password = etPassword.getText().toString();
-        if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
-        else if (password.length() < 8) Utils.toast(context, getString(R.string.short_password));
+    private void registration() {
+        String code = etPassword.getText().toString();
+        if (code.equals("")) Utils.toast(context, getString(R.string.enter_otp_code));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().login(phone, password,  deviceId, deviceInfo)
-            .enqueue(new BaseCallback<Void>(context, true) {
-                @Override
-                protected void onResult(int code, @Nullable Void result) {
-                    if (code == 200){
-                        Utils.toast(context, "Логин успешен!!!");
-                        context.startActivity(new Intent(context, NextActivity.class));
-                    }
-                }
-            });
-
-
-    }
-
-    private void loginRequest() {
-
+        else ApiClient.getApiClient().checkOTP(phone, code)
+                    .enqueue(new BaseCallback<String>(context, true) {
+                        @Override
+                        protected void onResult(int code, @Nullable String result) {
+                            if (code == 200){
+                               Intent intent = new Intent(context, RegistrationActivity.class);
+                               intent.putExtra(Keys.PHONE, phone);
+                               context.startActivity(intent);
+                            }
+                        }
+                    });
     }
 }
