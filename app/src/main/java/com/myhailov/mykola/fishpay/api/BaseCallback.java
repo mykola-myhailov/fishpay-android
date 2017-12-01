@@ -27,14 +27,13 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
     private ProgressDialog progressDialog;
 
     //protected abstract void onResult(int code, @Nullable T result, @Nullable String errorDescription);
-    protected abstract void onResult(int code, @Nullable T result);
+    protected abstract void onResult(int code, T result);
 
     protected BaseCallback(@NonNull Context context, boolean showProgress) {
         this.context = context;
         if (showProgress) {
             progressDialog = new ProgressDialog(context, R.style.CustomDialogTheme);
             progressDialog.setProgressStyle(R.style.CustomAlertDialogStyle);
-
             progressDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
             this.progressDialog.show();
         }
@@ -52,8 +51,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
 
         int code = response.code();
         T result = body.getResult();
-        String errorDescription = body.getErrorDescription();
-
+         //  String errorDescription = body.getErrorDescription();
         //onResult(code, result, errorDescription);
         onResult(code, result);
     }

@@ -1,27 +1,20 @@
 package com.myhailov.mykola.fishpay.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-public class LoginActivity extends BaseActivity{
-
+public class LoginActivity extends BaseActivity {
     private String phone;
     private EditText etPassword;
     private String deviceId, deviceInfo;
@@ -41,6 +34,7 @@ public class LoginActivity extends BaseActivity{
         (findViewById(R.id.tvNext)).setOnClickListener(this);
         (findViewById(R.id.ivNext)).setOnClickListener(this);
         (findViewById(R.id.ivBack)).setOnClickListener(this);
+        (findViewById(R.id.tvForgot)).setOnClickListener(this);
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
@@ -56,7 +50,28 @@ public class LoginActivity extends BaseActivity{
             case R.id.ivNext:
                 login();
                 break;
+            case R.id.tvForgot:
+                restorePassword();
+                break;
         }
+    }
+
+    private void restorePassword() {
+        if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        else ApiClient.getApiClient().initPassRecovery(phone)
+        .enqueue(new BaseCallback<CheckMobileResult>(context, true) {
+            @Override
+            protected void onResult(int code, @Nullable CheckMobileResult result) {
+                if (result == null) return;
+                String codeOTP = result.getCodeOTP();
+                String recoveryID =  result.getRecoveryId();
+                Intent intent = new Intent(context, CheckOTPActivity.class);
+                intent.putExtra(Keys.PHONE, phone);
+                intent.putExtra(Keys.CODE_OTP, codeOTP);
+                intent.putExtra(Keys.RECOVERY_ID, recoveryID);
+                startActivity(intent); // go to CheckOTPActivity;
+            }
+        });
     }
 
     private void login() {
@@ -74,11 +89,5 @@ public class LoginActivity extends BaseActivity{
                     }
                 }
             });
-
-
-    }
-
-    private void loginRequest() {
-
     }
 }

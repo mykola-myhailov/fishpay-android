@@ -10,4 +10,7 @@ public class Keys {
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
     public static final String EMAIL = "email";
+    public static final String IMAGE = "image";
+    public static final String RECOVERY_ID = "recovery_id";
+    public static final String USER_ID = "user_id";
 }

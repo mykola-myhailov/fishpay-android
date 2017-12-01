@@ -4,19 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.myhailov.mykola.fishpay.activities.RegistrationActivity">
 
     <ImageView
         android:id="@+id/ivAvatar"
+        android:src="@drawable/bg_camera"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="20dp"
         tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="48dp"
         android:inputType="textPersonName"
         android:textSize="28sp"
@@ -29,7 +33,7 @@
         android:id="@+id/etSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="48dp"
         android:inputType="textPersonName"
         android:textSize="28sp"
@@ -43,7 +47,7 @@
         android:id="@+id/etBirthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:inputType="date"
         android:cursorVisible="false"
         android:focusable="false"
@@ -59,7 +63,7 @@
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="48dp"
         android:inputType="textEmailAddress"
         android:textSize="28sp"
@@ -70,12 +74,13 @@
 
     <TextView
         android:id="@+id/tvSave"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:text="@string/save"
+        android:textSize="16sp"
+        android:textColor="@color/blue1"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>

@@ -1,35 +1,31 @@
 package com.myhailov.mykola.fishpay.activities;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class CheckOTPActivity extends BaseActivity {
 
     private String phone, otpCode, deviceId, deviceInfo;
     private EditText etPassword;
     private SharedPreferences sharedPreferences;
-
-
+    private boolean isPassRecovering;
+    private String recoveryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +36,8 @@ public class CheckOTPActivity extends BaseActivity {
         assert extras != null;
         phone = extras.getString(Keys.PHONE);
         otpCode = extras.getString(Keys.CODE_OTP);
+        isPassRecovering = extras.containsKey(Keys.RECOVERY_ID);
+        if (isPassRecovering) recoveryId = extras.getString(Keys.RECOVERY_ID);
 
 
         String visiblePhone = "+" + phone;
@@ -51,9 +49,13 @@ public class CheckOTPActivity extends BaseActivity {
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
 
+        String message;
+        if (isPassRecovering) message = getString(R.string.restore_pass_sms_alert);
+        else message = getString(R.string.registration_sms_alert);
+
         new AlertDialog.Builder(context)
-                .setTitle("OTP:").setMessage(otpCode)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setTitle(otpCode).setMessage(message + " " + otpCode)
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -70,25 +72,43 @@ public class CheckOTPActivity extends BaseActivity {
                 break;
             case R.id.tvNext:
             case R.id.ivNext:
-                registration();
+                checkOTP();
                 break;
         }
     }
 
-    private void registration() {
-        String code = etPassword.getText().toString();
-        if (code.equals("")) Utils.toast(context, getString(R.string.enter_otp_code));
+    private void checkOTP() {
+        String otp_code = etPassword.getText().toString();
+        if (otp_code.equals("")) Utils.toast(context, getString(R.string.enter_otp_code));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().checkOTP(phone, code)
+        else if (isPassRecovering) ApiClient.getApiClient()
+                .checkRecoveryOTP(phone, otp_code, recoveryId)
+        .enqueue(new BaseCallback<CheckRecoveryResult>(context, true) {
+            @Override
+            protected void onResult(int code, CheckRecoveryResult result) {
+                Intent intent = new Intent(context, RestorePassActivity.class);
+                intent.putExtra(Keys.PHONE, phone);
+                intent.putExtra(Keys.USER_ID, result.getUserId());
+                intent.putExtra(Keys.RECOVERY_ID, recoveryId);
+                context.startActivity(intent);
+            }
+        });
+
+        else ApiClient.getApiClient()
+                    .checkOTP(phone, otp_code)
                     .enqueue(new BaseCallback<String>(context, true) {
                         @Override
                         protected void onResult(int code, @Nullable String result) {
-                            if (code == 200){
-                               Intent intent = new Intent(context, RegistrationActivity.class);
-                               intent.putExtra(Keys.PHONE, phone);
-                               context.startActivity(intent);
+                            if (code == 200) {
+
+                                Intent intent = new Intent(context, RegistrationActivity.class);
+                                intent.putExtra(Keys.PHONE, phone);
+                                context.startActivity(intent);
                             }
                         }
                     });
+
+
+
     }
 }

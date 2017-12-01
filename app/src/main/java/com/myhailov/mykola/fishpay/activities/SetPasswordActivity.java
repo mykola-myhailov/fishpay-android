@@ -1,9 +1,11 @@
 package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,15 +19,18 @@ import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.io.File;
+
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class SetPasswordActivity extends BaseActivity{
 
     private String phone, name, surname, email, birthday, deviceId, deviceInfo, password;
+    private Uri imageUri;
     private ImageView ivAvatar;
     private EditText etPassword;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,8 @@ public class SetPasswordActivity extends BaseActivity{
         surname = extras.getString(Keys.SURNAME, "");
         email = extras.getString(Keys.EMAIL, "");
         birthday = extras.getString(Keys.BIRTHDAY, "");
+        String imageUriString = extras.getString(Keys.IMAGE);
+        if (imageUriString != null) imageUri = Uri.parse(imageUriString);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
 
@@ -49,13 +56,15 @@ public class SetPasswordActivity extends BaseActivity{
         ((TextView) findViewById(R.id.tvGreetings)).setText(greetings);
         String welcome = getString(R.string.welcome) + " " + "в" + " " + getString(R.string.app_name);
         ((TextView) findViewById(R.id.tvWelcome)).setText(welcome);
-
+        if (imageUri != null){
+            ((ImageView) findViewById(R.id.ivAvatar)).setImageURI(imageUri);
+            findViewById(R.id.vBackground).setBackground(getResources().getDrawable(R.drawable.awatar_profile));
+        }
         (findViewById(R.id.tvNext)).setOnClickListener(this);
         (findViewById(R.id.ivNext)).setOnClickListener(this);
 
         etPassword = findViewById(R.id.etPassword);
     }
-
 
     @Override
     public void onClick(View view) {
@@ -70,12 +79,12 @@ public class SetPasswordActivity extends BaseActivity{
                             .registration(parseToRequestBody(phone),
                                     parseToRequestBody(name),
                                     parseToRequestBody(surname),
-                                    parseToRequestBody("1990-03-05"),
-                                    parseToRequestBody("test@gmail.com"),
+                                    parseToRequestBody(birthday),
+                                    parseToRequestBody(email),
                                     parseToRequestBody(password),
                                     parseToRequestBody(deviceId),
                                     parseToRequestBody(deviceInfo),
-                                    null)
+                                    parseToMultipartBodyFile(imageUri))
                             .enqueue(new BaseCallback<RegistrationResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable RegistrationResult result) {
@@ -86,11 +95,15 @@ public class SetPasswordActivity extends BaseActivity{
                                 }
                             });
                     break;
-
-
-
         }
+    }
 
+    private MultipartBody.Part parseToMultipartBodyFile(Uri imageUri) {
+        if (imageUri == null) return null;
+        File file = new File(imageUri.getPath());
+        MediaType mediaType = MediaType.parse("multipart/form-data");
+        RequestBody requestFile = RequestBody.create(mediaType, file);
+        return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
     }
 
     private RequestBody parseToRequestBody(String text){

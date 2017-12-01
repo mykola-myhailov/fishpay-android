@@ -1,19 +1,18 @@
 package com.myhailov.mykola.fishpay.activities;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -22,7 +21,6 @@ public class BeginActivity extends BaseActivity {
 
     EditText etPhone;
     String phone;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +53,29 @@ public class BeginActivity extends BaseActivity {
         }
     }
 
-    private void checkMobileRequest() {
+
+  private void checkMobileRequest() {
         ApiClient.getApiClient()
                 .checkMobile(phone)
-                .enqueue(new BaseCallback<CheckMobileResult>(context, true) {
+                .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
-                    protected void onResult(int code, @Nullable CheckMobileResult result) {
+                    protected void onResult(int code, @Nullable Object result) {
                         Intent intent;
 
                         switch (code){
-                            case 200:  //there is user with this phone number in DB.
+                            case 200:
+                                //there is user with this phone number in DB.
+                                // json contains:  "result": ""
                                 intent = new Intent(context, LoginActivity.class);
                                 intent.putExtra(Keys.PHONE, phone);
                                 startActivity(intent); // go to LoginActivity;
                                 break;
-                            case  201:  //there is no user with this phone number in DB.
+                            case  201:
+                                //there is no user without this phone number in DB.
+                                // json contains: "result": { "codeOTP": XXXX}
                                 if (result == null) return;
-                                String codeOTP = result.getCodeOTP();
+                                LinkedTreeMap linkedTreeMap = (LinkedTreeMap) result;
+                                String codeOTP = (linkedTreeMap.get("codeOTP")).toString().substring(0,4);
                                 intent = new Intent(context, CheckOTPActivity.class);
                                 intent.putExtra(Keys.PHONE, phone);
                                 intent.putExtra(Keys.CODE_OTP, codeOTP);

@@ -28,4 +28,12 @@
     <string name="surname">Фамилия</string>
     <string name="birthday">Дата рождения</string>
     <string name="email">Електронная почта</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="no_come_password">Не приходит пароль?</string>
+    <string name="ok">ok</string>
+    <string name="otp">OTP:</string>
+    <string name="registration_sms_alert">Код для регистрации отправлен в виде СМС-сообщения на номер</string>
+    <string name="restore_pass_sms_alert">Код для восстановления пароля отправлен в виде СМС-сообщения на номер</string>
+    <string name="create_new_password">Создайте новый пароль для входа в аккаунт</string>
+    <string name="start_work">Начать работу</string>
 </resources>
