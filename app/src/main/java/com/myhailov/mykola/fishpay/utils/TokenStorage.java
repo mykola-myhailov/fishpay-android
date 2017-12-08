@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.myhailov.mykola.fishpay.api.ApiClient;
+
 /** Created by Mykola Myhailov  on 24.11.17.*/
 
 public class TokenStorage {

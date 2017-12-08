@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.myhailov.mykola.fishpay.activities.LoginActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.login_activities.LoginActivity">
 
     <ImageView
         android:id="@+id/ivBack"
@@ -101,17 +101,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:srcCompat="@drawable/arrow_next_contacts"
+        app:srcCompat="@drawable/arrow_next"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvNext"
         android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginTop="32dp"
         android:text="@string/next"
-        android:textSize="24sp"
+        android:textSize="26sp"
+        android:textColor="@color/blue1"
         app:layout_constraintEnd_toStartOf="@+id/ivNext"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
@@ -122,6 +123,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="60dp"
         android:text="@string/forgot_password"
+        android:textColor="@color/blue1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

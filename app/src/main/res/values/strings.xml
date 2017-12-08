@@ -1,4 +1,6 @@
 <resources>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_name">fishpay</string>
     <string name="your_phone_number">Ваш номер телефона</string>
     <string name="next">Далее</string>
@@ -27,13 +29,26 @@
     <string name="your_name">Ваше имя</string>
     <string name="surname">Фамилия</string>
     <string name="birthday">Дата рождения</string>
-    <string name="email">Електронная почта</string>
+    <string name="email">Электронная почта</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="no_come_password">Не приходит пароль?</string>
-    <string name="ok">ok</string>
+    <string name="ok">OK</string>
     <string name="otp">OTP:</string>
     <string name="registration_sms_alert">Код для регистрации отправлен в виде СМС-сообщения на номер</string>
     <string name="restore_pass_sms_alert">Код для восстановления пароля отправлен в виде СМС-сообщения на номер</string>
     <string name="create_new_password">Создайте новый пароль для входа в аккаунт</string>
     <string name="start_work">Начать работу</string>
+    <string name="re_send">Отправить повторно</string>
+    <string name="error">Произошла ошибка</string>
+    <string name="profile">Профиль</string>
+    <string name="my_contacts">Мои контакты</string>
+    <string name="pay_request">Запрос на оплату</string>
+    <string name="joint_purchase">Общая покупка</string>
+    <string name="my_purchases">Мои покупки</string>
+    <string name="charity">Благотворительность</string>
+    <string name="activity">Активность</string>
+    <string name="joint_costs">Совместные расходы</string>
+    <string name="to_pay">Оплатить</string>
+    <string name="about_us">О нас</string>
+    <string name="to_transfer">Перевести</string>
 </resources>

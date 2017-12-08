@@ -1,17 +1,17 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
@@ -25,7 +25,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class SetPasswordActivity extends BaseActivity{
+public class SetPasswordActivity extends BaseActivity {
 
     private String phone, name, surname, email, birthday, deviceId, deviceInfo, password;
     private Uri imageUri;

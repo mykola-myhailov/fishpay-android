@@ -2,6 +2,8 @@ package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
+import com.myhailov.mykola.fishpay.api.models.LoginResult;
+import com.myhailov.mykola.fishpay.api.models.ProfileResult;
 import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
 
 import okhttp3.MultipartBody;
@@ -42,14 +44,14 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded @POST("api/user/login")      // login
-    Call<BaseResponse<Void>> login (@Field("phoneNumber") String phoneNumber,
-                                      @Field("pass") String password,
-                                      @Field("deviceId") String deviceId,
-                                      @Field("deviceInfo") String deviceInfo);
+    Call<BaseResponse<LoginResult>> login (@Field("phoneNumber") String phoneNumber,
+                                           @Field("pass") String password,
+                                           @Field("deviceId") String deviceId,
+                                           @Field("deviceInfo") String deviceInfo);
 
 
     @GET("api/user/profile")                     // get profile info
-    Call<BaseResponse<Object>> getProfile(@Header("Authorization") String token);
+    Call<BaseResponse<ProfileResult>> getProfile(@Header("Authorization") String token);
 
     @FormUrlEncoded @POST("api/user/profile")   // upload updated profile info
     Call<BaseResponse<Object>> editProfile(@Header("Authorization") String token,
@@ -72,7 +74,6 @@ public interface ApiInterface {
     Call<BaseResponse<String>> passRecovery(@Field("recoveryId") String recoveryId,
                                           @Field("pass") String password,
                                           @Path("userId")String userId);
-
 
 
 }

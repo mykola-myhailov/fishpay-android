@@ -9,9 +9,10 @@ package com.myhailov.mykola.fishpay.utils;
 public class PrefKeys {
 
     public final static String USER_PREFS = "user_prefs";
-    public final static String USER_PHONE = "user_phone";
-    public final static String USER_NAME = "user_name";
-    public final static String USER_SURNAME = "user_surname";
-    public final static String USER_EMAIL = "user_email";
-    public final static String USER_BIRTHDAY = "user_birthday";
+    public final static String PHONE = "user_phone";
+    public final static String NAME = "user_name";
+    public final static String SURNAME = "user_surname";
+    public final static String EMAIL = "user_email";
+    public final static String BIRTHDAY = "user_birthday";
+    public static final String AVATAR = "user_avatar";
 }

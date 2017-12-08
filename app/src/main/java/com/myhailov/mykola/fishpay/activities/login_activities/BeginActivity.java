@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -84,6 +85,7 @@ public class BeginActivity extends BaseActivity {
                         }
 
                     }
+
                 });
     }
 

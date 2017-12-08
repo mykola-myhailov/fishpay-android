@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

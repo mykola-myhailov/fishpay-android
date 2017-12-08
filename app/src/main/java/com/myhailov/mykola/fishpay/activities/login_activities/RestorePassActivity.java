@@ -1,17 +1,15 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -39,6 +37,9 @@ public class RestorePassActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.tvNext:
             case R.id.ivNext:
                 password = etPassword.getText().toString();

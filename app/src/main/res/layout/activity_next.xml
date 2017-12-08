@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.myhailov.mykola.fishpay.activities.NextActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.login_activities.NextActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="28sp"
-        android:text="Следующая страница (в разработке"
+        android:text="Следующая страница (в разработке)"
+        android:textColor="@color/blue1"
+        android:layout_marginStart="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

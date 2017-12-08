@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -31,9 +32,7 @@ public class RegistrationActivity extends BaseActivity {
     private EditText etName, etSurname, etEmail, etBirthday;
     private ImageView ivAvatar;
     private TextView tvSave;
-    private boolean showPassword;
     private Uri imageUri;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class RegistrationActivity extends BaseActivity {
         ivAvatar.setOnClickListener(this);
         tvSave = findViewById(R.id.tvSave);
         tvSave.setOnClickListener(this);
-
     }
 
     @Override

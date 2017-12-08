@@ -8,6 +8,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.utils.Utils;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +29,13 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
     private Context context;
     private ProgressDialog progressDialog;
 
-    //protected abstract void onResult(int code, @Nullable T result, @Nullable String errorDescription);
     protected abstract void onResult(int code, T result);
+
+
+    protected void onError(int code, String errorDescription){
+        if (errorDescription != null) Utils.alert(context, errorDescription);
+        else Utils.alert(context, context.getString(R.string.error));
+    }
 
     protected BaseCallback(@NonNull Context context, boolean showProgress) {
         this.context = context;
@@ -43,17 +51,23 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
     public void onResponse(@NonNull Call<BaseResponse<T>> call, @NonNull Response<BaseResponse<T>> response) {
         if (progressDialog != null) progressDialog.cancel();
         if (context == null) return;
-        BaseResponse<T> body = response.body();
-        if (body == null) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            return;
+        int code = response.code();
+        if (response.isSuccessful()){
+            BaseResponse<T> body = response.body();
+            if (body != null) {
+                T result = body.getResult();
+                onResult(code, result);
+            }
+            else Utils.alert(context, "Error");
         }
 
-        int code = response.code();
-        T result = body.getResult();
-         //  String errorDescription = body.getErrorDescription();
-        //onResult(code, result, errorDescription);
-        onResult(code, result);
+        else {
+            try {
+                JSONObject jError = new JSONObject(response.errorBody().string());
+                onError(code, jError.getString("errorDescription"));
+            } catch (Exception e) {Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();}
+        }
+
     }
 
     @Override
@@ -61,6 +75,6 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
         if (progressDialog != null) progressDialog.cancel();
         if (context == null) return;
         Log.e("onFailure", t.getMessage());
-        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Utils.alert(context, t.getMessage());
     }
 }

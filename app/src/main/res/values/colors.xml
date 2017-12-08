@@ -5,8 +5,14 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="transparent">#00000000</color>
-    <color name="black1">#171717</color>
     <color name="blue1">#3F7099</color>
     <color name="grey1">#999999</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#777777</color>
+    <color name="black">#000000</color>
+    <color name="gray1">#777777</color>
+
+    <color name="black_light">#1C1C1D</color>
+    <color name="black1">#080808</color>
 
 </resources>

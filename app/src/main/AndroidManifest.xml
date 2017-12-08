@@ -13,29 +13,30 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".activities.BeginActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".activities.login_activities.BeginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.RegistrationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.CheckOTPActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activities.SetPasswordActivity" />
-        <activity android:name=".activities.NextActivity" />
-        <activity android:name=".activities.RestorePassActivity"></activity>
+        <activity android:name=".activities.login_activities.LoginActivity" />
+        <activity android:name=".activities.login_activities.RegistrationActivity" />
+        <activity android:name=".activities.login_activities.CheckOTPActivity" />
+        <activity android:name=".activities.login_activities.SetPasswordActivity" />
+        <activity android:name=".activities.login_activities.NextActivity" />
+        <activity android:name=".activities.login_activities.RestorePassActivity" />
+        <activity android:name=".activities.drawer_activities.ProfileActivity" />
+        <activity android:name=".activities.drawer_activities.ContactsActivity" />
+        <activity android:name=".activities.drawer_activities.PayRequestActivity" />
+        <activity android:name=".activities.drawer_activities.JointPurchasesActivity" />
+        <activity android:name=".activities.drawer_activities.MyPurchasesActivity" />
+        <activity android:name=".activities.drawer_activities.CharityActivity" />
+        <activity android:name=".activities.drawer_activities.ActivityActivity" />
+        <activity android:name=".activities.drawer_activities.GroupSpendsActivity"></activity>
     </application>
 
 </manifest>

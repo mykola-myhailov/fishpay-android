@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.NavigationView android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/black_light">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/footer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/nav_header_base" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:id="@+id/navContacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/menu_contacts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/my_contacts"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navPayRequest"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/menu_transfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/pay_request"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navJointPurchases"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/group_pay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/joint_purchase"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navMyPurchases"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/menu_my_goods"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/my_purchases"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+
+                        <TextView android:id="@+id/tv_chat_count"
+                            android:paddingLeft="6dip"
+                            android:paddingRight="6dip"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navCharity"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/menu_charity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/charity"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/activ_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerCrop"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/activity"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                    <LinearLayout android:id="@+id/navGroupSpends"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall">
+
+                        <ImageView
+                            android:src="@drawable/group_spends"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dip"
+                            android:layout_marginRight="8dip"
+                            android:layout_marginTop="8dip"
+                            android:layout_marginBottom="8dip"
+                            android:scaleType="centerInside"
+                            android:duplicateParentState="true"/>
+
+                        <TextView
+                            android:text="@string/joint_costs"
+                            android:textColor="@color/white"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                            android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                            android:textAppearance="?attr/textAppearanceListItemSmall"
+                            android:singleLine="true"
+                            android:duplicateParentState="true"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginStart="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/grey"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+
+
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:background="@color/black1"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/pay"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="@string/to_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/transfer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="@string/to_transfer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/info"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="@string/about_us"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.NavigationView>

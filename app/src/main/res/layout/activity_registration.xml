@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+
+
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.myhailov.mykola.fishpay.activities.RegistrationActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.login_activities.RegistrationActivity">
 
     <ImageView
         android:id="@+id/ivAvatar"
@@ -71,16 +77,20 @@
         android:theme="@style/editTextTheme"
         android:textColorHint="@color/grey1"
         android:textColor="@color/blue1" />
+</LinearLayout>
+
 
     <TextView
         android:id="@+id/tvSave"
-        android:layout_marginTop="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:text="@string/save"
-        android:textSize="16sp"
+        android:textAllCaps="true"
         android:textColor="@color/blue1"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>

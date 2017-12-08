@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities;
+package com.myhailov.mykola.fishpay.activities.login_activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,11 +7,11 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
@@ -105,6 +105,7 @@ public class CheckOTPActivity extends BaseActivity {
                                 intent.putExtra(Keys.PHONE, phone);
                                 context.startActivity(intent);
                             }
+
                         }
                     });
 
