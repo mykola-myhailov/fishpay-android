@@ -76,15 +76,15 @@ public class SetPasswordActivity extends BaseActivity {
                 else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                 else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
                 else ApiClient.getApiClient()
-                            .registration(parseToRequestBody(phone),
-                                    parseToRequestBody(name),
-                                    parseToRequestBody(surname),
-                                    parseToRequestBody(birthday),
-                                    parseToRequestBody(email),
-                                    parseToRequestBody(password),
-                                    parseToRequestBody(deviceId),
-                                    parseToRequestBody(deviceInfo),
-                                    parseToMultipartBodyFile(imageUri))
+                            .registration(Utils.makeRequestBody(phone),
+                                    Utils.makeRequestBody(name),
+                                    Utils.makeRequestBody(surname),
+                                    Utils.makeRequestBody(birthday),
+                                    Utils.makeRequestBody(email),
+                                    Utils.makeRequestBody(password),
+                                    Utils.makeRequestBody(deviceId),
+                                    Utils.makeRequestBody(deviceInfo),
+                                    Utils.makeRequestBodyFile(imageUri))
                             .enqueue(new BaseCallback<RegistrationResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable RegistrationResult result) {
@@ -98,15 +98,6 @@ public class SetPasswordActivity extends BaseActivity {
         }
     }
 
-    private MultipartBody.Part parseToMultipartBodyFile(Uri imageUri) {
-        if (imageUri == null) return null;
-        File file = new File(imageUri.getPath());
-        MediaType mediaType = MediaType.parse("multipart/form-data");
-        RequestBody requestFile = RequestBody.create(mediaType, file);
-        return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
-    }
 
-    private RequestBody parseToRequestBody(String text){
-        return RequestBody.create(MediaType.parse("text/plain"), text);
-    }
+
 }

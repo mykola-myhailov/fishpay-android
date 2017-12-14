@@ -20,10 +20,15 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /** Created by Mykola Myhailov  on 15.11.17. */
 
@@ -138,6 +143,19 @@ public class Utils {
         }
         initials = nameInitial.toUpperCase() + surnameInitial.toUpperCase()  + "";
         return initials;
+    }
+
+
+    public static RequestBody makeRequestBody(String text){
+        return RequestBody.create(MediaType.parse("text/plain"), text);
+    }
+
+    public static MultipartBody.Part makeRequestBodyFile(Uri imageUri) {
+        if (imageUri == null) return null;
+        File file = new File(imageUri.getPath());
+        MediaType mediaType = MediaType.parse("multipart/form-data");
+        RequestBody requestFile = RequestBody.create(mediaType, file);
+        return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
     }
 
 }

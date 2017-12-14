@@ -46,7 +46,7 @@ public interface ApiInterface {
                                                         @Part("pass") RequestBody password,
                                                         @Part("deviceId") RequestBody deviceId,
                                                         @Part("deviceInfo") RequestBody deviceInfo,
-                                                         @Part  MultipartBody.Part img);
+                                                        @Part  MultipartBody.Part img);
 
 
 
@@ -105,10 +105,10 @@ public interface ApiInterface {
 
     @FormUrlEncoded @POST("api/user/profile")   // upload updated profile info
     Call<BaseResponse<Object>> editProfile(@Header("Authorization") String token,
-                                           @Field("firstName") String firstName,
-                                           @Field("secondName") String secondName,
-                                           @Field("birthday") String birthday,
-                                           @Field("email") String email,
+                                           @Field("firstName") RequestBody firstName,
+                                           @Field("secondName") RequestBody secondName,
+                                           @Field("birthday") RequestBody birthday,
+                                           @Field("email") RequestBody email,
                                            @Part ("img")  MultipartBody.Part img);
 
     @PUT("rest/api/user/preferences")
@@ -119,8 +119,8 @@ public interface ApiInterface {
 
 
     @GET("api/user/preferences/{preferenceKey}")
-    Call<BaseResponse<Object>> getPreference(@Header("Authorization") String token,
-                                             @Path(("preferenceKey")) String key);
+    Call<BaseResponse<Object>> getPreferences(@Header("Authorization") String token,
+                                              @Path(("preferenceKey")) String key);
 
     @GET("api/user/devices")
     Call<BaseResponse<Object>> getDevices(@Header("Authorization") String token,
@@ -206,9 +206,6 @@ public interface ApiInterface {
     Call<BaseResponse<Object>> approveInvoice (@Header("Authorization") String token,
                                                @Path("requestId") String invoiceId);
 
-
-
-
     // 8) joint purchases
     @GET("api/commonPurchases")
     Call<BaseResponse<Object>> getJointPurchases (@Header("Authorization") String token);
@@ -227,5 +224,134 @@ public interface ApiInterface {
                                                     @Path("id") String id,
                                                     @Query("amount") String amount,
                                                     @Query("pay_method") String method);
+
+    @PUT("api/commonPurchases/{id}/delete")
+    Call<BaseCallback<Object>>  deleteJointPurchase (@Header("Authorization") String token,
+                                                     @Path("id") String id);
+
+
+    @PUT("api/commonPurchases/{id}/close")
+    Call<BaseCallback<Object>>  closeJointPurchase (@Header("Authorization") String token,
+                                                    @Path("id") String id);
+
+    @PUT("api/commonPurchases/{id}/accept")
+    Call<BaseCallback<Object>>  acceptJointPurchase (@Header("Authorization") String token,
+                                                     @Path("id") String id);
+
+    @PUT("api/commonPurchases/{id}/reject")
+    Call<BaseCallback<Object>>  rejectJointPurchase (@Header("Authorization") String token,
+                                                     @Path("id") String id);
+
+
+
+    // 9) spending
+    @GET("api/commonSpendings")
+    Call<BaseCallback<Object>> getSpending(@Header("Authorization") String token);
+
+    @POST("api/commonSpendings")
+    Call<BaseResponse<Object>> createSpending(@Header("Authorization") String token,
+                                              @Body RequestBody body);
+
+
+    @DELETE("api/commonSpendings/{id}")
+    Call<BaseResponse<Object>> deleteSpending(@Header("Authorization") String token,
+                                              @Path("id") String id);
+
+    @GET("api/commonSpendings/{id}")
+    Call<BaseResponse<Object>> getSpendingDetails (@Header("Authorization") String token,
+                                                   @Path("id") String id);
+
+    @FormUrlEncoded @POST("api/commonSpendings/{id}/transactions")
+    Call<BaseResponse<Object>>  transaction   (@Header("Authorization") String token,
+                                               @Path("id") String id,
+                                               @Field("returnUpdated") boolean returnUpdated,
+                                               @Field("member_from") String memberFrom,
+                                               @Field("member_to") String memberTo,
+                                               @Field("amount") String amount,
+                                               @Field("comment") String comment);
+
+
+    @DELETE("api/commonSpendings/transactions/{trans_id}")
+    Call<BaseResponse<Object>> deleteTransaction (@Header("Authorization") String token,
+                                                 @Path("trans_id") String transId,
+                                                 @Path("returnUpdated") boolean returnUpdated);
+
+
+    @FormUrlEncoded @POST("api/moneyRequest/initFromCommonSpending")
+    Call<BaseResponse<Object>> initInvoice(@Header("Authorization") String token,
+                                           @Field("phone") String phone,
+                                           @Field("card") String card,
+                                           @Field("amount") String amount,
+                                           @Field("comment") String comment,
+                                           @Field("member_from") String memberFrom,
+                                           @Field("member_to") String memberTo);
+
+
+
+    // Charity
+
+    @GET("api/charity")
+    Call<BaseResponse<Object>> getChatiry (@Header("Authorization") String token);
+
+    @Multipart @POST("api/charity")
+    Call<BaseResponse<Object>> createChatiry (@Header("Authorization") String token,
+                                              @Part("title") RequestBody title,
+                                              @Part("required_amount") RequestBody requiredAmount,
+                                              @Field("init_collected_amount") RequestBody initCollAmount,
+                                              @Field("description") RequestBody description,
+                                              @Field("user_card_id") RequestBody userCardId,
+                                              @Field("item_visibility") RequestBody itemVisibility,
+                                              @Field("members_visibility") RequestBody membersVisibility,
+                                              @Field("pseudonym") RequestBody pseudonym,
+                                              @Part  MultipartBody.Part img);   //main_photo
+
+
+    @Multipart @POST("api/charity/{id}/uploadPhoto")
+    Call<BaseResponse<Object>> uploadCharityPhoto  (@Header("Authorization") String token,
+                                                    @Path("id") String id,
+                                                    @Part  MultipartBody.Part img);  //main_photo
+
+
+    @GET("api/charity/{id}")
+    Call<BaseResponse<Object>> getCharityDetails   (@Header("Authorization") String token,
+                                                    @Path("id") String id);
+
+
+    @FormUrlEncoded @POST("api/charity/{id}/donation")
+    Call<BaseResponse<Object>> donation             (@Header("Authorization") String token,
+                                                     @Field("amount") String amount,
+                                                     @Field("returnUpdated") boolean returnUpdated,
+                                                     @Field("is_anonymous") boolean isAnonymos,
+                                                     @Field("id") String id);
+
+    @PUT("api/charity/{id}/close")
+    Call<BaseResponse<Object>>  closeChatiry (@Header("Authorization") String token,
+                                              @Path("id") String id);
+
+
+
+    // Goods
+    @GET("api/goods")
+    Call<BaseResponse<Object>>  getGoods (@Header("Authorization") String token);
+
+
+    @Multipart @POST("api/goods")
+    Call<BaseResponse<Object>>  createGoods (@Header("Authorization") String token,
+                                          @Part("title") RequestBody title,
+                                          @Part("description") RequestBody description,
+                                          @Part("price") RequestBody price,
+                                          @Part MultipartBody.Part img);      //main_photo
+
+
+    @Multipart @POST("api/goods/{id}/uploadPhoto")
+    Call<BaseResponse<Object>>  uploadGoodsPhoto (@Header("Authorization") String token,
+                                                  @Path("id") String id,
+                                                  @Part MultipartBody.Part img);      //img            ?
+
+    @GET("api/goods/{id}")
+    Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token,
+                                               @Path("id") String id);
+
+
 
 }

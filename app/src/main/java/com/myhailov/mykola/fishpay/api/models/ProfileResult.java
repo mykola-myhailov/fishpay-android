@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.api.models;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -40,23 +42,33 @@ public class ProfileResult {
             return phone;
         }
 
+        @NonNull
         public String getName() {
+            if (name == null) return "";
             return name;
         }
 
+        @NonNull
         public String getSurname() {
+            if (surname == null) return "";
             return surname;
         }
 
+        @NonNull
         public String getBirthday() {
+            if (birthday == null) return "";
             return birthday;
         }
 
+        @NonNull
         public String getEmail() {
+            if (email == null) return  "";
             return email;
         }
 
+        @NonNull
         public String getPhoto() {
+            if (phone == null) return "";
             return photo;
         }
 
