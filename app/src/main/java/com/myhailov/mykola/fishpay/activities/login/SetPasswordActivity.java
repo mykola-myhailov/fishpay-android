@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities.login_activities;
+package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,12 +18,6 @@ import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
-
-import java.io.File;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class SetPasswordActivity extends BaseActivity {
 

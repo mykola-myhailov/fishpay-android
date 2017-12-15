@@ -11,7 +11,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.myhailov.mykola.fishpay.activities.login_activities.RegistrationActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.login.RegistrationActivity">
 
     <ImageView
         android:id="@+id/ivAvatar"

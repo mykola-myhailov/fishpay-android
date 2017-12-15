@@ -2,8 +2,10 @@ package com.myhailov.mykola.fishpay.api;
 
 import android.provider.CalendarContract;
 
+import com.myhailov.mykola.fishpay.api.models.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
+import com.myhailov.mykola.fishpay.api.models.JointPurchasesResult;
 import com.myhailov.mykola.fishpay.api.models.LoginResult;
 import com.myhailov.mykola.fishpay.api.models.ProfileResult;
 import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
@@ -127,8 +129,8 @@ public interface ApiInterface {
                                           @Query("pass") boolean isNeededAllDevices);
 
     @PUT("api/user/changePass/verify")
-    Call<BaseResponse<Object>> changePassVerify(@Header("Authorization") String token,
-                                                @Query("pass") String oldPassword);
+    Call<BaseResponse<ChangePassVerifyResult>> changePassVerify(@Header("Authorization") String token,
+                                                                @Query("pass") String oldPassword);
 
     @PUT("api/user/changePass")
     Call<BaseResponse<Object>> changePass (@Header("Authorization") String token,
@@ -208,7 +210,7 @@ public interface ApiInterface {
 
     // 8) joint purchases
     @GET("api/commonPurchases")
-    Call<BaseResponse<Object>> getJointPurchases (@Header("Authorization") String token);
+    Call<BaseResponse<JointPurchasesResult>> getJointPurchases (@Header("Authorization") String token);
 
     @FormUrlEncoded @POST("api/commonPurchases")
     Call<BaseResponse<Object>> createJointPurchase (@Header("Authorization") String token,
@@ -226,7 +228,7 @@ public interface ApiInterface {
                                                     @Query("pay_method") String method);
 
     @PUT("api/commonPurchases/{id}/delete")
-    Call<BaseCallback<Object>>  deleteJointPurchase (@Header("Authorization") String token,
+    Call<Void>  deleteJointPurchase (@Header("Authorization") String token,
                                                      @Path("id") String id);
 
 

@@ -13,14 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.ActivityActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.CharityActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.ContactsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.GroupSpendsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.JointPurchasesActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.MyPurchasesActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.PayRequestActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.ProfileActivity;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.ActivityActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.CharityActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.GroupSpendsActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.MyPurchasesActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -66,7 +67,7 @@ public abstract class DrawerActivity extends BaseActivity {
                         case R.id.tvDrawerPhone:
                         case R.id.ivAvatar:*/
                         case R.id.navProfile:
-                            nextActivityClass = ProfileActivity.class;
+                            nextActivityClass = ProfileSettingsActivity.class;
                             break;
                         case R.id.navContacts:
                             nextActivityClass = ContactsActivity.class;

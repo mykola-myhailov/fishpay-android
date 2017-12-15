@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities.login_activities;
+package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer_activities.ProfileActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity {
                         if (result != null)
                             TokenStorage.setToken(context, result.getToken());
 
-                        context.startActivity(new Intent(context, ProfileActivity.class));
+                        context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                     }
                 }
             });

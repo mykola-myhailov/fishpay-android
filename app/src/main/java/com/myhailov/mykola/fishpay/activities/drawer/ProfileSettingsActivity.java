@@ -1,12 +1,8 @@
-package com.myhailov.mykola.fishpay.activities.drawer_activities;
+package com.myhailov.mykola.fishpay.activities.drawer;
 
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
@@ -15,14 +11,10 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.ProfileResult;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
-import com.myhailov.mykola.fishpay.utils.Utils;
 
-import retrofit2.http.PUT;
-
-public class ProfileActivity extends DrawerActivity {
+public class ProfileSettingsActivity extends DrawerActivity {
 
     private String name, surname, phone, avatar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +23,7 @@ public class ProfileActivity extends DrawerActivity {
         //  setContentView(R.layout.activity_drawer_sample);
 
         initToolbar(getString(R.string.profile));
-        editProfileRequest();
+        getProfileRequest();
     }
 
 
@@ -40,7 +32,7 @@ public class ProfileActivity extends DrawerActivity {
 
     }
 
-    private void editProfileRequest(){
+    private void getProfileRequest(){
 
         ApiClient.getApiClient().getProfile(token)
                 .enqueue(new BaseCallback<ProfileResult>(context, true) {
@@ -99,35 +91,30 @@ public class ProfileActivity extends DrawerActivity {
     }
 
 
-/*  Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjM4MDEyMzQ1Njc4MSIsImRldmljZSI6NjIsImp0aSI6IjU5ZjJmOWNkNGJjNjZhN2M3YTZjYjRjZDljOTJkMjQ3MmI4OWVlMDYiLCJleHBpcmF0aW9uX2RhdGUiOiIyMDE3LTEyLTE1IDExOjA0OjQ0Iiwic2Vzc2lvbklkIjoiNWEzMjVhY2M3NWMzYiJ9.3VWICYDwa5Dp65NGGjpmKyx0hGHEW5zFgqr-tcpwLCQ
-
-    private void editProfileRequest() {
-
-        String name, surname, birthday, email, password, deviceId, deviceInfo;
-        Uri imageUri;
-
-        //TODO:
-
-        ApiClient.getApiClient().editProfile(token,
-                        Utils.makeRequestBody(name),
-                        Utils.makeRequestBody(surname),
-                        Utils.makeRequestBody(birthday),
-                        Utils.makeRequestBody(email),
-                        Utils.makeRequestBodyFile(imageUri)
-                ).enqueue(
-                //TODO:
-        );
-    }
-
     private void setPreferencesRequest(){
 
-        String allowMoneyRequests, touchIdLogin, lang;
+        String allowMoneyRequests = "1";
+        String touchIdLogin = "1";
+        String lang = "ru";
         ApiClient.getApiClient()
                 .setPreferences(token, allowMoneyRequests, touchIdLogin, lang )
-                .enqueue(
-                        //TODO:
+                .enqueue(new BaseCallback<Object>(context, false) {
+                             @Override
+                             protected void onResult(int code, Object result) {
+                                 // if (code == 200)
+                             }
+                         }
                 );
     }
+
+
+
+
+/*  Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjM4MDEyMzQ1Njc4MSIsImRldmljZSI6NjIsImp0aSI6IjU5ZjJmOWNkNGJjNjZhN2M3YTZjYjRjZDljOTJkMjQ3MmI4OWVlMDYiLCJleHBpcmF0aW9uX2RhdGUiOiIyMDE3LTEyLTE1IDExOjA0OjQ0Iiwic2Vzc2lvbklkIjoiNWEzMjVhY2M3NWMzYiJ9.3VWICYDwa5Dp65NGGjpmKyx0hGHEW5zFgqr-tcpwLCQ
+
+
+
+
 
     private void getPreferenceRequest() {
         String key;
@@ -142,21 +129,6 @@ public class ProfileActivity extends DrawerActivity {
                 //TODO:
         );
     }
-
-
-    private void changePassVerifyRequest(){
-        String oldPassword;
-        ApiClient.getApiClient().changePassVerify(token, oldPassword).enqueue(
-                //TODO:
-        );
-
-    }
-
-    private void changePassRequest(){
-        String newPassword, passChageId;
-        ApiClient.getApiClient().changePassVerify(token, newPassword, passChageId).enqueue(
-                //TODO:
-        );
-    }
 */
+
 }

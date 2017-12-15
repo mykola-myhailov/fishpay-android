@@ -1,6 +1,5 @@
-package com.myhailov.mykola.fishpay.activities.drawer_activities;
+package com.myhailov.mykola.fishpay.activities.drawer;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 

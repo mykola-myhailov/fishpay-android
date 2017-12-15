@@ -3,9 +3,12 @@ package com.myhailov.mykola.fishpay.api.models;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+import com.myhailov.mykola.fishpay.api.ApiInterface;
 
 /**
  * Created by Mykola Myhailov  on 06.12.17.
+ *
+ * *  Value type of field "result" in response of {@link ApiInterface#getProfile}
  */
 
 public class ProfileResult {
@@ -72,14 +75,14 @@ public class ProfileResult {
             return photo;
         }
 
-     /*   @SerializedName("properties")
-        private Properties properties;
+        @SerializedName("profileProperties")
+        private ProfileProperties profileProperties;
 
-        public Properties getProperties() {
-            return properties;
-        }*/
+        public ProfileProperties getProfileProperties() {
+            return profileProperties;
+        }
 
-       /* public class Properties{
+       public class ProfileProperties {
             @SerializedName("ALLOW_MONEY_REQUESTS")
             private int allow;
 
@@ -100,12 +103,9 @@ public class ProfileResult {
             public int getLang() {
                 return lang;
             }
-        }*/
-
-
-
-  /*      @SerializedName("publicCard")
-        private */
+        }
+           /*      @SerializedName("publicCard")
+                private */
     }
 
     public String getUserId() {
@@ -127,7 +127,7 @@ public class ProfileResult {
         "birthday": "1990-03-05",
         "email": "test@gmail.com",
         "photo": null,
-        "properties": {
+        "profileProperties": {
         "lacalization": {
         "ALLOW_MONEY_REQUESTS": "Разрешить запросы",
         "TOUCH_ID_LOGIN": "TouchID для входа",

@@ -13,4 +13,5 @@ public class Keys {
     public static final String IMAGE = "image";
     public static final String RECOVERY_ID = "recovery_id";
     public static final String USER_ID = "user_id";
+    public static final String PASS_CHANGE_ID = "pass_change_id";
 }

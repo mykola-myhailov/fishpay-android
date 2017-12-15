@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-class BaseResponse<T> {
+public class BaseResponse<T> {
 
     @SerializedName("errorDescription")
     private String errorDescription;

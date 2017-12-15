@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities.login_activities;
+package com.myhailov.mykola.fishpay.activities.login;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;

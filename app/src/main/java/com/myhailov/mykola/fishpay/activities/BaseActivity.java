@@ -1,12 +1,9 @@
 package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-
-import com.myhailov.mykola.fishpay.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
