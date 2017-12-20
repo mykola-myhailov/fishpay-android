@@ -52,4 +52,5 @@
     <string name="about_us">О нас</string>
     <string name="to_transfer">Перевести</string>
     <string name="public_card">Публичная карта</string>
+    <string name="add_card">Добавить карту</string>
 </resources>

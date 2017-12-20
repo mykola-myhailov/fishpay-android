@@ -14,5 +14,6 @@
 
     <color name="black_light">#1C1C1D</color>
     <color name="black1">#080808</color>
+    <color name="grey2">#999999</color>
 
 </resources>

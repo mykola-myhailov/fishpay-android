@@ -7,6 +7,7 @@
     android:background="@android:color/white"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -64,8 +65,10 @@
 
                 <LinearLayout
                     android:orientation="vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <FrameLayout
                         android:id="@+id/flAvatarContainer"
@@ -106,81 +109,129 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:text="@string/public_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
-                    <EditText
-                        android:id="@+id/etCard"
-                        android:textSize="16sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
                     <RelativeLayout
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <TextView
+                            android:id="@+id/tvPublicCardText"
+                            android:textSize="12sp"
+                            android:textColor="@color/black_light"
+                            android:text="@string/public_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tvAddCard"
+                            android:textColor="@color/blue1"
+                            android:textSize="16sp"
+                            android:text="@string/add_card"
+                            android:layout_below="@+id/tvPublicCardText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tvCardNumber"
+                            android:layout_below="@id/tvPublicCardText"
+                            android:layout_toEndOf="@+id/tvAddCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:src="@drawable/card"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvAddCard"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginTop="5dp"
                             android:id="@+id/switchRequests"
                             android:text="Разрешить запросы"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
-                            android:textSize="16sp"
-
+                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <android.support.v7.widget.SwitchCompat
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="10dp"
                             android:layout_alignParentEnd="true"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/switchRequests"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
                     </RelativeLayout>
 
 
                     <RelativeLayout
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <TextView
+                            android:id="@+id/tvTouchId"
+                            android:layout_marginTop="5dp"
                             android:text="TouchID для входа"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/switchTouchId"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="10dp"
                             android:layout_alignParentEnd="true"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvTouchId"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
                     </RelativeLayout>
 
 
                     <RelativeLayout
                         android:id="@+id/vLanguage"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <TextView
+                            android:id="@+id/tvLanguage"
                             android:text="Язык интерфейса"
                             android:layout_marginStart="20dp"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
                             android:textSize="16sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -192,6 +243,15 @@
                             android:src="@drawable/arrow_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvLanguage"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
                     </RelativeLayout>
 
 
@@ -200,7 +260,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <TextView
                             android:text="изменить пароль для входа"
                             android:layout_marginStart="20dp"
                             android:cursorVisible="false"

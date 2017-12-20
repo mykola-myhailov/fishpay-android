@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +13,13 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.models.LoginResult;
+import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 
@@ -27,6 +32,8 @@ public class BeginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
+
+        quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
@@ -87,6 +94,27 @@ public class BeginActivity extends BaseActivity {
                     }
 
                 });
+    }
+
+
+    private void quicklogin() {
+        String deviceId = DeviceIDStorage.getID(context);
+        String deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
+        String password = "12345678";
+        String phone = "380123456789";
+        if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        else ApiClient.getApiClient().login(phone, password,  deviceId, deviceInfo)
+                    .enqueue(new BaseCallback<LoginResult>(context, true) {
+                        @Override
+                        protected void onResult(int code, @Nullable LoginResult result) {
+                            if (code == 200){
+                                if (result != null)
+                                    TokenStorage.setToken(context, result.getToken());
+
+                                context.startActivity(new Intent(context, ProfileSettingsActivity.class));
+                            }
+                        }
+                    });
     }
 
 }
