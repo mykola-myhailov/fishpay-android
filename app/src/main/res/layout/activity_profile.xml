@@ -231,15 +231,15 @@
                         <TextView
                             android:id="@+id/tvLanguage"
                             android:text="Язык интерфейса"
-                            android:layout_marginStart="20dp"
                             android:textSize="16sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <ImageView
-                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="8dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="4dp"
                             android:src="@drawable/arrow_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -256,83 +256,104 @@
 
 
                     <RelativeLayout
-                        android:id="@+id/vChangePassword"
+                        android:id="@+id/vChangePass"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:text="изменить пароль для входа"
-                            android:layout_marginStart="20dp"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
+                            android:id="@+id/tvChangePassword"
+                            android:text="Изменить пароль длф входа"
                             android:textSize="16sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <ImageView
-                            android:layout_marginTop="10dp"
+                            android:id="@+id/ivChangPass"
+                            android:layout_marginEnd="8dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="4dp"
                             android:src="@drawable/arrow_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-                    </RelativeLayout>
 
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvChangePassword"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/vExit"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
-                            android:text="выйти из аккаунта"
-                            android:layout_marginStart="20dp"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
-                            android:textSize="16sp"
+                        <TextView
+                            android:id="@+id/tvExit"
+                            android:text="Выйти из аккаунта"
+                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <ImageView
-                            android:layout_marginTop="10dp"
+                            android:id="@+id/ivExitArrow"
+                            android:layout_marginEnd="8dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="4dp"
                             android:src="@drawable/arrow_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvExit"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
                     </RelativeLayout>
 
+
                     <RelativeLayout
-                        android:id="@+id/vDeleteAccount"
+                        android:id="@+id/vDelete"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
-                            android:textColor="@android:color/holo_red_dark"
+                        <TextView
+                            android:id="@+id/tvDelete"
                             android:text="Заявка на удаление аккаунта"
-                            android:layout_marginStart="20dp"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:clickable="false"
-                            android:longClickable="false"
-                            android:focusableInTouchMode="false"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/holo_red_dark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
 
                         <ImageView
-                            android:layout_marginTop="10dp"
+                            android:id="@+id/ivDeleteArrow"
+                            android:layout_marginEnd="8dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="4dp"
                             android:src="@drawable/arrow_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
+
+                        <View
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/tvDelete"
+                            android:layout_marginStart="30dp"
+                            android:background="@color/grey2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
                     </RelativeLayout>
 
 

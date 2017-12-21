@@ -75,9 +75,9 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
 
         findViewById(R.id.vLanguage).setOnClickListener(this);
-        findViewById(R.id.vChangePassword).setOnClickListener(this);
+        findViewById(R.id.vChangePass).setOnClickListener(this);
         findViewById(R.id.vExit).setOnClickListener(this);
-        findViewById(R.id.vDeleteAccount).setOnClickListener(this);
+        findViewById(R.id.vDelete).setOnClickListener(this);
 
     }
 
