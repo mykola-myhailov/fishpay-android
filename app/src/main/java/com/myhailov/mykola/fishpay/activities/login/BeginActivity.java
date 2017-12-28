@@ -33,7 +33,7 @@ public class BeginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
 
-        quicklogin();
+      //  quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
@@ -101,7 +101,7 @@ public class BeginActivity extends BaseActivity {
         String deviceId = DeviceIDStorage.getID(context);
         String deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
         String password = "12345678";
-        String phone = "380123456789";
+        String phone = "380123456788";
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else ApiClient.getApiClient().login(phone, password,  deviceId, deviceInfo)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {

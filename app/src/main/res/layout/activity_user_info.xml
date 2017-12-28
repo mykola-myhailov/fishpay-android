@@ -1,9 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.myhailov.mykola.fishpay.activities.profile.UserInfoActivity">
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.myhailov.mykola.fishpay.activities.login.RegistrationActivity">
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:src="@drawable/bg_camera"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="20dp"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="48dp"
+            android:inputType="textPersonName"
+            android:textSize="28sp"
+            android:theme="@style/editTextTheme"
+            android:hint="@string/your_name"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/blue1" />
+
+        <EditText
+            android:id="@+id/etSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="48dp"
+            android:inputType="textPersonName"
+            android:textSize="28sp"
+            android:theme="@style/editTextTheme"
+            android:hint="@string/surname"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/blue1" />
+
+
+        <EditText
+            android:id="@+id/etBirthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:inputType="date"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textSize="28sp"
+            android:layout_marginStart="48dp"
+            android:theme="@style/editTextTheme"
+            android:hint="@string/birthday"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/blue1" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="48dp"
+            android:inputType="textEmailAddress"
+            android:textSize="28sp"
+            android:hint="@string/email"
+            android:theme="@style/editTextTheme"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/blue1" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvSave"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/save"
+        android:textAllCaps="true"
+        android:textColor="@color/blue1"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

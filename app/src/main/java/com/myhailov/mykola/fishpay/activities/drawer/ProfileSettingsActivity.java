@@ -1,20 +1,36 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
+import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
+import com.myhailov.mykola.fishpay.activities.profile.ChangeLanguageActivity;
+import com.myhailov.mykola.fishpay.activities.profile.ChangePasswordActivity;
+import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
+import com.myhailov.mykola.fishpay.activities.profile.UserInfoActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.ProfileResult;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
+import com.myhailov.mykola.fishpay.utils.Utils;
+
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ProfileSettingsActivity extends DrawerActivity {
 
-    private String name, surname, phone, avatar;
+    private String name, surname, phone, avatar, email, birthday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +45,39 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()){
 
+            case R.id.ivAvatar:
+                Intent userInfoIntent = new Intent(context, UserInfoActivity.class);
+                userInfoIntent.putExtra(Keys.PHOTO, avatar);
+                userInfoIntent.putExtra(Keys.NAME, name);
+                userInfoIntent.putExtra(Keys.SURNAME, surname);
+                userInfoIntent.putExtra(Keys.BIRTHDAY, birthday);
+                userInfoIntent.putExtra(Keys.EMAIL, email);
+                context.startActivity(userInfoIntent);
+                break;
+            case R.id.tvAddCard:
+                break;
+            case R.id.vLanguage:
+                context.startActivity(new Intent(context, ChangeLanguageActivity.class));
+                break;
+            case R.id.tvChangePassword:
+                context.startActivity(new Intent(context, ChangePasswordActivity.class));
+                break;
+            case R.id.vExit:
+                context.startActivity(new Intent(context, BeginActivity.class));
+                break;
+            case R.id.vDelete:
+                context.startActivity(new Intent(context, DeleteAccountActivity.class));
+                break;
+
+
+                /* findViewById(R.id.tvAddCard).setOnClickListener(this);
+        findViewById(R.id.vLanguage).setOnClickListener(this);
+        findViewById(R.id.vChangePass).setOnClickListener(this);
+        findViewById(R.id.vExit).setOnClickListener(this);
+        findViewById(R.id.vDelete).setOnClickListener(this);*/
+        }
     }
 
     private void getProfileRequest(){
@@ -45,16 +93,16 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 surname = profile.getSurname();
                                 phone = profile.getPhone();
                                 avatar = profile.getPhoto();
+                                email = profile.getEmail();
+                                birthday = profile.getBirthday();
 
                                 setNameInDrawer(name);
                                 setSurnameInDrawer(surname);
                                 setPhoneInDrawer(phone);
                                 setAvatarInDrawer(avatar);
-
                                 saveProfileInfo();
 
                                 initViews();
-
                             }
 
                             createDrawer();
@@ -71,9 +119,12 @@ public class ProfileSettingsActivity extends DrawerActivity {
         String visiblePhone = "+" + phone;
         ((TextView) findViewById(R.id.tvPhone)).setText(visiblePhone);
 
+        ImageView ivAvatar = findViewById(R.id.ivAvatar);
+        String initials = Utils.extractInitials(name, surname);
+        Utils.displayAvatar(context, ivAvatar, avatar, initials);
 
-
-
+        findViewById(R.id.ivAvatar).setOnClickListener(this);
+        findViewById(R.id.tvAddCard).setOnClickListener(this);
         findViewById(R.id.vLanguage).setOnClickListener(this);
         findViewById(R.id.vChangePass).setOnClickListener(this);
         findViewById(R.id.vExit).setOnClickListener(this);
@@ -107,14 +158,15 @@ public class ProfileSettingsActivity extends DrawerActivity {
                 );
     }
 
-
-
+    private MultipartBody.Part makeRequestBodyFile(Uri imageUri) {
+        if (imageUri == null) return null;
+        File file = new File(imageUri.getPath());
+        MediaType mediaType = MediaType.parse("multipart/form-data");
+        RequestBody requestFile = RequestBody.create(mediaType, file);
+        return MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+    }
 
 /*  Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjM4MDEyMzQ1Njc4MSIsImRldmljZSI6NjIsImp0aSI6IjU5ZjJmOWNkNGJjNjZhN2M3YTZjYjRjZDljOTJkMjQ3MmI4OWVlMDYiLCJleHBpcmF0aW9uX2RhdGUiOiIyMDE3LTEyLTE1IDExOjA0OjQ0Iiwic2Vzc2lvbklkIjoiNWEzMjVhY2M3NWMzYiJ9.3VWICYDwa5Dp65NGGjpmKyx0hGHEW5zFgqr-tcpwLCQ
-
-
-
-
 
     private void getPreferenceRequest() {
         String key;

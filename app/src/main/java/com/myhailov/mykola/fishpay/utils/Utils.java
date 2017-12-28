@@ -91,7 +91,8 @@ public class Utils {
                         }
                     })
                     .build();
-            picasso.load(ApiClient.BASE_API_URL + photo).into(imageView);
+            picasso.load(ApiClient.BASE_API_URL + "api/resources/photo/" + photo)
+                    .into(imageView);
         } else Utils.setInitialsImage(context, initials, imageView);
     }
 

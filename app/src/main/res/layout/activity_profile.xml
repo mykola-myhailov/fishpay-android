@@ -75,6 +75,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="20dp"
+                        android:layout_gravity="center_horizontal"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" >
@@ -213,7 +214,7 @@
 
 
                         <View
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/tvTouchId"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"
@@ -231,7 +232,7 @@
                         <TextView
                             android:id="@+id/tvLanguage"
                             android:text="Язык интерфейса"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
@@ -246,7 +247,7 @@
 
 
                         <View
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/tvLanguage"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"
@@ -264,7 +265,7 @@
                         <TextView
                             android:id="@+id/tvChangePassword"
                             android:text="Изменить пароль длф входа"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
@@ -280,7 +281,7 @@
 
 
                         <View
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/tvChangePassword"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"
@@ -313,7 +314,7 @@
 
 
                         <View
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/tvExit"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"
@@ -348,7 +349,7 @@
 
 
                         <View
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/tvDelete"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"

@@ -105,13 +105,13 @@ public interface ApiInterface {
     @GET("api/user/profile")                     // get profile info
     Call<BaseResponse<ProfileResult>> getProfile(@Header("Authorization") String token);
 
-    @FormUrlEncoded @POST("api/user/profile")   // upload updated profile info
+    @Multipart @POST("api/user/profile")   // upload updated profile info
     Call<BaseResponse<Object>> editProfile(@Header("Authorization") String token,
-                                           @Field("firstName") RequestBody firstName,
-                                           @Field("secondName") RequestBody secondName,
-                                           @Field("birthday") RequestBody birthday,
-                                           @Field("email") RequestBody email,
-                                           @Part ("img")  MultipartBody.Part img);
+                                           @Part("firstName") RequestBody firstName,
+                                           @Part("secondName") RequestBody secondName,
+                                           @Part("birthday") RequestBody birthday,
+                                           @Part("email") RequestBody email,
+                                           @Part   MultipartBody.Part img);
 
     @PUT("rest/api/user/preferences")
     Call<BaseResponse<Object>> setPreferences(@Header("Authorization") String token,
