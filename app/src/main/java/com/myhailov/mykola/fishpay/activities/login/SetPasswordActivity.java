@@ -43,6 +43,7 @@ public class SetPasswordActivity extends BaseActivity {
         if (imageUriString != null) imageUri = Uri.parse(imageUriString);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
+      //  deviceId = deviceInfo;
 
         String visiblePhone = "+" + phone;
         ((TextView) findViewById(R.id.tvPhone)).setText(visiblePhone);

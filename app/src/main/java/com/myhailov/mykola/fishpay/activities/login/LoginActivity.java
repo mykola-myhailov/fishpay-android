@@ -42,6 +42,7 @@ public class LoginActivity extends BaseActivity {
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
+     //   deviceId = deviceInfo;
     }
 
     @Override
@@ -94,6 +95,19 @@ public class LoginActivity extends BaseActivity {
                         context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                     }
                 }
+
+                @Override
+                protected void onError(int code, String errorDescription) {
+                    if (code == 403) invalidateRequest();
+                    else super.onError(code, errorDescription);
+                }
             });
+    }
+
+    private void invalidateRequest() {
+        if (Utils.isOnline(context)) {
+           // ApiClient.getApiClient()
+
+        } else Utils.noInternetToast(context);
     }
 }
