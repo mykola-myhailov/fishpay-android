@@ -2,10 +2,13 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
@@ -22,6 +25,7 @@ public class LoginActivity extends BaseActivity {
     private String phone;
     private EditText etPassword;
     private String deviceId, deviceInfo;
+    private int attempt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,8 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tvNext:
             case R.id.ivNext:
-                login();
+                if (attempt < 3) login();
+                else Utils.toast(context, "15-минутная блокировка ввода пароля ещё не закончилась");
                 break;
             case R.id.tvForgot:
                 restorePassword();
@@ -98,8 +103,25 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 protected void onError(int code, String errorDescription) {
-                    if (code == 403) invalidateRequest();
-                    else super.onError(code, errorDescription);
+                    switch (code){
+                        case 403:
+                            invalidateRequest();
+                            break;
+                        case 400:
+                            attempt ++;
+                            if (attempt < 3) Utils.alert(context, "Неверный пароль");
+                            else {
+                                Utils.alert(context, "Неверный пароль. Количество попыток исчерпано, попробуйте через 15 минут");
+                                Handler handler = new Handler();
+                                Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        attempt = 0;
+                                    }
+                                };
+                                handler.postDelayed(runnable, 15*60*1000);
+                            }
+                    }
                 }
             });
     }

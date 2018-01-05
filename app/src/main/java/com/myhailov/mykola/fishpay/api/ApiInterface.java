@@ -9,6 +9,9 @@ import com.myhailov.mykola.fishpay.api.models.JointPurchasesResult;
 import com.myhailov.mykola.fishpay.api.models.LoginResult;
 import com.myhailov.mykola.fishpay.api.models.ProfileResult;
 import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
+import com.myhailov.mykola.fishpay.api.models.RemoveReason;
+
+import java.util.ArrayList;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -87,7 +90,7 @@ public interface ApiInterface {
 
     // 3)delete account
     @GET("api/removeAcc/reasons")   // list of account reasons
-    Call<BaseResponse<Object>> removeAccReasons(@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<RemoveReason>>> removeAccReasons(@Header("Authorization") String token);
 
     @POST("rest/api/removeAcc")
     Call<BaseResponse<Object>> removeAccount(@Header("Authorization") String token,
