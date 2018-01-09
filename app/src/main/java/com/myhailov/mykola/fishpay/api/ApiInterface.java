@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.api;
 
 import android.provider.CalendarContract;
 
+import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.models.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
@@ -9,6 +10,7 @@ import com.myhailov.mykola.fishpay.api.models.JointPurchasesResult;
 import com.myhailov.mykola.fishpay.api.models.LoginResult;
 import com.myhailov.mykola.fishpay.api.models.ProfileResult;
 import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
+import com.myhailov.mykola.fishpay.api.models.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.models.RemoveReason;
 
 import java.util.ArrayList;
@@ -92,9 +94,9 @@ public interface ApiInterface {
     @GET("api/removeAcc/reasons")   // list of account reasons
     Call<BaseResponse<ArrayList<RemoveReason>>> removeAccReasons(@Header("Authorization") String token);
 
-    @POST("rest/api/removeAcc")
-    Call<BaseResponse<Object>> removeAccount(@Header("Authorization") String token,
-                                             @Field("Request") RequestBody body);
+    @POST("api/removeAcc")
+    Call<BaseResponse<RemoveAccResult>> removeAccount(@Header("Authorization") String token,
+                                                      @Body() DeleteAccountActivity.RemoveBody body);
 
     @FormUrlEncoded @POST("api/removeAcc/confirm")
     Call<BaseResponse<Object>>  removeAccConfirm(@Header("Authorization") String token,

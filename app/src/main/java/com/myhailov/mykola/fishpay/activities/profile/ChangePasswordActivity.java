@@ -21,10 +21,7 @@ public class ChangePasswordActivity extends BaseActivity {
         setContentView(R.layout.activity_change_password);
     }
 
-    /*
-    * title = "изменить пароль"
-    *
-    * */
+    /*  title = "изменить пароль"  */
     private void changePassVerifyRequest(){
         String oldPassword = "12345678";
         String token = TokenStorage.getToken(context);

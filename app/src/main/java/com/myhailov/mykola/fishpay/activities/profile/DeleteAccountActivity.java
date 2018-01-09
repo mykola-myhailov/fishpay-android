@@ -1,8 +1,12 @@
 package com.myhailov.mykola.fishpay.activities.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +14,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.models.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.models.RemoveReason;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
+
 
 public class DeleteAccountActivity extends BaseActivity {
 
@@ -26,7 +34,7 @@ public class DeleteAccountActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private View.OnClickListener onClickListener = this;
-    private EditText etComment = null;
+    private String comment = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class DeleteAccountActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String title = "Удаление аккаунта";
         ((TextView) findViewById(R.id.tvToolBarTitle)).setText(title.toUpperCase());
+        findViewById(R.id.vDelete).setOnClickListener(this);
 
         getReasonsRequest();
     }
@@ -54,13 +63,15 @@ public class DeleteAccountActivity extends BaseActivity {
                         }
                     });
 
-        }
+        } else Utils.noInternetToast(context);
     }
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         ReasonAdapter adapter = new ReasonAdapter();
         recyclerView.setAdapter(adapter);
+
     }
 
     private class ReasonAdapter extends RecyclerView.Adapter{
@@ -116,14 +127,30 @@ public class DeleteAccountActivity extends BaseActivity {
                 super(itemView);
                 tvDescription = itemView.findViewById(R.id.tvDescription);
                 ivCheckMark = itemView.findViewById(R.id.ivCheckMark);
-                reasonItemLayout = itemView;
+                reasonItemLayout = itemView.findViewById(R.id.vReasonItemLayout);
             }
         }
 
         class FooterHolder extends RecyclerView.ViewHolder{
             FooterHolder(View itemView) {
                 super(itemView);
-                etComment = findViewById(R.id.etComment);
+                final EditText etComment = itemView.findViewById(R.id.etComment);
+                etComment.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        comment = etComment.getText().toString();
+                    }
+                });
             }
         }
     }
@@ -131,13 +158,82 @@ public class DeleteAccountActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.tvDescription:
+            case R.id.vReasonItemLayout:
                 RemoveReason reason = (RemoveReason) view.getTag();
+                ImageView ivCheckMark = view.findViewById(R.id.ivCheckMark);
+                if(reason.isChecked()) {
+                    ivCheckMark.setVisibility(View.GONE);
+                    reason.setChecked(false);
 
+                }
+                else {
+                    ivCheckMark.setVisibility(View.VISIBLE);
+                    reason.setChecked(true);
+                }
+                view.setTag(reason);
                 break;
-            case R.id.etComment:
+            case R.id.vDelete:
+                ArrayList<ReasonInRequestBody> selectedReasonInRequestBodies = new ArrayList<>();
+
+                for (RemoveReason removeReason :
+                        reasons) {
+
+                    if (removeReason.isChecked())
+                        selectedReasonInRequestBodies.add(new ReasonInRequestBody(removeReason.getKey(), removeReason.getId()));
+                }
+                if (selectedReasonInRequestBodies.size() == 0) Utils.toast(context, "Укажите хотя бы одну причину");
+                else {
+                    RemoveBody removeBody = new RemoveBody(comment, selectedReasonInRequestBodies);
+                    deleteRequest(removeBody);
+                }
                 break;
+
         }
     }
 
+    private void deleteRequest(RemoveBody removeBody) {
+        if (Utils.isOnline(context)){
+            ApiClient.getApiClient()
+                    .removeAccount(TokenStorage.getToken(context), removeBody)
+                    .enqueue(new BaseCallback<RemoveAccResult>(context, true) {
+                        @Override
+                        protected void onResult(int code, RemoveAccResult result) {
+                            Intent intent = new Intent(context, DelAccConfirmActivity.class);
+                            intent.putExtra(Keys.REQUEST_ID, result.getRequestId());
+                            context.startActivity(intent);
+                        }
+                    });
+        }
+    }
+
+    public class RemoveBody {
+
+        RemoveBody(String comment, ArrayList<ReasonInRequestBody> reasonInRequestBodies) {
+            this.comment = comment;
+            this.reasonInRequestBodies = reasonInRequestBodies;
+        }
+
+        @SerializedName("user_comment")
+                private String comment;
+
+        @SerializedName("reasone")
+                private ArrayList<ReasonInRequestBody> reasonInRequestBodies;
+
+
+
+         }
+
+    class ReasonInRequestBody {
+
+        public ReasonInRequestBody(String key, String id) {
+            this.key = key;
+            this.id = id;
+        }
+
+        @SerializedName("key")
+        private String key;
+
+        @SerializedName("reasone_id")
+        private String id;
+    }
 }

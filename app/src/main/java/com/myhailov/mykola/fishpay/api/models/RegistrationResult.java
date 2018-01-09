@@ -6,7 +6,7 @@ import com.myhailov.mykola.fishpay.api.ApiInterface;
 /**
  *  Created by Mykola Myhailov on 21.11.17.
  *
- *  Value type of field "result" in response of {@link ApiInterface#registration,
+ *  Value type of field "result" in response of {@link ApiInterface#registration
  *
  *  */
 

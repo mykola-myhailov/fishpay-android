@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class RemoveReason {
 
     @SerializedName("id")
-    private long id;
+    private String id;
 
     @SerializedName("key")
     private String key;
@@ -18,7 +18,7 @@ public class RemoveReason {
     @SerializedName("description")
     private String description;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -32,5 +32,16 @@ public class RemoveReason {
 
     public String getDescription() {
         return description;
+    }
+
+    private boolean isChecked;
+
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

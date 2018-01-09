@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class CheckOTPActivity extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private boolean isPassRecovering;
     private String recoveryId;
+    private int attempt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class CheckOTPActivity extends BaseActivity {
                 break;
             case R.id.tvNext:
             case R.id.ivNext:
-                checkOTP();
+                if (attempt < 3) checkOTP();
+                else Utils.toast(context, "15-минутная блокировка ввода sms-кода ещё не закончилась");
                 break;
         }
     }
@@ -91,6 +94,25 @@ public class CheckOTPActivity extends BaseActivity {
                 intent.putExtra(Keys.USER_ID, result.getUserId());
                 intent.putExtra(Keys.RECOVERY_ID, recoveryId);
                 context.startActivity(intent);
+            }
+
+            @Override
+            protected void onError(int code, String errorDescription) {
+                //super.onError(code, errorDescription);
+                attempt ++;
+                if (attempt < 3) Utils.alert(context, "Неправильынй SMS-код");
+                 else {
+                    Utils.alert(context, "Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут");
+                    Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            attempt = 0;
+                        }
+                    };
+                    handler.postDelayed(runnable, 15*60*1000);
+                }
+
             }
         });
 
