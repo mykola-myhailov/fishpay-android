@@ -54,7 +54,9 @@
         <activity android:name=".activities.joint_purchases.DistributionActivity" />
         <activity android:name=".activities.joint_purchases.JointPurchaseDetailsActivity" />
         <activity android:name=".activities.joint_purchases.MembersPartActivity" />
-        <activity android:name=".activities.drawer.ContactsPermissions"></activity>
+        <activity android:name=".activities.drawer.ContactsPermissionsActivity"></activity>
+
+        <service android:name=".services.ContactsIntentService" />
     </application>
 
 </manifest>

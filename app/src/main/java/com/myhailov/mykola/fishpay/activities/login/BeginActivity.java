@@ -17,6 +17,7 @@ import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.models.LoginResult;
+import com.myhailov.mykola.fishpay.services.ContactsIntentService;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -40,6 +41,8 @@ public class BeginActivity extends BaseActivity {
         ((TextView) findViewById(R.id.tvVersion)).setText(versionText);
         (findViewById(R.id.tvNext)).setOnClickListener(this);
         (findViewById(R.id.ivNext)).setOnClickListener(this);
+
+        startService(new Intent(this, ContactsIntentService.class));
     }
 
     @Override

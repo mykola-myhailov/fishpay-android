@@ -94,8 +94,9 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvPermisson1"
                 android:text="Разрешить"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:layout_above="@+id/tvPermisson2"
                 android:gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
@@ -108,7 +109,7 @@
                 android:text="доступ к контактам"
                 android:id="@+id/tvPermisson2"
                 android:textSize="18sp"
-                android:layout_marginBottom="35dp"
+                android:layout_marginBottom="55dp"
                 android:layout_above="@+id/tvLinks"
                 android:gravity="center_horizontal"
                 android:textColor="@color/blue1"
@@ -121,7 +122,7 @@
                 android:id="@+id/tvLinks"
                 android:text="@string/permissinons_contacts"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="12sp"
