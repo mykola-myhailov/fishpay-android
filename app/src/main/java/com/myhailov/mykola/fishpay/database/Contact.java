@@ -12,13 +12,13 @@ public class Contact {
 
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
     private long userId;
     private String name;
     private String phone;
     private String photo;
-    @Generated(hash = 1777648207)
-    public Contact(long id, long userId, String name, String phone, String photo) {
+    @Generated(hash = 12082660)
+    public Contact(Long id, long userId, String name, String phone, String photo) {
         this.id = id;
         this.userId = userId;
         this.name = name;

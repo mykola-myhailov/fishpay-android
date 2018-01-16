@@ -22,7 +22,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UserId = new Property(1, long.class, "userId", false, "USER_ID");
         public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property Phone = new Property(3, String.class, "phone", false, "PHONE");
@@ -42,7 +42,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CONTACT\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"USER_ID\" INTEGER NOT NULL ," + // 1: userId
                 "\"NAME\" TEXT," + // 2: name
                 "\"PHONE\" TEXT," + // 3: phone
@@ -58,7 +58,11 @@ public class ContactDao extends AbstractDao<Contact, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, Contact entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getUserId());
  
         String name = entity.getName();
@@ -80,7 +84,11 @@ public class ContactDao extends AbstractDao<Contact, Long> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, Contact entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getUserId());
  
         String name = entity.getName();
@@ -101,13 +109,13 @@ public class ContactDao extends AbstractDao<Contact, Long> {
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public Contact readEntity(Cursor cursor, int offset) {
         Contact entity = new Contact( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // userId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // phone
@@ -118,7 +126,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
      
     @Override
     public void readEntity(Cursor cursor, Contact entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserId(cursor.getLong(offset + 1));
         entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPhone(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
@@ -142,7 +150,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
 
     @Override
     public boolean hasKey(Contact entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override

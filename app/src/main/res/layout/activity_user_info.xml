@@ -28,6 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginStart="48dp"
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:longClickable="false"
+            android:cursorVisible="false"
             android:inputType="textPersonName"
             android:textSize="28sp"
             android:theme="@style/editTextTheme"
@@ -36,6 +40,10 @@
             android:textColor="@color/blue1" />
 
         <EditText
+            android:textIsSelectable="false"
+            android:clickable="false"
+            android:longClickable="false"
+            android:cursorVisible="false"
             android:id="@+id/etSurname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

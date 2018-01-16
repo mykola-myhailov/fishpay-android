@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="5dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/flAvatarContainer"
+        android:layout_gravity="center_vertical"
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            tools:ignore="ContentDescription"
+            android:id="@+id/ivAvatar"
+            android:scaleType="centerCrop"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size" />
+
+        <View
+            android:id="@+id/vBackground"
+            android:background="@drawable/awatar_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:maxLength="20"
+        android:layout_marginStart="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/flAvatarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/ivInvite"
+        android:visibility="gone"
+        android:src="@drawable/send_to_contact"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

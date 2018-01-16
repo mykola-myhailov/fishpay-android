@@ -53,15 +53,13 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-         Bundle extras = getIntent().getExtras();
-         if (extras == null)  return;
-         String photo = extras.getString(Keys.PHOTO, "");
-         name = extras.getString(Keys.NAME, "");
-         surname = extras.getString(Keys.SURNAME, "");
-         birthday = extras.getString(Keys.BIRTHDAY, "");
-         email = extras.getString(Keys.EMAIL, "");
-
-
+        Bundle extras = getIntent().getExtras();
+        if (extras == null)  return;
+        String photo = extras.getString(Keys.PHOTO, "");
+        name = extras.getString(Keys.NAME, "");
+        surname = extras.getString(Keys.SURNAME, "");
+        birthday = extras.getString(Keys.BIRTHDAY, "");
+        email = extras.getString(Keys.EMAIL, "");
 
         etName = findViewById(R.id.etName);
         etName.setText(name);
@@ -78,7 +76,6 @@ public class UserInfoActivity extends BaseActivity {
         ivAvatar.setOnClickListener(this);
         tvSave = findViewById(R.id.tvSave);
         tvSave.setOnClickListener(this);
-
         //title = "Основная информация"
     }
 
@@ -124,7 +121,6 @@ public class UserInfoActivity extends BaseActivity {
         };
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
@@ -150,14 +146,7 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
-
-
-
-
     private void editProfileRequest() {
-
-
-
         ApiClient.getApiClient().editProfile(TokenStorage.getToken(context),
                 Utils.makeRequestBody(name),
                 Utils.makeRequestBody(surname),

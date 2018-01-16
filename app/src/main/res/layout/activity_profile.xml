@@ -207,6 +207,7 @@
 
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/switchTouchId"
+                            android:checked="true"
                             android:layout_marginEnd="10dp"
                             android:layout_alignParentEnd="true"
                             android:layout_width="60dp"

@@ -129,7 +129,29 @@ public class CheckOTPActivity extends BaseActivity {
                             }
 
                         }
+
+
+                        @Override
+                        protected void onError(int code, String errorDescription) {
+                            //super.onError(code, errorDescription);
+                            attempt ++;
+                            if (attempt < 3) Utils.alert(context, "Неправильынй SMS-код");
+                            else {
+                                Utils.alert(context, "Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут");
+                                Handler handler = new Handler();
+                                Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        attempt = 0;
+                                    }
+                                };
+                                handler.postDelayed(runnable, 15*60*1000);
+                            }
+
+                        }
                     });
+
+
 
 
 

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.ContactDao;
@@ -41,6 +42,7 @@ public class ContactsIntentService extends IntentService {
             entity.setName(contactInfo.getName());
             entity.setPhone(contactInfo.getPhone());
             entity.setPhoto(contactInfo.getPhoto());
+            Log.d("photo", contactInfo.getPhoto());
             contactsTable.insert(entity);
         }
     }
