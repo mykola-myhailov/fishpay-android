@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  *
  *  Response json of all request in this app
  *  <T> is model class different depending on the request
- *  these classes are in package {@link com.myhailov.mykola.fishpay.api.models}
+ *  these classes are in package {@link com.myhailov.mykola.fishpay.api.results}
  */
 
 

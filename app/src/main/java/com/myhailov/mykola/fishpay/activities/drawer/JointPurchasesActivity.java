@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity;
-import com.myhailov.mykola.fishpay.activities.joint_purchases.JointPurchaseDetailsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.EmptyCallback;
-import com.myhailov.mykola.fishpay.api.models.JointPurchasesResult;
+import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
 
 import retrofit2.Call;
 

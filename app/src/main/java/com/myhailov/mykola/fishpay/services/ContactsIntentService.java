@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.ContactDao;
@@ -31,27 +30,15 @@ public class ContactsIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         contacts = getDeviceContactsInfo();
         saveContacts();
-        uploadContactsRequest();
     }
 
     private void saveContacts() {
         ContactDao contactsTable = DBUtils.getDaoSession(this).getContactDao();
         contactsTable.deleteAll();
         for (Contact contactInfo: contacts) {
-            Contact entity = new Contact();
-            entity.setName(contactInfo.getName());
-            entity.setPhone(contactInfo.getPhone());
-            entity.setPhoto(contactInfo.getPhoto());
-            Log.d("photo", contactInfo.getPhoto());
-            contactsTable.insert(entity);
+            contactsTable.insert(contactInfo);
         }
     }
-
-
-    private void uploadContactsRequest() {
-
-    }
-
 
     //extracting contacts info from device. It take a few seconds, so must execute in background
     //each contact has one id, one photo, one name and can has many phone numbers or emails;

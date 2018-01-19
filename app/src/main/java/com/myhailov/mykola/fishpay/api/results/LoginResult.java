@@ -1,6 +1,4 @@
-package com.myhailov.mykola.fishpay.api.models;
-
-import android.support.annotation.NonNull;
+package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.api.ApiInterface;

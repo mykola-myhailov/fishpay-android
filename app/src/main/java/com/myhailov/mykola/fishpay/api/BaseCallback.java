@@ -3,7 +3,6 @@ package com.myhailov.mykola.fishpay.api;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,7 +19,7 @@ import retrofit2.Response;
  *  Created by Mykola Myhailov  on 14.11.17.
  *
  *  <T> is value type of field "result" in is response json {@link BaseResponse}
- *  necessary model classes are in in package {@link com.myhailov.mykola.fishpay.api.models}
+ *  necessary model classes are in in package {@link com.myhailov.mykola.fishpay.api.results}
  *
  *  */
 

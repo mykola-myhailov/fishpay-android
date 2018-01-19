@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.api.models;
+package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 

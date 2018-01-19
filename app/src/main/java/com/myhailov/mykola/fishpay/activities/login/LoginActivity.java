@@ -7,19 +7,29 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
-import com.myhailov.mykola.fishpay.api.models.LoginResult;
+import com.myhailov.mykola.fishpay.api.EmptyCallback;
+import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
+import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
+import com.myhailov.mykola.fishpay.api.results.LoginResult;
+import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends BaseActivity {
     private String phone;
@@ -96,7 +106,7 @@ public class LoginActivity extends BaseActivity {
                     if (code == 200){
                         if (result != null)
                             TokenStorage.setToken(context, result.getToken());
-
+                        uploadContactsRequest();
                         context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                     }
                 }
@@ -124,6 +134,30 @@ public class LoginActivity extends BaseActivity {
                     }
                 }
             });
+    }
+
+
+    private void uploadContactsRequest() {
+        List<Contact> contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+        if (!Utils.isOnline(this)) return;
+        JSONArray contactsArray = new JSONArray();
+        JSONObject prepardContacts = new JSONObject();
+        try {
+            for (Contact contactInfo: contacts) {
+                JSONObject contactObject = new JSONObject();
+                contactObject.put("first_name",  contactInfo.getName());
+                contactObject.put("phone_number",contactInfo.getPhone());
+                contactsArray.put(contactObject);
+            }
+
+            prepardContacts.put("contacts_data", contactsArray);
+        } catch (Exception ignored){
+        }
+
+
+
+        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), prepardContacts.toString())
+                .enqueue(new EmptyCallback());
     }
 
     private void invalidateRequest() {

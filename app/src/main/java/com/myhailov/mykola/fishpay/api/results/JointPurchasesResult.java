@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.api.models;
+package com.myhailov.mykola.fishpay.api.results;
 
 /**
  * Created by Mykola Myhailov  on 15.12.17.

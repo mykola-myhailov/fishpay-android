@@ -1,17 +1,18 @@
 package com.myhailov.mykola.fishpay.api;
 
-import android.provider.CalendarContract;
-
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
-import com.myhailov.mykola.fishpay.api.models.ChangePassVerifyResult;
-import com.myhailov.mykola.fishpay.api.models.CheckMobileResult;
-import com.myhailov.mykola.fishpay.api.models.CheckRecoveryResult;
-import com.myhailov.mykola.fishpay.api.models.JointPurchasesResult;
-import com.myhailov.mykola.fishpay.api.models.LoginResult;
-import com.myhailov.mykola.fishpay.api.models.ProfileResult;
-import com.myhailov.mykola.fishpay.api.models.RegistrationResult;
-import com.myhailov.mykola.fishpay.api.models.RemoveAccResult;
-import com.myhailov.mykola.fishpay.api.models.RemoveReason;
+import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
+import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
+import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
+import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
+import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
+import com.myhailov.mykola.fishpay.api.results.LoginResult;
+import com.myhailov.mykola.fishpay.api.results.ProfileResult;
+import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
+import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
+import com.myhailov.mykola.fishpay.api.results.RemoveReason;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,8 @@ import retrofit2.http.Query;
 /** Created by Mykola Myhailov  on 14.11.17. */
 
 public interface ApiInterface {
+
+
 
     // 1) registration
     @GET ("api/user/checkMobile/{phoneNumber}") // check is there users with this phone number exist
@@ -167,6 +170,17 @@ public interface ApiInterface {
 
 
     //6) contacts
+    @FormUrlEncoded
+    @PUT ("api/user/contacts/syncData")
+    Call<Void> exportContacts(@Header("Authorization") String token, @Field("contacts") String contacts);
+
+
+    @GET("api/user/contacts")
+    Call<BaseResponse<Object>> getContacts(@Header("Authorization") String token,
+                             @Query("all") boolean all,
+                             @Query("excludeBlockedByContact") boolean blocked);
+
+
 
 
     //7) invoices
@@ -356,9 +370,5 @@ public interface ApiInterface {
                                                   @Part MultipartBody.Part img);      //img            ?
 
     @GET("api/goods/{id}")
-    Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token,
-                                               @Path("id") String id);
-
-
-
+    Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
 }

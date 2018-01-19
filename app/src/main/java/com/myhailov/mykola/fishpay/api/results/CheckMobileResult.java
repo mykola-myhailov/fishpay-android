@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.api.models;
+package com.myhailov.mykola.fishpay.api.results;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
