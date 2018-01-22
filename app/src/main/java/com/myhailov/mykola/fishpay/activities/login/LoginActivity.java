@@ -175,7 +175,6 @@ public class LoginActivity extends BaseActivity {
                     protected void onResult(int code, ContactsResult result) {
                         if (result == null) return;
                         ArrayList<Contact> appContacts = result.getContacts();
-
                     }
                 });
 
