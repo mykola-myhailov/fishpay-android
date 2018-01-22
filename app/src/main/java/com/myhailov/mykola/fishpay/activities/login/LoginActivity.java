@@ -16,6 +16,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.EmptyCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
@@ -151,18 +152,38 @@ public class LoginActivity extends BaseActivity {
             }
 
             prepardContacts.put("contacts_data", contactsArray);
-        } catch (Exception ignored){
-        }
-
-
+        } catch (Exception ignored){}
 
         ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), prepardContacts.toString())
-                .enqueue(new EmptyCallback());
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        getContactsRequest();
+                    }
+                });
+    }
+
+    private void getContactsRequest(){
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+        ApiClient.getApiClient()
+                .getContacts(TokenStorage.getToken(context), true, true)
+                .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                    @Override
+                    protected void onResult(int code, ContactsResult result) {
+                        if (result == null) return;
+                        ArrayList<Contact> appContacts = result.getContacts();
+
+                    }
+                });
+
     }
 
     private void invalidateRequest() {
         if (Utils.isOnline(context)) {
-           // ApiClient.getApiClient()
+            // ApiClient.getApiClient()
 
         } else Utils.noInternetToast(context);
     }

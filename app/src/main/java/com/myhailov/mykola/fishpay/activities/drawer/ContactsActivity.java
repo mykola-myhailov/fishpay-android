@@ -17,6 +17,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class ContactsActivity extends DrawerActivity {
 
-    private List<Contact> contacts, filteredContacts;
+    private List<Contact> deviceContacts, appContacts, displayedContacts, filteredContacts;
     private RecyclerView rvContacts;
 
     @Override
@@ -38,14 +39,14 @@ public class ContactsActivity extends DrawerActivity {
 
         createDrawer();
         initToolbar(getString(R.string.my_contacts));
-        getContactsRequest();
-        contacts =  DBUtils.getDaoSession(context).getContactDao().loadAll();
+
+        deviceContacts =  DBUtils.getDaoSession(context).getContactDao().loadAll();
+        appContacts = null;
         filteredContacts = new ArrayList<>();
         rvContacts = findViewById(R.id.rvContacts);
-        rvContacts.setAdapter(new ContactsAdapter(contacts));
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
+        rvContacts.setAdapter(new ContactsAdapter(displayedContacts));
         initSearchView();
-
     }
 
     @Override
@@ -139,11 +140,11 @@ public class ContactsActivity extends DrawerActivity {
     private void filter(String newText) {
         filteredContacts.clear();
         if (newText == null || newText.equals("")){
-            rvContacts.setAdapter(new ContactsAdapter(contacts));
+            rvContacts.setAdapter(new ContactsAdapter(displayedContacts));
             return;
         }
         String search = newText.toLowerCase();
-        for (Contact contact: contacts) {
+        for (Contact contact: displayedContacts) {
             String name = contact.getName().toLowerCase();
             if (name.contains(search)){
                 filteredContacts.add(contact);
@@ -152,15 +153,5 @@ public class ContactsActivity extends DrawerActivity {
         rvContacts.setAdapter(new ContactsAdapter(filteredContacts));
     }
 
-    private void getContactsRequest(){
-        ApiClient.getApiClient()
-                .getContacts(TokenStorage.getToken(context), true, true)
-                .enqueue(new BaseCallback<Object>(context,true) {
-                    @Override
-                    protected void onResult(int code, Object result) {
 
-                    }
-                });
-
-    }
 }

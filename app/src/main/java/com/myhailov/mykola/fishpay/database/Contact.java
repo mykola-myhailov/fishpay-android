@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.database;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -13,16 +15,30 @@ public class Contact {
 
     @Id(autoincrement = true)
     private Long id;
+    
+    @SerializedName("contact_id")
     private long userId;
-    private String name;
+
+    @SerializedName("phone_number")
     private String phone;
+
+    @SerializedName("first_name")
+    private String name;
+
+    @SerializedName("last_name")
+    private String surname;
+
+    @SerializedName("photo_link")
     private String photo;
-    @Generated(hash = 12082660)
-    public Contact(Long id, long userId, String name, String phone, String photo) {
+
+    @Generated(hash = 1956934569)
+    public Contact(Long id, long userId, String phone, String name, String surname,
+            String photo) {
         this.id = id;
         this.userId = userId;
-        this.name = name;
         this.phone = phone;
+        this.name = name;
+        this.surname = surname;
         this.photo = photo;
     }
     @Generated(hash = 672515148)
@@ -60,5 +76,11 @@ public class Contact {
     }
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+    public String getSurname() {
+        return this.surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

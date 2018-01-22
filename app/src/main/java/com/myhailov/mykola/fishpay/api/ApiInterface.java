@@ -5,6 +5,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
@@ -15,6 +16,7 @@ import com.myhailov.mykola.fishpay.api.results.RemoveReason;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -172,13 +174,13 @@ public interface ApiInterface {
     //6) contacts
     @FormUrlEncoded
     @PUT ("api/user/contacts/syncData")
-    Call<Void> exportContacts(@Header("Authorization") String token, @Field("contacts") String contacts);
+    Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token, @Field("contacts") String contacts);
 
 
     @GET("api/user/contacts")
-    Call<BaseResponse<Object>> getContacts(@Header("Authorization") String token,
-                             @Query("all") boolean all,
-                             @Query("excludeBlockedByContact") boolean blocked);
+    Call<BaseResponse<ContactsResult>> getContacts(@Header("Authorization") String token,
+                                                   @Query("all") boolean all,
+                                                   @Query("excludeBlockedByContact") boolean blocked);
 
 
 
