@@ -44,7 +44,7 @@
     <string name="my_contacts">Мои контакты</string>
     <string name="pay_request">Запрос на оплату</string>
     <string name="joint_purchase">Общая покупка</string>
-    <string name="my_purchases">Мои покупки</string>
+    <string name="my_purchases">Мои товары</string>
     <string name="charity">Благотворительность</string>
     <string name="activity">Активность</string>
     <string name="joint_costs">Совместные расходы</string>
@@ -56,4 +56,5 @@
     <string name="permissinons_contacts">Разрешая приложению доступ к контактной книге я принимаю
         <a href="http://www.google.com">правила приложения</a> и
         <a href="http://www.google.com">политику безопасности</a> </string>
+    <string name="enter_price">Введите имя</string>
 </resources>

@@ -34,7 +34,7 @@
         <activity android:name=".activities.drawer.ContactsActivity" />
         <activity android:name=".activities.drawer.PayRequestActivity" />
         <activity android:name=".activities.drawer.JointPurchasesActivity" />
-        <activity android:name=".activities.drawer.MyPurchasesActivity" />
+        <activity android:name=".activities.drawer.MyGoodsActivity" />
         <activity android:name=".activities.drawer.CharityActivity" />
         <activity android:name=".activities.drawer.ActivityActivity" />
         <activity android:name=".activities.drawer.GroupSpendsActivity" />
@@ -55,9 +55,11 @@
         <activity android:name=".activities.joint_purchases.DistributionActivity" />
         <activity android:name=".activities.joint_purchases.JointPurchaseDetailsActivity" />
         <activity android:name=".activities.joint_purchases.MembersPartActivity" />
-        <activity android:name=".activities.drawer.ContactsPermissionsActivity"></activity>
+        <activity android:name=".activities.drawer.ContactsPermissionsActivity" />
 
         <service android:name=".services.ContactsIntentService" />
+
+        <activity android:name=".activities.goods.CreateGodsActivity"></activity>
     </application>
 
 </manifest>
