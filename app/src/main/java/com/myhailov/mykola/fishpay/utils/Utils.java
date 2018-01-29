@@ -96,6 +96,14 @@ public class Utils {
         } else Utils.setInitialsImage(context, initials, imageView);
     }
 
+    public static void displayGoods(final Context context, final ImageView imageView, String photo, long id){
+        if (photo != null && !photo.equals("")) {
+            Picasso picasso = new Picasso.Builder(context).build();
+            picasso.load(ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo)
+                    .into(imageView);
+        }
+    }
+
 
     public static void displayAvatar(final Context context, final ImageView imageView, Uri photo, final String initials){
         if (photo != null && !photo.equals("")){
@@ -157,6 +165,15 @@ public class Utils {
         MediaType mediaType = MediaType.parse("multipart/form-data");
         RequestBody requestFile = RequestBody.create(mediaType, file);
         return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+    }
+
+
+    public static MultipartBody.Part makeRequestBodyFile(Uri imageUri, String name) {
+        if (imageUri == null) return null;
+        File file = new File(imageUri.getPath());
+        MediaType mediaType = MediaType.parse("multipart/form-data");
+        RequestBody requestFile = RequestBody.create(mediaType, file);
+        return MultipartBody.Part.createFormData(name, file.getName(), requestFile);
     }
 
 

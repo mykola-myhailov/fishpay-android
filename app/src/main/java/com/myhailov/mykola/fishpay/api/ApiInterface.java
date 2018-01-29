@@ -6,6 +6,7 @@ import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
+import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
@@ -355,7 +356,7 @@ public interface ApiInterface {
 
     // Goods
     @GET("api/goods")
-    Call<BaseResponse<Object>>  getGoods (@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
 
 
     @Multipart @POST("api/goods")
@@ -363,6 +364,8 @@ public interface ApiInterface {
                                           @Part("title") RequestBody title,
                                           @Part("description") RequestBody description,
                                           @Part("price") RequestBody price,
+                                          @Part("category") RequestBody category,
+                                          @Part("visibility") RequestBody visibility,
                                           @Part MultipartBody.Part img);      //main_photo
 
 
