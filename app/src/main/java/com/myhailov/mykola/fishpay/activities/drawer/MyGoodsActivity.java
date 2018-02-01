@@ -15,21 +15,19 @@ import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.goods.CreateGodsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class MyGoodsActivity extends DrawerActivity {
 
-    private ArrayList<GoodsResults> goods;
+    private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
     private RecyclerView recyclerView;
+    private GoodsAdapter goodsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +39,53 @@ public class MyGoodsActivity extends DrawerActivity {
         initToolbar(getString(R.string.my_purchases));
         findViewById(R.id.ivPlus).setOnClickListener(this);
         createDrawer();
+        initToggleButtons();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         ApiClient.getApiClient()
                 .getGoods(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        goods = result;
-                        initRecyclerView();
+
+                        for (GoodsResults product: result) {
+                            if (product.isVisibility()) publicGoods.add(product);
+                            else privateGoods.add(product);
+                        }
+                        goodsAdapter = new GoodsAdapter(publicGoods);
+                        recyclerView.setAdapter(goodsAdapter);
                     }
                 });
     }
 
-    private void initRecyclerView() {
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new GoodsAdapter());
+    private void initToggleButtons() {
+        ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("Все");
+        labels.add("Мои");;
+        toggleSwitch.setLabels(labels);
+        toggleSwitch.setCheckedTogglePosition(0);
+        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
+
+            @Override
+            public void onToggleSwitchChangeListener(int position, boolean isChecked) {
+                if (position == 0){
+                    goodsAdapter = new GoodsAdapter(publicGoods);
+                    recyclerView.setAdapter(goodsAdapter);
+                }
+                else {
+                    goodsAdapter = new GoodsAdapter(privateGoods);
+                    recyclerView.setAdapter(goodsAdapter);
+                }
+            }
+        });
     }
+
+
+
+
+
 
     @Override
     public void onClick(View view) {
@@ -78,6 +106,13 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
     private class GoodsAdapter extends RecyclerView.Adapter<ViewHolder> {
+        private ArrayList<GoodsResults> goods;
+
+
+        public GoodsAdapter(ArrayList<GoodsResults> goods) {
+            this.goods = goods;
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())

@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mvc.imagepicker.ImagePicker;
@@ -40,6 +43,8 @@ public class CreateGodsActivity extends BaseActivity {
     private EditText etGoodsName, etPrice, etDescription;
     private ImageView ivPhoto;
     private Uri imageUri;
+    private Spinner categorySpinner;
+    private SwitchCompat switchStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,15 @@ public class CreateGodsActivity extends BaseActivity {
     private void initViews() {
         findViewById(R.id.tvCreate).setOnClickListener(this);
         findViewById(R.id.tvChangePhoto).setOnClickListener(this);
+        final TextView tvStatus = findViewById(R.id.tvStatus);
+        switchStatus = findViewById(R.id.switchStatus);
+        switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) tvStatus.setText("Приватный");
+                    else tvStatus.setText("Публичный");
+            }
+        });
         etGoodsName = findViewById(R.id.etGoodsName);
         etDescription = findViewById(R.id.etDescription);
         etPrice = findViewById(R.id.etPrice);
@@ -64,7 +78,7 @@ public class CreateGodsActivity extends BaseActivity {
     }
 
     private void initSpinner() {
-        Spinner categorySpinner = findViewById(R.id.categorySpinner);
+        categorySpinner = findViewById(R.id.categorySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,32 +93,30 @@ public class CreateGodsActivity extends BaseActivity {
                 ImagePicker.pickImage(this, "Select your image:"); // onActivityResult after picking image
             case R.id.tvCreate:
                 String name = etGoodsName.getText().toString();
-                if (name == null || name.equals("")) Utils.toast(context, getString(R.string.enter_name));
                 String price = etPrice.getText().toString();
-                if (price == null || price.equals("") || price.equals("0"))
-                    Utils.toast(context, getString(R.string.enter_price));
                 String descripton = etDescription.getText().toString();
-                if (descripton == null) descripton = "";
-                if (imageUri == null) Utils.toast(context, "Выберите фото");
-                if (name == null || name.equals("")
-                        ||price == null || price.equals("") || price.equals("0")
-                    || (imageUri == null)) return;
-                if (!Utils.isOnline(context)) {
-                    Utils.noInternetToast(context);
-                    return;
-                }
+                if (name.equals(""))  Utils.toast(context, getString(R.string.enter_name));
+                else if (name.length() < 5) Utils.toast(context, "Имя товара должно состоять не менее чем из 5 символов");
+                else if (price.equals("") || price.equals("0")) Utils.toast(context, getString(R.string.enter_price));
+                else if (descripton.equals("")) Utils.toast(context, "Введите описание товара");
+                else if (descripton.length() < 8) Utils.toast(context, "Описание товара должно состоять не менее чем из 8 символов");
+                else if (imageUri == null) Utils.toast(context, "Выберите фото");
+                else if (!Utils.isOnline(context))Utils.noInternetToast(context);
+                else {
+                    String categoryId = Integer.toString(categorySpinner.getSelectedItemPosition());
                     ApiClient.getApiClient().createGoods(TokenStorage.getToken(context),
                             Utils.makeRequestBody(name),
                             Utils.makeRequestBody(descripton),
                             Utils.makeRequestBody(price),
-                            Utils.makeRequestBody("2"),
-                            Utils.makeRequestBody("true"),
+                            Utils.makeRequestBody(categoryId),
+                            Utils.makeRequestBody(Boolean.toString(!switchStatus.isChecked())),
                             makeRequestBodyFile(imageUri)).enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
                             context.startActivity(new Intent(context, MyGoodsActivity.class));
                         }
                     });
+                }
                 break;
         }
     }

@@ -111,6 +111,7 @@ public class ContactsActivity extends DrawerActivity {
 
         @Override
         public int getItemCount() {
+            if (contacts == null) return 0;
             return contacts.size();
         }
     }

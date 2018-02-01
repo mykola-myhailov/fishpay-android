@@ -70,4 +70,6 @@ public class GoodsResults {
     public String getCategory() {
         return category;
     }
+
+
 }

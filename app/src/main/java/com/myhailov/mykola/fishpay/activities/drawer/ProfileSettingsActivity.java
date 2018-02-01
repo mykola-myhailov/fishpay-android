@@ -105,8 +105,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 initViews();
                             }
 
-                            createDrawer();
-                            openDrawer();
+                            createDrawer();;
                         }
                     }
                 });
