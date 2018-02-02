@@ -106,7 +106,7 @@ public class Utils {
 
 
     public static void displayAvatar(final Context context, final ImageView imageView, Uri photo, final String initials){
-        if (photo != null && !photo.equals("")){
+        if (photo != null){
             Picasso picasso = new Picasso.Builder(context)
                     .listener(new Picasso.Listener() {
                         @Override

@@ -15,15 +15,26 @@ import android.widget.TextView;
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
+import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class RegistrationActivity extends BaseActivity {
@@ -129,7 +140,50 @@ public class RegistrationActivity extends BaseActivity {
                     Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
                 }
                 imageUri = Uri.fromFile(imageFile);
+                uploadContactsRequest();
             }
         }
+    }
+
+    private void uploadContactsRequest() {
+        List<Contact> contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+        if (!Utils.isOnline(this)) return;
+        JSONArray contactsArray = new JSONArray();
+        JSONObject preparedContacts = new JSONObject();
+        try {
+            for (Contact contactInfo: contacts) {
+                JSONObject contactObject = new JSONObject();
+                contactObject.put("first_name",  contactInfo.getName());
+                contactObject.put("phone_number",contactInfo.getPhone());
+                contactsArray.put(contactObject);
+            }
+
+            preparedContacts.put("contacts_data", contactsArray);
+        } catch (Exception ignored){}
+
+        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        getContactsRequest();
+                    }
+                });
+    }
+
+    private void getContactsRequest(){
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+        ApiClient.getApiClient()
+                .getContacts(TokenStorage.getToken(context), true, true)
+                .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                    @Override
+                    protected void onResult(int code, ContactsResult result) {
+                        if (result == null) return;
+                        ArrayList<Contact> appContacts = result.getContacts();
+                        DBUtils.saveAppContacts(context, appContacts);
+                    }
+                });
     }
 }

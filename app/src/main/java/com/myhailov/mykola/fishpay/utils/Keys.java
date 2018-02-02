@@ -16,4 +16,5 @@ public class Keys {
     public static final String PASS_CHANGE_ID = "pass_change_id";
     public static final String PHOTO = "photo";
     public static final String REQUEST_ID = "request_id";
+    public static final String CONTACT = "contact";
 }

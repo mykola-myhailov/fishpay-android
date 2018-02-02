@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 
 public class ContactDetailsActivity extends AppCompatActivity {
 
@@ -12,10 +14,9 @@ public class ContactDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
 
-        /* title = "просмотр профиля"*
-        title = "добавить контакт"
-       
-         */
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) return;
+        Contact contact = extras.getParcelable(Keys.CONTACT);
 
     }
 }

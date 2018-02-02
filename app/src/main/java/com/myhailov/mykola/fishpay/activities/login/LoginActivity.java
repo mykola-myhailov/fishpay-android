@@ -122,7 +122,8 @@ public class LoginActivity extends BaseActivity {
                             attempt ++;
                             if (attempt < 3) Utils.alert(context, "Неверный пароль");
                             else {
-                                Utils.alert(context, "Неверный пароль. Количество попыток исчерпано, попробуйте через 15 минут");
+                                Utils.alert(context, "Неверный пароль." +
+                                        " Количество попыток исчерпано, попробуйте через 15 минут");
                                 Handler handler = new Handler();
                                 Runnable runnable = new Runnable() {
                                     @Override
@@ -142,7 +143,7 @@ public class LoginActivity extends BaseActivity {
         List<Contact> contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         if (!Utils.isOnline(this)) return;
         JSONArray contactsArray = new JSONArray();
-        JSONObject prepardContacts = new JSONObject();
+        JSONObject preparedContacts = new JSONObject();
         try {
             for (Contact contactInfo: contacts) {
                 JSONObject contactObject = new JSONObject();
@@ -151,10 +152,10 @@ public class LoginActivity extends BaseActivity {
                 contactsArray.put(contactObject);
             }
 
-            prepardContacts.put("contacts_data", contactsArray);
+            preparedContacts.put("contacts_data", contactsArray);
         } catch (Exception ignored){}
 
-        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), prepardContacts.toString())
+        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
@@ -175,9 +176,9 @@ public class LoginActivity extends BaseActivity {
                     protected void onResult(int code, ContactsResult result) {
                         if (result == null) return;
                         ArrayList<Contact> appContacts = result.getContacts();
+                        DBUtils.saveAppContacts(context, appContacts);
                     }
                 });
-
     }
 
     private void invalidateRequest() {

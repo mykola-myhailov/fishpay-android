@@ -34,7 +34,8 @@ public class BeginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
 
-      // quicklogin();
+        startService(new Intent(this, ContactsIntentService.class));
+       /// quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
@@ -42,7 +43,7 @@ public class BeginActivity extends BaseActivity {
         (findViewById(R.id.tvNext)).setOnClickListener(this);
         (findViewById(R.id.ivNext)).setOnClickListener(this);
 
-        startService(new Intent(this, ContactsIntentService.class));
+
     }
 
     @Override
