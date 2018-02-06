@@ -115,19 +115,7 @@ public abstract class DrawerActivity extends BaseActivity {
         navigationView.findViewById(R.id.navGroupSpends).setOnClickListener(navClickListener);
     }
 
-    protected void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
-    protected void initToolbar(String title) {
+    protected void initDrawerToolbar(String title) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -151,7 +139,6 @@ public abstract class DrawerActivity extends BaseActivity {
 
 
     private void updateDrawerHeader() {
-
         String visibleName = nameInDrawer + " " + surnameInDrawer;
         String initials = Utils.extractInitials(nameInDrawer, surnameInDrawer);
 

@@ -15,7 +15,7 @@ public class PayRequestActivity extends DrawerActivity {
 
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.pay_request));
+        initDrawerToolbar(getString(R.string.pay_request));
         createDrawer();
     }
 

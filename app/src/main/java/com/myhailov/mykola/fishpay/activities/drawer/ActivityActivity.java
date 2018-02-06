@@ -14,7 +14,7 @@ public class ActivityActivity extends DrawerActivity {
        // setContentView(R.layout.activity_activity);
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.activity));
+        initDrawerToolbar(getString(R.string.activity));
         createDrawer();
     }
 

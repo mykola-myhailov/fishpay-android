@@ -38,7 +38,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
         setContentView(R.layout.activity_profile);
         //  setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.profile));
+        initDrawerToolbar(getString(R.string.profile));
         getProfileRequest();
     }
 

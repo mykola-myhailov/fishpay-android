@@ -5,6 +5,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
+import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
@@ -182,6 +183,10 @@ public interface ApiInterface {
     Call<BaseResponse<ContactsResult>> getContacts(@Header("Authorization") String token,
                                                    @Query("all") boolean all,
                                                    @Query("excludeBlockedByContact") boolean blocked);
+
+    @GET("api/user/contacts/{contactId}")
+    Call<BaseResponse<ContactDetailResult>> getContactDetails(@Header("Authorization") String token,
+                                                              @Path("contactId") long contactId);
 
 
 

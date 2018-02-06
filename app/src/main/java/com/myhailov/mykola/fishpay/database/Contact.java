@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.database.Database;
 
 /**
  * Created by Mykola Myhailov  on 15.01.18.
@@ -18,9 +17,9 @@ public class Contact implements Parcelable {
 
 
     @Id(autoincrement = true)
-    private Long id;
+    private Long dbId;
     
-    @SerializedName("contact_id")
+    @SerializedName("id")
     private long userId;
 
     @SerializedName("phone_number")
@@ -38,30 +37,15 @@ public class Contact implements Parcelable {
     @SerializedName("isActiveUser ")
     private boolean isActiveUser;
 
-    @Generated(hash = 1934826131)
-    public Contact(Long id, long userId, String phone, String name, String surname,
-            String photo, boolean isActiveUser) {
-        this.id = id;
-        this.userId = userId;
-        this.phone = phone;
-        this.name = name;
-        this.surname = surname;
-        this.photo = photo;
-        this.isActiveUser = isActiveUser;
-    }
-    @Generated(hash = 672515148)
-    public Contact() {
-    }
-
-
-
+    
     public Long getId() {
-        return this.id;
+        return this.dbId;
     }
     public void setId(Long id) {
-        this.id = id;
+        this.dbId = id;
     }
     public String getName() {
+        if (name == null) return "";
         return this.name;
     }
     public void setName(String name) {
@@ -80,7 +64,7 @@ public class Contact implements Parcelable {
         this.photo = photo;
     }
     public void setId(long id) {
-        this.id = id;
+        this.dbId = id;
     }
     public long getUserId() {
         return this.userId;
@@ -89,6 +73,7 @@ public class Contact implements Parcelable {
         this.userId = userId;
     }
     public String getSurname() {
+        if (surname == null) return "";
         return this.surname;
     }
     public void setSurname(String surname) {
@@ -107,11 +92,11 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        if (id == null) {
+        if (dbId == null) {
             parcel.writeByte((byte) 0);
         } else {
             parcel.writeByte((byte) 1);
-            parcel.writeLong(id);
+            parcel.writeLong(dbId);
         }
         parcel.writeLong(userId);
         parcel.writeString(phone);
@@ -123,15 +108,29 @@ public class Contact implements Parcelable {
 
     protected Contact(Parcel in) {
         if (in.readByte() == 0) {
-            id = null;
+            dbId = null;
         } else {
-            id = in.readLong();
+            dbId = in.readLong();
         }
         userId = in.readLong();
         phone = in.readString();
         name = in.readString();
         surname = in.readString();
         photo = in.readString();
+    }
+    @Generated(hash = 1027069213)
+    public Contact(Long dbId, long userId, String phone, String name,
+            String surname, String photo, boolean isActiveUser) {
+        this.dbId = dbId;
+        this.userId = userId;
+        this.phone = phone;
+        this.name = name;
+        this.surname = surname;
+        this.photo = photo;
+        this.isActiveUser = isActiveUser;
+    }
+    @Generated(hash = 672515148)
+    public Contact() {
     }
 
 
@@ -144,6 +143,12 @@ public class Contact implements Parcelable {
     }
     public void setIsActiveUser(boolean isActiveUser) {
         this.isActiveUser = isActiveUser;
+    }
+    public Long getDbId() {
+        return this.dbId;
+    }
+    public void setDbId(Long dbId) {
+        this.dbId = dbId;
     }
 
 

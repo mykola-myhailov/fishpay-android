@@ -25,7 +25,7 @@ public class JointPurchasesActivity extends DrawerActivity {
 
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.joint_purchase));
+        initDrawerToolbar(getString(R.string.joint_purchase));
         createDrawer();
     }
 

@@ -14,7 +14,7 @@ public class GroupSpendsActivity extends DrawerActivity {
       //  setContentView(R.layout.activity_group_spends);
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.joint_costs));
+        initDrawerToolbar(getString(R.string.joint_costs));
         createDrawer();
     }
 

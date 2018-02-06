@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,7 +18,7 @@ public class ContactsPermissionsActivity extends DrawerActivity {
         findViewById(R.id.tvPermisson2).setOnClickListener(this);
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.my_contacts));
+        initDrawerToolbar(getString(R.string.my_contacts));
     }
 
     @Override

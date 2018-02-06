@@ -1,18 +1,13 @@
 package com.myhailov.mykola.fishpay;
 
 
-import android.app.Activity;
 import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.database.DaoMaster;
 
 import org.greenrobot.greendao.database.Database;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /** Created by Mykola Myhailov  on 16.11.17.*/
 

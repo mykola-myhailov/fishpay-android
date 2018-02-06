@@ -36,7 +36,7 @@ public class MyGoodsActivity extends DrawerActivity {
 
         setContentView(R.layout.activity_drawer_my_goods);
 
-        initToolbar(getString(R.string.my_purchases));
+        initDrawerToolbar(getString(R.string.my_purchases));
         findViewById(R.id.ivPlus).setOnClickListener(this);
         createDrawer();
         initToggleButtons();

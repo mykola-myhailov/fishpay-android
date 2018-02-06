@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
-import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -31,9 +30,9 @@ import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class ContactsActivity extends DrawerActivity {
 
-    private List<Contact> contacts, deviceContacts, appContacts, displayedContacts, filteredContacts;
+    private List<Contact> contacts, appContacts, displayedContacts, filteredContacts;
     private RecyclerView rvContacts;
-    private ContactsAdapter сontactsAdapter;
+    private String filterQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +40,14 @@ public class ContactsActivity extends DrawerActivity {
         setContentView(R.layout.activity_contacts);
 
         createDrawer();
-        initToolbar(getString(R.string.my_contacts));
+        initDrawerToolbar(getString(R.string.my_contacts));
         contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         appContacts = new ArrayList<>();
-        deviceContacts = new ArrayList<>();
         displayedContacts = new ArrayList<>();
         filteredContacts = new ArrayList<>();
         for (Contact contact : contacts) {
             long userId = contact.getUserId();
-            if (userId == 0) deviceContacts.add(contact);
-            else appContacts.add(contact);
+            if (userId != 0) appContacts.add(contact);
         }
 
         initToggleButtons();
@@ -73,8 +70,8 @@ public class ContactsActivity extends DrawerActivity {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
                 if (position == 0) displayedContacts = appContacts;
-                else displayedContacts = deviceContacts;
-                rvContacts.setAdapter(new ContactsAdapter(displayedContacts));
+                else displayedContacts = contacts;
+                filter();
             }
         });
     }
@@ -186,13 +183,15 @@ public class ContactsActivity extends DrawerActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filter(query);
+                filterQuery = query;
+                filter();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filter(newText);
+                filterQuery = newText;
+                filter();
                 return true;
             }
         });
@@ -203,13 +202,13 @@ public class ContactsActivity extends DrawerActivity {
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
     }
 
-    private void filter(String newText) {
+    private void filter() {
         filteredContacts.clear();
-        if (newText == null || newText.equals("")){
+        if (filterQuery == null || filterQuery.equals("")){
             rvContacts.setAdapter(new ContactsAdapter(displayedContacts));
             return;
         }
-        String search = newText.toLowerCase();
+        String search = filterQuery.toLowerCase();
         for (Contact contact: displayedContacts) {
             String name = contact.getName().toLowerCase();
             if (name.contains(search)){

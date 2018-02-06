@@ -14,7 +14,7 @@ public class CharityActivity extends DrawerActivity {
        // setContentView(R.layout.activity_charity);
         setContentView(R.layout.activity_drawer_sample);
 
-        initToolbar(getString(R.string.charity));
+        initDrawerToolbar(getString(R.string.charity));
         createDrawer();
     }
 
