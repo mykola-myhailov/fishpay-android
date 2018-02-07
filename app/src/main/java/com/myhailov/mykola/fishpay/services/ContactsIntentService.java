@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.ContactDao;
@@ -57,7 +58,15 @@ public class ContactsIntentService extends IntentService {
                     if (cursorInfo != null) {
                         while (cursorInfo.moveToNext()){
                             String phone = getContactPhone(cursorInfo);
+                            phone = phone.replaceAll("\\s+","");
+                            if (phone.length() == 12 && phone.substring(0, 3).equals("038"))
                             contacts.add(createContactInfo(phone, name, photoUri));
+                            else if (phone.length() == 11 && phone.substring(0, 2).equals("38"))
+                                contacts.add(createContactInfo("0" + phone, name, photoUri));
+                            else if (phone.length() == 10 && phone.substring(0, 1).equals("8"))
+                                contacts.add(createContactInfo("03" + phone.substring(2), name, photoUri));
+                            else if (phone.length() == 13 && phone.substring(0, 4).equals("+038"))
+                                contacts.add(createContactInfo(phone.substring(1), name, photoUri));
                         }
                         cursorInfo.close();
                     }

@@ -104,7 +104,7 @@ public class ContactsActivity extends DrawerActivity {
     private class ContactsViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView ivAvatar, ivInvite;
-        private TextView tvName;
+        private TextView tvName, tvInitials;
         private View container;
 
         ContactsViewHolder(View itemView) {
@@ -113,6 +113,7 @@ public class ContactsActivity extends DrawerActivity {
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             ivInvite = itemView.findViewById(R.id.ivInvite);
             container = itemView.findViewById(R.id.container);
+            tvInitials = itemView.findViewById(R.id.tvInitials);
         }
     }
 
@@ -135,41 +136,39 @@ public class ContactsActivity extends DrawerActivity {
         public void onBindViewHolder(final ContactsViewHolder holder, int position) {
             Contact contact = contacts.get(position);
             if (contact == null) return;
-            String name = contact.getName();
+            final String name = contact.getName();
             long userId = contact.getUserId();
 
             if (name != null) holder.tvName.setText(name.toUpperCase());
             String photo = contact.getPhoto();
-            String initials = "";
             String phone = contact.getPhone();
-            if (name != null) initials = Utils.extractInitials(name, "");
-
-            final String finalInitials = initials;
-
-
+            final String initials = Utils.extractInitials(name, "");
             if (userId == 0) {  //this contact is not app user
-                Picasso picasso = new Picasso.Builder(context)
+            /*    Picasso picasso = new Picasso.Builder(context)
                         .listener(new Picasso.Listener() {
                             @Override
                             public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                                Utils.setInitialsImage(context, finalInitials, holder.ivAvatar);
+                                holder.tvInitials.setText(initials);
                             }
                         })
-                        .build();
+                        .build();*/
                 if (photo != null && !photo.equals("")) {
                     Uri photoUri = Uri.parse(contact.getPhoto());
-                    picasso.load(photoUri).into(holder.ivAvatar);
-                } else Utils.setInitialsImage(context, finalInitials, holder.ivAvatar);
+                    Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
+                } else  holder.tvInitials.setText(initials);
+
+//
             }
 
             else {  //this contact is app user
-                Utils.displayAvatar(context, holder.ivAvatar, photo, initials);
+                Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
                 holder.container.setTag(contact);
                 holder.container.setOnClickListener((View.OnClickListener) context);
             }
 
 
         }
+
 
         @Override
         public int getItemCount() {

@@ -123,17 +123,21 @@ public class Utils {
     /** Create image from {@param initials}, set this image to {@param imageView} */
     public static void setInitialsImage(@NonNull Context context, @NonNull String initials, ImageView imageView){
         int size = context.getResources().getDimensionPixelSize(R.dimen.avatar_size);
-        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setTextSize(16 * context.getResources().getDisplayMetrics().density);
-        paint.setAntiAlias(true);
-        paint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setColor(ContextCompat.getColor(context, R.color.black));
-        canvas.drawColor(ContextCompat.getColor(context, R.color.white));
-        canvas.drawText(initials, size/2, size/2 + 16 , paint);
-        imageView.setImageBitmap(bitmap);
+        try {
+            Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            paint.setTextSize(16 * context.getResources().getDisplayMetrics().density);
+            paint.setAntiAlias(true);
+            paint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setColor(ContextCompat.getColor(context, R.color.black));
+            canvas.drawColor(ContextCompat.getColor(context, R.color.white));
+            canvas.drawText(initials, size/2, size/2 + 16 , paint);
+            imageView.setImageBitmap(bitmap);
+        } catch (Exception ignored){};
+
+
     }
 
     @NonNull
@@ -164,7 +168,7 @@ public class Utils {
         File file = new File(imageUri.getPath());
         MediaType mediaType = MediaType.parse("multipart/form-data");
         RequestBody requestFile = RequestBody.create(mediaType, file);
-        return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+        return MultipartBody.Part.createFormData("img", file.getName(), requestFile);
     }
 
 

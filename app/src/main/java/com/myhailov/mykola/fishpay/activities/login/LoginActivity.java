@@ -148,7 +148,8 @@ public class LoginActivity extends BaseActivity {
             for (Contact contactInfo: contacts) {
                 JSONObject contactObject = new JSONObject();
                 contactObject.put("first_name",  contactInfo.getName());
-                contactObject.put("phone_number",contactInfo.getPhone());
+                String phone = contactInfo.getPhone();
+                contactObject.put("phone_number", phone);
                 contactsArray.put(contactObject);
             }
 

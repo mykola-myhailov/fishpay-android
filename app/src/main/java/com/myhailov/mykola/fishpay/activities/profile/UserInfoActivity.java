@@ -69,7 +69,6 @@ public class UserInfoActivity extends BaseActivity {
         etEmail.setText(email);
         etBirthday= findViewById(R.id.etBirthday);
         etBirthday.setText(birthday);
-        etBirthday.setOnClickListener(this);
         ivAvatar = findViewById(R.id.ivAvatar);
         String initails = Utils.extractInitials(name, surname);
         Utils.displayAvatar(context, ivAvatar, photo, initails);
@@ -84,9 +83,6 @@ public class UserInfoActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ivAvatar:
                 ImagePicker.pickImage(this, "Select your image:"); // onActivityResult after picking image
-                break;
-            case R.id.etBirthday:
-                showDataPicker();
                 break;
             case R.id.tvSave:
                 name = etName.getText().toString();
@@ -103,10 +99,6 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
-    private void showDataPicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, createDateSetListener(), 2000, 0, 1);
-        datePickerDialog.show();
-    }
 
     private DatePickerDialog.OnDateSetListener createDateSetListener() {
         return new DatePickerDialog.OnDateSetListener() {
