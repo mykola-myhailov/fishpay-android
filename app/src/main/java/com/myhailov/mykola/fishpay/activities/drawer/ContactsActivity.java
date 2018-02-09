@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
+import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -51,6 +52,7 @@ public class ContactsActivity extends DrawerActivity {
         }
 
         initToggleButtons();
+        findViewById(R.id.ivPlus).setOnClickListener(this);
         rvContacts = findViewById(R.id.rvContacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
         initSearchView();
@@ -79,6 +81,9 @@ public class ContactsActivity extends DrawerActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ivPlus:
+                context.startActivity(new Intent(context, SearchContactActivity.class));
+                break;
             case R.id.container:   // click on app user's contact, to see details
                 Contact contact = (Contact) view.getTag();
                 if (contact == null) {

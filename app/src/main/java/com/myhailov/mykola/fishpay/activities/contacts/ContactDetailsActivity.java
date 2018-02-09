@@ -56,13 +56,11 @@ public class ContactDetailsActivity extends BaseActivity {
                     .enqueue(new BaseCallback<ContactDetailResult>(context, false) {
                         @Override
                         protected void onResult(int code, ContactDetailResult result) {
-
                             if (result == null) return;
                             String publicCard = result.getPublicCard();
                             String name = result.getName();
                             String surname = result.getSuname();
                             ((TextView) findViewById(R.id.tvName2)).setText(String.format("%s %s", name, surname));
-
                             if (publicCard != null) ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
                         }
                     });

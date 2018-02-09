@@ -188,6 +188,10 @@ public interface ApiInterface {
     Call<BaseResponse<ContactDetailResult>> getContactDetails(@Header("Authorization") String token,
                                                               @Path("contactId") long contactId);
 
+    @GET("api/user/searchByPhone/{phoneNumber}")
+    Call<BaseResponse<ContactsResult>> searchContact(@Header("Authorization") String token,
+                                             @Path("phoneNumber") String phoneNumber);
+
 
 
 

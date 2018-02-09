@@ -1,18 +1,72 @@
 package com.myhailov.mykola.fishpay.activities.contacts;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
+import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
-public class SearchContactActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class SearchContactActivity extends BaseActivity {
+
+    private EditText etPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_contact);
+
+        initToolBar("Введите номер");
+        etPhone = findViewById(R.id.etPhone);
+        (findViewById(R.id.tvSearch)).setOnClickListener(this);
     }
 
 
-    // title = ""
+    @Override
+    public void onClick(View view) {
+
+        searchPhoneRequest();
+
+    }
+
+    private void searchPhoneRequest() {
+        if (!Utils.isOnline(context)){
+            Utils.noInternetToast(context);
+            return;
+        }
+
+        String phone = etPhone.getText().toString();
+        if (phone.substring(0, 1).equals("+")) phone = phone.substring(1);
+        if (phone.length() < 12) Utils.toast(context, getString(R.string.short_number));
+        else if (phone.length() > 13) Utils.toast(context, getString(R.string.long_number));
+        else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        else ApiClient.getApiClient().searchContact(TokenStorage.getToken(context), phone)
+            .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                @Override
+                protected void onResult(int code, ContactsResult result) {
+                    if (code == 200) {
+                        ArrayList<Contact> contacts = result.getContacts();
+                        if (contacts == null || contacts.size() < 1) return;
+                        Contact contact = contacts.get(0);
+                        if (contact == null) return;
+                        Intent intent = new Intent(context, ContactDetailsActivity.class);
+                        intent.putExtra(Keys.CONTACT, contact);
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
+
+    }
 }
