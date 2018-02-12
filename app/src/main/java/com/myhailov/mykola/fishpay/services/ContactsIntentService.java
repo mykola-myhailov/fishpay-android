@@ -30,6 +30,7 @@ public class ContactsIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         contacts = getDeviceContactsInfo();
+        Log.d("contacts_size", contacts.size() + "");
         saveContacts();
     }
 
@@ -59,13 +60,13 @@ public class ContactsIntentService extends IntentService {
                         while (cursorInfo.moveToNext()){
                             String phone = getContactPhone(cursorInfo);
                             phone = phone.replaceAll("\\s+","");
-                            if (phone.length() == 12 && phone.substring(0, 3).equals("038"))
+                            if (phone.length() == 12 && phone.substring(0, 3).equals("380"))
                             contacts.add(createContactInfo(phone, name, photoUri));
-                            else if (phone.length() == 11 && phone.substring(0, 2).equals("38"))
-                                contacts.add(createContactInfo("0" + phone, name, photoUri));
-                            else if (phone.length() == 10 && phone.substring(0, 1).equals("8"))
-                                contacts.add(createContactInfo("03" + phone.substring(2), name, photoUri));
-                            else if (phone.length() == 13 && phone.substring(0, 4).equals("+038"))
+                            else if (phone.length() == 11 && phone.substring(0, 2).equals("80"))
+                                contacts.add(createContactInfo("3" + phone, name, photoUri));
+                            else if (phone.length() == 10 && phone.substring(0, 1).equals("0"))
+                                contacts.add(createContactInfo("38" + phone.substring(2), name, photoUri));
+                            else if (phone.length() == 13 && phone.substring(0, 4).equals("+380"))
                                 contacts.add(createContactInfo(phone.substring(1), name, photoUri));
                         }
                         cursorInfo.close();
@@ -74,6 +75,7 @@ public class ContactsIntentService extends IntentService {
             }
             cursor.close();
         }
+        Log.d("contacts_size", contacts.size() + "");
         return contacts;
     }
 

@@ -53,7 +53,8 @@
                         android:src="@drawable/add_contact"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:padding="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -82,26 +83,38 @@
 
         </LinearLayout>
 
-        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
-            android:id="@+id/toggleSwitch"
-            android:layout_margin="10dp"
-            android:padding="2dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
+
+
+
+
+            <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+                android:id="@+id/toggleSwitch"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:padding="2dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_border"
+                custom:activeBgColor="@color/blue1"
+                custom:activeTextColor="@color/white"
+                custom:inactiveBgColor="@color/white"
+                custom:inactiveTextColor="@color/blue1"
+                custom:toggleWidth="120dp"
+                custom:cornerRadius="8dp" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_border"
-            custom:activeBgColor="@color/blue1"
-            custom:activeTextColor="@color/white"
-            custom:inactiveBgColor="@color/white"
-            custom:inactiveTextColor="@color/blue1"
-            custom:toggleWidth="120dp"
-            custom:cornerRadius="8dp" />
+            android:layout_width="match_parent">
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvContacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

@@ -3,9 +3,11 @@ package com.myhailov.mykola.fishpay.activities.drawer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,11 +59,14 @@ public class ContactsActivity extends DrawerActivity {
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
         initSearchView();
         displayedContacts = appContacts;
-        rvContacts.setAdapter(new ContactsAdapter(displayedContacts));
+        filter();
+        Log.d("log", contacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " "+
+        filteredContacts.size());
+
     }
 
     private void initToggleButtons() {
-        ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
+        final ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("Активные");
         labels.add("Все");;
@@ -74,6 +79,15 @@ public class ContactsActivity extends DrawerActivity {
                 if (position == 0) displayedContacts = appContacts;
                 else displayedContacts = contacts;
                 filter();
+            }
+        });
+        final SwipeRefreshLayout refreshLayout = findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                toggleSwitch.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
+                refreshLayout.setEnabled(false);
             }
         });
     }
@@ -160,13 +174,17 @@ public class ContactsActivity extends DrawerActivity {
                 if (photo != null && !photo.equals("")) {
                     Uri photoUri = Uri.parse(contact.getPhoto());
                     Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
+                    if (holder.ivAvatar.getDrawable() == null) holder.tvInitials.setText(initials);
                 } else  holder.tvInitials.setText(initials);
 
 //
             }
 
             else {  //this contact is app user
+                if (photo != null && !photo.equals("")) {
                 Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
+                if (holder.ivAvatar.getDrawable() == null) holder.tvInitials.setText(initials);
+                } else  holder.tvInitials.setText(initials);
                 holder.container.setTag(contact);
                 holder.container.setOnClickListener((View.OnClickListener) context);
             }

@@ -193,8 +193,8 @@ public interface ApiInterface {
     Call<BaseResponse<SearchedContactsResult>> searchContact(@Header("Authorization") String token,
                                                              @Path("phoneNumber") String phoneNumber);
 
-
-
+    @POST("api/user/contacts/add/{userId}")
+    Call<BaseResponse<String>> addContact(@Header("Authorization") String toke, @Path("userId") long id);
 
     //7) invoices
     @FormUrlEncoded @POST("api/moneyRequest/init")
