@@ -14,6 +14,7 @@ import com.myhailov.mykola.fishpay.api.results.ProfileResult;
 import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveReason;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 
 import org.json.JSONObject;
 
@@ -189,8 +190,8 @@ public interface ApiInterface {
                                                               @Path("contactId") long contactId);
 
     @GET("api/user/searchByPhone/{phoneNumber}")
-    Call<BaseResponse<ContactsResult>> searchContact(@Header("Authorization") String token,
-                                             @Path("phoneNumber") String phoneNumber);
+    Call<BaseResponse<SearchedContactsResult>> searchContact(@Header("Authorization") String token,
+                                                             @Path("phoneNumber") String phoneNumber);
 
 
 

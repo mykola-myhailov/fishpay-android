@@ -11,6 +11,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -52,16 +53,16 @@ public class SearchContactActivity extends BaseActivity {
         else if (phone.length() > 13) Utils.toast(context, getString(R.string.long_number));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else ApiClient.getApiClient().searchContact(TokenStorage.getToken(context), phone)
-            .enqueue(new BaseCallback<ContactsResult>(context, true) {
+            .enqueue(new BaseCallback<SearchedContactsResult>(context, true) {
                 @Override
-                protected void onResult(int code, ContactsResult result) {
+                protected void onResult(int code, SearchedContactsResult result) {
                     if (code == 200) {
-                        ArrayList<Contact> contacts = result.getContacts();
+                        ArrayList<SearchedContactsResult.SearchedContact> contacts = result.getContacts();
                         if (contacts == null || contacts.size() < 1) return;
-                        Contact contact = contacts.get(0);
+                        SearchedContactsResult.SearchedContact contact = contacts.get(0);
                         if (contact == null) return;
                         Intent intent = new Intent(context, ContactDetailsActivity.class);
-                        intent.putExtra(Keys.CONTACT, contact);
+                        intent.putExtra(Keys.SEARCHED_CONTACT, contact);
                         context.startActivity(intent);
                     }
                 }

@@ -10,6 +10,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -17,9 +18,9 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 public class ContactDetailsActivity extends BaseActivity {
 
-
-
+    private boolean isAdded;
     private long userId;
+    private  String phone, photo, name, surname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +31,48 @@ public class ContactDetailsActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
-        Contact contact = extras.getParcelable(Keys.CONTACT);
-        if (contact == null) return;
+        if (extras.containsKey(Keys.CONTACT)) {
+            isAdded = true;
+            Contact contact = extras.getParcelable(Keys.CONTACT);
+            if (contact == null) return;
+            phone = contact.getPhone();
+            userId = contact.getUserId();
+            photo = contact.getPhoto();
+            name = contact.getName();
+            surname = contact.getSurname();
 
-        String phone, photo, name, surname;
+            ((TextView) findViewById(R.id.tvInContactsList)).setText("B списке контактов");
+            ((TextView) findViewById(R.id.tvPhone)).setText(phone);
+            ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
+            String initials = Utils.extractInitials(name, surname);
+            Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
 
-        phone = contact.getPhone();
-        userId = contact.getUserId();
-        photo = contact.getPhoto();
-        name = contact.getName();
-        surname = contact.getSurname();
+            cardNumberRequest();
+        } else {
+            isAdded = false;
+            SearchedContactsResult.SearchedContact contact =
+                    extras.getParcelable(Keys.SEARCHED_CONTACT);
+            if (contact == null) return;
+            phone = contact.getPhone();
+            userId = contact.getId();
+            photo = contact.getPhoto();
+            name = contact.getName();
+            surname = contact.getSuname();
+            TextView tvAdd = ((TextView) findViewById(R.id.tvInContactsList));
+            tvAdd.setText("Добавить контакт");
+            tvAdd.setOnClickListener(this);
+            String initials = Utils.extractInitials(name, surname);
+            Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
 
-        ((TextView) findViewById(R.id.tvPhone)).setText(phone);
-        ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
-        String initials = Utils.extractInitials(name, surname);
-        Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
+            ((TextView) findViewById(R.id.tvPhone)).setText(phone);
+            ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
 
-        cardNumberRequest();
+            String importedName = contact.getName();
+            ((TextView) findViewById(R.id.tvName2)).setText(importedName);
+            ((TextView) findViewById(R.id.tvCardNumber)).setVisibility(View.GONE);
+        }
+
+
     }
 
     private void cardNumberRequest() {
@@ -71,6 +97,10 @@ public class ContactDetailsActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.tvInContactsList:
+                ((TextView) view).setText("B списке контактов");
+                break;
+        }
     }
 }
