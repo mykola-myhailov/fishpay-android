@@ -27,5 +27,19 @@ public class ApiClient {
         return retrofit.create(ApiInterface.class);
     }
 
+    public static Retrofit getRetrofit() {
+        if (retrofit==null) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_API_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
 
 }

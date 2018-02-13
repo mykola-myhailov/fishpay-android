@@ -265,7 +265,7 @@
 
                         <TextView
                             android:id="@+id/tvChangePassword"
-                            android:text="Изменить пароль длф входа"
+                            android:text="Изменить пароль для входа"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

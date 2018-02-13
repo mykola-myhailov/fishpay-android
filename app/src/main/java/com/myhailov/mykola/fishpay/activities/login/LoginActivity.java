@@ -3,16 +3,24 @@ package com.myhailov.mykola.fishpay.activities.login;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.LinkedTreeMap;
+import com.myhailov.mykola.fishpay.App;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.EmptyCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -29,8 +37,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Converter;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
     private String phone;
@@ -100,42 +122,100 @@ public class LoginActivity extends BaseActivity {
         if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
         else if (password.length() < 8) Utils.toast(context, getString(R.string.short_password));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().login(phone, password,  deviceId, deviceInfo)
-            .enqueue(new BaseCallback<LoginResult>(context, true) {
-                @Override
-                protected void onResult(int code, @Nullable LoginResult result) {
-                    if (code == 200){
-                        if (result != null)
-                            TokenStorage.setToken(context, result.getToken());
-                        uploadContactsRequest();
-                        context.startActivity(new Intent(context, ProfileSettingsActivity.class));
-                    }
-                }
+        else {
+            final Retrofit retrofit = ApiClient.getRetrofit();
+            retrofit.create(ApiInterface.class).login(phone, password, deviceId, deviceInfo)
+                    .enqueue(new BaseCallback<LoginResult>(context, true) {
 
-                @Override
-                protected void onError(int code, String errorDescription) {
-                    switch (code){
-                        case 403:
-                            invalidateRequest();
-                            break;
-                        case 400:
-                            attempt ++;
-                            if (attempt < 3) Utils.alert(context, "Неверный пароль");
-                            else {
-                                Utils.alert(context, "Неверный пароль." +
-                                        " Количество попыток исчерпано, попробуйте через 15 минут");
-                                Handler handler = new Handler();
-                                Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        attempt = 0;
-                                    }
-                                };
-                                handler.postDelayed(runnable, 15*60*1000);
+
+                        class JtiContainer {
+                            private String result;
+
+                            public String getResult() {
+                                return result;
                             }
-                    }
-                }
-            });
+                        }
+
+                        @Override
+                        public void onResponse(@NonNull Call<BaseResponse<LoginResult>> call,
+                                               @NonNull Response<BaseResponse<LoginResult>> response) {
+                            super.onResponse(call, response);
+
+                            if (response.errorBody() == null) Log.d("log", "response.errorBody() == null");
+                            else{
+                                ResponseBody a = response.errorBody();
+                                try {
+                                    String b = a != null ? a.string() : null;
+                                    Log.d("b", b);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                       /*         JSONObject jtiContainer = new JSONObject(a);
+                                JSONObject jtiResult = jtiContainer.getJSONObject("result");
+                                if (jtiResult != null){
+                                    Log.d ("jtiResult", jtiResult.toString());
+                                    String jti = jtiResult.getString("jti");
+                                    if (jti != null) Log.d ("jti", jti);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }*/
+                          /*  int code = response.code();
+                            String jti = null;
+                            if (code == 403) {
+                                ResponseBody responseBody = response.errorBody();
+                                responseBody
+                                Converter<ResponseBody, JtiResponse> errorConverter =
+                                        retrofit.responseBodyConverter(JtiContainer.class, new Annotation[0]);
+                                try {
+                                    JtiResponse jtiContainer = errorConverter.convert(responseBody);
+                                    invalidateRequest(jtiContainer.getResult().getJti());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }*/
+
+                            // Log.d("jti" , jtiContainer.getResult());
+                            // if (jti != null) invalidateRequest(jti);
+
+                        }
+
+                        @Override
+                        protected void onResult(int code, @Nullable LoginResult result) {
+                            if (code == 200) {
+                                if (result != null)
+                                    TokenStorage.setToken(context, result.getToken());
+                                uploadContactsRequest();
+                                context.startActivity(new Intent(context, ProfileSettingsActivity.class));
+                            }
+                        }
+
+
+
+                        @Override
+                        protected void onError(int code, String errorDescription) {
+                            switch (code) {
+                                case 400:
+                                    attempt++;
+                                    if (attempt < 3) Utils.alert(context, "Неверный пароль");
+                                    else {
+                                        Utils.alert(context, "Неверный пароль." +
+                                                " Количество попыток исчерпано, попробуйте через 15 минут");
+                                        Handler handler = new Handler();
+                                        Runnable runnable = new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                attempt = 0;
+                                            }
+                                        };
+                                        handler.postDelayed(runnable, 15 * 60 * 1000);
+                                    }
+
+                            }
+                        }
+                    });
+        }
     }
 
 
@@ -182,10 +262,27 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
-    private void invalidateRequest() {
+    private void invalidateRequest(String jti) {
+        Log.d("jti", jti);
         if (Utils.isOnline(context)) {
             // ApiClient.getApiClient()
-
         } else Utils.noInternetToast(context);
+    }
+
+    private class JtiResponse {
+
+        private JtiResult result;
+
+        public JtiResult getResult() {
+            return result;
+        }
+
+        private class JtiResult {
+            private String jti;
+
+            public String getJti() {
+                return jti;
+            }
+        }
     }
 }
