@@ -168,6 +168,7 @@
                         <TextView
                             android:layout_marginTop="5dp"
                             android:id="@+id/switchRequests"
+                            android:checked="true"
                             android:text="Разрешить запросы"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
@@ -264,7 +265,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tvChangePassword"
+                            android:id="@+id/tvChangePass"
                             android:text="Изменить пароль для входа"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
@@ -283,7 +284,7 @@
 
                         <View
                             android:layout_marginTop="14dp"
-                            android:layout_below="@+id/tvChangePassword"
+                            android:layout_below="@+id/tvChangePass"
                             android:layout_marginStart="30dp"
                             android:background="@color/grey2"
                             android:layout_width="match_parent"

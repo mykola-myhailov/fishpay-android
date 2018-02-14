@@ -61,7 +61,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
             case R.id.vLanguage:
                 context.startActivity(new Intent(context, ChangeLanguageActivity.class));
                 break;
-            case R.id.tvChangePassword:
+            case R.id.vChangePass:
                 context.startActivity(new Intent(context, ChangePasswordActivity.class));
                 break;
             case R.id.vExit:

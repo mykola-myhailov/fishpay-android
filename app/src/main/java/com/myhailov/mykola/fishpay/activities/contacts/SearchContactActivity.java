@@ -36,9 +36,7 @@ public class SearchContactActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
         searchPhoneRequest();
-
     }
 
     private void searchPhoneRequest() {
@@ -65,9 +63,10 @@ public class SearchContactActivity extends BaseActivity {
                         intent.putExtra(Keys.SEARCHED_CONTACT, contact);
                         context.startActivity(intent);
                     }
+                    else if (code == 400) {
+                        Utils.alert(context, "Этот номер уже есть среди ваших активных контактов");
+                    }
                 }
             });
-
-
     }
 }

@@ -1,7 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.profile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,8 +48,20 @@ public class DelAccConfirmActivity extends BaseActivity {
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE).edit().clear().apply();
-                            context.startActivity(new Intent(context, BeginActivity.class));
+                            SharedPreferences sharedPreferences
+                                    = context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+                            String phone = sharedPreferences.getString(PrefKeys.PHONE, "");
+                            new AlertDialog.Builder(context)
+                                    .setMessage("Подтверждение удаления аккаунта придёт в виде СМС-сообщения на номер "
+                                            + phone)
+                                    .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE).edit().clear().apply();
+                                            context.startActivity(new Intent(context, BeginActivity.class));
+                                        }
+                                    })
+                                    .create().show();
                         }
                     });
 
