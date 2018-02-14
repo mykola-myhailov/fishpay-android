@@ -1,19 +1,17 @@
 package com.myhailov.mykola.fishpay.activities.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.internal.LinkedTreeMap;
-import com.myhailov.mykola.fishpay.App;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
@@ -21,8 +19,6 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
-import com.myhailov.mykola.fishpay.api.EmptyCallback;
-import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
@@ -37,20 +33,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Converter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -127,58 +115,30 @@ public class LoginActivity extends BaseActivity {
             retrofit.create(ApiInterface.class).login(phone, password, deviceId, deviceInfo)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
 
-
-                        class JtiContainer {
-                            private String result;
-
-                            public String getResult() {
-                                return result;
-                            }
-                        }
-
                         @Override
                         public void onResponse(@NonNull Call<BaseResponse<LoginResult>> call,
                                                @NonNull Response<BaseResponse<LoginResult>> response) {
-                            super.onResponse(call, response);
-
-                            if (response.errorBody() == null) Log.d("log", "response.errorBody() == null");
-                            else{
-                                ResponseBody a = response.errorBody();
+                            if (response.code() == 403) {
+                                closeProgressDialog();
+                                ResponseBody responseBody = response.errorBody();
                                 try {
-                                    String b = a != null ? a.string() : null;
-                                    Log.d("b", b);
+                                    String responseBodyString = responseBody.string();
+                                    JSONObject jtiContainer = new JSONObject(responseBodyString);
+                                    JSONObject jtiResult = jtiContainer.getJSONObject("result");
+                                    if (jtiResult != null) {
+                                        Log.d("jtiResult", jtiResult.toString());
+                                        String jti = jtiResult.getString("jti");
+                                        String message = jtiContainer.getString("errorDescription");
+                                        if (jti != null) showInvalDialog(jti, message);
+                                    }
                                 } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
                             }
-                       /*         JSONObject jtiContainer = new JSONObject(a);
-                                JSONObject jtiResult = jtiContainer.getJSONObject("result");
-                                if (jtiResult != null){
-                                    Log.d ("jtiResult", jtiResult.toString());
-                                    String jti = jtiResult.getString("jti");
-                                    if (jti != null) Log.d ("jti", jti);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }*/
-                          /*  int code = response.code();
-                            String jti = null;
-                            if (code == 403) {
-                                ResponseBody responseBody = response.errorBody();
-                                responseBody
-                                Converter<ResponseBody, JtiResponse> errorConverter =
-                                        retrofit.responseBodyConverter(JtiContainer.class, new Annotation[0]);
-                                try {
-                                    JtiResponse jtiContainer = errorConverter.convert(responseBody);
-                                    invalidateRequest(jtiContainer.getResult().getJti());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }*/
-
-                            // Log.d("jti" , jtiContainer.getResult());
-                            // if (jti != null) invalidateRequest(jti);
-
+                            else super.onResponse(call, response);
                         }
 
                         @Override
@@ -216,6 +176,18 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
         }
+    }
+
+    private void showInvalDialog(final String jti, String message) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        invalidateRequest(jti);
+                    }
+                })
+                .create().show();
     }
 
 
@@ -265,24 +237,14 @@ public class LoginActivity extends BaseActivity {
     private void invalidateRequest(String jti) {
         Log.d("jti", jti);
         if (Utils.isOnline(context)) {
-            // ApiClient.getApiClient()
+            ApiClient.getApiClient()
+                    .invalidion(phone, jti).enqueue(new BaseCallback<Object>(context, true) {
+                @Override
+                protected void onResult(int code, Object result) {
+                    login();
+                }
+            });
         } else Utils.noInternetToast(context);
     }
 
-    private class JtiResponse {
-
-        private JtiResult result;
-
-        public JtiResult getResult() {
-            return result;
-        }
-
-        private class JtiResult {
-            private String jti;
-
-            public String getJti() {
-                return jti;
-            }
-        }
-    }
 }

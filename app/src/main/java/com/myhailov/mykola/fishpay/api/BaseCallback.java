@@ -46,9 +46,16 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
         }
     }
 
+    protected void closeProgressDialog(){
+        if (progressDialog != null) progressDialog.cancel();
+    }
+
+
+
+
     @Override
     public void onResponse(@NonNull Call<BaseResponse<T>> call, @NonNull Response<BaseResponse<T>> response) {
-        if (progressDialog != null) progressDialog.cancel();
+        closeProgressDialog();;
         if (context == null) return;
         int code = response.code();
         if (response.isSuccessful()){
@@ -71,7 +78,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
 
     @Override
     public void onFailure(@NonNull Call<BaseResponse<T>> call, @NonNull Throwable t) {
-        if (progressDialog != null) progressDialog.cancel();
+        closeProgressDialog();
         if (context == null) return;
         Log.e("onFailure", t.getMessage());
         Utils.alert(context, t.getMessage());

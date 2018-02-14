@@ -73,7 +73,9 @@ public interface ApiInterface {
                                            @Field("deviceId") String deviceId,
                                            @Field("deviceInfo") String deviceInfo);
 
-    // TODO: put /rest/api/sessions/invalidate
+    @PUT ("api/sessions/invalidate")    //invalidation
+    Call<BaseResponse<Object>> invalidion (@Query("phoneNumber") String phoneNumber,
+                                           @Query("jti") String jti);
 
     @POST ("api/user/logout")   // logout
     Call<Void> logout (@Header("Authorization") String token);
