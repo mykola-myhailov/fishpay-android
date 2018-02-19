@@ -39,7 +39,8 @@
         <activity android:name=".activities.drawer.ActivityActivity" />
         <activity android:name=".activities.drawer.GroupSpendsActivity" />
         <activity android:name=".activities.profile.UserInfoActivity" />
-        <activity android:name=".activities.profile.CardActivity" />
+        <activity android:name=".activities.profile.CardsActivity"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity android:name=".activities.profile.ChangePasswordActivity" />
         <activity android:name=".activities.profile.NewPasswordActivity" />
         <activity android:name=".activities.profile.DeleteAccountActivity" />

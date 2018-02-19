@@ -7,4 +7,10 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:statusBarColor">#cccccc</item>
     </style>
+    <style name="AppTheme.NoActionBar.Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:statusBarColor">@color/black_light</item>
+    </style>
 </resources>

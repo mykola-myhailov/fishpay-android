@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.myhailov.mykola.fishpay.activities.profile.CardsActivity">
+
+
+
+    <LinearLayout
+        android:background="@color/black_light"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivBack"
+            android:padding="16dp"
+            android:tint="@color/white"
+            android:src="@drawable/arrow_back"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="18sp"
+                android:id="@+id/tvToolBarTitle"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@android:color/transparent"
+                android:text="@string/app_name"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:background="@color/black_light"
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/gray_light"
+            android:text="@string/card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_card_name"
+            android:textSize="22sp"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:hint="@string/input_card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+        <View
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+        <TextView
+            android:textColor="@color/gray_light"
+            android:text="@string/card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_card_number"
+            android:textSize="22sp"
+            android:inputType="numberSigned"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:hint="@string/input_card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_add_card"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="12dp"
+        android:layout_gravity="end"
+        android:textSize="20sp"
+        android:text="@string/add_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue1"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/ll_without_card"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp">
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:textSize="22sp"
+                    android:textColor="@color/blue1"
+                    android:text="@string/use_without_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"/>
+                <View
+                    android:layout_marginStart="38dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

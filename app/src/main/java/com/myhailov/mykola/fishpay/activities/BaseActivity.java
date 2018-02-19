@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void initToolBar(String title) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar= getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");

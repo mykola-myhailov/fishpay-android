@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
+import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.activities.profile.ChangeLanguageActivity;
 import com.myhailov.mykola.fishpay.activities.profile.ChangePasswordActivity;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
@@ -70,6 +71,9 @@ public class ProfileSettingsActivity extends DrawerActivity {
             case R.id.vDelete:
                 context.startActivity(new Intent(context, DeleteAccountActivity.class));
                 break;
+            case R.id.rl_card:
+                context.startActivity(new Intent(context, CardsActivity.class));
+                break;
 
 
                 /* findViewById(R.id.tvAddCard).setOnClickListener(this);
@@ -128,6 +132,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
         findViewById(R.id.vChangePass).setOnClickListener(this);
         findViewById(R.id.vExit).setOnClickListener(this);
         findViewById(R.id.vDelete).setOnClickListener(this);
+        findViewById(R.id.rl_card).setOnClickListener(this);
 
     }
 

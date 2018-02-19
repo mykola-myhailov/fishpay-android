@@ -14,6 +14,12 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
     <style name="CustomDialogTheme" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
         <item name="android:windowBackground">@color/transparent</item>
@@ -44,7 +50,12 @@
         <item name="colorControlHighlight">#30000000</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <style name="AppTheme.AppBarDark" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/black_light</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

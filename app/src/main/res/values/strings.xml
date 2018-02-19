@@ -57,4 +57,9 @@
         <a href="http://www.google.com">правила приложения</a> и
         <a href="http://www.google.com">политику безопасности</a> </string>
     <string name="enter_price">Введите имя</string>
+    <string name="card_name">Название карты:</string>
+    <string name="input_card_name">Введите название карты</string>
+    <string name="card_number">Номер карты:</string>
+    <string name="input_card_number">Введите номер карты</string>
+    <string name="use_without_card">Использовать без карты</string>
 </resources>
