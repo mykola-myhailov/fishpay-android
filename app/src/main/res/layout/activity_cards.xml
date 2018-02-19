@@ -24,6 +24,7 @@
             android:layout_height="?attr/actionBarSize" />
 
         <RelativeLayout
+            android:layout_marginEnd="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
@@ -51,13 +52,32 @@
         android:paddingBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/gray_light"
-            android:text="@string/card_name"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:textColor="@color/gray_light"
+                android:text="@string/card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_name_error"
+                android:layout_marginEnd="12dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_red_light"
+                android:gravity="end"
+                android:text="@string/minimum_4_char"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <EditText
             android:id="@+id/et_card_name"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:textSize="22sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
@@ -72,13 +92,31 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray"/>
-        <TextView
-            android:textColor="@color/gray_light"
-            android:text="@string/card_number"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:textColor="@color/gray_light"
+                android:text="@string/card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_number_error"
+                android:layout_marginEnd="12dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_red_light"
+                android:gravity="end"
+                android:text="@string/incomplete_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <EditText
             android:id="@+id/et_card_number"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:textSize="22sp"
             android:inputType="numberSigned"
             android:textColorHint="@color/white"
@@ -86,19 +124,22 @@
             android:hint="@string/input_card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"/>
+            android:background="@null"
+            android:maxLength="16"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_add_card"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="6dp"
+        android:padding="6dp"
         android:layout_gravity="end"
         android:textSize="20sp"
         android:text="@string/add_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/blue1"/>
 
     <ScrollView
@@ -110,10 +151,16 @@
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
                 android:id="@+id/rv_cards"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"/>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_margin="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/ll_without_card"
@@ -123,7 +170,7 @@
                 android:layout_marginStart="12dp">
                 <TextView
                     android:layout_marginTop="6dp"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textColor="@color/blue1"
                     android:text="@string/use_without_card"
                     android:layout_width="match_parent"
