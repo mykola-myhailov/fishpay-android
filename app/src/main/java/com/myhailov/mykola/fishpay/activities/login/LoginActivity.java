@@ -4,13 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
@@ -46,6 +49,8 @@ public class LoginActivity extends BaseActivity {
     private String phone;
     private EditText etPassword;
     private String deviceId, deviceInfo;
+    private TextView tvShowPassword;
+    private boolean showPass;
     private int attempt = 0;
 
     @Override
@@ -64,6 +69,8 @@ public class LoginActivity extends BaseActivity {
         (findViewById(R.id.ivNext)).setOnClickListener(this);
         (findViewById(R.id.ivBack)).setOnClickListener(this);
         (findViewById(R.id.tvForgot)).setOnClickListener(this);
+        tvShowPassword = findViewById(R.id.tvShowPassword);
+        tvShowPassword.setOnClickListener(this);
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
@@ -83,6 +90,20 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tvForgot:
                 restorePassword();
+                break;
+            case R.id.tvShowPassword:
+                if (showPass){
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    tvShowPassword.setText("Показать пароль");
+
+                    showPass = false;
+                } else {
+                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    tvShowPassword.setText("Спрятать пароль");
+                    showPass = true;
+                }
                 break;
         }
     }

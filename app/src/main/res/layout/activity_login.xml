@@ -130,4 +130,18 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNext" />
 
+    <TextView
+        android:id="@+id/tvShowPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Показать пароль"
+        android:textColor="@color/blue1"
+        app:layout_constraintEnd_toStartOf="@+id/tvNext"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="@+id/etPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
 </android.support.constraint.ConstraintLayout>
