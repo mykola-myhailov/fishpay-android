@@ -59,6 +59,7 @@ public class CardsActivity extends BaseActivity {
         llWithoutCard = findViewById(R.id.ll_without_card);
 
         tvAddCard.setOnClickListener(this);
+        llWithoutCard.setOnClickListener(this);
 
         rvCards.setHasFixedSize(true);
         rvCards.setLayoutManager(new LinearLayoutManager(context));
@@ -141,7 +142,20 @@ public class CardsActivity extends BaseActivity {
                     addCard(etCardName.getText().toString(), etCardNumber.getText().toString());
                 }
                 break;
+            case R.id.ll_without_card:
+                setWithoutCard();
+                break;
         }
+    }
+
+    private void setWithoutCard() {
+        ApiClient.getApiClient().setWithoutCard(TokenStorage.getToken(context))
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        if (code == 200) getCards();
+                    }
+                });
     }
 
     private class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> {
