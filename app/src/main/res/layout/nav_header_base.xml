@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black_light">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -34,13 +35,14 @@
 
     <TextView
         android:id="@+id/tvDrawerName"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text=""
+        tools:text="Name surname"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textAllCaps="true"
         app:layout_constraintStart_toEndOf="@+id/frameLayout"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,10 +51,10 @@
         android:id="@+id/tvDrawerPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:textSize="14sp"
+        android:layout_marginStart="8dp"
+        android:textSize="16sp"
         android:textColor="@color/gray1"
-        android:text=""
+        tools:text="+380000000000"
         app:layout_constraintStart_toEndOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/tvDrawerName" />
 </android.support.constraint.ConstraintLayout>

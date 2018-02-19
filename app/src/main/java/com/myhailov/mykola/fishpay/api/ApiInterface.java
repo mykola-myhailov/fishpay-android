@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
+import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
@@ -156,7 +157,7 @@ public interface ApiInterface {
 
     // 5) cards
     @GET("api/user/cards")
-    Call<BaseResponse<Object>> getCards (@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<Card>>> getCards (@Header("Authorization") String token);
 
 
     @FormUrlEncoded @POST("api/user/cards")

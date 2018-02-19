@@ -6,7 +6,7 @@ import com.myhailov.mykola.fishpay.api.ApiInterface;
 /**
  * Created by Mykola Myhailov  on 01.12.17.
  *
- *  *  Value type of field "result" in response of {@link ApiInterface#checkRecoveryOTP)}
+ *  *  Value TYPE of field "result" in response of {@link ApiInterface#checkRecoveryOTP)}
  */
 
 public class CheckRecoveryResult {

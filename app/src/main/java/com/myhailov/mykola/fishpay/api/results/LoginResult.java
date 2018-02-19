@@ -6,7 +6,7 @@ import com.myhailov.mykola.fishpay.api.ApiInterface;
 /**
  * Created by Mykola Myhailov  on 06.12.17.
  *
- *  *  Value type of field "result" in response of {@link ApiInterface#login}
+ *  *  Value TYPE of field "result" in response of {@link ApiInterface#login}
  */
 
 public class LoginResult {

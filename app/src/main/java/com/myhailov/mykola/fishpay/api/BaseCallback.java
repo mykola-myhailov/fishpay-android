@@ -55,7 +55,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
 
     @Override
     public void onResponse(@NonNull Call<BaseResponse<T>> call, @NonNull Response<BaseResponse<T>> response) {
-        closeProgressDialog();;
+        closeProgressDialog();
         if (context == null) return;
         int code = response.code();
         if (response.isSuccessful()){
