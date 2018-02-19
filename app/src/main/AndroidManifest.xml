@@ -58,7 +58,7 @@
 
         <service android:name=".services.ContactsIntentService" />
 
-        <activity android:name=".activities.goods.CreateGodsActivity"></activity>
+        <activity android:name=".activities.goods.CreateGodsActivity"/>
     </application>
 
 </manifest>

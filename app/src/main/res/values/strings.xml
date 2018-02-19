@@ -1,7 +1,7 @@
 <resources>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="app_name">fishpay</string>
+    <string name="app_name">Fishpay</string>
     <string name="your_phone_number">Ваш номер телефона</string>
     <string name="next">Далее</string>
     <string name="enter_phone_number">Введите номер телефона</string>
