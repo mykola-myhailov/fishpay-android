@@ -105,6 +105,8 @@ public class DeleteAccountActivity extends BaseActivity {
                 ReasonHolder reasonHolder = (ReasonHolder) holder;
                 reasonHolder.tvDescription.setText(reason.getDescription());
                 reasonHolder.reasonItemLayout.setTag(reason);
+                if (reason.isChecked()) reasonHolder.ivCheckMark.setVisibility(View.VISIBLE);
+                else reasonHolder.ivCheckMark.setVisibility(View.GONE);
                 reasonHolder.reasonItemLayout.setOnClickListener(onClickListener);
             }
         }
