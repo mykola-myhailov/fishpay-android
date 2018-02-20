@@ -182,7 +182,7 @@ public class CardsActivity extends BaseActivity {
 
     private void showConfirmation(final Card card) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно зотите удалить эту карту?");
+        builder.setTitle("Вы действительно хотите удалить эту карту?");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
