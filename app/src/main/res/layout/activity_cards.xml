@@ -116,7 +116,6 @@
         <EditText
             android:id="@+id/et_card_number"
             android:singleLine="true"
-            android:imeOptions="actionDone"
             android:textSize="22sp"
             android:inputType="numberSigned"
             android:textColorHint="@color/white"
@@ -130,63 +129,82 @@
 
     <TextView
         android:id="@+id/tv_add_card"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="26dp"
-        android:layout_marginEnd="6dp"
-        android:padding="6dp"
+        android:padding="12dp"
         android:layout_gravity="end"
         android:textSize="20sp"
         android:text="@string/add_card"
-        android:layout_width="wrap_content"
+        android:gravity="end"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/blue1"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+    <!---->
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
-                android:id="@+id/rv_cards"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_margin="4dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="4dp"
+                android:background="@drawable/shadow"/>
 
-            <LinearLayout
-                android:id="@+id/ll_without_card"
-                android:orientation="vertical"
+            <ScrollView
+                android:isScrollContainer="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp">
-                <TextView
-                    android:layout_marginTop="6dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/blue1"
-                    android:text="@string/use_without_card"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"/>
-                <View
-                    android:layout_marginStart="38dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray"/>
-            </LinearLayout>
-        </LinearLayout>
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:visibility="visible"
+                        android:id="@+id/rv_cards"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <ProgressBar
+                        android:visibility="gone"
+                        android:id="@+id/progress_bar"
+                        android:layout_margin="4dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:id="@+id/ll_without_card"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="12dp"
+                            android:textSize="20sp"
+                            android:textColor="@color/blue1"
+                            android:text="@string/use_without_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"/>
+                        <View
+                            android:layout_marginStart="38dp"
+                            android:layout_marginTop="7dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/gray"/>
+                    </LinearLayout>
+                </LinearLayout>
 
-    </ScrollView>
+
+
+            </ScrollView>
+
+
+
+
+        </RelativeLayout>
+
+    <!--</ScrollView>-->
 
 
 

@@ -64,4 +64,5 @@
     <string name="use_without_card">Использовать без карты</string>
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
+    <string name="delete">Удалить</string>
 </resources>

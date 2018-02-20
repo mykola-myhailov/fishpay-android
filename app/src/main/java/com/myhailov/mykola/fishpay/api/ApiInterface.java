@@ -170,7 +170,7 @@ public interface ApiInterface {
                                            @Field("card_number") String cardNumber);
 
     @GET ("api/user/withoutCard")
-    Call<BaseResponse<Object>> getWithoutCard (@Header("Authorization") String token);
+    Call<BaseResponse<Object>> setWithoutCard (@Header("Authorization") String token);
 
     @DELETE("api/user/cards/{cardNumber}")
     Call<BaseResponse<Object>> deleteCard (@Header("Authorization") String token,
