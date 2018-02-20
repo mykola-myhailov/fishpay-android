@@ -49,4 +49,6 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
 
     compile 'us.belka:androidtoggleswitch:1.2.2'
+
+    compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
 }

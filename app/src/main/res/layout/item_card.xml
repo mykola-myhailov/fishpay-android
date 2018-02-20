@@ -1,66 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="12dp">
-    <RelativeLayout
-        android:layout_marginTop="6dp"
+    android:layout_height="52dp"
+    android:id="@+id/swipe_layout"
+    app:mode="same_level"
+    app:dragEdge="right">
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:gravity="center"
+        android:background="@android:color/holo_red_dark"
+        android:textColor="@color/white"
+        android:text="@string/delete"/>
+
+    <LinearLayout
+        android:id="@+id/ll_card"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_toStartOf="@+id/iv_check"
-            android:orientation="horizontal"
+        <RelativeLayout
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:singleLine="true"
-                android:fadingEdge="horizontal"
-                android:ellipsize="end"
-                android:maxEms="8"
-                android:id="@+id/tv_card_name"
-                android:textSize="22sp"
-                android:textColor="@color/blue1"
-                tools:text="депозитная ьььььььбьбьбкарта"
+            <LinearLayout
+                android:layout_toStartOf="@+id/iv_check"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:singleLine="true"
+                    android:fadingEdge="horizontal"
+                    android:ellipsize="end"
+                    android:maxEms="8"
+                    android:id="@+id/tv_card_name"
+                    android:textSize="22sp"
+                    android:textColor="@color/blue1"
+                    tools:text="депозитная ьььььььбьбьбкарта"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/tv_card_number"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray"
+                    tools:text="**** 7755"
+                    android:layout_width="72sp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"/>
+
+            </LinearLayout>
+            <ImageView
+                android:id="@id/iv_check"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"/>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/gray"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"/>
-            <TextView
-                android:singleLine="true"
-                android:id="@+id/tv_card_number"
-                android:textSize="16sp"
-                android:textColor="@color/gray"
-                tools:text="**** 7755"
-                android:layout_width="72sp"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"/>
-
-        </LinearLayout>
-        <ImageView
-            android:id="@id/iv_check"
-            android:layout_marginEnd="12dp"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_check"/>
-    </RelativeLayout>
+                android:src="@drawable/ic_check"/>
+        </RelativeLayout>
 
 
 
-    <View
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"/>
-</LinearLayout>
+        <View
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"/>
+    </LinearLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

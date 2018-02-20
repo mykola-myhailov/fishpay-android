@@ -116,7 +116,6 @@
         <EditText
             android:id="@+id/et_card_number"
             android:singleLine="true"
-            android:imeOptions="actionDone"
             android:textSize="22sp"
             android:inputType="numberSigned"
             android:textColorHint="@color/white"
@@ -173,12 +172,14 @@
                         android:layout_height="wrap_content" />
                     <LinearLayout
                         android:id="@+id/ll_without_card"
+                        android:background="?android:attr/selectableItemBackground"
                         android:orientation="vertical"
+                        android:layout_marginBottom="6dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp">
+                        android:layout_height="wrap_content">
                         <TextView
-                            android:layout_marginTop="6dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="12dp"
                             android:textSize="20sp"
                             android:textColor="@color/blue1"
                             android:text="@string/use_without_card"
@@ -187,10 +188,9 @@
                             android:background="@color/transparent"/>
                         <View
                             android:layout_marginStart="38dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="7dp"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="0.5dp"
                             android:background="@color/gray"/>
                     </LinearLayout>
                 </LinearLayout>

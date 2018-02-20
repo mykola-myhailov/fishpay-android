@@ -57,8 +57,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
                 userInfoIntent.putExtra(Keys.EMAIL, email);
                 context.startActivity(userInfoIntent);
                 break;
-            case R.id.tvAddCard:
-                break;
             case R.id.vLanguage:
                 context.startActivity(new Intent(context, ChangeLanguageActivity.class));
                 break;
@@ -71,16 +69,11 @@ public class ProfileSettingsActivity extends DrawerActivity {
             case R.id.vDelete:
                 context.startActivity(new Intent(context, DeleteAccountActivity.class));
                 break;
-            case R.id.rl_card:
+            case R.id.ll_card:
                 context.startActivity(new Intent(context, CardsActivity.class));
                 break;
 
 
-                /* findViewById(R.id.tvAddCard).setOnClickListener(this);
-        findViewById(R.id.vLanguage).setOnClickListener(this);
-        findViewById(R.id.vChangePass).setOnClickListener(this);
-        findViewById(R.id.vExit).setOnClickListener(this);
-        findViewById(R.id.vDelete).setOnClickListener(this);*/
         }
     }
 
@@ -92,7 +85,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                     protected void onResult(int code, ProfileResult result) {
                         if (code == 200){
                             ProfileResult.Profile profile = result.getProfile();
-                            if (profile != null){
+                            if (profile != null) {
                                 name = profile.getName();
                                 surname = profile.getSurname();
                                 phone = profile.getPhone();
@@ -106,10 +99,22 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 setAvatarInDrawer(avatar);
                                 saveProfileInfo();
 
+                                View tvAddCard = findViewById(R.id.tv_add_card);
+                                View llPublicCard = findViewById(R.id.ll_public_card);
+                                if (profile.getCard() != null) {
+                                    tvAddCard.setVisibility(View.GONE);
+                                    llPublicCard.setVisibility(View.VISIBLE);
+                                    ((TextView) findViewById(R.id.tv_card_name)).setText(profile.getCard().getName());
+                                    ((TextView) findViewById(R.id.tv_card_number))
+                                            .setText(String.valueOf("**** "+profile.getCard().getCardNumber().substring(12,16)));
+                                } else {
+                                    tvAddCard.setVisibility(View.VISIBLE);
+                                    llPublicCard.setVisibility(View.GONE);
+                                }
                                 initViews();
                             }
 
-                            createDrawer();;
+                            createDrawer();
                         }
                     }
                 });
@@ -127,12 +132,11 @@ public class ProfileSettingsActivity extends DrawerActivity {
         Utils.displayAvatar(context, ivAvatar, avatar, initials);
 
         findViewById(R.id.ivAvatar).setOnClickListener(this);
-        findViewById(R.id.tvAddCard).setOnClickListener(this);
         findViewById(R.id.vLanguage).setOnClickListener(this);
         findViewById(R.id.vChangePass).setOnClickListener(this);
         findViewById(R.id.vExit).setOnClickListener(this);
         findViewById(R.id.vDelete).setOnClickListener(this);
-        findViewById(R.id.rl_card).setOnClickListener(this);
+        findViewById(R.id.ll_card).setOnClickListener(this);
 
     }
 

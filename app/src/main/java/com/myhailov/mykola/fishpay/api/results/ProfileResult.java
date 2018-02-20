@@ -39,7 +39,11 @@ public class ProfileResult {
         @SerializedName("photo")
         private String photo;
 
+        @SerializedName("publicCard") private Card card;
 
+        public Card getCard() {
+            return card;
+        }
 
         public String getPhone() {
             return phone;
