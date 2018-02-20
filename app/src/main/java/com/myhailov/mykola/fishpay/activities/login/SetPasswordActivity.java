@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -70,7 +71,10 @@ public class SetPasswordActivity extends BaseActivity {
                 if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
                 else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                 else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                else ApiClient.getApiClient()
+                else {
+                    String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+                    String deviceType = "android";
+                    ApiClient.getApiClient()
                             .registration(Utils.makeRequestBody(phone),
                                     Utils.makeRequestBody(name),
                                     Utils.makeRequestBody(surname),
@@ -79,6 +83,8 @@ public class SetPasswordActivity extends BaseActivity {
                                     Utils.makeRequestBody(password),
                                     Utils.makeRequestBody(deviceId),
                                     Utils.makeRequestBody(deviceInfo),
+                                    Utils.makeRequestBody(deviceType),
+                                    Utils.makeRequestBody(firebaseToken),
                                     Utils.makeRequestBodyFile(imageUri))
                             .enqueue(new BaseCallback<RegistrationResult>(context, true) {
                                 @Override
@@ -89,7 +95,8 @@ public class SetPasswordActivity extends BaseActivity {
                                     context.startActivity(intent);
                                 }
                             });
-                    break;
+                }
+                break;
         }
     }
 

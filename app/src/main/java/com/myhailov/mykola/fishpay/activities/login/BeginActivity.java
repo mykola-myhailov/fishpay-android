@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
@@ -107,11 +108,14 @@ public class BeginActivity extends BaseActivity {
         String password = "12345678";
         String phone = "380123456785";
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().login(phone, password,  deviceId, deviceInfo)
+        else {
+            String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            String deviceType = "android";
+            ApiClient.getApiClient().login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
                         @Override
                         protected void onResult(int code, @Nullable LoginResult result) {
-                            if (code == 200){
+                            if (code == 200) {
                                 if (result != null)
                                     TokenStorage.setToken(context, result.getToken());
 
@@ -119,6 +123,8 @@ public class BeginActivity extends BaseActivity {
                             }
                         }
                     });
+
+        }
     }
 
 }
