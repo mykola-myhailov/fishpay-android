@@ -44,12 +44,7 @@ public class DeleteAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_account);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String title = "Удаление аккаунта";
-        ((TextView) findViewById(R.id.tvToolBarTitle)).setText(title.toUpperCase());
+        initToolBar("Удаление аккаунта");
         findViewById(R.id.vDelete).setOnClickListener(this);
 
         getReasonsRequest();

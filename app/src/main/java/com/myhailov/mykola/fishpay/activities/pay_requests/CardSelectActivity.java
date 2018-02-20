@@ -7,7 +7,7 @@ import android.view.View;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 
-public class SelectCardActivity extends BaseActivity {
+public class CardSelectActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
