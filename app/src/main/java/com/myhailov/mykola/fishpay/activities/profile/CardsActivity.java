@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import okhttp3.internal.Util;
+import tw.henrychuang.lib.AutoAddTextWatcher;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
@@ -68,6 +69,7 @@ public class CardsActivity extends BaseActivity {
         rvCards = findViewById(R.id.rv_cards);
         findViewById(R.id.ll_without_card).setOnClickListener(this);
 
+        etCardNumber.addTextChangedListener(new AutoAddTextWatcher(etCardNumber, " ", 4, 8, 12));
         etCardNumber.setImeOptions(IME_ACTION_DONE);
         final InputMethodManager imm = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
         etCardNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -173,8 +175,9 @@ public class CardsActivity extends BaseActivity {
     }
 
     private boolean isDataInvalid() {
+        String number = etCardNumber.getText().toString().replaceAll(" ","");
         boolean isNameValid = etCardName.getText().toString().length() >= 4;
-        boolean isNumberValid = etCardNumber.getText().toString().length() == 16;
+        boolean isNumberValid = number.length() == 16 && number.matches("[0-9]+");
         tvNameError.setVisibility(isNameValid ? View.GONE : View.VISIBLE);
         tvNumberError.setVisibility(isNumberValid ? View.GONE : View.VISIBLE);
         return isNameValid && isNumberValid;
@@ -201,7 +204,7 @@ public class CardsActivity extends BaseActivity {
                 break;
             case R.id.tv_add_card:
                 if (isDataInvalid()) {
-                    addCard(etCardName.getText().toString(), etCardNumber.getText().toString());
+                    addCard(etCardName.getText().toString(), etCardNumber.getText().toString().replaceAll(" ", ""));
                 }
                 break;
             case R.id.ll_without_card:

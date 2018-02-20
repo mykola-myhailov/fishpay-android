@@ -51,4 +51,5 @@ dependencies {
     compile 'us.belka:androidtoggleswitch:1.2.2'
 
     compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
+    compile 'tw.henrychuang.lib:auto-insert-edittext:1.0.1'
 }

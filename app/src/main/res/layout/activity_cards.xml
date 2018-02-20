@@ -117,14 +117,14 @@
             android:id="@+id/et_card_number"
             android:singleLine="true"
             android:textSize="22sp"
-            android:inputType="numberSigned"
+            android:inputType="phone"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/input_card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:maxLength="16"/>
+            android:maxLength="19"/>
     </LinearLayout>
 
     <TextView
