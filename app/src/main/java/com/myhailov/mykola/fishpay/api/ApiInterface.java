@@ -62,6 +62,8 @@ public interface ApiInterface {
                                                         @Part("pass") RequestBody password,
                                                         @Part("deviceId") RequestBody deviceId,
                                                         @Part("deviceInfo") RequestBody deviceInfo,
+                                                        @Part("device_type") RequestBody deviceType,
+                                                        @Part("user_token") RequestBody firebaseToken,
                                                         @Part  MultipartBody.Part img);
 
 
@@ -72,7 +74,9 @@ public interface ApiInterface {
     Call<BaseResponse<LoginResult>> login (@Field("phoneNumber") String phoneNumber,
                                            @Field("pass") String password,
                                            @Field("deviceId") String deviceId,
-                                           @Field("deviceInfo") String deviceInfo);
+                                           @Field("deviceInfo") String deviceInfo,
+                                           @Field("device_type") String deviceType,
+                                           @Field("user_token") String firebaseToken);
 
     @PUT ("api/sessions/invalidate")    //invalidation
     Call<BaseResponse<Object>> invalidion (@Query("phoneNumber") String phoneNumber,

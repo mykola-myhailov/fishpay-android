@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
@@ -132,8 +133,10 @@ public class LoginActivity extends BaseActivity {
         else if (password.length() < 8) Utils.toast(context, getString(R.string.short_password));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else {
+            String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            String deviceType = "android";
             final Retrofit retrofit = ApiClient.getRetrofit();
-            retrofit.create(ApiInterface.class).login(phone, password, deviceId, deviceInfo)
+            retrofit.create(ApiInterface.class).login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
 
                         @Override

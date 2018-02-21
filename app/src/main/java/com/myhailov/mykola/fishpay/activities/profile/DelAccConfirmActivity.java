@@ -29,6 +29,7 @@ public class DelAccConfirmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_acc_confirm);
         Intent intent = getIntent();
+        initToolBar("Удаление аккаунта");
         Bundle extras = intent.getExtras();
         requestId = extras.getString(Keys.REQUEST_ID, "0");
 

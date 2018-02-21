@@ -2,11 +2,13 @@ package com.myhailov.mykola.fishpay.api;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import org.json.JSONObject;
@@ -32,9 +34,19 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
 
 
     protected void onError(int code, String errorDescription){
-        if (errorDescription != null) Utils.alert(context, errorDescription);
-        else Utils.alert(context, context.getString(R.string.error));
+        switch (code){
+            case 401:
+                Utils.alert(context, "Время сессии истекло");
+                context.startActivity(new Intent(context, BeginActivity.class));
+                break;
+            default:
+                if (errorDescription != null) Utils.alert(context, errorDescription);
+                else Utils.alert(context, context.getString(R.string.error));
+                break;
+        }
+
     }
+
 
     protected BaseCallback(@NonNull Context context, boolean showProgress) {
         this.context = context;
