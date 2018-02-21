@@ -18,4 +18,7 @@ public class Keys {
     public static final String REQUEST_ID = "request_id";
     public static final String CONTACT = "contact";
     public static final String SEARCHED_CONTACT = "searched_contact";
+    public static final String REQUEST = "request";
+    public static final String CARD = "card";
+    public static final String PURCHASE = "purchase";
 }

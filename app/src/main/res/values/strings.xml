@@ -65,4 +65,20 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
+    <string name="null_string"/>
+    <string name="group_name">Название группы</string>
+    <string name="input_group_name">Введите название группы</string>
+    <string name="total_amount">Общяя сумма</string>
+    <string name="input_amount">Введите сумму</string>
+    <string name="uah">грн</string>
+    <string name="purchase_description">Описание покупки</string>
+    <string name="pay_to">Оплатить до</string>
+    <string name="message_for_members">Сообщение для учасников</string>
+    <string name="input_date">Введите дату</string>
+    <string name="card_for_reception">Карта для приема</string>
+    <string name="choose_card">Выберите карту</string>
+    <string name="create">Создать</string>
+    <string name="creating_joint_purchase">Создание общей покупки</string>
+    <string name="choose_minimum_two">Выберите минимум двоих участников для создания общей покупки</string>
+    <string name="go">Дальше</string>
 </resources>

@@ -2,7 +2,9 @@ package com.myhailov.mykola.fishpay.activities.profile;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -35,6 +38,7 @@ import okhttp3.internal.Util;
 import tw.henrychuang.lib.AutoAddTextWatcher;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity.REQUEST_CARD;
 
 public class CardsActivity extends BaseActivity {
 
@@ -47,11 +51,14 @@ public class CardsActivity extends BaseActivity {
     private RecyclerView rvCards;
     private ProgressBar progressBar;
 
+    private boolean isForRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards);
 
+        isForRequest = getIntent().getBooleanExtra(Keys.REQUEST, false);
 
         initViews();
         getCards();
@@ -207,15 +214,28 @@ public class CardsActivity extends BaseActivity {
                     addCard(etCardName.getText().toString(), etCardNumber.getText().toString().replaceAll(" ", ""));
                 }
                 break;
-            case R.id.ll_without_card:
-                setWithoutCard();
-                break;
             case R.id.tv_delete:
                 showConfirmation((Card) view.getTag());
                 break;
+            case R.id.ll_without_card:
+//                setWithoutCard();
+//                break;
             case R.id.ll_card:
-                setPublicCard(((Card) view.getTag()).getCardNumber());
+//                if (isForRequest) {
+//                    setResult();
+//                } else setPublicCard(((Card) view.getTag()).getCardNumber());
+                chooseCard(((Card) view.getTag()));
                 break;
+        }
+    }
+
+    private void chooseCard(@Nullable Card card) {
+        if (isForRequest) {
+            setResult(RESULT_OK, new Intent().putExtra(Keys.CARD, card));
+            finish();
+        } else {
+            if (card != null) setPublicCard((card.getCardNumber()));
+            else setWithoutCard();
         }
     }
 
@@ -271,7 +291,7 @@ public class CardsActivity extends BaseActivity {
 
             void bind(Card card) {
                 tvName.setText(card.getName());
-                tvNumber.setText("**** " + card.getCardNumber().substring(12, 16));
+                tvNumber.setText(card.getLastFourNumbers());
                 llCard.setTag(card);
                 llCard.setOnClickListener((View.OnClickListener) context);
                 tvDelete.setTag(card);

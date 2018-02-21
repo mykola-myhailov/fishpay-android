@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected Context context;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ivBack) onBackPressed();
+    }
 
     protected void initToolBar(String title) {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -47,5 +54,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
+    }
+
+    protected void initCustomToolbar(String title) {
+        findViewById(R.id.ivBack).setOnClickListener(this);
+        ((TextView) findViewById(R.id.tvToolBarTitle)).setText(title);
+    }
+
+    protected void toast(String message) {
+        if (toast == null) toast = Toast.makeText(context, "", LENGTH_SHORT);
+        toast.setText(message);
+        toast.show();
     }
 }

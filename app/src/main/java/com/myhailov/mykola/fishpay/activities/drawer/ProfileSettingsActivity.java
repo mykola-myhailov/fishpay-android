@@ -106,7 +106,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                     llPublicCard.setVisibility(View.VISIBLE);
                                     ((TextView) findViewById(R.id.tv_card_name)).setText(profile.getCard().getName());
                                     ((TextView) findViewById(R.id.tv_card_number))
-                                            .setText(String.valueOf("**** "+profile.getCard().getCardNumber().substring(12,16)));
+                                            .setText(profile.getCard().getLastFourNumbers());
                                 } else {
                                     tvAddCard.setVisibility(View.VISIBLE);
                                     llPublicCard.setVisibility(View.GONE);

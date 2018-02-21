@@ -14,6 +14,14 @@ public class AddMembersActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
+
+        initCustomToolbar("Выберите участников");
+        
+        initViews();
+    }
+
+    private void initViews() {
+
     }
 
 
@@ -22,8 +30,7 @@ public class AddMembersActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
-        nextActivity();
+        super.onClick(view);
     }
 
     private void nextActivity() {
