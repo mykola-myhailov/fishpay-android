@@ -37,7 +37,17 @@ public class Contact implements Parcelable {
     @SerializedName("isActiveUser ")
     private boolean isActiveUser;
 
-    
+    private boolean isCheck;
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
+    public boolean isCheck() {
+
+        return isCheck;
+    }
+
     public Long getId() {
         return this.dbId;
     }
@@ -87,6 +97,11 @@ public class Contact implements Parcelable {
     public void setActiveUser(boolean activeUser) {
         isActiveUser = activeUser;
     }
+
+    public String getFullName() {
+        if (surname != null) return name + " " + surname;
+        return name;
+    }
     // Parcelable implementation;
 
 
@@ -118,9 +133,9 @@ public class Contact implements Parcelable {
         surname = in.readString();
         photo = in.readString();
     }
-    @Generated(hash = 1027069213)
+    @Generated(hash = 1002215632)
     public Contact(Long dbId, long userId, String phone, String name,
-            String surname, String photo, boolean isActiveUser) {
+            String surname, String photo, boolean isActiveUser, boolean isCheck) {
         this.dbId = dbId;
         this.userId = userId;
         this.phone = phone;
@@ -128,7 +143,9 @@ public class Contact implements Parcelable {
         this.surname = surname;
         this.photo = photo;
         this.isActiveUser = isActiveUser;
+        this.isCheck = isCheck;
     }
+
     @Generated(hash = 672515148)
     public Contact() {
     }
@@ -149,6 +166,14 @@ public class Contact implements Parcelable {
     }
     public void setDbId(Long dbId) {
         this.dbId = dbId;
+    }
+
+    public boolean getIsCheck() {
+        return this.isCheck;
+    }
+
+    public void setIsCheck(boolean isCheck) {
+        this.isCheck = isCheck;
     }
 
 

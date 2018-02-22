@@ -29,6 +29,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
         public final static Property Surname = new Property(4, String.class, "surname", false, "SURNAME");
         public final static Property Photo = new Property(5, String.class, "photo", false, "PHOTO");
         public final static Property IsActiveUser = new Property(6, boolean.class, "isActiveUser", false, "IS_ACTIVE_USER");
+        public final static Property IsCheck = new Property(7, boolean.class, "isCheck", false, "IS_CHECK");
     }
 
 
@@ -50,7 +51,8 @@ public class ContactDao extends AbstractDao<Contact, Long> {
                 "\"NAME\" TEXT," + // 3: name
                 "\"SURNAME\" TEXT," + // 4: surname
                 "\"PHOTO\" TEXT," + // 5: photo
-                "\"IS_ACTIVE_USER\" INTEGER NOT NULL );"); // 6: isActiveUser
+                "\"IS_ACTIVE_USER\" INTEGER NOT NULL ," + // 6: isActiveUser
+                "\"IS_CHECK\" INTEGER NOT NULL );"); // 7: isCheck
     }
 
     /** Drops the underlying database table. */
@@ -89,6 +91,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
             stmt.bindString(6, photo);
         }
         stmt.bindLong(7, entity.getIsActiveUser() ? 1L: 0L);
+        stmt.bindLong(8, entity.getIsCheck() ? 1L: 0L);
     }
 
     @Override
@@ -121,6 +124,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
             stmt.bindString(6, photo);
         }
         stmt.bindLong(7, entity.getIsActiveUser() ? 1L: 0L);
+        stmt.bindLong(8, entity.getIsCheck() ? 1L: 0L);
     }
 
     @Override
@@ -137,7 +141,8 @@ public class ContactDao extends AbstractDao<Contact, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // surname
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // photo
-            cursor.getShort(offset + 6) != 0 // isActiveUser
+            cursor.getShort(offset + 6) != 0, // isActiveUser
+            cursor.getShort(offset + 7) != 0 // isCheck
         );
         return entity;
     }
@@ -151,6 +156,7 @@ public class ContactDao extends AbstractDao<Contact, Long> {
         entity.setSurname(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setPhoto(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setIsActiveUser(cursor.getShort(offset + 6) != 0);
+        entity.setIsCheck(cursor.getShort(offset + 7) != 0);
      }
     
     @Override

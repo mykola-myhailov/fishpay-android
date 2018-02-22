@@ -39,7 +39,7 @@
                 tools:text="@string/app_name"/>
         </RelativeLayout>
         <ImageView
-            android:id="@+id/iv_add"
+            android:id="@+id/ivPlus"
             android:padding="16dp"
             android:tint="@color/white"
             android:src="@drawable/add_contact"
@@ -55,8 +55,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_selected_users"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -80,6 +80,7 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tv_info"
             android:text="@string/choose_minimum_two"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
@@ -92,6 +93,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:background="@color/black_light"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -104,14 +106,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <!--<ScrollView
             android:layout_above="@+id/ll_go"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent">-->
             <LinearLayout
+                android:background="@color/white"
+                android:layout_above="@+id/ll_go"
+                android:isScrollContainer="true"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
                 <com.myhailov.mykola.fishpay.views.TabLayout
                     android:id="@+id/tab_layout"
                     android:padding="12dp"
@@ -123,7 +128,7 @@
                     android:layout_height="match_parent"/>
             </LinearLayout>
 
-        </ScrollView>
+        <!--</ScrollView>-->
 
 
 
