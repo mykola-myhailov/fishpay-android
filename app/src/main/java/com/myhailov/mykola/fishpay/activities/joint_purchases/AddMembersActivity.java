@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.activities.joint_purchases;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.myhailov.mykola.fishpay.R;
@@ -18,6 +19,8 @@ public class AddMembersActivity extends BaseActivity {
         initCustomToolbar("Выберите участников");
         
         initViews();
+
+
     }
 
     private void initViews() {
