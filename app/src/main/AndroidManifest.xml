@@ -56,7 +56,7 @@
         <activity android:name=".activities.pay_requests.CardSelectActivity" />
         <activity android:name=".activities.joint_purchases.AddJoinPurchaseActivity" />
         <activity
-            android:name=".activities.joint_purchases.AddMembersActivity"
+            android:name=".activities.joint_purchases.ChooseMembersActivity"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity android:name=".activities.joint_purchases.DistributionActivity" />
         <activity android:name=".activities.joint_purchases.JointPurchaseDetailsActivity" />

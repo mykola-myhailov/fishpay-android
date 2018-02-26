@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
@@ -21,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static android.widget.Toast.LENGTH_SHORT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static java.util.Calendar.DATE;
@@ -86,20 +84,24 @@ public class AddJoinPurchaseActivity extends BaseActivity {
                 break;
             case R.id.tv_create:
                 if (isDataValid()) {
-                    CommonPurchaseBody body = new CommonPurchaseBody();
-                    body.setTitle(etGroupName.getText().toString());
-                    body.setAmount(etAmount.getText().toString());
-                    if (etDescription.getText().toString().length() > 0)
-                        body.setDescription(etDescription.getText().toString());
-                    if (dateTo != null && !dateTo.equals(""))
-                        body.setDateTo(dateTo);
-                    if (card != null)
-                        body.setCreatorCardId(card.getId());
-                    startActivity(new Intent(context, AddMembersActivity.class)
-                            .putExtra(Keys.PURCHASE, body));
+                    nextActivity();
                 }
                 break;
         }
+    }
+
+    private void nextActivity() {
+        CommonPurchaseBody body = new CommonPurchaseBody();
+        body.setTitle(etGroupName.getText().toString());
+        body.setAmount(etAmount.getText().toString());
+        if (etDescription.getText().toString().length() > 0)
+            body.setDescription(etDescription.getText().toString());
+        if (dateTo != null && !dateTo.equals(""))
+            body.setDateTo(dateTo);
+        if (card != null)
+            body.setCreatorCardId(card.getId());
+        startActivity(new Intent(context, ChooseMembersActivity.class)
+                .putExtra(Keys.PURCHASE, body));
     }
 
     private boolean isDataValid() {
@@ -162,13 +164,4 @@ public class AddJoinPurchaseActivity extends BaseActivity {
             }
         }
     }
-
-    private void nextActivity() {
-        Intent intent = new Intent(context, AddMembersActivity.class);
-     //   intent.putExtra()
-        context.startActivity(intent);
-    }
-
-
-
 }

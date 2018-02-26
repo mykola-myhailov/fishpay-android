@@ -17,8 +17,10 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -27,12 +29,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.CLIENTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST_MEMBER;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.PHONE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 
-public class AddMembersActivity extends BaseActivity  {
+public class ChooseMembersActivity extends BaseActivity  {
+
+    private CommonPurchaseBody commonPurchaseBody;
 
     private RecyclerView rvContacts;
     private ArrayList<Contact> allContacts, activeContacts, selectedUsers;
@@ -46,12 +52,12 @@ public class AddMembersActivity extends BaseActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_member);
-
+        setContentView(R.layout.activity_choose_members);
         initCustomToolbar("Выберите участников");
-        
-        initViews();
 
+        commonPurchaseBody = getIntent().getParcelableExtra(PURCHASE);
+
+        initViews();
         getContacts();
     }
 
@@ -106,6 +112,7 @@ public class AddMembersActivity extends BaseActivity  {
         tvInfo = findViewById(R.id.tv_info);
 
         findViewById(R.id.ivPlus).setOnClickListener(this);
+        findViewById(R.id.ll_go).setOnClickListener(this);
     }
 
     private void initTabs() {
@@ -153,6 +160,9 @@ public class AddMembersActivity extends BaseActivity  {
             case R.id.ivPlus:
                 startActivityForResult(new Intent(context, CreateMemberActivity.class), REQUEST_MEMBER);
                 break;
+            case R.id.ll_go:
+                nextActivity();
+                break;
         }
     }
 
@@ -167,7 +177,8 @@ public class AddMembersActivity extends BaseActivity  {
 
     private void nextActivity() {
         Intent intent = new Intent(context, DistributionActivity.class);
-        //   intent.putExtra()
+        intent.putExtra(PURCHASE, commonPurchaseBody);
+        intent.putExtra(CLIENTS, selectedUsers);
         context.startActivity(intent);
     }
 
@@ -269,11 +280,6 @@ public class AddMembersActivity extends BaseActivity  {
         public SelectedClientsAdapter(Context context, ArrayList<Contact> list) {
             this.context = context;
             this.list = list;
-        }
-
-        public void setList(ArrayList<Contact> list) {
-            this.list = list;
-            notifyDataSetChanged();
         }
 
         @Override
