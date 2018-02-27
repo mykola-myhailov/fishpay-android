@@ -2,7 +2,6 @@ package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
-import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -10,7 +9,7 @@ import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
-import com.myhailov.mykola.fishpay.api.results.JointPurchasesResult;
+import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
 import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
@@ -18,10 +17,7 @@ import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveReason;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -250,7 +246,7 @@ public interface ApiInterface {
 
     // 8) joint purchases
     @GET("api/commonPurchases")
-    Call<BaseResponse<JointPurchasesResult>> getJointPurchases (@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<JointPurchase>>> getJointPurchases (@Header("Authorization") String token);
 
     @POST("api/commonPurchases")
     Call<BaseResponse<Object>> createJointPurchase (@Header("Authorization") String token,

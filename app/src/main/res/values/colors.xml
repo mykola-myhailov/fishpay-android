@@ -16,5 +16,6 @@
     <color name="black1">#080808</color>
     <color name="grey2">#999999</color>
     <color name="light_grey">#ECEDED</color>
+    <color name="green">#00f0c0</color>
 
 </resources>
