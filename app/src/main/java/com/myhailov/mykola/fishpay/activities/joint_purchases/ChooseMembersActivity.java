@@ -20,7 +20,6 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
-import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -29,9 +28,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.utils.Keys.CLIENTS;
+import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
+import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE2;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST_MEMBER;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.PHONE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
@@ -176,9 +176,9 @@ public class ChooseMembersActivity extends BaseActivity  {
     }
 
     private void nextActivity() {
-        Intent intent = new Intent(context, DistributionActivity.class);
-        intent.putExtra(PURCHASE, commonPurchaseBody);
-        intent.putExtra(CLIENTS, selectedUsers);
+        Intent intent = new Intent(context, DistributionActivity.class)
+                .putExtra(PURCHASE2, commonPurchaseBody)
+                .putExtra(CONTACTS, selectedUsers);
         context.startActivity(intent);
     }
 

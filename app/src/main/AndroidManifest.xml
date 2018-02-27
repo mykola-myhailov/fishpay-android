@@ -58,7 +58,8 @@
         <activity
             android:name=".activities.joint_purchases.ChooseMembersActivity"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
-        <activity android:name=".activities.joint_purchases.DistributionActivity" />
+        <activity android:name=".activities.joint_purchases.DistributionActivity"
+            android:theme="@style/AppTheme.NoActionBar.Dark"/>
         <activity android:name=".activities.joint_purchases.JointPurchaseDetailsActivity" />
         <activity android:name=".activities.joint_purchases.MembersPartActivity" />
         <activity android:name=".activities.drawer.ContactsPermissionsActivity" />

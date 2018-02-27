@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.myhailov.mykola.fishpay.database.Contact;
 
 /**
  * Created by nicholas on 21.02.18.
@@ -25,6 +26,9 @@ public class Member implements Parcelable {
     private String phone;
     @SerializedName("email")
     private String email;
+
+    public Member() {
+    }
 
     protected Member(Parcel in) {
         type = in.readString();
@@ -90,5 +94,19 @@ public class Member implements Parcelable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void set(Contact contact) {
+        amountToPay = String.valueOf(((int) (contact.getAmountToPay() * 100)));
+        if (contact.getUserId() == -1) {
+            type = "people";
+            firstName = contact.getName();
+            lastName = "";
+            phone = contact.getPhone();
+        } else {
+            long id = contact.isActiveUser() ? contact.getContactId() : contact.getUserId();
+            type = contact.isActiveUser() ? "user" : "contact";
+            userId = String.valueOf(id);
+        }
     }
 }

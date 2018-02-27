@@ -1,6 +1,7 @@
 package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
+import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.ContactsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
@@ -251,9 +252,9 @@ public interface ApiInterface {
     @GET("api/commonPurchases")
     Call<BaseResponse<JointPurchasesResult>> getJointPurchases (@Header("Authorization") String token);
 
-    @FormUrlEncoded @POST("api/commonPurchases")
+    @POST("api/commonPurchases")
     Call<BaseResponse<Object>> createJointPurchase (@Header("Authorization") String token,
-                                                    @Field("Data") RequestBody data);
+                                                    @Body CommonPurchaseBody data);
 
     @GET("api/commonPurchases/{id}")
     Call<BaseResponse<Object>> getJointPurchaseDetails (@Header("Authorization") String token,

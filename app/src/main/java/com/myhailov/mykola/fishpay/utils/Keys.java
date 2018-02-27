@@ -21,6 +21,7 @@ public class Keys {
     public static final String REQUEST = "request";
     public static final String CARD = "card";
     public static final String PURCHASE = "purchase";
+    public static final String PURCHASE2 = "purchase2";
     public static final int REQUEST_MEMBER = 100;
-    public static final String CLIENTS = "clients";
+    public static final String CONTACTS = "contacts";
 }

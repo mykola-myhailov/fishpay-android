@@ -22,6 +22,9 @@ public class Contact implements Parcelable {
     @SerializedName("id")
     private long userId;
 
+    @SerializedName("contact_id")
+    private long contactId;
+
     @SerializedName("phone_number")
     private String phone;
 
@@ -46,6 +49,16 @@ public class Contact implements Parcelable {
     public boolean isCheck() {
 
         return isCheck;
+    }
+
+    private float amountToPay;
+
+    public float getAmountToPay() {
+        return amountToPay;
+    }
+
+    public void setAmountToPay(float amountToPay) {
+        this.amountToPay = amountToPay;
     }
 
     public Long getId() {
@@ -107,43 +120,48 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        if (dbId == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeLong(dbId);
-        }
+//        if (dbId == null) {
+//            parcel.writeByte((byte) 0);
+//        } else {
+//            parcel.writeByte((byte) 1);
+//            parcel.writeLong(dbId);
+//        }
         parcel.writeLong(userId);
         parcel.writeString(phone);
         parcel.writeString(name);
         parcel.writeString(surname);
         parcel.writeString(photo);
-        parcel.writeByte((byte) (isActiveUser ? 1 : 0));
+        parcel.writeLong(contactId);
+//        parcel.writeByte((byte) (isActiveUser ? 1 : 0));
     }
 
     protected Contact(Parcel in) {
-        if (in.readByte() == 0) {
-            dbId = null;
-        } else {
-            dbId = in.readLong();
-        }
+//        if (in.readByte() == 0) {
+//            dbId = null;
+//        } else {
+//            dbId = in.readLong();
+//        }
         userId = in.readLong();
         phone = in.readString();
         name = in.readString();
         surname = in.readString();
         photo = in.readString();
+        contactId = in.readLong();
     }
-    @Generated(hash = 1002215632)
-    public Contact(Long dbId, long userId, String phone, String name,
-            String surname, String photo, boolean isActiveUser, boolean isCheck) {
+    @Generated(hash = 295938403)
+    public Contact(Long dbId, long userId, long contactId, String phone,
+            String name, String surname, String photo, boolean isActiveUser,
+            boolean isCheck, float amountToPay) {
         this.dbId = dbId;
         this.userId = userId;
+        this.contactId = contactId;
         this.phone = phone;
         this.name = name;
         this.surname = surname;
         this.photo = photo;
         this.isActiveUser = isActiveUser;
         this.isCheck = isCheck;
+        this.amountToPay = amountToPay;
     }
 
     @Generated(hash = 672515148)
@@ -190,4 +208,12 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    public long getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(long contactId) {
+        this.contactId = contactId;
+    }
 }

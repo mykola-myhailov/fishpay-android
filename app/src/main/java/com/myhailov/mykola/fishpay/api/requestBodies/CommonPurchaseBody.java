@@ -20,23 +20,24 @@ public class CommonPurchaseBody implements Parcelable {
     public CommonPurchaseBody() {
     }
 
-    public CommonPurchaseBody(Parcel in) {
-        title = in.readString();
-        description = in.readString();
+
+    protected CommonPurchaseBody(Parcel in) {
         amount = in.readString();
-        dateTo = in.readString();
         creatorCardId = in.readString();
-        members = in.createTypedArray(Member.CREATOR);
+        dateTo = in.readString();
+        description = in.readString();
+        title = in.readString();
+//        members = in.createTypedArray(Member.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(description);
         dest.writeString(amount);
-        dest.writeString(dateTo);
         dest.writeString(creatorCardId);
-        dest.writeTypedArray(members, flags);
+        dest.writeString(dateTo);
+        dest.writeString(description);
+        dest.writeString(title);
+//        dest.writeTypedArray(members, flags);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class CommonPurchaseBody implements Parcelable {
     }
 
     public void setAmount(String amount) {
-        this.amount = amount;
+        this.amount = amount+"00";
     }
 
     public void setDateTo(String dateTo) {
@@ -78,6 +79,10 @@ public class CommonPurchaseBody implements Parcelable {
 
     public void setMembers(Member[] members) {
         this.members = members;
+    }
+
+    public String getAmount() {
+        return amount.substring(0, amount.length()-2);
     }
 
 }

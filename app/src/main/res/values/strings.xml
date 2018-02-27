@@ -81,4 +81,5 @@
     <string name="creating_joint_purchase">Создание общей покупки</string>
     <string name="choose_minimum_two">Выберите минимум двоих участников для создания общей покупки</string>
     <string name="go">Дальше</string>
+    <string name="finish">Завершить</string>
 </resources>

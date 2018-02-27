@@ -22,6 +22,7 @@ public class CreateMemberActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_member);
 
+        initCustomToolbar("добавление участника");
         initViews();
     }
 
