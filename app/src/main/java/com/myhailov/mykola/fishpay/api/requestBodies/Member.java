@@ -154,4 +154,9 @@ public class Member implements Parcelable {
     public String getPhoto() {
         return photo;
     }
+
+    public String getFullName() {
+        if (secondName != null) return firstName + " " + secondName;
+        return firstName;
+    }
 }

@@ -1,8 +1,5 @@
 package com.myhailov.mykola.fishpay.api.results;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 
@@ -37,7 +34,7 @@ public class JointPurchaseDetailsResult {
     private String title;
     @SerializedName("date_to") private String to;
     @SerializedName("card_number") private String cardNumber;
-    private ArrayList<Member> mambers;
+    private ArrayList<Member> members;
 
     public String getId() {
         return id;
@@ -76,8 +73,8 @@ public class JointPurchaseDetailsResult {
         return cardNumber;
     }
 
-    public ArrayList<Member> getMambers() {
-        return mambers;
+    public ArrayList<Member> getMembers() {
+        return members;
     }
 
     public String getLastFourNumbers() {
