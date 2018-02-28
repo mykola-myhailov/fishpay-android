@@ -10,6 +10,7 @@ import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
+import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
 import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
@@ -253,8 +254,8 @@ public interface ApiInterface {
                                                     @Body CommonPurchaseBody data);
 
     @GET("api/commonPurchases/{id}")
-    Call<BaseResponse<Object>> getJointPurchaseDetails (@Header("Authorization") String token,
-                                                        @Path("id") String id);
+    Call<BaseResponse<JointPurchaseDetailsResult>> getJointPurchaseDetails (@Header("Authorization") String token,
+                                                                            @Path("id") String id);
 
 
     @PUT("/rest/api/commonPurchases/member/{id}")

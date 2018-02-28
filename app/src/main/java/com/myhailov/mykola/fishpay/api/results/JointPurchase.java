@@ -1,5 +1,8 @@
 package com.myhailov.mykola.fishpay.api.results;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
@@ -24,7 +27,7 @@ import java.util.Locale;
  "creator_last_name":"Oli"
  */
 
-public class JointPurchase {
+public class JointPurchase implements Parcelable {
     private String id;
     @SerializedName("creator") private String creatorId;
     private String title;
@@ -35,6 +38,50 @@ public class JointPurchase {
     @SerializedName("creator_first_name") private String creatorFirstName;
     @SerializedName("creator_last_name") private String creatorLastName;
     private String amount;
+
+    protected JointPurchase(Parcel in) {
+        id = in.readString();
+        creatorId = in.readString();
+        title = in.readString();
+        description = in.readString();
+        to = in.readString();
+        status = in.readString();
+        amountToPay = in.readInt();
+        creatorFirstName = in.readString();
+        creatorLastName = in.readString();
+        amount = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(creatorId);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(to);
+        dest.writeString(status);
+        dest.writeInt(amountToPay);
+        dest.writeString(creatorFirstName);
+        dest.writeString(creatorLastName);
+        dest.writeString(amount);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<JointPurchase> CREATOR = new Creator<JointPurchase>() {
+        @Override
+        public JointPurchase createFromParcel(Parcel in) {
+            return new JointPurchase(in);
+        }
+
+        @Override
+        public JointPurchase[] newArray(int size) {
+            return new JointPurchase[size];
+        }
+    };
 
     public String getId() {
         return id;

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.joint_purchases.JointPurchaseDetailsActivity;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -34,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
+
+import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
+import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
 
 public class JointPurchasesActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
 
@@ -153,6 +157,11 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 String id = ((JointPurchase) view.getTag()).getId();
                 showConfirmation(id);
                 break;
+            case R.id.ll_purchase:
+                startActivity(new Intent(context, JointPurchaseDetailsActivity.class)
+                        .putExtra(PURCHASE, (JointPurchase) view.getTag())
+                );
+                break;
         }
     }
 
@@ -249,11 +258,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 tvTitle.setText(purchase.getTitle());
                 tvCreator.setText(purchase.getCreatorName());
                 tvPayTo.setText(purchase.getTo());
-                String amount;
-                if (purchase.getAmountToPay() != 0)
-                    amount = String.format(Locale.ENGLISH,"%.2f", (((float) ((float) purchase.getAmountToPay() / 100f))));
-                else amount = "-";
-                tvAmount.setText(amount);
+                tvAmount.setText(pennyToUah(((float) purchase.getAmountToPay())));
                 llPurchase.setTag(purchase);
                 tvDelete.setTag(purchase);
             }

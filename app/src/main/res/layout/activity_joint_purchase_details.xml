@@ -1,9 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.JointPurchaseDetailsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:background="@color/black_light"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivBack"
+            android:padding="16dp"
+            android:tint="@color/white"
+            android:src="@drawable/arrow_back"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize" />
+
+        <RelativeLayout
+            android:layout_marginEnd="?attr/actionBarSize"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="18sp"
+                android:id="@+id/tvToolBarTitle"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@android:color/transparent"
+                tools:text="@string/app_name"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_description"
+        android:paddingBottom="2dp"
+        android:background="@color/black_light"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey2"
+            android:background="@android:color/transparent"
+            android:text="Описание общей покупки"/>
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:maxLines="5"
+            tools:text="Описание общей покупки которое созданно цчастником программы FishPay"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="32dp"
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_card"
+        android:paddingBottom="2dp"
+        android:background="@color/black_light"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey2"
+            android:background="@android:color/transparent"
+            android:text="Карта для приема платежа"/>
+        <LinearLayout
+            android:layout_marginStart="16dp"
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_card_number"
+                android:textColor="@color/white"
+                tools:text="**** 3200"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/grey2"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_marginEnd="16dp"
+                android:id="@+id/tv_card_name"
+                android:gravity="center_vertical"
+                android:textSize="20sp"
+                android:singleLine="true"
+                android:textColor="@color/grey2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="Зарплатная"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_above="@+id/ll_finish"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:background="@color/white"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_margin="16dp"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:textColor="@color/blue1"
+                        tools:text="32000"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <View
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@color/grey"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:textSize="20sp"
+                        android:textColor="@color/grey"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/uah"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_close"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_light"/>
+            <TextView
+                android:textColor="@color/blue1"
+                android:textSize="18sp"
+                android:text="@string/close_purchase"
+                android:gravity="center"
+                android:background="@color/light_grey"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -181,5 +181,13 @@ public class Utils {
     }
 
 
+    public static String pennyToUah(float penny) {
+        String amount;
+        if (penny != 0)
+            amount = String.format(Locale.ENGLISH,"%.2f", (((float) ((float) penny / 100f))));
+        else amount = "-";
+        return amount;
+    }
+
 
 }

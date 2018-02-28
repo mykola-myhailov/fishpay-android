@@ -10,22 +10,20 @@ import com.myhailov.mykola.fishpay.database.Contact;
  * Created by nicholas on 21.02.18.
  */
 public class Member implements Parcelable {
-    @SerializedName("type")
-    private String type;
-    @SerializedName("amount_to_pay")
-    private String amountToPay;
+    private String id;
+    @SerializedName("member_status") String memberStatus;
+    @SerializedName("type") private String type;
+    @SerializedName("amount_to_pay") private String amountToPay;
+    @SerializedName("amount_paid") private String amountPaid;
 
-    @SerializedName("user_id")
-    private String userId;
+    @SerializedName("user_id") private String userId;
 
-    @SerializedName("first_name")
-    private String firstName;
-    @SerializedName("last_name")
-    private String lastName;
-    @SerializedName("phone")
-    private String phone;
-    @SerializedName("email")
-    private String email;
+    @SerializedName("first_name") private String firstName;
+    @SerializedName("last_name") private String lastName;
+    @SerializedName("second_name") private String secondName;
+    @SerializedName("phone") private String phone;
+    @SerializedName("email") private String email;
+    @SerializedName("photo_link") private String photo;
 
     public Member() {
     }
@@ -107,5 +105,53 @@ public class Member implements Parcelable {
             type = "user";
             userId = String.valueOf(contact.getContactId());
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMemberStatus() {
+        return memberStatus;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getAmountToPay() {
+        return amountToPay;
+    }
+
+    public String getAmountPaid() {
+        return amountPaid;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 }

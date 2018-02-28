@@ -84,7 +84,7 @@
             android:text="@string/choose_minimum_two"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:textColor="@color/gray1"
+            android:textColor="@color/grey"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/fl_placeholder"
             android:layout_width="match_parent"
