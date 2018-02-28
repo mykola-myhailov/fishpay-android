@@ -31,7 +31,7 @@ import okhttp3.RequestBody;
 
 public class ProfileSettingsActivity extends DrawerActivity {
 
-    private String name, surname, phone, avatar, email, birthday;
+    private String name, surname, phone, avatar, email, birthday, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                         if (code == 200){
                             ProfileResult.Profile profile = result.getProfile();
                             if (profile != null) {
+                                id = result.getUserId();
                                 name = profile.getName();
                                 surname = profile.getSurname();
                                 phone = profile.getPhone();
@@ -142,6 +143,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     private void saveProfileInfo() {
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PrefKeys.ID, id);
         editor.putString(PrefKeys.NAME, name);
         editor.putString(PrefKeys.SURNAME, surname);
         editor.putString(PrefKeys.AVATAR, avatar);

@@ -264,7 +264,7 @@ public interface ApiInterface {
                                                     @Query("pay_method") String method);
 
     @PUT("api/commonPurchases/{id}/delete")
-    Call<Void>  deleteJointPurchase (@Header("Authorization") String token,
+    Call<BaseResponse<Object>>  deleteJointPurchase (@Header("Authorization") String token,
                                                      @Path("id") String id);
 
 

@@ -25,7 +25,8 @@ import java.util.Locale;
  */
 
 public class JointPurchase {
-    private long id;
+    private String id;
+    @SerializedName("creator") private String creatorId;
     private String title;
     private String description;
     @SerializedName("date_to") private String to;
@@ -33,8 +34,9 @@ public class JointPurchase {
     @SerializedName("amount_to_pay") private int amountToPay;
     @SerializedName("creator_first_name") private String creatorFirstName;
     @SerializedName("creator_last_name") private String creatorLastName;
+    private String amount;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -50,7 +52,7 @@ public class JointPurchase {
         if (to == null) return "-";
         else {
             try {
-                Date date = new SimpleDateFormat("yyyy-MM-dd H:mm:ss:", Locale.getDefault()).parse(to);
+                Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(to);
                 return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -65,8 +67,25 @@ public class JointPurchase {
     }
 
     public int getAmountToPay() {
-
         return amountToPay;
+        /*if (amount == null) {
+            if (amountToPay == 0) return "-";
+            if (amountToPay < 100) {
+                if (amountToPay < 10) return "0.0" + amountToPay;
+                return "0." + amountToPay;
+            }
+            char[] s = String.valueOf(amountToPay).toCharArray();
+            int length = s.length;
+            StringBuilder r = new StringBuilder(length + 1);
+            int i = 0;
+            for (char c : s) {
+                r.append(c);
+                if (length - i == 3) r.append(".");
+                i++;
+            }
+            amount = r.toString();
+        }
+        return amount;*/
     }
 
     public String getCreatorFirstName() {
@@ -80,5 +99,9 @@ public class JointPurchase {
     public String getCreatorName() {
         if (creatorLastName != null) return creatorFirstName + " " +creatorLastName;
         return creatorFirstName;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
     }
 }

@@ -1,9 +1,11 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
@@ -36,7 +40,13 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     private final static int TAB_ALL = 0;
     private final static int TAB_MY = 1;
 
+    private String id;
+    private TabLayout tabLayout;
+
+    private ArrayList<JointPurchase> allPurchases, myPurchases;
     private PurchaseAdapter adapter;
+    private View tvPlaceholder;
+    private View rvPurchases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +54,11 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         setContentView(R.layout.activity_joint_purchases);
         initDrawerToolbar(getString(R.string.joint_purchase));
         createDrawer();
+        id = context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
+                .getString(PrefKeys.ID, "");
 
-
+        tvPlaceholder = findViewById(R.id.tv_placeholder);
+        rvPurchases = findViewById(R.id.rv_purchases);
         initTabLayout();
         initRecyclerView();
         getJointPurchasesRequest();
@@ -59,30 +72,50 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     }
 
     private void initTabLayout() {
-        TabLayout tabLayout = findViewById(R.id.tab_l);
+        tabLayout = findViewById(R.id.tab_l);
         tabLayout.setTabChangedListener(this);
         tabLayout.addTab(new Tab("Все", TAB_ALL));
         tabLayout.addTab(new Tab("Созданные мною", TAB_MY));
     }
 
     private void getJointPurchasesRequest(){
+        allPurchases = new ArrayList<>();
+        myPurchases = new ArrayList<>();
         ApiClient.getApiClient().getJointPurchases(token)
                 .enqueue(new BaseCallback<ArrayList<JointPurchase>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<JointPurchase> result) {
                         if (code == 200) {
-//                            purchases = result;
-                            if (adapter != null) adapter.setPurchases(result);
+                            allPurchases = result;
+                            for (JointPurchase purchase : allPurchases) {
+                                if (id.equals(purchase.getCreatorId())) myPurchases.add(purchase);
+                            }
+                            setPurchasesList(tabLayout.getCurrentTab() == 0 ? allPurchases : myPurchases);
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<BaseResponse<ArrayList<JointPurchase>>> call, @NonNull Throwable t) {
-                        super.onFailure(call, t);
+                    protected void onError(int code, String errorDescription) {
+                        if (code == 404) {
+                            setPurchasesList(new ArrayList<JointPurchase>());
+                        } else super.onError(code, errorDescription);
                     }
                 });
 
 
+    }
+
+    private void setPurchasesList(ArrayList<JointPurchase> list) {
+        if (adapter != null) {
+            adapter.setPurchases(list);
+            if (adapter.getItemCount() == 0) {
+                rvPurchases.setVisibility(View.GONE);
+                tvPlaceholder.setVisibility(View.VISIBLE);
+            } else {
+                rvPurchases.setVisibility(View.VISIBLE);
+                tvPlaceholder.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void getJointPurchaseDetailsRequest(){
@@ -90,7 +123,13 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     }
 
     private void deletePurchaseRequest(String purchaseId) {
-        ApiClient.getApiClient().deleteJointPurchase(token, purchaseId).enqueue(new EmptyCallback());
+        ApiClient.getApiClient().deleteJointPurchase(token, purchaseId)
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        getJointPurchasesRequest();
+                    }
+                });
     }
 
     @Override
@@ -109,17 +148,35 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_delete:
+                String id = ((JointPurchase) view.getTag()).getId();
+                showConfirmation(id);
+                break;
+        }
+    }
 
+    private void showConfirmation(final String id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Вы действительно хотите общую покупку из списка?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deletePurchaseRequest(id);
+            }
+        });
+        builder.setNegativeButton("Отмена", null);
+        builder.create().show();
     }
 
     @Override
     public void onTabChanged(int position) {
         switch (position) {
             case TAB_ALL:
-
+                setPurchasesList(allPurchases);
                 break;
             case TAB_MY:
-
+                setPurchasesList(myPurchases);
                 break;
         }
     }
@@ -130,13 +187,12 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         private Context context;
         private ArrayList<JointPurchase> purchases;
 
-
-        public PurchaseAdapter(Context context) {
+        PurchaseAdapter(Context context) {
             this.context = context;
             viewBinderHelper.setOpenOnlyOne(true);
         }
 
-        public void setPurchases(ArrayList<JointPurchase> purchases) {
+        void setPurchases(ArrayList<JointPurchase> purchases) {
             this.purchases = purchases;
             notifyDataSetChanged();
         }
@@ -151,7 +207,8 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.bind(purchases.get(position));
 
-            viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(position));
+            viewBinderHelper.bind(holder.swipeRevealLayout,
+                    purchases.get(position).getId());
         }
 
         @Override
@@ -171,8 +228,6 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                     tvAmount,
                     tvDelete;
 
-
-
             ViewHolder(View itemView) {
                 super(itemView);
                 swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
@@ -184,17 +239,23 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 tvAmount = itemView.findViewById(R.id.tv_amount);
                 tvDelete = itemView.findViewById(R.id.tv_delete);
 
-//                llPurchase.setOnClickListener((View.OnClickListener) context);
-//                swipeRevealLayout.setOnClickListener((View.OnClickListener) context);
+                llPurchase.setOnClickListener((View.OnClickListener) context);
+                tvDelete.setOnClickListener((View.OnClickListener) context);
             }
 
-            public void bind(JointPurchase purchase) {
+            void bind(JointPurchase purchase) {
+                if (purchase.getStatus().equals("NOT_VIEWED")) viewed.setVisibility(View.VISIBLE);
+                else viewed.setVisibility(View.INVISIBLE);
                 tvTitle.setText(purchase.getTitle());
                 tvCreator.setText(purchase.getCreatorName());
                 tvPayTo.setText(purchase.getTo());
-                tvAmount.setText(String.format(Locale.ENGLISH,"%.2f", (((float) ((float) purchase.getAmountToPay() / 100f)))));
-//                llPurchase.setTag(purchase);
-//                tvDelete.setTag(purchase);
+                String amount;
+                if (purchase.getAmountToPay() != 0)
+                    amount = String.format(Locale.ENGLISH,"%.2f", (((float) ((float) purchase.getAmountToPay() / 100f))));
+                else amount = "-";
+                tvAmount.setText(amount);
+                llPurchase.setTag(purchase);
+                tvDelete.setTag(purchase);
             }
         }
     }

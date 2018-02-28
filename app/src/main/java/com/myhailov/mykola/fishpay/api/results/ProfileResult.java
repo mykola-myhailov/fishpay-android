@@ -41,6 +41,8 @@ public class ProfileResult {
 
         @SerializedName("publicCard") private Card card;
 
+
+
         public Card getCard() {
             return card;
         }
@@ -86,7 +88,7 @@ public class ProfileResult {
             return profileProperties;
         }
 
-       public class ProfileProperties {
+        public class ProfileProperties {
             @SerializedName("ALLOW_MONEY_REQUESTS")
             private int allow;
 

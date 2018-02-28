@@ -102,6 +102,10 @@ public class TabLayout extends LinearLayout implements View.OnClickListener {
         this.tabChangedListener = tabChangedListener;
     }
 
+    public int getCurrentTab() {
+        return currentTab;
+    }
+
     public interface OnTabChangedListener {
         void onTabChanged(int position);
     }

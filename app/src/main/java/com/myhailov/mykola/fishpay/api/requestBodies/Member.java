@@ -98,15 +98,14 @@ public class Member implements Parcelable {
 
     public void set(Contact contact) {
         amountToPay = String.valueOf(((int) (contact.getAmountToPay() * 100)));
-        if (contact.getUserId() == -1) {
+        if (contact.getUserId() == -1 || !contact.isActiveUser()) {
             type = "people";
             firstName = contact.getName();
-            lastName = "";
+            lastName = contact.getSurname();
             phone = contact.getPhone();
-        } else {
-            long id = contact.isActiveUser() ? contact.getContactId() : contact.getUserId();
-            type = contact.isActiveUser() ? "user" : "contact";
-            userId = String.valueOf(id);
+        } else if (contact.isActiveUser()) {
+            type = "user";
+            userId = String.valueOf(contact.getContactId());
         }
     }
 }

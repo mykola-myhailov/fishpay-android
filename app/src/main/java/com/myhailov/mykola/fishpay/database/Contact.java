@@ -132,7 +132,7 @@ public class Contact implements Parcelable {
         parcel.writeString(surname);
         parcel.writeString(photo);
         parcel.writeLong(contactId);
-//        parcel.writeByte((byte) (isActiveUser ? 1 : 0));
+        parcel.writeByte((byte) (isActiveUser ? 1 : 0));
     }
 
     protected Contact(Parcel in) {
@@ -147,6 +147,7 @@ public class Contact implements Parcelable {
         surname = in.readString();
         photo = in.readString();
         contactId = in.readLong();
+        isActiveUser = in.readByte() != 0;
     }
     @Generated(hash = 295938403)
     public Contact(Long dbId, long userId, long contactId, String phone,
