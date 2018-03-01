@@ -1,6 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,22 +21,29 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
+import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
+import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
 
 public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private JointPurchaseDetailsResult purchase;
+    private boolean isOwner;
+    private String title;
     private View llDescription;
-    private TextView tvDescription;
 
+    private TextView tvDescription;
     private View llCard;
+
     private TextView tvCardNumber;
 
     private TextView tvAmount;
@@ -42,11 +52,15 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_purchase_details);
+        String id = getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
         JointPurchase purchase = getIntent().getParcelableExtra(PURCHASE);
+        isOwner = id.equals(purchase.getCreatorId());
+        title = purchase.getTitle();
 
-        initCustomToolbar(purchase.getTitle());
+        initCustomToolbar(title);
         initViews();
         getJointPurchase(purchase.getId());
+
 
     }
 
@@ -56,6 +70,10 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
         llCard = findViewById(R.id.ll_card);
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvAmount = findViewById(R.id.tv_amount);
+
+        View llClose = findViewById(R.id.ll_close);
+        llClose.setVisibility(isOwner ? View.VISIBLE : View.GONE);
+        llClose.setOnClickListener(this);
     }
 
     private void getJointPurchase(String id) {
@@ -92,7 +110,38 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         super.onClick(view);
+        switch (view.getId()) {
+            case R.id.ll_member:
+                startMemberActivity(((Member) view.getTag()));
+                break;
+            case R.id.ll_close:
+                showConfirmation();
+                break;
+        }
 
+    }
+
+    private void showConfirmation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Вы уверенны, что хотите закрыть эту покупку?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                closePurchaseRequest();
+//                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Отмена", null);
+        builder.create().show();
+    }
+
+    private void startMemberActivity(Member member) {
+        if (member != null) {
+            startActivity(new Intent(context, MembersPartActivity.class)
+                    .putExtra(Keys.MEMBER, member)
+                    .putExtra(Keys.TITLE, title)
+                    .putExtra(Keys.OWNER, isOwner));
+        }
     }
 
     class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHolder> {

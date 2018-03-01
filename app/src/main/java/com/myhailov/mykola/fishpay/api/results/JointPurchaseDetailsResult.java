@@ -1,5 +1,8 @@
 package com.myhailov.mykola.fishpay.api.results;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 
@@ -26,22 +29,55 @@ import java.util.Locale;
  "creator_last_name":"Oli"
  */
 
-public class JointPurchaseDetailsResult {
+public class JointPurchaseDetailsResult implements Parcelable {
     private String id;
     @SerializedName("creator") private String creatorId;
     private String description;
     private int amount;
-    private String title;
     @SerializedName("date_to") private String to;
     @SerializedName("card_number") private String cardNumber;
     private ArrayList<Member> members;
 
-    public String getId() {
-        return id;
+    protected JointPurchaseDetailsResult(Parcel in) {
+        id = in.readString();
+        creatorId = in.readString();
+        description = in.readString();
+        amount = in.readInt();
+        to = in.readString();
+        cardNumber = in.readString();
+        members = in.createTypedArrayList(Member.CREATOR);
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(creatorId);
+        dest.writeString(description);
+        dest.writeInt(amount);
+        dest.writeString(to);
+        dest.writeString(cardNumber);
+        dest.writeTypedList(members);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<JointPurchaseDetailsResult> CREATOR = new Creator<JointPurchaseDetailsResult>() {
+        @Override
+        public JointPurchaseDetailsResult createFromParcel(Parcel in) {
+            return new JointPurchaseDetailsResult(in);
+        }
+
+        @Override
+        public JointPurchaseDetailsResult[] newArray(int size) {
+            return new JointPurchaseDetailsResult[size];
+        }
+    };
+
+    public String getId() {
+        return id;
     }
 
     public String getDescription() {

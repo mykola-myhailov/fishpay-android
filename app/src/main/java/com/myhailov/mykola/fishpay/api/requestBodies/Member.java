@@ -11,7 +11,7 @@ import com.myhailov.mykola.fishpay.database.Contact;
  */
 public class Member implements Parcelable {
     private String id;
-    @SerializedName("member_status") String memberStatus;
+    @SerializedName("member_status") private String memberStatus;
     @SerializedName("type") private String type;
     @SerializedName("amount_to_pay") private String amountToPay;
     @SerializedName("amount_paid") private String amountPaid;
@@ -28,25 +28,36 @@ public class Member implements Parcelable {
     public Member() {
     }
 
+
     protected Member(Parcel in) {
+        id = in.readString();
+        memberStatus = in.readString();
         type = in.readString();
         amountToPay = in.readString();
+        amountPaid = in.readString();
         userId = in.readString();
         firstName = in.readString();
         lastName = in.readString();
+        secondName = in.readString();
         phone = in.readString();
         email = in.readString();
+        photo = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(memberStatus);
         dest.writeString(type);
         dest.writeString(amountToPay);
+        dest.writeString(amountPaid);
         dest.writeString(userId);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeString(secondName);
         dest.writeString(phone);
         dest.writeString(email);
+        dest.writeString(photo);
     }
 
     @Override

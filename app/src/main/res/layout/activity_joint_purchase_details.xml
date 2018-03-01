@@ -206,6 +206,34 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_pay"
+            android:background="@color/light_grey"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_light"/>
+            <TextView
+                android:textColor="@color/blue1"
+                android:textSize="18sp"
+                android:text="Оплатить"
+                android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

@@ -36,7 +36,7 @@ public class BeginActivity extends BaseActivity {
         setContentView(R.layout.activity_begin);
 
         startService(new Intent(this, ContactsIntentService.class));
-       /// quicklogin();
+        quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
@@ -106,7 +106,7 @@ public class BeginActivity extends BaseActivity {
         String deviceId = DeviceIDStorage.getID(context);
         String deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
         String password = "12345678";
-        String phone = "380123456785";
+        String phone = "380979224504";
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else {
             String firebaseToken = FirebaseInstanceId.getInstance().getToken();

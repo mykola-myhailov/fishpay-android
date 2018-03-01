@@ -24,4 +24,7 @@ public class Keys {
     public static final String PURCHASE2 = "purchase2";
     public static final int REQUEST_MEMBER = 100;
     public static final String CONTACTS = "contacts";
+    public static final String TITLE = "title";
+    public static final String MEMBER = "member";
+    public static final String OWNER = "owner";
 }

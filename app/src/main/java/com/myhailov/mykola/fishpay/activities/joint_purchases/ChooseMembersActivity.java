@@ -176,10 +176,12 @@ public class ChooseMembersActivity extends BaseActivity  {
     }
 
     private void nextActivity() {
-        Intent intent = new Intent(context, DistributionActivity.class)
-                .putExtra(PURCHASE2, commonPurchaseBody)
-                .putExtra(CONTACTS, selectedUsers);
-        context.startActivity(intent);
+        if (selectedUsers != null && selectedUsers.size() >= 2) {
+            Intent intent = new Intent(context, DistributionActivity.class)
+                    .putExtra(PURCHASE2, commonPurchaseBody)
+                    .putExtra(CONTACTS, selectedUsers);
+            context.startActivity(intent);
+        }
     }
 
 
