@@ -94,7 +94,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:background="@color/black_light"
+                android:background="@color/grey2"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"/>
 
@@ -102,7 +102,7 @@
                 android:layout_gravity="bottom"
                 android:text="@string/uah"
                 android:textSize="16sp"
-                android:textColor="@color/black_light"
+                android:textColor="@color/grey2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

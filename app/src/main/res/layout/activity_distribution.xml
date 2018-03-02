@@ -121,7 +121,7 @@
 
         <LinearLayout
             android:id="@+id/ll_finish"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@color/light_grey"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -131,11 +131,12 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray_light"/>
             <TextView
+                android:id="@+id/tv_finish"
                 android:textColor="@color/blue1"
                 android:textSize="18sp"
                 android:text="@string/finish"
                 android:gravity="center"
-                android:background="@color/light_grey"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

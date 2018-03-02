@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.activities.joint_purchases;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.database.Contact;
@@ -29,6 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import retrofit2.Call;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
@@ -69,7 +73,7 @@ public class DistributionActivity extends BaseActivity {
             rvContacts.setAdapter(adapter);
         }
 
-        findViewById(R.id.ll_finish).setOnClickListener(this);
+        findViewById(R.id.tv_finish).setOnClickListener(this);
     }
 
     private void initTabLayout() {
@@ -80,10 +84,11 @@ public class DistributionActivity extends BaseActivity {
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.ll_finish:
+            case R.id.tv_finish:
+                v.setClickable(false);
                 Member[] members = new Member[contacts.size()];
                 int i = 0;
                 for (Contact contact : contacts) {
@@ -99,16 +104,27 @@ public class DistributionActivity extends BaseActivity {
                                 if (code == 201) {
                                     startActivity(new Intent(context, JointPurchasesActivity.class)
                                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                } else {
+                                    v.setClickable(true);
                                 }
+                            }
+
+                            @Override
+                            protected void onError(int code, String errorDescription) {
+                                super.onError(code, errorDescription);
+                                v.setClickable(true);
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
+                                super.onFailure(call, t);
+                                v.setClickable(true);
                             }
                         });
                 break;
         }
     }
 
-    private void createJointPurchaseRequest(){
-
-    }
 
     private void defineAmounts(ArrayList<Contact> contacts, float amount) {
         int count = contacts.size();

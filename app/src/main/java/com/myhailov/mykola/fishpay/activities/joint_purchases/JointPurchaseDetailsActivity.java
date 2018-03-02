@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
@@ -28,7 +31,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import retrofit2.Call;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.CLOSED;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
@@ -37,7 +44,9 @@ import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
 public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private JointPurchaseDetailsResult purchase;
+    private String id;
     private boolean isOwner;
+    private boolean isClosed;
     private String title;
     private View llDescription;
 
@@ -48,11 +57,16 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private TextView tvAmount;
 
+    private View llClose, llPay, llConfirmation;
+    private View tvClose, tvPay, tvReject, tvAccept;
+
+    private View llClosed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_purchase_details);
-        String id = getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
+        id = getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
         JointPurchase purchase = getIntent().getParcelableExtra(PURCHASE);
         isOwner = id.equals(purchase.getCreatorId());
         title = purchase.getTitle();
@@ -71,9 +85,15 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvAmount = findViewById(R.id.tv_amount);
 
-        View llClose = findViewById(R.id.ll_close);
-        llClose.setVisibility(isOwner ? View.VISIBLE : View.GONE);
-        llClose.setOnClickListener(this);
+        llClose = findViewById(R.id.ll_close);
+        llPay = findViewById(R.id.ll_pay);
+        llConfirmation = findViewById(R.id.ll_confirmation);
+        tvClose = findViewById(R.id.tv_close);
+        tvPay = findViewById(R.id.tv_pay);
+        tvReject = findViewById(R.id.tv_reject);
+        tvAccept = findViewById(R.id.tv_accept);
+
+        llClosed = findViewById(R.id.ll_closed);
     }
 
     private void getJointPurchase(String id) {
@@ -86,14 +106,82 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 });
     }
 
+    private void rejectPurchase(final String id) {
+        tvReject.setClickable(false);
+        tvAccept.setClickable(false);
+        ApiClient.getApiClient().rejectJointPurchase(TokenStorage.getToken(context), id)
+                .enqueue(getConfirmationCallback(id));
+    }
+
+    private void acceptPurchase(final String id) {
+        tvReject.setClickable(false);
+        tvAccept.setClickable(false);
+        ApiClient.getApiClient().acceptJointPurchase(TokenStorage.getToken(context), id)
+                .enqueue(getConfirmationCallback(id));
+    }
+    
+    private void closePurchase(final String id) {
+        tvClose.setClickable(false);
+        ApiClient.getApiClient().closeJointPurchase(TokenStorage.getToken(context), id)
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        if (code == 202) {
+                            getJointPurchase(id);
+                        } else tvClose.setClickable(true);
+                    }
+
+                    @Override
+                    protected void onError(int code, String errorDescription) {
+                        super.onError(code, errorDescription);
+                        tvClose.setClickable(true);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
+                        super.onFailure(call, t);
+                        tvClose.setClickable(true);
+                    }
+                });
+    }
+
+    @NonNull
+    private BaseCallback<Object> getConfirmationCallback(final String id) {
+        return new BaseCallback<Object>(context, false) {
+                @Override
+                protected void onResult(int code, Object result) {
+                    if (code == 202) {
+                        getJointPurchase(id);
+                    } else {
+                        tvReject.setClickable(true);
+                        tvAccept.setClickable(true);
+                    }
+                }
+
+                @Override
+                protected void onError(int code, String errorDescription) {
+                    super.onError(code, errorDescription);
+                    tvReject.setClickable(false);
+                    tvAccept.setClickable(false);
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
+                    super.onFailure(call, t);
+                    tvReject.setClickable(false);
+                    tvAccept.setClickable(false);
+                }
+            };
+    }
+
     private void hasResponse(JointPurchaseDetailsResult response) {
         purchase = response;
         if (purchase.getDescription() != null) {
-            llDescription.setVisibility(View.VISIBLE);
+            llDescription.setVisibility(VISIBLE);
             tvDescription.setText(purchase.getDescription());
         } else llDescription.setVisibility(View.GONE);
         if (purchase.getCardNumber() != null) {
-            llCard.setVisibility(View.VISIBLE);
+            llCard.setVisibility(VISIBLE);
             tvCardNumber.setText(purchase.getLastFourNumbers());
         } else llCard.setVisibility(View.GONE);
 
@@ -105,6 +193,60 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
         rvMembers.setHasFixedSize(true);
         rvMembers.setAdapter(membersAdapter);
 
+        isClosed = purchase.getMembers().get(0).getMemberStatus().equals("CLOSED");
+        if (!isClosed) {
+            llClosed.setVisibility(GONE);
+            if (isOwner) {
+                llClose.setVisibility(VISIBLE);
+                llPay.setVisibility(View.GONE);
+                llConfirmation.setVisibility(View.GONE);
+
+                tvClose.setOnClickListener(this);
+                tvClose.setTag(purchase.getId());
+            } else {
+                llClose.setVisibility(View.GONE);
+                Member memberI = getMemberById(purchase.getMembers(), id);
+                if (memberI != null) {
+                    switch (memberI.getMemberStatus()) {
+                        case "VIEWED":
+                        case "NOT_VIEWED":
+                            llPay.setVisibility(View.GONE);
+                            llConfirmation.setVisibility(VISIBLE);
+
+                            tvAccept.setOnClickListener(this);
+                            tvReject.setOnClickListener(this);
+                            tvAccept.setTag(purchase.getId());
+                            tvReject.setTag(purchase.getId());
+                            break;
+                        case "ACCEPTED":
+                            llPay.setVisibility(VISIBLE);
+                            llConfirmation.setVisibility(View.GONE);
+
+                            tvPay.setOnClickListener(this);
+                            break;
+                        default:
+                            llPay.setVisibility(View.GONE);
+                            llConfirmation.setVisibility(View.GONE);
+                            break;
+                    }
+                }
+            }
+        } else {
+            tvAmount.setTextColor(getResources().getColor(R.color.grey2));
+            llClosed.setVisibility(VISIBLE);
+            llClose.setVisibility(View.GONE);
+            llPay.setVisibility(View.GONE);
+            llConfirmation.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Nullable
+    private Member getMemberById(ArrayList<Member> members, String id) {
+        for (Member member : members) {
+            if (member.getUserId().equals(id)) return member;
+        }
+        return null;
     }
 
     @Override
@@ -114,21 +256,31 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
             case R.id.ll_member:
                 startMemberActivity(((Member) view.getTag()));
                 break;
-            case R.id.ll_close:
-                showConfirmation();
+            case R.id.tv_close:
+                showConfirmation(((String) view.getTag()));
+                break;
+            case R.id.tv_reject:
+                rejectPurchase((String) view.getTag());
+                break;
+            case R.id.tv_accept:
+                acceptPurchase((String) view.getTag());
+                break;
+            case R.id.tv_pay:
+
                 break;
         }
 
     }
 
-    private void showConfirmation() {
+    private void showConfirmation(final String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы уверенны, что хотите закрыть эту покупку?");
+        builder.setTitle("Вы действительно хотите закрыть эту покупку?");
+        builder.setMessage("Вы не сможете вернуться к редактированию, а участники получат уведомление о закрытии");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                closePurchaseRequest();
-//                dialog.dismiss();
+                closePurchase(id);
+                dialog.dismiss();
             }
         });
         builder.setNegativeButton("Отмена", null);
@@ -209,6 +361,12 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 tvStatus.setText(member.getMemberStatus());
                 tvName.setText(member.getFullName());
                 tvAmount.setText(pennyToUah(Float.valueOf(member.getAmountToPay())));
+
+                if (member.getMemberStatus().equals("CLOSED")) {
+                    tvName.setTextColor(getResources().getColor(R.color.grey2));
+                    tvStatus.setTextColor(getResources().getColor(R.color.grey2));
+                    tvAmount.setTextColor(getResources().getColor(R.color.grey2));
+                }
 
                 llMember.setTag(member);
             }

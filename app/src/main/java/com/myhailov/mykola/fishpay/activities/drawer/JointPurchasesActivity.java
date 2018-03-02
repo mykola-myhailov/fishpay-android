@@ -122,10 +122,6 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         }
     }
 
-    private void getJointPurchaseDetailsRequest(){
-
-    }
-
     private void deletePurchaseRequest(String purchaseId) {
         ApiClient.getApiClient().deleteJointPurchase(token, purchaseId)
                 .enqueue(new BaseCallback<Object>(context, false) {
@@ -142,13 +138,11 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         context.startActivity(new Intent(context, AddJoinPurchaseActivity.class));
         return true;
     }
-
 
     @Override
     public void onClick(View view) {
@@ -255,6 +249,8 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
             void bind(JointPurchase purchase) {
                 if (purchase.getStatus().equals("NOT_VIEWED")) viewed.setVisibility(View.VISIBLE);
                 else viewed.setVisibility(View.INVISIBLE);
+                if (purchase.getStatus().equals("CLOSED")) tvTitle.setTextColor(getResources().getColor(R.color.grey2));
+                else tvTitle.setTextColor(getResources().getColor(R.color.black_light));
                 tvTitle.setText(purchase.getTitle());
                 tvCreator.setText(purchase.getCreatorName());
                 tvPayTo.setText(purchase.getTo());

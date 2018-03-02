@@ -36,7 +36,7 @@ public class BeginActivity extends BaseActivity {
         setContentView(R.layout.activity_begin);
 
         startService(new Intent(this, ContactsIntentService.class));
-        quicklogin();
+        //quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;

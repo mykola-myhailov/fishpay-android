@@ -69,7 +69,8 @@
         <service android:name=".services.ContactsIntentService" />
 
         <activity android:name=".activities.goods.CreateGodsActivity" />
-        <activity android:name=".activities.joint_purchases.CreateMemberActivity"></activity>
+        <activity android:name=".activities.joint_purchases.CreateMemberActivity" />
+        <activity android:name=".activities.joint_purchases.PaymentMemberActivity" />
     </application>
 
 </manifest>

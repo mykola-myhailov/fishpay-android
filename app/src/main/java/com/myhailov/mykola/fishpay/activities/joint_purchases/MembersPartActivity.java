@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -10,25 +11,37 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.OWNER;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
+import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
+import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 
 public class MembersPartActivity extends BaseActivity {
 
+    private String title;
     private Member member;
-    private boolean isOwner;
+    private boolean isOwner, isClosed, paid, isActive, isMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_members_part);
-        String title = getIntent().getStringExtra(TITLE);
+
+        String id = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
+        title = getIntent().getStringExtra(TITLE);
         member = getIntent().getParcelableExtra(MEMBER);
         isOwner = getIntent().getBooleanExtra(OWNER, false);
+        isClosed = member.getMemberStatus().equals("CLOSED");
+        paid = member.getMemberStatus().equals("PAID");
+        isActive = member.getType().equals("user");
+        isMe = isActive && member.getUserId().equals(id);
+
         initCustomToolbar(title);
         initViews();
     }
@@ -47,18 +60,47 @@ public class MembersPartActivity extends BaseActivity {
         }
         ((TextView) findViewById(R.id.tv_name)).setText(member.getFullName());
         ((TextView) findViewById(R.id.tv_phone)).setText(member.getPhone());
-        ((TextView) findViewById(R.id.tv_status)).setText(member.getMemberStatus());
-        ((TextView) findViewById(R.id.tv_amount)).setText(Utils.pennyToUah(Float.valueOf(member.getAmountToPay())));
-        if (member.getAmountPaid() != null && !member.getAmountPaid().equals("0"))
-            ((TextView) findViewById(R.id.tv_paid)).setText(Utils.pennyToUah(Float.valueOf(member.getAmountPaid())));
-        else ((TextView) findViewById(R.id.tv_paid)).setText("0.00");
 
-        if (isOwner) {
-            findViewById(R.id.ll_pay).setOnClickListener(this);
-            findViewById(R.id.ll_request).setOnClickListener(this);
+        TextView tvStatus = findViewById(R.id.tv_status);
+        TextView tvAmount = findViewById(R.id.tv_amount);
+        TextView tvPaid = findViewById(R.id.tv_paid);
+
+        tvStatus.setText(member.getMemberStatus());
+        tvAmount.setText(Utils.pennyToUah(Float.valueOf(member.getAmountToPay())));
+        if (member.getAmountPaid() != null && !member.getAmountPaid().equals("0"))
+            tvPaid.setText(Utils.pennyToUah(Float.valueOf(member.getAmountPaid())));
+        else tvPaid.setText("0.00");
+
+
+        View llPay = findViewById(R.id.ll_pay);
+        View tvPay = findViewById(R.id.tv_pay);
+        View llRequest = findViewById(R.id.ll_request);
+        View tvRequest = findViewById(R.id.tv_request);
+        View divider = findViewById(R.id.divider);
+        View llButtons = findViewById(R.id.ll_buttons);
+
+
+        if (isOwner && !isClosed && !paid) {
+            llButtons.setVisibility(View.VISIBLE);
+            llPay.setVisibility(View.VISIBLE);
+            tvPay.setOnClickListener(this);
+            if (!isActive || isMe) {
+                divider.setVisibility(View.GONE);
+                llRequest.setVisibility(View.GONE);
+            } else {
+                divider.setVisibility(View.VISIBLE);
+                llRequest.setVisibility(View.VISIBLE);
+                tvRequest.setOnClickListener(this);
+            }
         } else {
-            findViewById(R.id.ll_pay).setVisibility(View.GONE);
-            findViewById(R.id.ll_request).setVisibility(View.GONE);
+            llButtons.setVisibility(View.GONE);
+        }
+
+        if (isClosed) {
+            findViewById(R.id.ll_closed).setVisibility(View.VISIBLE);
+            tvStatus.setTextColor(getResources().getColor(R.color.grey2));
+            tvAmount.setTextColor(getResources().getColor(R.color.grey2));
+            tvPaid.setTextColor(getResources().getColor(R.color.grey2));
         }
     }
 
@@ -67,8 +109,19 @@ public class MembersPartActivity extends BaseActivity {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
+            case R.id.tv_pay:
+                startPaymentMemberActivity();
+                break;
+            case R.id.tv_request:
 
+                break;
         }
+    }
+
+    private void startPaymentMemberActivity() {
+        startActivity(new Intent(context, PaymentMemberActivity.class)
+                .putExtra(MEMBER, member)
+                .putExtra(TITLE, title));
     }
 
 }

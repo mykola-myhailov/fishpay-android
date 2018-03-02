@@ -270,22 +270,22 @@ public interface ApiInterface {
 
 
     @PUT("api/commonPurchases/{id}/close")
-    Call<BaseCallback<Object>>  closeJointPurchase (@Header("Authorization") String token,
+    Call<BaseResponse<Object>>  closeJointPurchase (@Header("Authorization") String token,
                                                     @Path("id") String id);
 
-    @PUT("api/commonPurchases/{id}/accept")
-    Call<BaseCallback<Object>>  acceptJointPurchase (@Header("Authorization") String token,
+    @PUT("api/commonPurchases/member/{id}/accept")
+    Call<BaseResponse<Object>>  acceptJointPurchase (@Header("Authorization") String token,
                                                      @Path("id") String id);
 
-    @PUT("api/commonPurchases/{id}/reject")
-    Call<BaseCallback<Object>>  rejectJointPurchase (@Header("Authorization") String token,
+    @PUT("api/commonPurchases/member/{id}/reject")
+    Call<BaseResponse<Object>>  rejectJointPurchase (@Header("Authorization") String token,
                                                      @Path("id") String id);
 
 
 
     // 9) spending
     @GET("api/commonSpendings")
-    Call<BaseCallback<Object>> getSpending(@Header("Authorization") String token);
+    Call<BaseResponse<Object>> getSpending(@Header("Authorization") String token);
 
     @POST("api/commonSpendings")
     Call<BaseResponse<Object>> createSpending(@Header("Authorization") String token,

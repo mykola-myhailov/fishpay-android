@@ -135,7 +135,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_above="@+id/ll_close"
+            android:layout_above="@+id/ll_buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -144,6 +144,22 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ll_closed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:padding="4dp"
+                        android:background="@color/light_grey"
+                        android:textColor="@color/grey2"
+                        android:text="Группа закрыта"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_members"
                     android:layout_width="match_parent"
@@ -167,14 +183,14 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
-                        android:background="@color/grey"
+                        android:background="@color/grey2"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"/>
 
                     <TextView
                         android:gravity="center_vertical"
                         android:textSize="20sp"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/grey2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/uah"/>
@@ -185,55 +201,107 @@
 
 
 
-        <LinearLayout
-            android:id="@+id/ll_close"
-            android:background="?android:attr/selectableItemBackground"
+        <FrameLayout
+            android:id="@+id/ll_buttons"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray_light"/>
-            <TextView
-                android:textColor="@color/blue1"
-                android:textSize="18sp"
-                android:text="@string/close_purchase"
-                android:gravity="center"
-                android:background="@color/light_grey"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_pay"
-            android:background="@color/light_grey"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray_light"/>
-            <TextView
-                android:textColor="@color/blue1"
-                android:textSize="18sp"
-                android:text="Оплатить"
-                android:gravity="center"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_close"
+                android:visibility="gone"
+                android:background="@color/light_grey"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/gray_light"/>
+                <TextView
+                    android:id="@+id/tv_close"
+                    android:textColor="@color/blue1"
+                    android:textSize="18sp"
+                    android:text="@string/close_purchase"
+                    android:gravity="center"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_pay"
+                android:visibility="gone"
+                android:background="@color/light_grey"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/gray_light"/>
+                <TextView
+                    android:id="@+id/tv_pay"
+                    android:textColor="@color/blue1"
+                    android:textSize="18sp"
+                    android:text="Оплатить"
+                    android:gravity="center"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_confirmation"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:background="@color/light_grey"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/gray_light"/>
+                    <TextView
+                        android:id="@+id/tv_reject"
+                        android:textColor="@color/blue1"
+                        android:textSize="18sp"
+                        android:text="Отклонить"
+                        android:gravity="center"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <View android:layout_height="match_parent"
+                    android:layout_width="0.5dp"
+                    android:background="@color/gray_light"/>
+                <LinearLayout
+                    android:background="@color/light_grey"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/gray_light"/>
+                    <TextView
+                        android:id="@+id/tv_accept"
+                        android:textColor="@color/blue1"
+                        android:textSize="18sp"
+                        android:text="Принять"
+                        android:gravity="center"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
     </RelativeLayout>
 
 </LinearLayout>
