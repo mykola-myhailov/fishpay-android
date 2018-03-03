@@ -9,10 +9,11 @@
     android:background="@color/white"
     tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
+        android:layout_marginBottom="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
         <ImageView
             android:id="@+id/ivBack"
             android:padding="16dp"
@@ -22,6 +23,7 @@
             android:layout_height="?attr/actionBarSize" />
 
         <RelativeLayout
+            android:layout_toEndOf="@id/ivBack"
             android:layout_marginEnd="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -38,12 +40,12 @@
                 android:background="@android:color/transparent"
                 tools:text="@string/app_name"/>
         </RelativeLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="00.5dp"
-        android:background="@color/grey2"
-        android:layout_marginBottom="12dp"/>
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="00.5dp"
+            android:background="@color/grey2"/>
+    </RelativeLayout>
 
 
 
