@@ -35,7 +35,6 @@ import retrofit2.Call;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.myhailov.mykola.fishpay.utils.Keys.CLOSED;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
@@ -193,7 +192,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
         rvMembers.setHasFixedSize(true);
         rvMembers.setAdapter(membersAdapter);
 
-        isClosed = purchase.getMembers().get(0).getMemberStatus().equals("CLOSED");
+        isClosed = purchase.getMembers().get(0)._getMemberStatus().equals("CLOSED");
         if (!isClosed) {
             llClosed.setVisibility(GONE);
             if (isOwner) {
@@ -207,7 +206,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 llClose.setVisibility(View.GONE);
                 Member memberI = getMemberById(purchase.getMembers(), id);
                 if (memberI != null) {
-                    switch (memberI.getMemberStatus()) {
+                    switch (memberI._getMemberStatus()) {
                         case "VIEWED":
                         case "NOT_VIEWED":
                             llPay.setVisibility(View.GONE);
@@ -266,7 +265,12 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 acceptPurchase((String) view.getTag());
                 break;
             case R.id.tv_pay:
-
+                android.support.v7.app.AlertDialog.Builder builder =
+                        new android.support.v7.app.AlertDialog.Builder(context);
+                builder.setTitle("Информация")
+                        .setMessage("В данной версии приложения эта функция не поддерживается.")
+                        .setPositiveButton("Понятно", null);
+                builder.create().show();
                 break;
         }
 
@@ -359,10 +363,10 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                     tvInitials.setText(initials);
                 }
                 tvStatus.setText(member.getMemberStatus());
-                tvName.setText(member.getFullName());
+                tvName.setText(member.getFullUserName());
                 tvAmount.setText(pennyToUah(Float.valueOf(member.getAmountToPay())));
 
-                if (member.getMemberStatus().equals("CLOSED")) {
+                if (member._getMemberStatus().equals("CLOSED")) {
                     tvName.setTextColor(getResources().getColor(R.color.grey2));
                     tvStatus.setTextColor(getResources().getColor(R.color.grey2));
                     tvAmount.setTextColor(getResources().getColor(R.color.grey2));

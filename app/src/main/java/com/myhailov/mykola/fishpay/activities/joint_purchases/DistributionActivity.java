@@ -60,20 +60,26 @@ public class DistributionActivity extends BaseActivity {
     }
 
     private void initViews() {
-        if (commonPurchaseBody != null)
-            ((TextView) findViewById(R.id.tv_amount)).setText(commonPurchaseBody.getAmount());
+        if (commonPurchaseBody != null) {
+            int amount = Integer.parseInt(commonPurchaseBody.getAmount());
 
-        initTabLayout();
+            ((TextView) findViewById(R.id.tv_amount)).setText(
+                    String.valueOf(((float) amount) / 100)
+            );
 
-        if (contacts != null) {
-            defineAmounts(contacts, Float.valueOf(commonPurchaseBody.getAmount()));
-            adapter = new DistributionContactsAdapter(contacts);
-            RecyclerView rvContacts = findViewById(R.id.rv_contacts);
-            rvContacts.setLayoutManager(new LinearLayoutManager(context));
-            rvContacts.setAdapter(adapter);
+
+            initTabLayout();
+
+            if (contacts != null) {
+                defineAmounts(contacts, ((float) amount) / 100);
+                adapter = new DistributionContactsAdapter(contacts);
+                RecyclerView rvContacts = findViewById(R.id.rv_contacts);
+                rvContacts.setLayoutManager(new LinearLayoutManager(context));
+                rvContacts.setAdapter(adapter);
+            }
+
+            findViewById(R.id.tv_finish).setOnClickListener(this);
         }
-
-        findViewById(R.id.tv_finish).setOnClickListener(this);
     }
 
     private void initTabLayout() {

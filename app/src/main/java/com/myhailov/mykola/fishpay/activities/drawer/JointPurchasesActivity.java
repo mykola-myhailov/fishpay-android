@@ -249,7 +249,8 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
             void bind(JointPurchase purchase) {
                 if (purchase.getStatus().equals("NOT_VIEWED")) viewed.setVisibility(View.VISIBLE);
                 else viewed.setVisibility(View.INVISIBLE);
-                if (purchase.getStatus().equals("CLOSED")) tvTitle.setTextColor(getResources().getColor(R.color.grey2));
+                if (purchase.getStatus().equals("CLOSED") || purchase.getStatus().equals("REJECTED"))
+                    tvTitle.setTextColor(getResources().getColor(R.color.grey2));
                 else tvTitle.setTextColor(getResources().getColor(R.color.black_light));
                 tvTitle.setText(purchase.getTitle());
                 tvCreator.setText(purchase.getCreatorName());

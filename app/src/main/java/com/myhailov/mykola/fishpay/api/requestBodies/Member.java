@@ -21,6 +21,8 @@ public class Member implements Parcelable {
     @SerializedName("first_name") private String firstName;
     @SerializedName("last_name") private String lastName;
     @SerializedName("second_name") private String secondName;
+    @SerializedName("contact_first_name") private String contactFirstName;
+    @SerializedName("contact_second_name") private String contactSecondName;
     @SerializedName("phone") private String phone;
     @SerializedName("email") private String email;
     @SerializedName("photo_link") private String photo;
@@ -39,6 +41,8 @@ public class Member implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         secondName = in.readString();
+        contactFirstName = in.readString();
+        contactSecondName = in.readString();
         phone = in.readString();
         email = in.readString();
         photo = in.readString();
@@ -55,6 +59,8 @@ public class Member implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(secondName);
+        dest.writeString(contactFirstName);
+        dest.writeString(contactSecondName);
         dest.writeString(phone);
         dest.writeString(email);
         dest.writeString(photo);
@@ -122,8 +128,30 @@ public class Member implements Parcelable {
         return id;
     }
 
-    public String getMemberStatus() {
+    public String _getMemberStatus() {
         return memberStatus;
+    }
+    public String getMemberStatus() {
+        switch (memberStatus) {
+            case "CREATED":
+                return "Создано";
+            case "VIEWED":
+                return "Просмотрено";
+            case "NOT_VIEWED":
+                return "Не просмотрено";
+            case "REJECTED":
+                return "Отклонено";
+            case "ACCEPTED":
+                return "Подтверждено";
+            case "PAID":
+                return "Оплачено";
+            case "CLOSED":
+                return "Закрыто";
+            case "DELETED":
+                return "Удалено";
+            default:
+                return memberStatus;
+        }
     }
 
     public String getType() {
@@ -166,8 +194,19 @@ public class Member implements Parcelable {
         return photo;
     }
 
-    public String getFullName() {
-        if (secondName != null) return firstName + " " + secondName;
-        return firstName;
+    public String getFullUserName() {
+        if (firstName != null && !firstName.equals("null")) {
+            if (secondName != null && !secondName.equals("null"))
+                return firstName + " " + secondName;
+            else return firstName;
+        } else return null;
+    }
+
+    public String getFullContactName() {
+        if (contactFirstName != null && !contactFirstName.equals("null")) {
+            if (contactSecondName != null && !contactSecondName.equals("null"))
+                return contactFirstName + " " + contactSecondName;
+            else return contactFirstName;
+        } else return null;
     }
 }

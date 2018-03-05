@@ -15,6 +15,7 @@ import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.views.MoneyEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,8 +32,8 @@ public class AddJoinPurchaseActivity extends BaseActivity {
 
     public final static int REQUEST_CARD = 100;
 
+    private MoneyEditText etAmount;
     private EditText etGroupName,
-            etAmount,
             etDescription;
     private TextView tvPayTo,
             tvChooseCard,
@@ -54,7 +55,7 @@ public class AddJoinPurchaseActivity extends BaseActivity {
 
     private void initViews() {
         etGroupName = findViewById(R.id.et_group_name);
-        etAmount = findViewById(R.id.et_amount);
+        etAmount = (MoneyEditText) findViewById(R.id.met_amount);
         etDescription = findViewById(R.id.et_description);
         tvPayTo = findViewById(R.id.tv_pay_to);
         tvChooseCard = findViewById(R.id.tv_choose_card);
@@ -62,6 +63,23 @@ public class AddJoinPurchaseActivity extends BaseActivity {
         tvCardNumber = findViewById(R.id.tv_card_number);
         llPublicCard = findViewById(R.id.ll_public_card);
 
+        /*etAmount.setFilters(new InputFilter[]{new MoneyValueFilter(10,2)});
+        etAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
         findViewById(R.id.rl_card).setOnClickListener(this);
         findViewById(R.id.tv_create).setOnClickListener(this);
         tvPayTo.setOnClickListener(this);
@@ -93,7 +111,7 @@ public class AddJoinPurchaseActivity extends BaseActivity {
     private void nextActivity() {
         CommonPurchaseBody body = new CommonPurchaseBody();
         body.setTitle(etGroupName.getText().toString());
-        body.setAmount(etAmount.getText().toString());
+        body.setAmount(String.valueOf(etAmount.getCurrency()));
         if (etDescription.getText().toString().length() > 0)
             body.setDescription(etDescription.getText().toString());
         if (dateTo != null && !dateTo.equals(""))

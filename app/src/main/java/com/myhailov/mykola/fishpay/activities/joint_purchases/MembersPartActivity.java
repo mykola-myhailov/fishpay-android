@@ -11,14 +11,12 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
-import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.OWNER;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
-import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 
@@ -37,8 +35,8 @@ public class MembersPartActivity extends BaseActivity {
         title = getIntent().getStringExtra(TITLE);
         member = getIntent().getParcelableExtra(MEMBER);
         isOwner = getIntent().getBooleanExtra(OWNER, false);
-        isClosed = member.getMemberStatus().equals("CLOSED");
-        paid = member.getMemberStatus().equals("PAID");
+        isClosed = member._getMemberStatus().equals("CLOSED");
+        paid = member._getMemberStatus().equals("PAID");
         isActive = member.getType().equals("user");
         isMe = isActive && member.getUserId().equals(id);
 
@@ -58,7 +56,7 @@ public class MembersPartActivity extends BaseActivity {
             ivAvatar.setImageDrawable(null);
             tvInitials.setText(initials);
         }
-        ((TextView) findViewById(R.id.tv_name)).setText(member.getFullName());
+        ((TextView) findViewById(R.id.tv_name)).setText(member.getFullUserName());
         ((TextView) findViewById(R.id.tv_phone)).setText(member.getPhone());
 
         TextView tvStatus = findViewById(R.id.tv_status);

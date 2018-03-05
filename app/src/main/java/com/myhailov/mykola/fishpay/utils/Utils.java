@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myhailov.mykola.fishpay.R;
@@ -184,10 +185,20 @@ public class Utils {
     public static String pennyToUah(float penny) {
         String amount;
         if (penny != 0)
-            amount = String.format(Locale.ENGLISH,"%.2f", (((float) ((float) penny / 100f))));
+            amount = String.format(Locale.ENGLISH,"%.2f", (float) (penny / (float) 100));
         else amount = "-";
         return amount;
     }
 
+    public static void setPhoto(Context context, String photo, String initials, TextView tvInitials, ImageView ivAvatar) {
+        if (photo != null && !photo.equals("") && !photo.equals("null")) {
+            Uri photoUri = Uri.parse(ApiClient.BASE_API_URL + "api/resources/photo/" + photo);
+            Picasso.with(context).load(photoUri).into(ivAvatar);
+            tvInitials.setText("");
+        } else {
+            ivAvatar.setImageDrawable(null);
+            tvInitials.setText(initials);
+        }
+    }
 
 }

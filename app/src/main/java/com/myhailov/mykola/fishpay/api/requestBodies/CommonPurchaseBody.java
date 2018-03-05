@@ -66,7 +66,7 @@ public class CommonPurchaseBody implements Parcelable {
     }
 
     public void setAmount(String amount) {
-        this.amount = amount+"00";
+        this.amount = amount;
     }
 
     public void setDateTo(String dateTo) {
@@ -82,7 +82,7 @@ public class CommonPurchaseBody implements Parcelable {
     }
 
     public String getAmount() {
-        return amount.substring(0, amount.length()-2);
+        return amount;
     }
 
 }
