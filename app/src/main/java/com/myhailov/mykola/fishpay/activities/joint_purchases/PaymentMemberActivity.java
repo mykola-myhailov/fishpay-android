@@ -78,7 +78,7 @@ public class PaymentMemberActivity extends BaseActivity {
         else tvUserName.setVisibility(View.GONE);
 
         tvPayMethod = findViewById(R.id.tv_pay_method);
-        tvPayMethod.setText(items[payMethod]);
+        tvPayMethod.setText(items[payMethod-1]);
         tvPayMethod.setOnClickListener(this);
 
         ((TextView) findViewById(R.id.tv_phone)).setText(member.getPhone());
@@ -127,9 +127,12 @@ public class PaymentMemberActivity extends BaseActivity {
                 payMethod).enqueue(new BaseCallback<Object>(context, false) {
             @Override
             protected void onResult(int code, Object result) {
-                if (code == 202)
-                    startActivity(new Intent(context, JointPurchasesActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                if (code == 202) {
+                    setResult(RESULT_OK);
+                    finish();
+//                    startActivity(new Intent(context, JointPurchaseDetailsActivity.class)
+//                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
                 else view.setClickable(false);
             }
 

@@ -112,7 +112,7 @@
             android:layout_height="match_parent">-->
             <LinearLayout
                 android:background="@color/white"
-                android:layout_above="@+id/ll_go"
+                android:layout_above="@+id/tv_go"
                 android:isScrollContainer="true"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -133,10 +133,9 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_go"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
+            android:background="@color/light_grey"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
             <View
@@ -144,11 +143,12 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray_light"/>
             <TextView
+                android:id="@+id/tv_go"
                 android:textColor="@color/blue1"
                 android:textSize="18sp"
                 android:text="@string/go"
                 android:gravity="center"
-                android:background="@color/light_grey"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

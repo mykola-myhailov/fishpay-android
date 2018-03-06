@@ -39,8 +39,11 @@ import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
+import static com.myhailov.mykola.fishpay.utils.Utils.setInitialsImage;
 
 public class JointPurchaseDetailsActivity extends BaseActivity {
+
+    private final String STATE_PURCHASE = "state_purchase";
 
     private JointPurchaseDetailsResult purchase;
     private String id;
@@ -60,21 +63,33 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     private View tvClose, tvPay, tvReject, tvAccept;
 
     private View llClosed;
+    private JointPurchase extraPurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_purchase_details);
-        id = getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
-        JointPurchase purchase = getIntent().getParcelableExtra(PURCHASE);
-        isOwner = id.equals(purchase.getCreatorId());
-        title = purchase.getTitle();
+        if (savedInstanceState == null) {
+            id = getSharedPreferences(USER_PREFS, MODE_PRIVATE).getString(ID, "");
+            extraPurchase = getIntent().getParcelableExtra(PURCHASE);
+        } else {
+            extraPurchase = savedInstanceState.getParcelable(STATE_PURCHASE);
+        }
+
+        isOwner = id.equals(extraPurchase.getCreatorId());
+        title = extraPurchase.getTitle();
 
         initCustomToolbar(title);
         initViews();
-        getJointPurchase(purchase.getId());
+        getJointPurchase(extraPurchase.getId());
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_PURCHASE, extraPurchase);
     }
 
     private void initViews() {
@@ -105,20 +120,20 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 });
     }
 
-    private void rejectPurchase(final String id) {
-        tvReject.setClickable(false);
-        tvAccept.setClickable(false);
-        ApiClient.getApiClient().rejectJointPurchase(TokenStorage.getToken(context), id)
-                .enqueue(getConfirmationCallback(id));
-    }
-
     private void acceptPurchase(final String id) {
         tvReject.setClickable(false);
         tvAccept.setClickable(false);
         ApiClient.getApiClient().acceptJointPurchase(TokenStorage.getToken(context), id)
-                .enqueue(getConfirmationCallback(id));
+                .enqueue(getConfirmationCallback(id, true));
     }
-    
+
+    private void rejectPurchase(final String id) {
+        tvReject.setClickable(false);
+        tvAccept.setClickable(false);
+        ApiClient.getApiClient().rejectJointPurchase(TokenStorage.getToken(context), id)
+                .enqueue(getConfirmationCallback(id, false));
+    }
+
     private void closePurchase(final String id) {
         tvClose.setClickable(false);
         ApiClient.getApiClient().closeJointPurchase(TokenStorage.getToken(context), id)
@@ -126,7 +141,8 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                     @Override
                     protected void onResult(int code, Object result) {
                         if (code == 202) {
-                            getJointPurchase(id);
+                            setResult(RESULT_OK);
+                            finish();
                         } else tvClose.setClickable(true);
                     }
 
@@ -145,32 +161,34 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     }
 
     @NonNull
-    private BaseCallback<Object> getConfirmationCallback(final String id) {
+    private BaseCallback<Object> getConfirmationCallback(final String id, final boolean accept) {
         return new BaseCallback<Object>(context, false) {
-                @Override
-                protected void onResult(int code, Object result) {
-                    if (code == 202) {
-                        getJointPurchase(id);
-                    } else {
-                        tvReject.setClickable(true);
-                        tvAccept.setClickable(true);
-                    }
+            @Override
+            protected void onResult(int code, Object result) {
+                if (code == 202) {
+                    setResult(RESULT_OK);
+                    if (accept) getJointPurchase(id);
+                    else finish();
+                } else {
+                    tvReject.setClickable(true);
+                    tvAccept.setClickable(true);
                 }
+            }
 
-                @Override
-                protected void onError(int code, String errorDescription) {
-                    super.onError(code, errorDescription);
-                    tvReject.setClickable(false);
-                    tvAccept.setClickable(false);
-                }
+            @Override
+            protected void onError(int code, String errorDescription) {
+                super.onError(code, errorDescription);
+                tvReject.setClickable(false);
+                tvAccept.setClickable(false);
+            }
 
-                @Override
-                public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
-                    super.onFailure(call, t);
-                    tvReject.setClickable(false);
-                    tvAccept.setClickable(false);
-                }
-            };
+            @Override
+            public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
+                super.onFailure(call, t);
+                tvReject.setClickable(false);
+                tvAccept.setClickable(false);
+            }
+        };
     }
 
     private void hasResponse(JointPurchaseDetailsResult response) {
@@ -186,56 +204,58 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
         tvAmount.setText(pennyToUah(((float) purchase.getAmount())));
 
-        MembersAdapter membersAdapter = new MembersAdapter(context, purchase.getMembers());
-        RecyclerView rvMembers = findViewById(R.id.rv_members);
-        rvMembers.setLayoutManager(new LinearLayoutManager(context));
-        rvMembers.setHasFixedSize(true);
-        rvMembers.setAdapter(membersAdapter);
+        if (purchase.getMembers() != null && purchase.getMembers().size() != 0) {
+            MembersAdapter membersAdapter = new MembersAdapter(context, purchase.getMembers());
+            RecyclerView rvMembers = findViewById(R.id.rv_members);
+            rvMembers.setLayoutManager(new LinearLayoutManager(context));
+            rvMembers.setHasFixedSize(true);
+            rvMembers.setAdapter(membersAdapter);
 
-        isClosed = purchase.getMembers().get(0)._getMemberStatus().equals("CLOSED");
-        if (!isClosed) {
-            llClosed.setVisibility(GONE);
-            if (isOwner) {
-                llClose.setVisibility(VISIBLE);
-                llPay.setVisibility(View.GONE);
-                llConfirmation.setVisibility(View.GONE);
+            isClosed = purchase.getMembers().get(0)._getMemberStatus().equals("CLOSED");
+            if (!isClosed) {
+                llClosed.setVisibility(GONE);
+                if (isOwner) {
+                    llClose.setVisibility(VISIBLE);
+                    llPay.setVisibility(View.GONE);
+                    llConfirmation.setVisibility(View.GONE);
 
-                tvClose.setOnClickListener(this);
-                tvClose.setTag(purchase.getId());
-            } else {
-                llClose.setVisibility(View.GONE);
-                Member memberI = getMemberById(purchase.getMembers(), id);
-                if (memberI != null) {
-                    switch (memberI._getMemberStatus()) {
-                        case "VIEWED":
-                        case "NOT_VIEWED":
-                            llPay.setVisibility(View.GONE);
-                            llConfirmation.setVisibility(VISIBLE);
+                    tvClose.setOnClickListener(this);
+                    tvClose.setTag(purchase.getId());
+                } else {
+                    llClose.setVisibility(View.GONE);
+                    Member memberI = getMemberById(purchase.getMembers(), id);
+                    if (memberI != null) {
+                        switch (memberI._getMemberStatus()) {
+                            case "VIEWED":
+                            case "NOT_VIEWED":
+                                llPay.setVisibility(View.GONE);
+                                llConfirmation.setVisibility(VISIBLE);
 
-                            tvAccept.setOnClickListener(this);
-                            tvReject.setOnClickListener(this);
-                            tvAccept.setTag(purchase.getId());
-                            tvReject.setTag(purchase.getId());
-                            break;
-                        case "ACCEPTED":
-                            llPay.setVisibility(VISIBLE);
-                            llConfirmation.setVisibility(View.GONE);
+                                tvAccept.setOnClickListener(this);
+                                tvReject.setOnClickListener(this);
+                                tvAccept.setTag(purchase.getId());
+                                tvReject.setTag(purchase.getId());
+                                break;
+                            case "ACCEPTED":
+                                llPay.setVisibility(VISIBLE);
+                                llConfirmation.setVisibility(View.GONE);
 
-                            tvPay.setOnClickListener(this);
-                            break;
-                        default:
-                            llPay.setVisibility(View.GONE);
-                            llConfirmation.setVisibility(View.GONE);
-                            break;
+                                tvPay.setOnClickListener(this);
+                                break;
+                            default:
+                                llPay.setVisibility(View.GONE);
+                                llConfirmation.setVisibility(View.GONE);
+                                break;
+                        }
                     }
                 }
+            } else {
+                tvAmount.setTextColor(getResources().getColor(R.color.grey2));
+                llClosed.setVisibility(VISIBLE);
+                llClose.setVisibility(View.GONE);
+                llPay.setVisibility(View.GONE);
+                llConfirmation.setVisibility(View.GONE);
             }
-        } else {
-            tvAmount.setTextColor(getResources().getColor(R.color.grey2));
-            llClosed.setVisibility(VISIBLE);
-            llClose.setVisibility(View.GONE);
-            llPay.setVisibility(View.GONE);
-            llConfirmation.setVisibility(View.GONE);
         }
 
     }
@@ -293,10 +313,22 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private void startMemberActivity(Member member) {
         if (member != null) {
-            startActivity(new Intent(context, MembersPartActivity.class)
+            startActivityForResult(new Intent(context, MembersPartActivity.class)
                     .putExtra(Keys.MEMBER, member)
                     .putExtra(Keys.TITLE, title)
-                    .putExtra(Keys.OWNER, isOwner));
+                    .putExtra(Keys.OWNER, isOwner),100);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            getJointPurchase(extraPurchase.getId());
         }
     }
 

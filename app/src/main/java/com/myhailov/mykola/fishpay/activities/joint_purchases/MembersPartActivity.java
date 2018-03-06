@@ -117,9 +117,16 @@ public class MembersPartActivity extends BaseActivity {
     }
 
     private void startPaymentMemberActivity() {
-        startActivity(new Intent(context, PaymentMemberActivity.class)
+        startActivityForResult(new Intent(context, PaymentMemberActivity.class)
                 .putExtra(MEMBER, member)
-                .putExtra(TITLE, title));
+                .putExtra(TITLE, title), 100);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
 }

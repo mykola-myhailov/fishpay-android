@@ -105,8 +105,8 @@ public class BeginActivity extends BaseActivity {
     private void quicklogin() {
         String deviceId = DeviceIDStorage.getID(context);
         String deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
-        String password = "12345678";
-        String phone = "380979224504";
+        String password = "00000000";
+        String phone = "380000000000";
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else {
             String firebaseToken = FirebaseInstanceId.getInstance().getToken();

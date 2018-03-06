@@ -2,9 +2,11 @@ package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -70,12 +73,30 @@ public class ChooseMembersActivity extends BaseActivity  {
                             allContacts = result.getContacts();
                             activeContacts = new ArrayList<>();
                             selectedUsers = new ArrayList<>();
-                            String phone = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE)
-                                    .getString(PHONE, "");
+                            SharedPreferences preferences = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+                            String id = preferences.getString(PrefKeys.ID, "");
+                            String phone = preferences.getString(PHONE, "");
+                            String name = preferences.getString(PrefKeys.NAME, "");
+                            String surname = preferences.getString(PrefKeys.SURNAME, "");
+                            String avatar = preferences.getString(PrefKeys.AVATAR, "");
+
                             long myId = -1;
                             for (Contact contact : allContacts) {
                                 if (contact.isActiveUser()) activeContacts.add(contact);
                                 if (contact.getPhone().equals(phone)) myId = contact.getUserId();
+                            }
+                            if (myId == -1) {
+                                myId = Long.parseLong(id);
+                                Contact contactMe = new Contact();
+                                contactMe.setUserId(myId);
+                                contactMe.setContactId(myId);
+                                contactMe.setPhone(phone);
+                                contactMe.setPhoto(avatar);
+                                contactMe.setName(name);
+                                contactMe.setSurname(surname);
+                                contactMe.setIsActiveUser(true);
+                                allContacts.add(0, contactMe);
+                                activeContacts.add(0, contactMe);
                             }
                             selectableContactsAdapter = new SelectableContactsAdapter(context, activeContacts);
                             selectedClientsAdapter = new SelectedClientsAdapter(context, selectedUsers);
@@ -112,7 +133,7 @@ public class ChooseMembersActivity extends BaseActivity  {
         tvInfo = findViewById(R.id.tv_info);
 
         findViewById(R.id.ivPlus).setOnClickListener(this);
-        findViewById(R.id.ll_go).setOnClickListener(this);
+        findViewById(R.id.tv_go).setOnClickListener(this);
     }
 
     private void initTabs() {
@@ -160,10 +181,18 @@ public class ChooseMembersActivity extends BaseActivity  {
             case R.id.ivPlus:
                 startActivityForResult(new Intent(context, CreateMemberActivity.class), REQUEST_MEMBER);
                 break;
-            case R.id.ll_go:
+            case R.id.tv_go:
                 nextActivity();
                 break;
         }
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Внимание")
+                .setMessage("Для создания общей покупки добавте как минимум двоих участников.")
+                .setPositiveButton("Ок", null)
+                .create().show();
     }
 
     @Override
@@ -181,7 +210,7 @@ public class ChooseMembersActivity extends BaseActivity  {
                     .putExtra(PURCHASE2, commonPurchaseBody)
                     .putExtra(CONTACTS, selectedUsers);
             context.startActivity(intent);
-        }
+        } else showErrorDialog();
     }
 
 

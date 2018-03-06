@@ -82,7 +82,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
         tabLayout.addTab(new Tab("Созданные мною", TAB_MY));
     }
 
-    private void getJointPurchasesRequest(){
+    private void getJointPurchasesRequest() {
         allPurchases = new ArrayList<>();
         myPurchases = new ArrayList<>();
         ApiClient.getApiClient().getJointPurchases(token)
@@ -152,11 +152,17 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 showConfirmation(id);
                 break;
             case R.id.ll_purchase:
-                startActivity(new Intent(context, JointPurchaseDetailsActivity.class)
-                        .putExtra(PURCHASE, (JointPurchase) view.getTag())
+                startActivityForResult(new Intent(context, JointPurchaseDetailsActivity.class)
+                        .putExtra(PURCHASE, (JointPurchase) view.getTag()),
+                        100
                 );
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == RESULT_OK) getJointPurchasesRequest();
     }
 
     private void showConfirmation(final String id) {
@@ -261,4 +267,5 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
             }
         }
     }
+
 }
