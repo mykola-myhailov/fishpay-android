@@ -21,7 +21,7 @@ public class TabLayout extends LinearLayout implements View.OnClickListener {
     private Context context;
     private ArrayList<Tab> tabs;
     private int currentTab;
-    public OnTabChangedListener tabChangedListener;
+    private OnTabChangedListener tabChangedListener;
 
     public TabLayout(Context context) {
         super(context);

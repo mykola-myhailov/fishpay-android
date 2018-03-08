@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <LinearLayout
         android:orientation="vertical"
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:title=""
-                android:subtitle="sdfsfsfsfsfs"
+                android:subtitle=""
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/AppTheme.PopupOverlay" >
 
@@ -38,17 +38,18 @@
                     <TextView
                         android:id="@+id/tvToolBarTitle"
                         android:gravity="center"
-                        android:textColor="@color/blue1"
+                        android:textColor="@color/blue"
                         android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:background="@android:color/transparent"
+                        android:textAllCaps="true"
+                        android:textSize="18sp"
                         android:text=""/>
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
-
 
         </android.support.design.widget.AppBarLayout>
 
@@ -58,11 +59,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.myhailov.mykola.fishpay.views.TabLayout
+                android:padding="12dp"
+                android:id="@+id/tab_layout_activity_pay_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_activity_pay_request_list"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
+            <TextView
+                android:id="@+id/tv_placeholder"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="@string/you_have_no_incoming_requests"/>
 
-
-            <!--  main activity content - here -->
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 

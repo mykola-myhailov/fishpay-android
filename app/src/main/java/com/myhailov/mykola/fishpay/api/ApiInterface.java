@@ -12,6 +12,7 @@ import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
+import com.myhailov.mykola.fishpay.api.results.PayRequest;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
 import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
@@ -216,10 +217,10 @@ public interface ApiInterface {
                                              @Path("requestId") String requestId,
                                              @Query("password") String password);
     @GET("api/moneyRequest/incoming")
-    Call<BaseResponse<Object>> getIncomingInvoices(@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<PayRequest>>> getIncomingPayRequests(@Header("Authorization") String token);
 
     @GET("api/moneyRequest/outComing")
-    Call<BaseResponse<Object>> getOuncomingInvoices (@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<PayRequest>>> getOutcomingPayRequests(@Header("Authorization") String token);
 
     @PUT("api/moneyRequest/{requestId}/delete")
     Call<BaseResponse<Object>>  deleteInvoice(@Header("Authorization") String token,

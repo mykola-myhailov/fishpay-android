@@ -21,7 +21,7 @@ public class BaseResponse<T> {
 
     String getErrorDescription() {return errorDescription;}
 
-    T getResult() {
+    public T getResult() {
         return result;
     }
 }
