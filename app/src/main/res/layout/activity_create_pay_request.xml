@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity">
+
+    <LinearLayout
+        android:background="@color/black_light"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivBack"
+            android:padding="16dp"
+            android:tint="@color/white"
+            android:src="@drawable/arrow_back"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize" />
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_marginEnd="?attr/actionBarSize"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="18sp"
+                android:id="@+id/tvToolBarTitle"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:background="@android:color/transparent"
+                tools:text="@string/app_name"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@color/black_light">
+        <TextView
+            android:textSize="18sp"
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Номер получателя:"
+            android:textColor="@color/grey2"/>
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/grey_rounded"
+            android:padding="6dp"
+            android:src="@drawable/contacts_list_contacts"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/iv_choose_contact"/>
+        <EditText
+            android:textSize="22sp"
+            android:id="@+id/et_phone"
+            android:layout_toStartOf="@id/iv_choose_contact"
+            android:text="+380"
+            android:inputType="phone"
+            android:maxLength="13"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_below="@id/tv_number"/>
+        <View
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/white"
+            android:layout_below="@id/et_number"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@color/black_light">
+        <TextView
+            android:textSize="18sp"
+            android:id="@+id/tv_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Карта для приема платежа:"
+            android:textColor="@color/grey2"/>
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/grey_rounded"
+            android:padding="6dp"
+            android:src="@drawable/credit_card"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/iv_choose_card"/>
+        <EditText
+            android:id="@+id/et_card_number"
+            android:inputType="number"
+            android:textSize="22sp"
+            android:layout_toStartOf="@id/iv_choose_card"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_below="@id/tv_card"/>
+        <View
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/white"
+            android:layout_below="@id/et_card_number"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/rv_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_request_amount"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_comment"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="center"
+            android:src="@drawable/comments"/>
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/iv_comment"
+            android:background="@null"
+            android:hint="Коментарий"
+            android:textColorHint="@color/blue1"
+            android:textColor="@color/blue1"
+            android:textSize="14sp"
+            android:gravity="top"
+            android:lines="3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/view_divider"
+            android:layout_below="@id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignStart="@id/et_comment"
+            android:background="@color/grey"/>
+
+        <ImageView
+            android:layout_below="@id/view_divider"
+            android:id="@+id/iv_payment"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="center"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/products_list"/>
+        <TextView
+            android:id="@+id/tv_product"
+            android:layout_below="@id/view_divider"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/iv_payment"
+            android:background="@null"
+            android:hint="Счет за товар"
+            android:textColorHint="@color/blue1"
+            android:textColor="@color/blue1"
+            android:textSize="14sp"
+            android:gravity="top"
+            android:lines="3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/view_divider2"
+            android:layout_below="@id/tv_product"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignStart="@id/tv_product"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            android:layout_below="@id/view_divider2"
+            android:layout_above="@+id/ll_send_request"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:padding="12dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.myhailov.mykola.fishpay.views.MoneyEditText
+                    android:id="@+id/met_amount"
+                    android:hint="Введите сумму"
+                    android:textColorHint="@color/blue1"
+                    android:textSize="28sp"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:background="@null"
+                    android:gravity="end"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blue1"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uah"
+                    android:textColor="@color/blue1"
+                    android:textSize="24sp"/>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/ll_send_request"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:background="@color/light_grey"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_light"/>
+            <TextView
+                android:id="@+id/tv_send_request"
+                android:textColor="@color/blue1"
+                android:textSize="18sp"
+                android:text="Отправить запрос"
+                android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

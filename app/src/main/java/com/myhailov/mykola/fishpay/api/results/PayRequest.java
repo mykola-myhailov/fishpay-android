@@ -58,8 +58,18 @@ public class PayRequest {
         return comment;
     }
 
-    public String getStatus() {
+    public String _getStatus() {
         return status;
+    }
+
+    public String getStatus() {
+        switch (status) {
+            case "ACTIVE": return "Доставлено";
+            case "VIEWED": case "DELETED_BY_RECIPIENT": return "Прочитано";
+            case "ACCEPTED": return "Отклонено";
+            case "REJECTED": return "Одобрено";
+            default: return status;
+        }
     }
 
     public String getCreatingTime() {

@@ -54,30 +54,39 @@
         <activity android:name=".activities.contacts.SearchContactActivity" />
         <activity android:name=".activities.pay_requests.ContactSelectActivity" />
         <activity android:name=".activities.pay_requests.CardSelectActivity" />
-        <activity android:name=".activities.joint_purchases.AddJoinPurchaseActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.joint_purchases.AddJoinPurchaseActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.joint_purchases.ChooseMembersActivity"
-            android:theme="@style/AppTheme.NoActionBar.Dark"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.joint_purchases.DistributionActivity"
-            android:theme="@style/AppTheme.NoActionBar.Dark"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.joint_purchases.JointPurchaseDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar.Dark"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.joint_purchases.MembersPartActivity"
-            android:theme="@style/AppTheme.NoActionBar.Dark"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+        <activity
+            android:name=".activities.joint_purchases.DistributionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+        <activity
+            android:name=".activities.joint_purchases.JointPurchaseDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+        <activity
+            android:name=".activities.joint_purchases.MembersPartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity android:name=".activities.drawer.ContactsPermissionsActivity" />
 
         <service android:name=".services.ContactsIntentService" />
 
         <activity android:name=".activities.goods.CreateGodsActivity" />
-        <activity android:name=".activities.joint_purchases.CreateMemberActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.joint_purchases.PaymentMemberActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.joint_purchases.CreateMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.joint_purchases.PaymentMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.pay_requests.CreatePayRequestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Dark"/>
     </application>
 
 </manifest>

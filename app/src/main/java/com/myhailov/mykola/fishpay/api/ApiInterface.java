@@ -224,11 +224,11 @@ public interface ApiInterface {
 
     @PUT("api/moneyRequest/{requestId}/delete")
     Call<BaseResponse<Object>>  deleteInvoice(@Header("Authorization") String token,
-                                              @Path("requestId") String invoiceId);
+                                              @Path("requestId") long invoiceId);
 
-    @PUT("rest/api/moneyRequest/{requestId}/removeFromList")
+    @PUT("api/moneyRequest/{requestId}/removeFromList")
     Call<BaseResponse<Object>> removeInvoice(@Header("Authorization") String token,
-                                             @Path("requestId") String invoiceId);
+                                             @Path("requestId") long invoiceId);
 
     @GET("api/moneyRequest/{requestId}")
     Call<BaseResponse<Object>> getInvoiceDetails(@Header("Authorization") String token,

@@ -110,29 +110,30 @@
             android:layout_above="@+id/ll_go"
             android:layout_width="match_parent"
             android:layout_height="match_parent">-->
-            <LinearLayout
-                android:background="@color/white"
-                android:layout_above="@+id/tv_go"
-                android:isScrollContainer="true"
-                android:orientation="vertical"
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_above="@+id/ll_go"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.myhailov.mykola.fishpay.views.TabLayout
+                android:id="@+id/tab_layout"
+                android:padding="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.myhailov.mykola.fishpay.views.TabLayout
-                    android:id="@+id/tab_layout"
-                    android:padding="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_contacts"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
         <!--</ScrollView>-->
 
 
 
         <LinearLayout
+            android:id="@+id/ll_go"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             android:background="@color/light_grey"

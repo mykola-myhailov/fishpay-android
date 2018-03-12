@@ -33,7 +33,7 @@
             android:layout_marginTop="7dp"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:background="@drawable/green_circle"/>
+            android:background="@drawable/blue_circle"/>
 
         <LinearLayout
             android:layout_toEndOf="@id/viewed"

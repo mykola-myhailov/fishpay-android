@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +16,11 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.PayRequest;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
@@ -127,7 +131,43 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_delete:
+                deletePayRequest((PayRequest) view.getTag());
 
+                break;
+        }
+    }
+
+    private void deletePayRequest(PayRequest request) {
+        String id = preferences.getString(PrefKeys.ID, "");
+        if (String.valueOf(request.getRequesterId()).equals(id)) {
+            ApiClient.getApiClient().deleteInvoice(TokenStorage.getToken(context),
+                    request.getId()).enqueue(new Callback<BaseResponse<Object>>() {
+                @Override
+                public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
+                        if (response.code() == 202) getOutcomingRequests();
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse<Object>> call, Throwable t) {
+
+                }
+            });
+        } else {
+            ApiClient.getApiClient().removeInvoice(TokenStorage.getToken(context),
+                    request.getId()).enqueue(new Callback<BaseResponse<Object>>() {
+                @Override
+                public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
+                    if (response.code() == 202) getIncomingRequests();
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse<Object>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -138,7 +178,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        startActivity(new Intent(context, CreatePayRequestActivity.class));
         return true;
     }
 
@@ -174,7 +214,9 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
         class PayRequestHolder extends RecyclerView.ViewHolder {
 
+            View tvDelete;
             View rlPayRequest;
+            View viewed;
             TextView tvName;
             TextView tvAmount;
             TextView tvStatus;
@@ -182,19 +224,25 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
             PayRequestHolder(View itemView) {
                 super(itemView);
+                tvDelete = itemView.findViewById(R.id.tv_delete);
                 rlPayRequest = itemView.findViewById(R.id.rl_pay_request);
+                viewed = itemView.findViewById(R.id.viewed);
                 tvName = itemView.findViewById(R.id.tv_name);
                 tvAmount = itemView.findViewById(R.id.tv_amount);
                 tvStatus = itemView.findViewById(R.id.tv_status);
                 tvTime = itemView.findViewById(R.id.tv_time);
+                tvDelete.setOnClickListener((View.OnClickListener) context);
                 rlPayRequest.setOnClickListener((View.OnClickListener) context);
             }
 
             void bind(PayRequest request) {
+                viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
                 tvStatus.setText(request.getStatus());
+                // TODO: 12.03.18 format date
                 tvTime.setText(request.getCreatingTime());
+                tvDelete.setTag(request);
                 rlPayRequest.setTag(request);
             }
         }
