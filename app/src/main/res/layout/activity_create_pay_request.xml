@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/white"
-            android:layout_below="@id/et_number"/>
+            android:layout_below="@id/et_phone"/>
     </RelativeLayout>
 
     <RelativeLayout
