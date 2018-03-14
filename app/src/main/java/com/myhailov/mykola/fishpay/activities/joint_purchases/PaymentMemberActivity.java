@@ -108,8 +108,10 @@ public class PaymentMemberActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.tv_pay_method:
                 showChoosePayMethod();
                 break;

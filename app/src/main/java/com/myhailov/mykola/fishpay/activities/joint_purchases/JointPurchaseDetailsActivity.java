@@ -270,8 +270,10 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         switch (view.getId()) {
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.ll_member:
                 startMemberActivity(((Member) view.getTag()));
                 break;

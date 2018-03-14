@@ -32,11 +32,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.ivBack) onBackPressed();
-    }
-
     protected void initToolBar(String title) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -163,8 +163,10 @@ public class ChooseMembersActivity extends BaseActivity  {
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         switch (view.getId()) {
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.ll_contact:
                 long id = ((Contact) view.getTag()).getUserId();
                 if (selectableContactsAdapter.setSelectedId(id)) {

@@ -27,14 +27,9 @@ import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.BaseResponse;
-import com.myhailov.mykola.fishpay.api.EmptyCallback;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
-import retrofit2.Call;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;

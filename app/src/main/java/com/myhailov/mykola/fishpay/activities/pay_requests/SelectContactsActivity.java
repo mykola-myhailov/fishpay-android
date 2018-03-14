@@ -7,7 +7,7 @@ import android.view.View;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 
-public class ContactSelectActivity extends BaseActivity {
+public class SelectContactsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -86,4 +86,6 @@
     <string name="close_purchase">Закрыть покупку</string>
     <string name="you_have_no_incoming_requests">У Вас еще нет входящих запросов</string>
     <string name="you_have_no_outcoming_requests">У Вас еще нет исходящих запросов</string>
+    <string name="comment">Коментарий</string>
+    <string name="invoice_for_goods">Счет за товар</string>
 </resources>

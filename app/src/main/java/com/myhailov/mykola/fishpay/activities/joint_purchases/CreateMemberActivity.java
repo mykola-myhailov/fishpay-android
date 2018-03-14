@@ -34,14 +34,19 @@ public class CreateMemberActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-        if (v.getId() == R.id.tv_add && isDataValid()) {
-            Contact contact = new Contact();
-            contact.setUserId(-1);
-            contact.setPhone(etPhone.getText().toString());
-            contact.setName(etName.getText().toString());
-            setResult(RESULT_OK, new Intent().putExtra(CONTACT, contact));
-            finish();
+        switch (v.getId()){
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
+            case  R.id.tv_add:
+                if (isDataValid()){
+                    Contact contact = new Contact();
+                    contact.setUserId(-1);
+                    contact.setPhone(etPhone.getText().toString());
+                    contact.setName(etName.getText().toString());
+                    setResult(RESULT_OK, new Intent().putExtra(CONTACT, contact));
+                    finish();
+                }
         }
     }
 

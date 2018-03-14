@@ -48,14 +48,14 @@ public class AddJoinPurchaseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_join_purchase);
-        initCustomToolbar(getString(R.string.creating_joint_purchase));
+        initToolBar(getString(R.string.creating_joint_purchase));
 
         initViews();
     }
 
     private void initViews() {
         etGroupName = findViewById(R.id.et_group_name);
-        etAmount = (MoneyEditText) findViewById(R.id.met_amount);
+        etAmount = findViewById(R.id.met_amount);
         etDescription = findViewById(R.id.et_description);
         tvPayTo = findViewById(R.id.tv_pay_to);
         tvChooseCard = findViewById(R.id.tv_choose_card);
@@ -89,7 +89,6 @@ public class AddJoinPurchaseActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         switch (view.getId()) {
             case R.id.tv_pay_to:
                 showDateDialog();

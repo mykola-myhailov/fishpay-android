@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -9,41 +10,62 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.views.MoneyEditText;
 
 public class CreatePayRequestActivity extends BaseActivity {
 
-    private EditText etPhone;
-    private EditText etCard;
-    private View ivChooseContact;
-    private View ivChooseCard;
+    private EditText etPhone, etCard, etComment;
+    private MoneyEditText etAmount;
+
     private RecyclerView rvContacts;
     private View rlRequestAmount;
-    private EditText etComment;
-    private TextView tvProduct;
-    private MoneyEditText etAmount;
-    private View tvSendRequest;
+
+    private String receiverPhone, receiverName, receiverCard, receiverCardName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pay_request);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(Keys.PHONE)) receiverPhone = extras.getString(Keys.PHONE);
+        if (extras.containsKey(Keys.NAME)) receiverPhone = extras.getString(Keys.NAME);
+        if (extras.containsKey(Keys.PHONE)) receiverPhone = extras.getString(Keys.PHONE);
+        if (extras.containsKey(Keys.PHONE)) receiverPhone = extras.getString(Keys.PHONE);
+
         initCustomToolbar("запрос на оплату");
-        assignViews();
+        initViews();
     }
 
-    private void assignViews() {
+    private void initViews() {
+
+        findViewById(R.id.iv_choose_contact).setOnClickListener(this);
+        findViewById(R.id.iv_choose_card).setOnClickListener(this);
+        findViewById(R.id.tv_send_request).setOnClickListener(this);
+        rvContacts = findViewById(R.id.rv_contacts);
         etPhone = findViewById(R.id.et_phone);
         etCard = findViewById(R.id.et_card_number);
-        ivChooseContact = findViewById(R.id.iv_choose_contact);
-        ivChooseCard = findViewById(R.id.iv_choose_card);
-        rvContacts = findViewById(R.id.rv_contacts);
-        rlRequestAmount = findViewById(R.id.rl_request_amount);
         etComment = findViewById(R.id.et_comment);
-        tvProduct = findViewById(R.id.tv_product);
-        tvProduct = findViewById(R.id.tv_product);
         etAmount = findViewById(R.id.met_amount);
-        tvSendRequest = findViewById(R.id.tv_send_request);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
+            case R.id.iv_choose_card:
+                context.startActivity(new Intent(context, CardSelectActivity.class));
+                break;
+            case R.id.iv_choose_contact:
+                context.startActivity(new Intent(context, SelectContactsActivity.class));
+                break;
+            case R.id.tv_send_request:
+
+                break;
+        }
+
     }
 }

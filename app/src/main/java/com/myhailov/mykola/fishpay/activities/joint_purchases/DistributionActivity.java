@@ -91,8 +91,10 @@ public class DistributionActivity extends BaseActivity {
 
     @Override
     public void onClick(final View v) {
-        super.onClick(v);
         switch (v.getId()) {
+            case  R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.tv_finish:
                 v.setClickable(false);
                 Member[] members = new Member[contacts.size()];

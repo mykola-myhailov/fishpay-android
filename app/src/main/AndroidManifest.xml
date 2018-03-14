@@ -52,7 +52,7 @@
         <activity android:name=".activities.profile.ChangeLanguageActivity" />
         <activity android:name=".activities.contacts.ContactDetailsActivity" />
         <activity android:name=".activities.contacts.SearchContactActivity" />
-        <activity android:name=".activities.pay_requests.ContactSelectActivity" />
+        <activity android:name=".activities.pay_requests.SelectContactsActivity" />
         <activity android:name=".activities.pay_requests.CardSelectActivity" />
         <activity
             android:name=".activities.joint_purchases.AddJoinPurchaseActivity"

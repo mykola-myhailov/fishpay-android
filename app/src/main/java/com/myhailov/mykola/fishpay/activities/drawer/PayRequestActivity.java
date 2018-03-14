@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,24 +88,26 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
         if (callOutcoming != null) callOutcoming.cancel();
         stateIs(State.LOADING);
         callIncoming = ApiClient.getApiClient().getIncomingPayRequests(TokenStorage.getToken(context));
-        callIncoming.enqueue(getCallback());
+        callIncoming.enqueue(createPayRequestCallback());
     }
 
     private void getOutcomingRequests() {
         if (callIncoming != null) callIncoming.cancel();
         stateIs(State.LOADING);
         callOutcoming = ApiClient.getApiClient().getOutcomingPayRequests(TokenStorage.getToken(context));
-        callOutcoming.enqueue(getCallback());
+        callOutcoming.enqueue(createPayRequestCallback());
     }
 
     @NonNull
-    private Callback<BaseResponse<ArrayList<PayRequest>>> getCallback() {
+    private Callback<BaseResponse<ArrayList<PayRequest>>> createPayRequestCallback() {
         return new Callback<BaseResponse<ArrayList<PayRequest>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<PayRequest>>> call,
                                    Response<BaseResponse<ArrayList<PayRequest>>> response) {
                 if (response.code() == 200) {
-                    currentList = response.body().getResult();
+                    BaseResponse<ArrayList<PayRequest>> body = response.body();
+                    if (body == null)return;
+                    currentList = body.getResult();
                     rvRequests.getAdapter().notifyDataSetChanged();
                     stateIs(currentList.size() == 0 ? State.EMPTY_LIST : State.LOADED);
                 } else if (response.code() == 404) stateIs(State.EMPTY_LIST);
@@ -134,7 +135,6 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
         switch (view.getId()) {
             case R.id.tv_delete:
                 deletePayRequest((PayRequest) view.getTag());
-
                 break;
         }
     }

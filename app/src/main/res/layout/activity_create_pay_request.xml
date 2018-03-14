@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,13 +53,14 @@
             android:text="Номер получателя:"
             android:textColor="@color/grey2"/>
         <ImageView
+            android:id="@+id/iv_choose_contact"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:background="@drawable/grey_rounded"
             android:padding="6dp"
             android:src="@drawable/contacts_list_contacts"
             android:layout_alignParentEnd="true"
-            android:id="@+id/iv_choose_contact"/>
+            />
         <EditText
             android:textSize="22sp"
             android:id="@+id/et_phone"
@@ -94,13 +94,14 @@
             android:text="Карта для приема платежа:"
             android:textColor="@color/grey2"/>
         <ImageView
+            android:id="@+id/iv_choose_card"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:background="@drawable/grey_rounded"
             android:padding="6dp"
             android:src="@drawable/credit_card"
             android:layout_alignParentEnd="true"
-            android:id="@+id/iv_choose_card"/>
+            />
         <EditText
             android:id="@+id/et_card_number"
             android:inputType="number"
@@ -139,19 +140,29 @@
             android:layout_height="24dp"
             android:scaleType="center"
             android:src="@drawable/comments"/>
-        <EditText
-            android:id="@+id/et_comment"
+        <TextView
+            android:id="@+id/tv_comment"
             android:layout_marginTop="12dp"
             android:layout_toEndOf="@id/iv_comment"
             android:background="@null"
-            android:hint="Коментарий"
-            android:textColorHint="@color/blue1"
+            android:text="@string/comment"
             android:textColor="@color/blue1"
             android:textSize="14sp"
             android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_toEndOf="@id/iv_comment"
+            android:layout_below="@id/tv_comment"
+            android:background="@null"
+            android:textColor="@color/blue1"
+            android:textSize="14sp"
             android:lines="3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <View
             android:id="@+id/view_divider"
             android:layout_below="@id/et_comment"
@@ -170,14 +181,26 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/products_list"/>
+
         <TextView
-            android:id="@+id/tv_product"
+            android:id="@+id/tv_invoice"
             android:layout_below="@id/view_divider"
             android:layout_marginTop="12dp"
             android:layout_toEndOf="@id/iv_payment"
-            android:background="@null"
-            android:hint="Счет за товар"
+            android:text="@string/invoice_for_goods"
             android:textColorHint="@color/blue1"
+            android:textColor="@color/blue1"
+            android:textSize="14sp"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_invoice"
+            android:layout_below="@id/tv_invoice"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/iv_payment"
+            android:background="@null"
             android:textColor="@color/blue1"
             android:textSize="14sp"
             android:gravity="top"
@@ -186,10 +209,10 @@
             android:layout_height="wrap_content" />
         <View
             android:id="@+id/view_divider2"
-            android:layout_below="@id/tv_product"
+            android:layout_below="@id/et_invoice"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_alignStart="@id/tv_product"
+            android:layout_alignStart="@id/tv_invoice"
             android:background="@color/grey"/>
 
         <LinearLayout
@@ -205,10 +228,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.myhailov.mykola.fishpay.views.MoneyEditText
                     android:id="@+id/met_amount"
                     android:hint="Введите сумму"
                     android:textColorHint="@color/blue1"
+                    android:textColor="@color/blue1"
                     android:textSize="28sp"
                     android:inputType="number"
                     android:digits="0123456789"
@@ -231,11 +256,6 @@
                     android:textColor="@color/blue1"
                     android:textSize="24sp"/>
             </LinearLayout>
-
-
-
-
-
         </LinearLayout>
 
         <LinearLayout
