@@ -8,12 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,15 +30,15 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-
-import okhttp3.internal.Util;
 import tw.henrychuang.lib.AutoAddTextWatcher;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity.REQUEST_CARD;
+
 
 public class CardsActivity extends BaseActivity {
+
+
+    public final static int REQUEST_CARD = 34;
 
     private TextView tvNameError;
     private EditText etCardName;

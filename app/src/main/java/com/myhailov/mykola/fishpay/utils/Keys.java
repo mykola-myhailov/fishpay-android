@@ -20,6 +20,7 @@ public class Keys {
     public static final String SEARCHED_CONTACT = "searched_contact";
     public static final String REQUEST = "request";
     public static final String CARD = "card";
+    public static final String CARD_NAME = "card_name";
     public static final String PURCHASE = "purchase";
     public static final String PURCHASE2 = "purchase2";
     public static final int REQUEST_MEMBER = 100;
@@ -28,4 +29,5 @@ public class Keys {
     public static final String MEMBER = "member";
     public static final String OWNER = "owner";
     public static final String CLOSED = "closed";
+
 }

@@ -17,7 +17,7 @@ public class Card implements Comparable<Card>, Parcelable {
     private @SerializedName("card_number") String cardNumber;
     private @SerializedName("type") String type;
 
-    protected Card(Parcel in) {
+    private Card(Parcel in) {
         id = in.readString();
         name = in.readString();
         cardNumber = in.readString();

@@ -2,6 +2,8 @@ package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
+import com.myhailov.mykola.fishpay.api.requestBodies.CreateInvoiceBody;
+import com.myhailov.mykola.fishpay.api.requestBodies.Goods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -203,14 +205,10 @@ public interface ApiInterface {
     Call<BaseResponse<String>> addContact(@Header("Authorization") String toke, @Path("userId") long id);
 
     //7) invoices
-    @FormUrlEncoded @POST("api/moneyRequest/init")
+    @POST("api/moneyRequest/init")
     Call<BaseResponse<Object>> createInvoice (@Header("Authorization") String token,
-                                      @Field("phone") String phone,
-                                      @Field("card") String card,
-                                      @Field("amount") String amount,
-                                      @Field("comment") String comment,
-                                      @Field("commonPurchaseMember") String memberId,
-                                      @Field("goods") String goods);
+    @Body CreateInvoiceBody body);
+
 
     @PUT("api/moneyRequest/{requestId}/confirm")
     Call<BaseResponse<Object>> confirmInvoice (@Header("Authorization") String token,

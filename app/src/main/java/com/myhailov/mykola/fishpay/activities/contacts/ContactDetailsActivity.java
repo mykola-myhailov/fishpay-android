@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
@@ -29,6 +31,7 @@ public class ContactDetailsActivity extends BaseActivity {
     private  String phone, photo, name, surname;
     private boolean isAdded = false;
     private TextView tvIsAdded;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class ContactDetailsActivity extends BaseActivity {
         if (extras == null) return;
         tvIsAdded = findViewById(R.id.tvInContactsList);
         if (extras.containsKey(Keys.CONTACT)) {
-            Contact contact = extras.getParcelable(Keys.CONTACT);
+            contact = extras.getParcelable(Keys.CONTACT);
             if (contact == null) return;
             phone = contact.getPhone();
             userId = contact.getUserId();
@@ -78,6 +81,7 @@ public class ContactDetailsActivity extends BaseActivity {
             ((TextView) findViewById(R.id.tvName2)).setText(importedName);
             ((TextView) findViewById(R.id.tvCardNumber)).setVisibility(View.GONE);
         }
+        (findViewById(R.id.tvGet)).setOnClickListener(this);
 
 
     }
@@ -116,6 +120,10 @@ public class ContactDetailsActivity extends BaseActivity {
                                 }
                             });
                 } else Utils.noInternetToast(context);
+                break;
+            case R.id.tvGet:
+                context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                        .putExtra(Keys.CONTACT, contact ));
                 break;
         }
     }

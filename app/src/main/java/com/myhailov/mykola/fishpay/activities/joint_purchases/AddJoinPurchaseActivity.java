@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static java.util.Calendar.DATE;
@@ -29,8 +30,6 @@ import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
 public class AddJoinPurchaseActivity extends BaseActivity {
-
-    public final static int REQUEST_CARD = 100;
 
     private MoneyEditText etAmount;
     private EditText etGroupName,
@@ -48,7 +47,7 @@ public class AddJoinPurchaseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_join_purchase);
-        initToolBar(getString(R.string.creating_joint_purchase));
+        initCustomToolbar(getString(R.string.creating_joint_purchase));
 
         initViews();
     }
@@ -96,8 +95,7 @@ public class AddJoinPurchaseActivity extends BaseActivity {
             case R.id.rl_card:
             case R.id.tv_choose_card:
                 startActivityForResult(
-                        new Intent(context, CardsActivity.class).putExtra(REQUEST, true),
-                        REQUEST_CARD);
+                        new Intent(context, CardsActivity.class).putExtra(REQUEST, true), REQUEST_CARD);
                 break;
             case R.id.tv_create:
                 if (isDataValid()) {

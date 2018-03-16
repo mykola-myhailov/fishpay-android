@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/app_bar"/>
+    <LinearLayout
+        android:padding="5dp"
+        android:background="@color/light_grey"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search"
+            android:background="@drawable/white_oval"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:queryHint="поиск по имени"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+        android:id="@+id/toggleSwitch"
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        android:padding="2dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_border"
+        custom:activeBgColor="@color/blue1"
+        custom:activeTextColor="@color/white"
+        custom:inactiveBgColor="@color/white"
+        custom:inactiveTextColor="@color/blue1"
+        custom:toggleWidth="120dp"
+        custom:cornerRadius="8dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
+
+
+

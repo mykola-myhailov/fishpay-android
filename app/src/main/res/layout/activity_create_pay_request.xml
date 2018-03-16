@@ -52,15 +52,19 @@
             android:layout_height="wrap_content"
             android:text="Номер получателя:"
             android:textColor="@color/grey2"/>
+
         <ImageView
             android:id="@+id/iv_choose_contact"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:background="@drawable/grey_rounded"
-            android:padding="6dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="6dp"
             android:src="@drawable/contacts_list_contacts"
-            android:layout_alignParentEnd="true"
-            />
+            android:layout_alignParentEnd="true" />
+
         <EditText
             android:textSize="22sp"
             android:id="@+id/et_phone"
@@ -68,11 +72,13 @@
             android:text="+380"
             android:inputType="phone"
             android:maxLength="13"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
             android:layout_below="@id/tv_number"/>
+
         <View
             android:layout_marginTop="2dp"
             android:layout_width="match_parent"
@@ -82,6 +88,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
@@ -102,8 +109,8 @@
             android:src="@drawable/credit_card"
             android:layout_alignParentEnd="true"
             />
-        <EditText
-            android:id="@+id/et_card_number"
+        <TextView
+            android:id="@+id/tv_card_number"
             android:inputType="number"
             android:textSize="22sp"
             android:layout_toStartOf="@id/iv_choose_card"
@@ -117,14 +124,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/white"
-            android:layout_below="@id/et_card_number"/>
+            android:layout_below="@id/tv_card_number"/>
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/rv_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:id="@+id/rl_request_amount"
@@ -159,7 +160,7 @@
             android:background="@null"
             android:textColor="@color/blue1"
             android:textSize="14sp"
-            android:lines="3"
+            android:maxLines="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -196,7 +197,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/et_invoice"
+            android:id="@+id/et_goods"
             android:layout_below="@id/tv_invoice"
             android:layout_marginTop="12dp"
             android:layout_toEndOf="@id/iv_payment"
@@ -204,12 +205,12 @@
             android:textColor="@color/blue1"
             android:textSize="14sp"
             android:gravity="top"
-            android:lines="3"
+            android:maxLines="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <View
             android:id="@+id/view_divider2"
-            android:layout_below="@id/et_invoice"
+            android:layout_below="@id/et_goods"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignStart="@id/tv_invoice"
@@ -236,7 +237,7 @@
                     android:textColor="@color/blue1"
                     android:textSize="28sp"
                     android:inputType="number"
-                    android:digits="0123456789"
+                    android:digits=".0123456789"
                     android:background="@null"
                     android:gravity="end"
                     android:layout_weight="1"
