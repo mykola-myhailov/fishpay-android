@@ -6,15 +6,21 @@ import com.google.gson.annotations.SerializedName;
  * Created by Mykola Myhailov  on 16.03.18.
  */
 
-public class Goods {
-    @SerializedName("goods_id")
+public class SelectedGoods {
     private int goods_id;
 
-    @SerializedName("count")
     private int count;
 
-    public Goods(int goods_id, int count) {
+    public SelectedGoods(int goods_id, int count) {
         this.goods_id = goods_id;
         this.count = count;
+    }
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

@@ -14,14 +14,16 @@ import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.requestBodies.CreateInvoiceBody;
-import com.myhailov.mykola.fishpay.api.requestBodies.Goods;
+import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.MoneyEditText;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -109,9 +111,9 @@ public class CreatePayRequestActivity extends BaseActivity {
                 String amount = etAmount.getText().toString();
                 String comment = etComment.getText().toString();
 
-                Goods a = new Goods(123, 30);
-                Goods b = new Goods(324, 2);
-                ArrayList<Goods> goods = new ArrayList<>();
+                com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods a = new com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods(123, 30);
+                com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods b = new com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods(324, 2);
+                ArrayList<com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods> goods = new ArrayList<>();
                 goods.add(a);
                 goods.add(b);
 
@@ -127,7 +129,7 @@ public class CreatePayRequestActivity extends BaseActivity {
 
                 else if (Utils.isOnline(context)){
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
-                           new CreateInvoiceBody(receiverPhone, cardFullNumber, amount, comment, null, goods))
+                            receiverPhone, cardFullNumber, amount, comment, null, prepareGoods(goods))
                             .enqueue(new BaseCallback<Object>(context, true) {
                                 @Override
                                 protected void onResult(int code, Object result) {
@@ -166,4 +168,21 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
         }
     }
+
+
+    private  String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
+        JSONArray goodsArray = new JSONArray();
+
+        try {
+            for (SelectedGoods goods: selectedGoods) {
+                JSONObject goodsJsonObject= new JSONObject();
+                goodsJsonObject.put("count",  goods.getCount());
+                goodsJsonObject.put("goods_id", goods.getGoods_id());
+                goodsArray.put(goodsJsonObject);
+            }
+
+        } catch (Exception ignored){}
+        return goodsArray.toString();
+    }
+
 }
