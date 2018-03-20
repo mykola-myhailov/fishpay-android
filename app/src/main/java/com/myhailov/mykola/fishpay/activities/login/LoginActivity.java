@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
@@ -135,8 +136,11 @@ public class LoginActivity extends BaseActivity {
         else {
             String firebaseToken = FirebaseInstanceId.getInstance().getToken();
             String deviceType = "android";
+            String devicetype = "android";
+            int versionCode = BuildConfig.VERSION_CODE;
+            String language = "ru";
             final Retrofit retrofit = ApiClient.getRetrofit();
-            retrofit.create(ApiInterface.class).login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
+            retrofit.create(ApiInterface.class).login(devicetype, versionCode, language, phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
 
                         @Override

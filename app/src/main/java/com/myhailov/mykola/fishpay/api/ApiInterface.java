@@ -45,7 +45,10 @@ public interface ApiInterface {
 
     // 1) registration
     @GET ("api/user/checkMobile/{phoneNumber}") // check is there users with this phone number exist
-    Call<BaseResponse<Object>> checkMobile(@Path("phoneNumber")String phone);
+    Call<BaseResponse<Object>> checkMobile(@Header("deviceType") String deviceType ,
+            @Header("version") int version,
+            @Header("language") String language,
+            @Path("phoneNumber")String phone);
 
 
     @FormUrlEncoded @POST("api/user/registration/checkOtp") // check code from sms
@@ -53,7 +56,10 @@ public interface ApiInterface {
 
 
     @Multipart @POST("api/user/create")   // registration
-    Call<BaseResponse<RegistrationResult>> registration(@Part("phoneNumber") RequestBody phoneNumber,
+    Call<BaseResponse<RegistrationResult>> registration(@Header("deviceType") String device ,
+                                                        @Header("version") int version,
+                                                        @Header("language") String language,
+                                                        @Part("phoneNumber") RequestBody phoneNumber,
                                                         @Part("firstName") RequestBody firstName,
                                                         @Part("secondName") RequestBody secondName,
                                                         @Part("birthday") RequestBody birthday,
@@ -70,12 +76,16 @@ public interface ApiInterface {
 
     // 2) Authentication
     @FormUrlEncoded @POST("api/user/login")      // login
-    Call<BaseResponse<LoginResult>> login (@Field("phoneNumber") String phoneNumber,
-                                           @Field("pass") String password,
-                                           @Field("deviceId") String deviceId,
-                                           @Field("deviceInfo") String deviceInfo,
-                                           @Field("device_type") String deviceType,
-                                           @Field("user_token") String firebaseToken);
+    Call<BaseResponse<LoginResult>> login ( @Header("deviceType") String device ,
+                                            @Header("version") int version,
+                                            @Header("language") String language,
+                                            @Field("phoneNumber") String phoneNumber,
+                                            @Field("pass") String password,
+                                            @Field("deviceId") String deviceId,
+                                            @Field("deviceInfo") String deviceInfo,
+                                            @Field("device_type") String deviceType,
+                                            @Field("user_token") String firebaseToken);
+
 
     @PUT ("api/sessions/invalidate")    //invalidation
     Call<BaseResponse<Object>> invalidion (@Query("phoneNumber") String phoneNumber,

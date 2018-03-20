@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -74,8 +75,12 @@ public class SetPasswordActivity extends BaseActivity {
                 else {
                     String firebaseToken = FirebaseInstanceId.getInstance().getToken();
                     String deviceType = "android";
+                    String devicetype = "android";
+                    int versionCode = BuildConfig.VERSION_CODE;
+                    String language = "ru";
                     ApiClient.getApiClient()
-                            .registration(Utils.makeRequestBody(phone),
+                            .registration(devicetype, versionCode, language,
+                                    Utils.makeRequestBody(phone),
                                     Utils.makeRequestBody(name),
                                     Utils.makeRequestBody(surname),
                                     Utils.makeRequestBody(birthday),

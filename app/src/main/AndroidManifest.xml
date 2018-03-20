@@ -83,9 +83,11 @@
         <activity
             android:name=".activities.joint_purchases.PaymentMemberActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.pay_requests.CreatePayRequestActivity"
+        <activity
+            android:name=".activities.pay_requests.CreatePayRequestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.Dark"/>
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+        <activity android:name=".activities.pay_requests.SelectGoodsActivity"></activity>
     </application>
 
 </manifest>

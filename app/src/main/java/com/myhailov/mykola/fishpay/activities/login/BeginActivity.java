@@ -9,19 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.services.ContactsIntentService;
-import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
-import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 
@@ -36,7 +31,7 @@ public class BeginActivity extends BaseActivity {
         setContentView(R.layout.activity_begin);
 
         startService(new Intent(this, ContactsIntentService.class));
-        quicklogin();
+     //   quicklogin();
 
         etPhone = findViewById(R.id.etPhone);
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
@@ -68,8 +63,11 @@ public class BeginActivity extends BaseActivity {
 
 
   private void checkMobileRequest() {
+        String devicetype = "android";
+        int versionCode = BuildConfig.VERSION_CODE;
+        String language = "ru";
         ApiClient.getApiClient()
-                .checkMobile(phone)
+                .checkMobile(devicetype, versionCode, language, phone)
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, @Nullable Object result) {
@@ -102,7 +100,7 @@ public class BeginActivity extends BaseActivity {
     }
 
 
-    private void quicklogin() {
+   /* private void quicklogin() {
         String deviceId = DeviceIDStorage.getID(context);
         String deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
         String password = "12345678";
@@ -111,6 +109,9 @@ public class BeginActivity extends BaseActivity {
         else {
             String firebaseToken = FirebaseInstanceId.getInstance().getToken();
             String deviceType = "android";
+            String devicetype = "android";
+            int versionCode = BuildConfig.VERSION_CODE;
+            String language = "ru";
             ApiClient.getApiClient().login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
                         @Override
@@ -125,6 +126,6 @@ public class BeginActivity extends BaseActivity {
                     });
 
         }
-    }
+    }*/
 
 }
