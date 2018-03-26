@@ -1,11 +1,15 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
@@ -36,17 +40,15 @@ import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class CreatePayRequestActivity extends BaseActivity {
 
-
     private EditText etPhone, etComment, etGoods;
     private MoneyEditText etAmount;
     private TextView tvCard;
-
     private RecyclerView rvContacts;
-
     private String receiverPhone = "", receiverName = "",
             receiverCardNumber = "", receiverCardName = "";
     private Contact receiverContact;
     private Card receiverCard;
+    private String requestId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +113,9 @@ public class CreatePayRequestActivity extends BaseActivity {
                 String amount = etAmount.getText().toString();
                 String comment = etComment.getText().toString();
 
-                com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods a = new com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods(123, 30);
-                com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods b = new com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods(324, 2);
-                ArrayList<com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods> goods = new ArrayList<>();
+                SelectedGoods a = new SelectedGoods(123, 30);
+                SelectedGoods b = new SelectedGoods(324, 2);
+                ArrayList<SelectedGoods> goods = new ArrayList<>();
                 goods.add(a);
                 goods.add(b);
 
@@ -133,8 +135,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                             .enqueue(new BaseCallback<Object>(context, true) {
                                 @Override
                                 protected void onResult(int code, Object result) {
-                                    if (code == 201) context.startActivity(
-                                            new Intent(context, PayRequestActivity.class) );
+                                    if (code == 201) showConfirmDialog();
                                 }
                             });
                 }
@@ -142,6 +143,32 @@ public class CreatePayRequestActivity extends BaseActivity {
 
                 break;
         }
+    }
+
+    private void showConfirmDialog() {
+        final EditText input = new EditText(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        new AlertDialog.Builder(context)
+                .setMessage("Для отправки запроса введите пароль")
+                .setView(input)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String password = input.getText().toString();
+                        if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
+                        else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                        else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+                        else ApiClient.getApiClient().confirmInvoice(TokenStorage.getToken(context)
+                            , requestId, password);
+                    }
+                })
+                .create().show();
+
+        // context.startActivity(new Intent(context, PayRequestActivity.class) );
     }
 
     @Override
@@ -172,7 +199,6 @@ public class CreatePayRequestActivity extends BaseActivity {
 
     private  String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
         JSONArray goodsArray = new JSONArray();
-
         try {
             for (SelectedGoods goods: selectedGoods) {
                 JSONObject goodsJsonObject= new JSONObject();
@@ -180,7 +206,6 @@ public class CreatePayRequestActivity extends BaseActivity {
                 goodsJsonObject.put("goods_id", goods.getGoods_id());
                 goodsArray.put(goodsJsonObject);
             }
-
         } catch (Exception ignored){}
         return goodsArray.toString();
     }

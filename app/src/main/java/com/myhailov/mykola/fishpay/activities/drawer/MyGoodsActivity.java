@@ -32,8 +32,6 @@ public class MyGoodsActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         setContentView(R.layout.activity_drawer_my_goods);
 
         initDrawerToolbar(getString(R.string.my_purchases));
@@ -82,11 +80,6 @@ public class MyGoodsActivity extends DrawerActivity {
         });
     }
 
-
-
-
-
-
     @Override
     public void onClick(View view) {
         context.startActivity(new Intent(context, CreateGodsActivity.class));
@@ -126,7 +119,6 @@ public class MyGoodsActivity extends DrawerActivity {
             holder.tvTitle.setText(item.getTitle());
             holder.tvPrice.setText(item.getPrice());
             Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
-
         }
 
         @Override

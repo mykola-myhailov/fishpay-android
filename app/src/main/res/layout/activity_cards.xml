@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context="com.myhailov.mykola.fishpay.activities.profile.CardsActivity">
 
-
-
     <LinearLayout
         android:background="@color/black_light"
         android:orientation="horizontal"
@@ -78,6 +76,7 @@
             android:id="@+id/et_card_name"
             android:singleLine="true"
             android:imeOptions="actionNext"
+            android:inputType="text"
             android:textSize="22sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
@@ -117,12 +116,56 @@
             android:id="@+id/et_card_number"
             android:singleLine="true"
             android:textSize="22sp"
-            android:inputType="phone"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:inputType="number"
             android:hint="@string/input_card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:maxLength="19"/>
+        <View
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:textColor="@color/gray_light"
+                android:text="@string/card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_date_end"
+                android:layout_marginEnd="12dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_red_light"
+                android:gravity="end"
+                android:text="@string/incomplete_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/et_date_end"
+            android:singleLine="true"
+            android:textSize="22sp"
+            android:inputType="phone"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:text="Введите срок действия карты"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:longClickable="false"
+            android:focusableInTouchMode="false"
             android:background="@null"
             android:maxLength="19"/>
     </LinearLayout>
@@ -194,19 +237,7 @@
                             android:background="@color/gray"/>
                     </LinearLayout>
                 </LinearLayout>
-
-
-
             </ScrollView>
-
-
-
-
         </RelativeLayout>
-
     <!--</ScrollView>-->
-
-
-
-
 </LinearLayout>

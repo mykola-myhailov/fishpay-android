@@ -176,7 +176,8 @@ public interface ApiInterface {
     @FormUrlEncoded @POST("api/user/cards")
     Call<BaseResponse<Object>> createCard (@Header("Authorization") String token,
                                            @Field("name") String cardName,
-                                           @Field("card_number") String cardNumber);
+                                           @Field("pan") String cardNumber,
+                                           @Field("expiresat") String expiresAt);
 
     @GET ("api/user/withoutCard")
     Call<BaseResponse<Object>> setWithoutCard (@Header("Authorization") String token);

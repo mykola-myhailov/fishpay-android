@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.profile;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,8 +30,12 @@ import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Locale;
+
 import tw.henrychuang.lib.AutoAddTextWatcher;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
@@ -46,10 +52,15 @@ public class CardsActivity extends BaseActivity {
     private TextView tvNumberError;
     private EditText etCardNumber;
 
+    private TextView tvDateError;
+    private EditText etDateEnd;
+
     private RecyclerView rvCards;
     private ProgressBar progressBar;
 
     private boolean isForRequest;
+    private String expiresAt = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +100,11 @@ public class CardsActivity extends BaseActivity {
                 return false;
             }
         });
+
+        tvDateError = findViewById(R.id.tv_date_end);
+        etDateEnd = findViewById(R.id.et_date_end);
+        etDateEnd.setOnClickListener(this);
+
         rvCards.setHasFixedSize(true);
         rvCards.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -125,9 +141,9 @@ public class CardsActivity extends BaseActivity {
         } else Utils.noInternetToast(context);
     }
 
-    private void addCard(String name, String number) {
+    private void addCard(String name, String number, String expiresAt) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().createCard(TokenStorage.getToken(context), name, number)
+            ApiClient.getApiClient().createCard(TokenStorage.getToken(context), name, number, expiresAt)
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -179,12 +195,36 @@ public class CardsActivity extends BaseActivity {
         } else Utils.noInternetToast(context);
     }
 
-    private boolean isDataInvalid() {
+    private void showDataPicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                createDateSetListener(calendar), calendar.get(Calendar.YEAR),
+                Calendar.MONTH,
+                Calendar.DAY_OF_MONTH);
+        datePickerDialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener createDateSetListener(final Calendar calendar) {
+        return new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(year, month, dayOfMonth);
+                SimpleDateFormat visibleFormat = new SimpleDateFormat("MM / yy", new Locale("ru"));
+                etDateEnd.setText(visibleFormat.format(calendar.getTimeInMillis()));
+                SimpleDateFormat savedFormat = new SimpleDateFormat("yyyy-MM", new Locale("ru"));
+                expiresAt = savedFormat.format(calendar.getTimeInMillis());
+            }
+        };
+    }
+
+    private boolean isDataValid() {
         String number = etCardNumber.getText().toString().replaceAll(" ","");
         boolean isNameValid = etCardName.getText().toString().length() >= 4;
         boolean isNumberValid = number.length() == 16 && number.matches("[0-9]+");
+        boolean isDateValid = !expiresAt.equals("");
         tvNameError.setVisibility(isNameValid ? View.GONE : View.VISIBLE);
         tvNumberError.setVisibility(isNumberValid ? View.GONE : View.VISIBLE);
+        tvDateError.setVisibility(isDateValid ? View.GONE : View.VISIBLE);
         return isNameValid && isNumberValid;
     }
 
@@ -208,8 +248,10 @@ public class CardsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_add_card:
-                if (isDataInvalid()) {
-                    addCard(etCardName.getText().toString(), etCardNumber.getText().toString().replaceAll(" ", ""));
+                if (isDataValid()) {
+                    addCard(etCardName.getText().toString(),
+                            etCardNumber.getText().toString().replaceAll(" ", ""),
+                            expiresAt);
                 }
                 break;
             case R.id.tv_delete:
@@ -223,6 +265,9 @@ public class CardsActivity extends BaseActivity {
 //                    setResult();
 //                } else setPublicCard(((Card) view.getTag()).getCardNumber());
                 chooseCard(((Card) view.getTag()));
+                break;
+            case R.id.et_date_end:
+                showDataPicker();
                 break;
         }
     }

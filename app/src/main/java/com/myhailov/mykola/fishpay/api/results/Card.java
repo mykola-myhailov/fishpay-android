@@ -14,8 +14,12 @@ public class Card implements Comparable<Card>, Parcelable {
 
     private @SerializedName("id") String id;
     private @SerializedName("name") String name;
-    private @SerializedName("card_number") String cardNumber;
+    private @SerializedName("pan_masked") String cardNumber;
     private @SerializedName("type") String type;
+
+
+  //  {"timestamp":"26-03-2018 13:06:14:932","errorCode":null,"errorDescription":null,"result":[{"id":50,"user_id":133,"name":"rhg gv g. vv gg v","pan_masked":"5574427370","created_at":"2018-03-26 13:06:14","updated_at":"2018-03-26 13:06:14"}]}
+
 
     private Card(Parcel in) {
         id = in.readString();
@@ -58,7 +62,7 @@ public class Card implements Comparable<Card>, Parcelable {
     }
 
     public String getLastFourNumbers() {
-        return "**** " + cardNumber.substring(12, 16);
+        return "**** " + cardNumber.substring(6);
     }
 
     public String getType() {
