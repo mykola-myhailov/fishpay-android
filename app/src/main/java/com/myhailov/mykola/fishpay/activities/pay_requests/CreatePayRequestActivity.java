@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
@@ -48,7 +49,6 @@ public class CreatePayRequestActivity extends BaseActivity {
             receiverCardNumber = "", receiverCardName = "";
     private Contact receiverContact;
     private Card receiverCard;
-    private String requestId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +113,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 String amount = etAmount.getText().toString();
                 String comment = etComment.getText().toString();
 
-                SelectedGoods a = new SelectedGoods(123, 30);
-                SelectedGoods b = new SelectedGoods(324, 2);
-                ArrayList<SelectedGoods> goods = new ArrayList<>();
-                goods.add(a);
-                goods.add(b);
-
-                String cardFullNumber = receiverCard.getCardNumber();
+                String cardId = receiverCard.getId();
 
                 //validation
                 if (receiverPhone.equals("")) Utils.toast(context, getString(R.string.enter_phone_number));
@@ -131,11 +125,13 @@ public class CreatePayRequestActivity extends BaseActivity {
 
                 else if (Utils.isOnline(context)){
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
-                            receiverPhone, cardFullNumber, amount, comment, null, prepareGoods(goods))
-                            .enqueue(new BaseCallback<Object>(context, true) {
+                            receiverPhone, cardId, amount, comment, null, null)
+                            .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
+
+
                                 @Override
-                                protected void onResult(int code, Object result) {
-                                    if (code == 201) showConfirmDialog();
+                                protected void onResult(int code, CreateInvoiceResult result) {
+                                    if (code == 201) showConfirmDialog(result.getRequestId());
                                 }
                             });
                 }
@@ -145,7 +141,15 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
     }
 
-    private void showConfirmDialog() {
+    public class CreateInvoiceResult {
+        @SerializedName("request_id")
+        private String requestId;
+
+        public String getRequestId() {
+            return requestId;
+        }
+    }
+    private void showConfirmDialog(final String requestId) {
         final EditText input = new EditText(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -163,7 +167,12 @@ public class CreatePayRequestActivity extends BaseActivity {
                         else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
                         else ApiClient.getApiClient().confirmInvoice(TokenStorage.getToken(context)
-                            , requestId, password);
+                            , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
+                                @Override
+                                protected void onResult(int code, Object result) {
+                                    context.startActivity(new Intent(context, PayRequestActivity.class));
+                                }
+                            });
                     }
                 })
                 .create().show();
@@ -203,7 +212,7 @@ public class CreatePayRequestActivity extends BaseActivity {
             for (SelectedGoods goods: selectedGoods) {
                 JSONObject goodsJsonObject= new JSONObject();
                 goodsJsonObject.put("count",  goods.getCount());
-                goodsJsonObject.put("goods_id", goods.getGoods_id());
+                goodsJsonObject.put("goods_id", goods.getGoods().getId());
                 goodsArray.put(goodsJsonObject);
             }
         } catch (Exception ignored){}

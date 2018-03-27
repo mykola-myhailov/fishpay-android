@@ -1,6 +1,5 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
@@ -92,9 +90,9 @@ public class SelectGoodsActivity extends BaseActivity{
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             SelectedGoods item = goods.get(position);
-            holder.tvTitle.setText(item.getTitle());
-            holder.tvPrice.setText(item.getPrice());
-            Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
+            holder.tvTitle.setText(item.getGoods().getTitle());
+            holder.tvPrice.setText(item.getGoods().getPrice());
+            Utils.displayGoods(context, holder.ivPhoto, item.getGoods().getMainPhoto(), item.getGoods().getId());
 
         }
 

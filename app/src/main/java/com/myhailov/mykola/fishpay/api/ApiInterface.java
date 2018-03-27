@@ -1,7 +1,9 @@
 package com.myhailov.mykola.fishpay.api;
 
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
+import com.myhailov.mykola.fishpay.api.requestBodies.CreateInvoiceBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -41,8 +43,6 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-
-
     // 1) registration
     @GET ("api/user/checkMobile/{phoneNumber}") // check is there users with this phone number exist
     Call<BaseResponse<Object>> checkMobile(@Header("deviceType") String deviceType ,
@@ -56,20 +56,21 @@ public interface ApiInterface {
 
 
     @Multipart @POST("api/user/create")   // registration
-    Call<BaseResponse<RegistrationResult>> registration(@Header("deviceType") String device ,
-                                                        @Header("version") int version,
-                                                        @Header("language") String language,
-                                                        @Part("phoneNumber") RequestBody phoneNumber,
-                                                        @Part("firstName") RequestBody firstName,
-                                                        @Part("secondName") RequestBody secondName,
-                                                        @Part("birthday") RequestBody birthday,
-                                                        @Part("email") RequestBody email,
-                                                        @Part("pass") RequestBody password,
-                                                        @Part("deviceId") RequestBody deviceId,
-                                                        @Part("deviceInfo") RequestBody deviceInfo,
-                                                        @Part("device_type") RequestBody deviceType,
-                                                        @Part("user_token") RequestBody firebaseToken,
-                                                        @Part  MultipartBody.Part img);
+    Call<BaseResponse<RegistrationResult>>
+    registration(@Header("deviceType") String device ,
+                 @Header("version") int version,
+                 @Header("language") String language,
+                 @Part("phoneNumber") RequestBody phoneNumber,
+                 @Part("firstName") RequestBody firstName,
+                 @Part("secondName") RequestBody secondName,
+                 @Part("birthday") RequestBody birthday,
+                 @Part("email") RequestBody email,
+                 @Part("pass") RequestBody password,
+                 @Part("deviceId") RequestBody deviceId,
+                 @Part("deviceInfo") RequestBody deviceInfo,
+                 @Part("device_type") RequestBody deviceType,
+                 @Part("user_token") RequestBody firebaseToken,
+                 @Part  MultipartBody.Part img);
 
 
 
@@ -182,7 +183,7 @@ public interface ApiInterface {
     @GET ("api/user/withoutCard")
     Call<BaseResponse<Object>> setWithoutCard (@Header("Authorization") String token);
 
-    @DELETE("api/user/cards/{cardNumber}")
+    @DELETE("api/user/cards/{cardId}")
     Call<BaseResponse<Object>> deleteCard (@Header("Authorization") String token,
                                            @Path("cardNumber") String cardNumber);
 
@@ -194,7 +195,8 @@ public interface ApiInterface {
     //6) contacts
     @FormUrlEncoded
     @PUT ("api/user/contacts/syncData")
-    Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token, @Field("contacts") String contacts);
+    Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token,
+                                              @Field("contacts") String contacts);
 
 
     @GET("api/user/contacts")
@@ -215,19 +217,20 @@ public interface ApiInterface {
 
     //7) invoices
     @FormUrlEncoded @POST("api/moneyRequest/init")
-    Call<BaseResponse<Object>> createInvoice (@Header("Authorization") String token,
-                                              @Field("phone") String phone,
-                                              @Field("card")   String card,
-                                              @Field("amount") String amount,
-                                              @Field("comment")   String comment,
-                                              @Field("memberId") String memberId,
-                                              @Field("goods")  String goods);
+    Call<BaseResponse<CreatePayRequestActivity.CreateInvoiceResult>> createInvoice
+                                                           (@Header("Authorization") String token,
+                                                            @Field("phone") String phone,
+                                                            @Field("card_id")   String card,
+                                                            @Field("amount") String amount,
+                                                            @Field("comment")   String comment,
+                                                            @Field("memberId") String memberId,
+                                                            @Field("goods")  String goods);
 
 
     @PUT("api/moneyRequest/{requestId}/confirm")
     Call<BaseResponse<Object>> confirmInvoice (@Header("Authorization") String token,
-                                             @Path("requestId") String requestId,
-                                             @Query("password") String password);
+                                              @Path("requestId") String requestId,
+                                              @Query("password") String password);
     @GET("api/moneyRequest/incoming")
     Call<BaseResponse<ArrayList<PayRequest>>> getIncomingPayRequests(@Header("Authorization") String token);
 
@@ -332,7 +335,7 @@ public interface ApiInterface {
     @FormUrlEncoded @POST("api/moneyRequest/initFromCommonSpending")
     Call<BaseResponse<Object>> initInvoice(@Header("Authorization") String token,
                                            @Field("phone") String phone,
-                                           @Field("card") String card,
+                                           @Field("card_id") String card,
                                            @Field("amount") String amount,
                                            @Field("comment") String comment,
                                            @Field("member_from") String memberFrom,
