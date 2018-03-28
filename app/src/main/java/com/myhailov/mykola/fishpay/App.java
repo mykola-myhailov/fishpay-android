@@ -3,8 +3,10 @@ package com.myhailov.mykola.fishpay;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.myhailov.mykola.fishpay.database.DaoMaster;
 
+import io.fabric.sdk.android.Fabric;
 import org.greenrobot.greendao.database.Database;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -16,6 +18,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
      /*   FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         Fabric.with(this, new Crashlytics());

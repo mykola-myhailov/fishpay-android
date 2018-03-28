@@ -167,8 +167,6 @@ public interface ApiInterface {
                                            @Query("pass") String newPassword,
                                            @Query("passChangeId") String passChangeId);
 
-
-
     // 5) cards
     @GET("api/user/cards")
     Call<BaseResponse<ArrayList<Card>>> getCards (@Header("Authorization") String token);
@@ -178,7 +176,7 @@ public interface ApiInterface {
     Call<BaseResponse<Object>> createCard (@Header("Authorization") String token,
                                            @Field("name") String cardName,
                                            @Field("pan") String cardNumber,
-                                           @Field("expiresat") String expiresAt);
+                                           @Field("expiresAt") String expiresAt);
 
     @GET ("api/user/withoutCard")
     Call<BaseResponse<Object>> setWithoutCard (@Header("Authorization") String token);
@@ -189,7 +187,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded @POST("api/user/cards/setPublic")
     Call<BaseResponse<Object>> setPublicCard (@Header("Authorization") String token,
-                                              @Field("card_number") String cardNumber);
+                                              @Field("id") String id);
 
 
     //6) contacts
@@ -221,7 +219,7 @@ public interface ApiInterface {
                                                            (@Header("Authorization") String token,
                                                             @Field("phone") String phone,
                                                             @Field("card_id")   String card,
-                                                            @Field("amount") String amount,
+                                                            @Field("amount") int amount,
                                                             @Field("comment")   String comment,
                                                             @Field("memberId") String memberId,
                                                             @Field("goods")  String goods);

@@ -87,7 +87,13 @@
             android:name=".activities.pay_requests.CreatePayRequestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
-        <activity android:name=".activities.pay_requests.SelectGoodsActivity"></activity>
+        <activity android:name=".activities.pay_requests.SelectGoodsActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6fb06a65dbe94723a4626d1f5065cfecaf3c6bc4" />
+
+        <activity android:name=".activities.pay_requests.IncomingDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -157,9 +157,9 @@ public class CardsActivity extends BaseActivity {
         } else Utils.noInternetToast(context);
     }
 
-    private void setPublicCard(String cardNumber) {
+    private void setPublicCard(String cardId) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().setPublicCard(TokenStorage.getToken(context), cardNumber)
+            ApiClient.getApiClient().setPublicCard(TokenStorage.getToken(context), cardId)
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -277,7 +277,7 @@ public class CardsActivity extends BaseActivity {
             setResult(RESULT_OK, new Intent().putExtra(Keys.CARD, card));
             finish();
         } else {
-            if (card != null) setPublicCard((card.getCardNumber()));
+            if (card != null) setPublicCard((card.getId()));
             else setWithoutCard();
         }
     }

@@ -110,7 +110,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 // preparing
                 receiverPhone = etPhone.getText().toString();
                 if (receiverPhone.substring(0, 1).equals("+")) receiverPhone = receiverPhone.substring(1);
-                String amount = etAmount.getText().toString();
+                String amountString = etAmount.getText().toString();
                 String comment = etComment.getText().toString();
 
                 String cardId = receiverCard.getId();
@@ -120,10 +120,17 @@ public class CreatePayRequestActivity extends BaseActivity {
                 else if (receiverPhone.length() < 12) Utils.toast(context, getString(R.string.short_number));
                 else if (receiverPhone.length() > 13) Utils.toast(context, getString(R.string.long_number));
                 else if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (amount.equals("") || amount.equals("0"))
+                else if (amountString.equals("") || amountString.equals("0"))
                     Utils.toast(context, "Введите сумму");
 
                 else if (Utils.isOnline(context)){
+                    int amount = 0;
+                    try {
+                        Double amountDouble = Double.valueOf(amountString) * 100;
+                        amount = amountDouble.intValue();
+                    } catch (Exception ignored){ }
+                    if (amount <= 0)   Utils.toast(context, "Введите сумму");
+                    else
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
                             receiverPhone, cardId, amount, comment, null, null)
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
