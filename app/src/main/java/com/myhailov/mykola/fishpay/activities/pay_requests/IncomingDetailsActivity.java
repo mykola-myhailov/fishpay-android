@@ -34,16 +34,17 @@ public class IncomingDetailsActivity extends BaseActivity {
                     .enqueue(new BaseCallback<InvoiceDetailsResult>(context, true) {
                         @Override
                         protected void onResult(int code, InvoiceDetailsResult result) {
-                            result.getPan_masked();
-                            result.getId();
-                            result.getAmount();
-                            result.getComment();
+                            invoiceId = result.getId();
+                            panMasked = result.getPan_masked();
+                            amount = result.getAmount();
+                            comment = result.getComment();
                             InvoiceDetailsResult.Requester requester = result.getRequester();
                             if (requester != null){
-                                requester.getName();
-                                requester.getPhoto();
-                                requester.getPhone();
+                               requesterName =  requester.getName();
+                               requesterPhoto = requester.getPhoto();
+                               requesterName = requester.getPhone();
                             }
+                            initViews();
                         }
                     });
         }
@@ -52,10 +53,12 @@ public class IncomingDetailsActivity extends BaseActivity {
     }
 
     private void initViews() {
+
+        ImageView ivAvatar = findViewById(R.id.ivAvatar);//
+
+
         findViewById(R.id.tvAccept).setOnClickListener(this);
         findViewById(R.id.tvReject).setOnClickListener(this);
-        ImageView ivAvatar = findViewById(R.id.ivAvatar);//  Utils.displayAvatar(context, )
-        //  findViewById(R.id.);
     }
 
 
