@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <include layout="@layout/app_bar"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -44,12 +45,13 @@
                     android:background="@drawable/awatar_black"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+
             </FrameLayout>
 
             <TextView
                 android:id="@+id/tvName"
                 android:textSize="20sp"
-                android:textColor="white"
+                android:textColor="@color/white"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
@@ -64,8 +66,147 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/credit_card_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:textSize="12sp"
+                    android:textColor="@color/gray"
+                    android:text="@string/card_for_pays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="|"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/comments"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:textColor="@color/gray"
+                    android:text="@string/comment_to_request"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:text="|"
+                    android:maxLines="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="0.00"
+                android:textSize="30dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text=" | грн"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/tvReject"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/reject"
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <View
+
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tvAccept"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:textColor="@color/blue1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/accept"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

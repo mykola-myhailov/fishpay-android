@@ -3,7 +3,6 @@ package com.myhailov.mykola.fishpay.api;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
-import com.myhailov.mykola.fishpay.api.requestBodies.CreateInvoiceBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -11,6 +10,7 @@ import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
+import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.api.results.LoginResult;
@@ -244,8 +244,8 @@ public interface ApiInterface {
                                              @Path("requestId") long invoiceId);
 
     @GET("api/moneyRequest/{requestId}")
-    Call<BaseResponse<Object>> getInvoiceDetails(@Header("Authorization") String token,
-                                                @Path("requestId") String invoiceId);
+    Call<BaseResponse<InvoiceDetailsResult>> getInvoiceDetails(@Header("Authorization") String token,
+                                                               @Path("requestId") String invoiceId);
 
     @PUT("api/moneyRequest/{requestId}/reject")
     Call<BaseResponse<Object>> rejectInvoice (@Header("Authorization") String token,

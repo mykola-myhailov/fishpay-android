@@ -51,6 +51,26 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    protected void initToolBar(String title, int backgroundColor) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(backgroundColor);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("");
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        TextView tvToolBarTitle = findViewById(R.id.tvToolBarTitle);
+        tvToolBarTitle.setText(title.toUpperCase());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
     protected void initCustomToolbar(String title) {
         findViewById(R.id.ivBack).setOnClickListener(this);
         ((TextView) findViewById(R.id.tvToolBarTitle)).setText(title);

@@ -89,4 +89,8 @@
     <string name="comment">Коментарий</string>
     <string name="invoice_for_goods">Счет за товар</string>
     <string name="enter_card">Выберите кредитную карту</string>
+    <string name="card_for_pays">Карта для приема платежа</string>
+    <string name="comment_to_request">Комментарий к запросу</string>
+    <string name="reject">Отклонить</string>
+    <string name="accept">Оплатить</string>
 </resources>
