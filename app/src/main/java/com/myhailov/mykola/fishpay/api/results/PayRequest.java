@@ -66,8 +66,8 @@ public class PayRequest {
         switch (status) {
             case "ACTIVE": return "Доставлено";
             case "VIEWED": case "DELETED_BY_RECIPIENT": return "Прочитано";
-            case "ACCEPTED": return "Отклонено";
-            case "REJECTED": return "Одобрено";
+            case "ACCEPTED": return "Одобрено";
+            case "REJECTED": return "Отклонено";
             default: return status;
         }
     }

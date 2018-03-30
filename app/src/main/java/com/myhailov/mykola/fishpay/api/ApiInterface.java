@@ -245,7 +245,7 @@ public interface ApiInterface {
 
     @GET("api/moneyRequest/{requestId}")
     Call<BaseResponse<InvoiceDetailsResult>> getInvoiceDetails(@Header("Authorization") String token,
-                                                               @Path("requestId") String invoiceId);
+                                                               @Path("requestId") long invoiceId);
 
     @PUT("api/moneyRequest/{requestId}/reject")
     Call<BaseResponse<Object>> rejectInvoice (@Header("Authorization") String token,

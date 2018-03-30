@@ -1,6 +1,7 @@
 package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected void initToolBar(String title, int backgroundColor) {
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(backgroundColor);
+        toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(backgroundColor)));;
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

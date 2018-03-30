@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.api.results;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -30,7 +32,9 @@ public class InvoiceDetailsResult {
         return id;
     }
 
+    @NonNull
     public String getPan_masked() {
+        if (pan_masked == null) return "";
         return pan_masked;
     }
 
@@ -38,11 +42,15 @@ public class InvoiceDetailsResult {
         return requester;
     }
 
+    @NonNull
     public String getAmount() {
+        if (amount == null) return "";
         return amount;
     }
 
+    @NonNull
     public String getComment() {
+        if (comment == null) return "";
         return comment;
     }
 
@@ -56,7 +64,7 @@ public class InvoiceDetailsResult {
         @SerializedName("id")
         private String id;
 
-        @SerializedName("name")
+        @SerializedName("ful_name")
         private String name;
 
 
@@ -70,11 +78,15 @@ public class InvoiceDetailsResult {
             return id;
         }
 
+        @NonNull
         public String getName() {
+            if (name == null) return "";
             return name;
         }
 
+        @NonNull
         public String getPhone() {
+            if (phone == null) return "";
             return phone;
         }
 

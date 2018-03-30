@@ -16,9 +16,11 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.IncomingDetailsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.PayRequest;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -48,6 +50,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
     private Call<BaseResponse<ArrayList<PayRequest>>> callIncoming;
     private Call<BaseResponse<ArrayList<PayRequest>>> callOutcoming;
+    private int tabPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +139,14 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
             case R.id.tv_delete:
                 deletePayRequest((PayRequest) view.getTag());
                 break;
+            case R.id.rl_pay_request:
+                if (tabPosition == TAB_INCOMING){
+                    PayRequest payRequest = (PayRequest) view.getTag();
+                    long payRequestId = payRequest.getId();
+                    context.startActivity((new Intent(context, IncomingDetailsActivity.class))
+                            .putExtra(Keys.REQUEST_ID, payRequestId));
+                }
+
         }
     }
 
@@ -184,6 +195,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
 
     @Override
     public void onTabChanged(int position) {
+        tabPosition = position;
         switch (position) {
             case TAB_INCOMING:
                 getIncomingRequests();
@@ -229,21 +241,23 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 viewed = itemView.findViewById(R.id.viewed);
                 tvName = itemView.findViewById(R.id.tv_name);
                 tvAmount = itemView.findViewById(R.id.tv_amount);
-                tvStatus = itemView.findViewById(R.id.tv_status);
                 tvTime = itemView.findViewById(R.id.tv_time);
-                tvDelete.setOnClickListener((View.OnClickListener) context);
-                rlPayRequest.setOnClickListener((View.OnClickListener) context);
             }
 
             void bind(PayRequest request) {
                 viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
-                tvStatus.setText(request.getStatus());
+                tvStatus.setText("через: FISHPAY");
                 // TODO: 12.03.18 format date
                 tvTime.setText(request.getCreatingTime());
+                if (request.getStatus().equals("REJECTED")){
+                    
+                }
                 tvDelete.setTag(request);
                 rlPayRequest.setTag(request);
+                tvDelete.setOnClickListener((View.OnClickListener) context);
+                rlPayRequest.setOnClickListener((View.OnClickListener) context);
             }
         }
     }
