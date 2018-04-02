@@ -19,6 +19,7 @@ import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.database.Contact;
@@ -48,6 +49,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private String receiverPhone = "", receiverName = "",
             receiverCardNumber = "", receiverCardName = "";
     private Contact receiverContact;
+    private Member member;
     private Card receiverCard;
 
     @Override
@@ -61,9 +63,19 @@ public class CreatePayRequestActivity extends BaseActivity {
                 receiverContact = extras.getParcelable(Keys.CONTACT);
                 if (receiverContact != null){
                     receiverPhone = receiverContact.getPhone();
-                    receiverName = receiverContact.getFullName() + receiverContact.getName() + receiverContact.getSurname();
+                    receiverName = receiverContact.getFullName();
                 }
             }
+            else if (extras.containsKey(Keys.MEMBER)) {
+                member = extras.getParcelable(Keys.MEMBER);
+                if (member != null){
+                    receiverPhone = member.getPhone();
+                    receiverName = member.getFirstName() + member.getLastName();
+                }
+
+
+            }
+
             if (extras.containsKey(Keys.CARD)){
                 receiverCard = extras.getParcelable(Keys.CARD);
                 if (receiverCard != null){
