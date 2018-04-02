@@ -111,7 +111,6 @@
             />
         <TextView
             android:id="@+id/tv_card_number"
-            android:inputType="number"
             android:textSize="22sp"
             android:layout_toStartOf="@id/iv_choose_card"
             android:textColor="@color/white"

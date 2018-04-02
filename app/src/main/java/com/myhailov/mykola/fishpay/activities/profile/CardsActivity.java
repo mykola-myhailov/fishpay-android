@@ -50,7 +50,7 @@ public class CardsActivity extends BaseActivity {
     private EditText etCardName;
 
     private TextView tvNumberError;
-    private EditText etCardNumber;
+    private TextView tvCardNumber;
 
     private TextView tvDateError;
     private EditText etDateEnd;
@@ -60,6 +60,9 @@ public class CardsActivity extends BaseActivity {
 
     private boolean isForRequest;
     private String expiresAt = "";
+
+    private EditText etCardNumber1, etCardNumber2, etCardNumber3, etCardNumber4;
+    private View llCardNumber;
 
 
     @Override
@@ -78,28 +81,34 @@ public class CardsActivity extends BaseActivity {
         tvNameError = findViewById(R.id.tv_name_error);
         etCardName = findViewById(R.id.et_card_name);
         tvNumberError = findViewById(R.id.tv_number_error);
-        etCardNumber = findViewById(R.id.et_card_number);
+        tvCardNumber = findViewById(R.id.tv_card_number);
+        llCardNumber = findViewById(R.id.ll_card_number);
+        etCardNumber1 = findViewById(R.id.et_card_number_1);
+        etCardNumber2 = findViewById(R.id.et_card_number_2);
+        etCardNumber3 = findViewById(R.id.et_card_number_3);
+        etCardNumber4 = findViewById(R.id.et_card_number_4);
+        tvCardNumber.setOnClickListener(this);
         final View tvAddCard = findViewById(R.id.tv_add_card);
         tvAddCard.setOnClickListener(this);
         progressBar = findViewById(R.id.progress_bar);
         rvCards = findViewById(R.id.rv_cards);
         findViewById(R.id.ll_without_card).setOnClickListener(this);
 
-        etCardNumber.addTextChangedListener(new AutoAddTextWatcher(etCardNumber, " ", 4, 8, 12));
-        etCardNumber.setImeOptions(IME_ACTION_DONE);
+        /*tvCardNumber.addTextChangedListener(new AutoAddTextWatcher(tvCardNumber, " ", 4, 8, 12));
+        tvCardNumber.setImeOptions(IME_ACTION_DONE);
         final InputMethodManager imm = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
-        etCardNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        tvCardNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == IME_ACTION_DONE) {
                     tvAddCard.performClick();
                     if (imm != null)
-                        imm.toggleSoftInputFromWindow(etCardNumber.getWindowToken(), 0, 0);
+                        imm.toggleSoftInputFromWindow(tvCardNumber.getWindowToken(), 0, 0);
                     return true;
                 }
                 return false;
             }
-        });
+        });*/
 
         tvDateError = findViewById(R.id.tv_date_end);
         etDateEnd = findViewById(R.id.et_date_end);
@@ -149,7 +158,7 @@ public class CardsActivity extends BaseActivity {
                         protected void onResult(int code, Object result) {
                             if (code == 201) {
                                 etCardName.getText().clear();
-                                etCardNumber.getText().clear();
+                        //        tvCardNumber.getText().clear();
                                 getCards();
                             }
                         }
@@ -218,7 +227,10 @@ public class CardsActivity extends BaseActivity {
     }
 
     private boolean isDataValid() {
-        String number = etCardNumber.getText().toString().replaceAll(" ","");
+        String number = etCardNumber1.getText().toString()
+                + etCardNumber2.getText().toString()
+                + etCardNumber3.getText().toString()
+                + etCardNumber4.getText().toString();
         boolean isNameValid = etCardName.getText().toString().length() >= 4;
         boolean isNumberValid = number.length() == 16 && number.matches("[0-9]+");
         boolean isDateValid = !expiresAt.equals("");
@@ -249,8 +261,12 @@ public class CardsActivity extends BaseActivity {
                 break;
             case R.id.tv_add_card:
                 if (isDataValid()) {
+                    String cardNumber = etCardNumber1.getText().toString()
+                            + etCardNumber2.getText().toString()
+                            + etCardNumber3.getText().toString()
+                            + etCardNumber4.getText().toString();
                     addCard(etCardName.getText().toString(),
-                            etCardNumber.getText().toString().replaceAll(" ", ""),
+                            cardNumber,
                             expiresAt);
                 }
                 break;
@@ -268,6 +284,12 @@ public class CardsActivity extends BaseActivity {
                 break;
             case R.id.et_date_end:
                 showDataPicker();
+                break;
+            case R.id.tv_card_number:
+                tvCardNumber.setVisibility(View.GONE);
+                llCardNumber.setVisibility(View.VISIBLE);
+                (findViewById(R.id.vDivider)).setVisibility(View.GONE);
+                (findViewById(R.id.llDividers)).setVisibility(View.VISIBLE);
                 break;
         }
     }

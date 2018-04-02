@@ -86,6 +86,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         etComment = findViewById(R.id.et_comment);
         etAmount = findViewById(R.id.met_amount);
         etGoods = findViewById(R.id.et_goods);
+        if (receiverPhone.equals("")) receiverPhone = "+380";
         if (receiverName.equals(""))etPhone.setText(receiverPhone);
         else etPhone.setText(String.format("%s | %s", receiverPhone, receiverName));
         if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);

@@ -134,7 +134,13 @@ public class LoginActivity extends BaseActivity {
         else if (password.length() < 8) Utils.toast(context, getString(R.string.short_password));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else {
-            String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            String firebaseToken = "";
+            try{
+                firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            }
+            catch (Exception ignored){
+
+            }
             String deviceType = "android";
             String devicetype = "android";
             int versionCode = BuildConfig.VERSION_CODE;

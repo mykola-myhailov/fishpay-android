@@ -89,6 +89,9 @@ public class AddJoinPurchaseActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.tv_pay_to:
                 showDateDialog();
                 break;

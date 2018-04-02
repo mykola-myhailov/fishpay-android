@@ -1,5 +1,4 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +34,7 @@ import retrofit2.Response;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
+
 
 public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
 
@@ -242,6 +242,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 tvName = itemView.findViewById(R.id.tv_name);
                 tvAmount = itemView.findViewById(R.id.tv_amount);
                 tvTime = itemView.findViewById(R.id.tv_time);
+                tvStatus = itemView.findViewById(R.id.tv_status);
             }
 
             void bind(PayRequest request) {

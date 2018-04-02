@@ -112,8 +112,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <EditText
-            android:id="@+id/et_card_number"
+
+        <TextView
+            android:id="@+id/tv_card_number"
             android:singleLine="true"
             android:textSize="22sp"
             android:textColorHint="@color/white"
@@ -124,13 +125,119 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:maxLength="19"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_card_number"
+            android:visibility="gone"
+            android:weightSum="6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/et_card_number_1"
+                android:singleLine="true"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:maxLength="4"/>
+
+            <EditText
+                android:id="@+id/et_card_number_2"
+                android:singleLine="true"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:maxLength="4"/>
+
+            <EditText
+                android:id="@+id/et_card_number_3"
+                android:singleLine="true"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:maxLength="4"/>
+
+            <EditText
+                android:id="@+id/et_card_number_4"
+                android:singleLine="true"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:maxLength="4"/>
+        </LinearLayout>
+
+
+
         <View
+            android:id="@+id/vDivider"
             android:layout_marginStart="38dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray"/>
+
+
+        <LinearLayout
+            android:id="@+id/llDividers"
+            android:visibility="gone"
+            android:weightSum="6"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+
+        </LinearLayout>
+
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -138,7 +245,7 @@
             <TextView
                 android:layout_weight="1"
                 android:textColor="@color/gray_light"
-                android:text="@string/card_number"
+                android:text="Доступна до:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
@@ -148,7 +255,7 @@
                 android:layout_weight="1"
                 android:textColor="@android:color/holo_red_light"
                 android:gravity="end"
-                android:text="@string/incomplete_card_number"
+                android:text="Не выбран срок действия"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
