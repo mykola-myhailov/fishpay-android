@@ -117,7 +117,6 @@ public class MembersPartActivity extends BaseActivity {
             case R.id.tv_request:
                 context.startActivity(new Intent(context, CreatePayRequestActivity.class)
                         .putExtra(Keys.MEMBER, member)
-
                 );
                 break;
         }

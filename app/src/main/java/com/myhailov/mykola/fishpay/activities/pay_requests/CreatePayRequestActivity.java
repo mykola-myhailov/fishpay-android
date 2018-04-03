@@ -52,6 +52,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Member member;
     private Card receiverCard;
     private int amount;
+    private boolean fromJointPurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,8 @@ public class CreatePayRequestActivity extends BaseActivity {
                     receiverPhone = member.getPhone();
                     receiverName = member.getFirstName() + member.getLastName();
                     amount = member.getAmountToPay();
+                    fromJointPurchase = true;
                 }
-
-
             }
 
             if (extras.containsKey(Keys.CARD)){
@@ -99,10 +99,25 @@ public class CreatePayRequestActivity extends BaseActivity {
         tvCard = findViewById(R.id.tv_card_number);
         etComment = findViewById(R.id.et_comment);
         etAmount = findViewById(R.id.met_amount);
+        if (fromJointPurchase) {
+            etAmount.setClickable(false);
+            etAmount.setLongClickable(false);
+            etAmount.setTextIsSelectable(false);
+            etAmount.setCursorVisible(false);
+            etAmount.setFocusableInTouchMode(false);
+            etAmount.setText(Utils.pennyToUah(amount));
+        }
         etGoods = findViewById(R.id.et_goods);
         if (receiverPhone.equals("")) receiverPhone = "+380";
         if (receiverName.equals(""))etPhone.setText(receiverPhone);
         else etPhone.setText(String.format("%s | %s", receiverPhone, receiverName));
+        if (fromJointPurchase){
+            etPhone.setClickable(false);
+            etPhone.setLongClickable(false);
+            etPhone.setTextIsSelectable(false);
+            etPhone.setCursorVisible(false);
+            etPhone.setFocusableInTouchMode(false);
+        }
         if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);
         else tvCard.setText(String.format("%s | %s", receiverCard, receiverCardName));
     }
@@ -126,7 +141,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 receiverPhone = etPhone.getText().toString();
                 if (receiverPhone.substring(0, 1).equals("+")) receiverPhone = receiverPhone.substring(1);
                 String amountUAH = etAmount.getText().toString();
-                amount = Utils.UAHtoPenny(amountUAH);
+                if (!fromJointPurchase) amount = Utils.UAHtoPenny(amountUAH);
                 String comment = etComment.getText().toString();
 
                 String cardId = receiverCard.getId();
@@ -138,15 +153,11 @@ public class CreatePayRequestActivity extends BaseActivity {
                 else if (receiverPhone.length() < 12) Utils.toast(context, getString(R.string.short_number));
                 else if (receiverPhone.length() > 13) Utils.toast(context, getString(R.string.long_number));
                 else if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (amountUAH.equals("") || amountUAH.equals("0"))
-                    Utils.toast(context, "Введите сумму");
-
+                else if (amount == 0) Utils.toast(context, "Введите сумму");
                 else if (Utils.isOnline(context)){
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
                             receiverPhone, cardId, amount, comment, memberId, null)
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
-
-
                                 @Override
                                 protected void onResult(int code, CreateInvoiceResult result) {
                                     if (code == 201) showConfirmDialog(result.getRequestId());
@@ -154,7 +165,6 @@ public class CreatePayRequestActivity extends BaseActivity {
                             });
                 }
                 else Utils.noInternetToast(context);
-
                 break;
         }
     }
@@ -194,7 +204,6 @@ public class CreatePayRequestActivity extends BaseActivity {
                     }
                 })
                 .create().show();
-
         // context.startActivity(new Intent(context, PayRequestActivity.class) );
     }
 
@@ -222,8 +231,6 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
         }
     }
-
-
     private  String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
         JSONArray goodsArray = new JSONArray();
         try {
