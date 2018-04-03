@@ -84,7 +84,7 @@ public class PaymentMemberActivity extends BaseActivity {
         ((TextView) findViewById(R.id.tv_phone)).setText(member.getPhone());
         ((TextView) findViewById(R.id.tv_purchase)).setText(title);
 
-        String toPay = pennyToUah(Float.valueOf(member.getAmountToPay()));
+        String toPay = pennyToUah(member.getAmountToPay());
         metAmount.setHint(toPay);
         metAmount.setText(toPay);
     }

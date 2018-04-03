@@ -13,8 +13,8 @@ public class Member implements Parcelable {
     private String id;
     @SerializedName("member_status") private String memberStatus;
     @SerializedName("type") private String type;
-    @SerializedName("amount_to_pay") private String amountToPay;
-    @SerializedName("amount_paid") private String amountPaid;
+    @SerializedName("amount_to_pay") private int amountToPay;
+    @SerializedName("amount_paid") private int amountPaid;
 
     @SerializedName("user_id") private String userId;
 
@@ -35,8 +35,8 @@ public class Member implements Parcelable {
         id = in.readString();
         memberStatus = in.readString();
         type = in.readString();
-        amountToPay = in.readString();
-        amountPaid = in.readString();
+        amountToPay = in.readInt();
+        amountPaid = in.readInt();
         userId = in.readString();
         firstName = in.readString();
         lastName = in.readString();
@@ -53,8 +53,8 @@ public class Member implements Parcelable {
         dest.writeString(id);
         dest.writeString(memberStatus);
         dest.writeString(type);
-        dest.writeString(amountToPay);
-        dest.writeString(amountPaid);
+        dest.writeInt(amountToPay);
+        dest.writeInt(amountPaid);
         dest.writeString(userId);
         dest.writeString(firstName);
         dest.writeString(lastName);
@@ -87,7 +87,7 @@ public class Member implements Parcelable {
         this.type = type;
     }
 
-    public void setAmountToPay(String amountToPay) {
+    public void setAmountToPay(int amountToPay) {
         this.amountToPay = amountToPay;
     }
 
@@ -112,7 +112,7 @@ public class Member implements Parcelable {
     }
 
     public void set(Contact contact) {
-        amountToPay = String.valueOf(((int) (contact.getAmountToPay() * 100)));
+        amountToPay = ((int) (contact.getAmountToPay() * 100));
         if (contact.getUserId() == -1 || !contact.isActiveUser()) {
             type = "people";
             firstName = contact.getName();
@@ -158,11 +158,11 @@ public class Member implements Parcelable {
         return type;
     }
 
-    public String getAmountToPay() {
+    public int getAmountToPay() {
         return amountToPay;
     }
 
-    public String getAmountPaid() {
+    public int getAmountPaid() {
         return amountPaid;
     }
 

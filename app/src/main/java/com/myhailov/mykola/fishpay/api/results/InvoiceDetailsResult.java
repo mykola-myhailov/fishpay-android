@@ -19,7 +19,7 @@ public class InvoiceDetailsResult {
     private Requester requester;
 
     @SerializedName("amount")
-    private String amount;
+    private int amount;
 
     @SerializedName("comment")
     private String comment;
@@ -43,8 +43,7 @@ public class InvoiceDetailsResult {
     }
 
     @NonNull
-    public String getAmount() {
-        if (amount == null) return "";
+    public int getAmount() {
         return amount;
     }
 

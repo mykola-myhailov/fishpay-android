@@ -40,7 +40,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                             if (code == 200) {
                                 invoiceId = result.getId();
                                 panMasked = result.getPan_masked();
-                                amount = Utils.pennyToUah(Float.valueOf(result.getAmount())/100);
+                                amount = Utils.pennyToUah(result.getAmount());
                                 comment = result.getComment();
                                 status = result.getStatus();
                                 InvoiceDetailsResult.Requester requester = result.getRequester();

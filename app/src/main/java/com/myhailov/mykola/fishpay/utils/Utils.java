@@ -182,13 +182,22 @@ public class Utils {
     }
 
 
-    public static String pennyToUah(float penny) {
+    public static String pennyToUah(int penny) {
         String amount;
         if (penny != 0)
             amount = String.format(Locale.ENGLISH,"%.2f", (float) (penny / (float) 100));
         else amount = "-";
         return amount;
     }
+
+    public static int UAHtoPenny(String UAH) {
+        Double penny = 0.0;
+        try {
+            penny = Double.valueOf(UAH)/100;
+        } catch (Exception ignored){};
+        return penny.intValue();
+    }
+
 
     public static void setPhoto(Context context, String photo, String initials, TextView tvInitials, ImageView ivAvatar) {
         if (photo != null && !photo.equals("") && !photo.equals("null")) {

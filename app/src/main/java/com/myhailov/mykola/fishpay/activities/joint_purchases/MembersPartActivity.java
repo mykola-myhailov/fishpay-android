@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -64,9 +66,9 @@ public class MembersPartActivity extends BaseActivity {
         TextView tvPaid = findViewById(R.id.tv_paid);
 
         tvStatus.setText(member.getMemberStatus());
-        tvAmount.setText(Utils.pennyToUah(Float.valueOf(member.getAmountToPay())));
-        if (member.getAmountPaid() != null && !member.getAmountPaid().equals("0"))
-            tvPaid.setText(Utils.pennyToUah(Float.valueOf(member.getAmountPaid())));
+        tvAmount.setText(Utils.pennyToUah(member.getAmountToPay()));
+        if (member.getAmountPaid() != 0)
+            tvPaid.setText(Utils.pennyToUah(member.getAmountPaid()));
         else tvPaid.setText("0.00");
 
 
@@ -113,8 +115,10 @@ public class MembersPartActivity extends BaseActivity {
                 startPaymentMemberActivity();
                 break;
             case R.id.tv_request:
+                context.startActivity(new Intent(context, CreatePayRequestActivity.class)
+                        .putExtra(Keys.MEMBER, member)
 
-
+                );
                 break;
         }
     }

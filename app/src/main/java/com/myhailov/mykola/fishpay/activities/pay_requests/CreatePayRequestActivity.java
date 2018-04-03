@@ -51,6 +51,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Contact receiverContact;
     private Member member;
     private Card receiverCard;
+    private int amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 if (member != null){
                     receiverPhone = member.getPhone();
                     receiverName = member.getFirstName() + member.getLastName();
+                    amount = member.getAmountToPay();
                 }
 
 
@@ -123,29 +125,25 @@ public class CreatePayRequestActivity extends BaseActivity {
                 // preparing
                 receiverPhone = etPhone.getText().toString();
                 if (receiverPhone.substring(0, 1).equals("+")) receiverPhone = receiverPhone.substring(1);
-                String amountString = etAmount.getText().toString();
+                String amountUAH = etAmount.getText().toString();
+                amount = Utils.UAHtoPenny(amountUAH);
                 String comment = etComment.getText().toString();
 
                 String cardId = receiverCard.getId();
+                String memberId = null;
+                if (member != null) memberId = member.getId();
 
                 //validation
                 if (receiverPhone.equals("")) Utils.toast(context, getString(R.string.enter_phone_number));
                 else if (receiverPhone.length() < 12) Utils.toast(context, getString(R.string.short_number));
                 else if (receiverPhone.length() > 13) Utils.toast(context, getString(R.string.long_number));
                 else if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (amountString.equals("") || amountString.equals("0"))
+                else if (amountUAH.equals("") || amountUAH.equals("0"))
                     Utils.toast(context, "Введите сумму");
 
                 else if (Utils.isOnline(context)){
-                    int amount = 0;
-                    try {
-                        Double amountDouble = Double.valueOf(amountString) * 100;
-                        amount = amountDouble.intValue();
-                    } catch (Exception ignored){ }
-                    if (amount <= 0)   Utils.toast(context, "Введите сумму");
-                    else
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
-                            receiverPhone, cardId, amount, comment, null, null)
+                            receiverPhone, cardId, amount, comment, memberId, null)
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
 
 

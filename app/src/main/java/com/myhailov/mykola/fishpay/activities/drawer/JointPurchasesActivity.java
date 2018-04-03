@@ -256,7 +256,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 tvTitle.setText(purchase.getTitle());
                 tvCreator.setText(purchase.getCreatorName());
                 tvPayTo.setText(purchase.getTo());
-                tvAmount.setText(pennyToUah(((float) purchase.getAmountToPay())));
+                tvAmount.setText(pennyToUah((purchase.getAmountToPay())));
                 llPurchase.setTag(purchase);
                 tvDelete.setTag(purchase);
             }

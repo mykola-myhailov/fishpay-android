@@ -202,7 +202,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
             tvCardNumber.setText(purchase.getLastFourNumbers());
         } else llCard.setVisibility(View.GONE);
 
-        tvAmount.setText(pennyToUah(((float) purchase.getAmount())));
+        tvAmount.setText(pennyToUah((purchase.getAmount())));
 
         if (purchase.getMembers() != null && purchase.getMembers().size() != 0) {
             MembersAdapter membersAdapter = new MembersAdapter(context, purchase.getMembers());
@@ -398,7 +398,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 }
                 tvStatus.setText(member.getMemberStatus());
                 tvName.setText(member.getFullUserName());
-                tvAmount.setText(pennyToUah(Float.valueOf(member.getAmountToPay())));
+                tvAmount.setText(pennyToUah(member.getAmountToPay()));
 
                 if (member._getMemberStatus().equals("CLOSED")) {
                     tvName.setTextColor(getResources().getColor(R.color.grey2));
