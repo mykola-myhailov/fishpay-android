@@ -93,4 +93,5 @@
     <string name="comment_to_request">Комментарий к запросу</string>
     <string name="reject">Отклонить</string>
     <string name="accept">Оплатить</string>
+    <string name="send_request">Отправить запрос</string>
 </resources>

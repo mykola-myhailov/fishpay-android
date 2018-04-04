@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.annotations.SerializedName;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
@@ -22,6 +21,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -140,7 +140,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 // preparing
                 receiverPhone = etPhone.getText().toString();
                 if (receiverPhone.substring(0, 1).equals("+")) receiverPhone = receiverPhone.substring(1);
-                String amountUAH = etAmount.getText().toString();
+                final String amountUAH = etAmount.getText().toString();
                 if (!fromJointPurchase) amount = Utils.UAHtoPenny(amountUAH);
                 String comment = etComment.getText().toString();
 
@@ -160,7 +160,15 @@ public class CreatePayRequestActivity extends BaseActivity {
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, CreateInvoiceResult result) {
-                                    if (code == 201) showConfirmDialog(result.getRequestId());
+                                    if (code == 201) {
+                                        if (result == null) return;
+                                        startActivity(new Intent(context, ConfirmPayRequestActivity.class)
+                                                .putExtra(Keys.REQUEST_ID, result.getRequestId())
+                                                .putExtra(Keys.CONTACT, result.getReceiver())
+                                                .putExtra(Keys.CARD, receiverCardNumber)
+                                                .putExtra(Keys.AMOUNT, amountUAH)
+                                        );
+                                    }
                                 }
                             });
                 }
@@ -169,14 +177,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
     }
 
-    public class CreateInvoiceResult {
-        @SerializedName("request_id")
-        private String requestId;
 
-        public String getRequestId() {
-            return requestId;
-        }
-    }
     private void showConfirmDialog(final String requestId) {
         final EditText input = new EditText(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(

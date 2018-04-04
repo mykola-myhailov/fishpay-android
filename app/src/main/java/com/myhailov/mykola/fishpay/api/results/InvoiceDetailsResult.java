@@ -16,7 +16,7 @@ public class InvoiceDetailsResult {
     private String pan_masked;
 
     @SerializedName("requester")
-    private Requester requester;
+    private Contact requester;
 
     @SerializedName("amount")
     private int amount;
@@ -38,7 +38,7 @@ public class InvoiceDetailsResult {
         return pan_masked;
     }
 
-    public Requester getRequester() {
+    public Contact getRequester() {
         return requester;
     }
 
@@ -57,7 +57,7 @@ public class InvoiceDetailsResult {
         return status;
     }
 
-    public class Requester {
+    public class Contact {
 
 
         @SerializedName("id")

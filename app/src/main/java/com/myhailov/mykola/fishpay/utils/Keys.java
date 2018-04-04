@@ -29,5 +29,5 @@ public class Keys {
     public static final String MEMBER = "member";
     public static final String OWNER = "owner";
     public static final String CLOSED = "closed";
-
+    public static final String AMOUNT = "amount";
 }

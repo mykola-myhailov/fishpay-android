@@ -93,23 +93,20 @@
             android:name="io.fabric.ApiKey"
             android:value="6fb06a65dbe94723a4626d1f5065cfecaf3c6bc4" />
 
-        <activity android:name=".activities.pay_requests.IncomingDetailsActivity"></activity>
+        <activity android:name=".activities.pay_requests.IncomingDetailsActivity" />
 
-        <service
-            android:name=".services.FirebaseInstanceIDService">
+        <service android:name=".services.FirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".services.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".services.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
-
+        <activity android:name=".activities.pay_requests.ConfirmPayRequestActivity"></activity>
     </application>
 
 </manifest>

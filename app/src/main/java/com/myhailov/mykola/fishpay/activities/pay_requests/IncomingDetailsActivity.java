@@ -43,7 +43,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                                 amount = Utils.pennyToUah(result.getAmount());
                                 comment = result.getComment();
                                 status = result.getStatus();
-                                InvoiceDetailsResult.Requester requester = result.getRequester();
+                                InvoiceDetailsResult.Contact requester = result.getRequester();
                                 if (requester != null){
                                     requesterName =  requester.getName();
                                     requesterPhoto = requester.getPhoto();

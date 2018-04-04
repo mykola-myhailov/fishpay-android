@@ -186,14 +186,14 @@ public class Utils {
         String amount;
         if (penny != 0)
             amount = String.format(Locale.ENGLISH,"%.2f", (float) (penny / (float) 100));
-        else amount = "-";
+        else amount = "0";
         return amount;
     }
 
     public static int UAHtoPenny(String UAH) {
         Double penny = 0.0;
         try {
-            penny = Double.valueOf(UAH)/100;
+            penny = Double.valueOf(UAH)*100;
         } catch (Exception ignored){};
         return penny.intValue();
     }
