@@ -23,6 +23,7 @@ import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
@@ -46,29 +47,57 @@ public class DistributionActivity extends BaseActivity {
 
     private DistributionContactsAdapter adapter;
 
+    private String from;
+
+    private int groupSpendAmount;
+    private String groupName;
+    private String groupSpendDescription;
+    private int proportion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_distribution);
 
-        commonPurchaseBody = getIntent().getParcelableExtra(PURCHASE2);
-        contacts = getIntent().getParcelableArrayListExtra(CONTACTS);
+        Bundle extras = getIntent().getExtras();
+        contacts = extras.getParcelableArrayList(CONTACTS);
+        from = extras.getString(Keys.FROM);
 
-        initCustomToolbar("распределение взносов");
+        switch (from){
+            case ChooseMembersActivity.FROM_GROUP_SPENDS:
+                groupSpendAmount =  extras.getInt(Keys.AMOUNT);
+                groupSpendDescription = extras.getString(Keys.DESCRIPTION);
+                groupName = extras.getString(Keys.GROUP);
+                initCustomToolbar("распределение долей");
+                break;
+            case ChooseMembersActivity.FROM_JOINT_PURCHASES:
+                commonPurchaseBody = extras.getParcelable(PURCHASE2);
+                initCustomToolbar("распределение взносов");
+                break;
+        }
+
+
         initViews();
     }
 
     private void initViews() {
-        if (commonPurchaseBody != null) {
-            int amount = Integer.parseInt(commonPurchaseBody.getAmount());
+        int amount = 0;
+        switch (from){
 
-            ((TextView) findViewById(R.id.tv_amount)).setText(
-                    String.valueOf(((float) amount) / 100)
-            );
+            case ChooseMembersActivity.FROM_GROUP_SPENDS:
+                amount = groupSpendAmount;
+                (findViewById(R.id.llAmount)).setVisibility(View.GONE);
+                proportion = calculateProportion();
+                break;
+            case ChooseMembersActivity.FROM_JOINT_PURCHASES:
+                amount = Integer.parseInt(commonPurchaseBody.getAmount());
+                ((TextView) findViewById(R.id.tv_amount)).setText(
+                        String.valueOf(((float) amount) / 100)
+                );
+                initTabLayout();
+                break;
+        }
 
-
-            initTabLayout();
 
             if (contacts != null) {
                 defineAmounts(contacts, ((float) amount) / 100);
@@ -79,7 +108,10 @@ public class DistributionActivity extends BaseActivity {
             }
 
             findViewById(R.id.tv_finish).setOnClickListener(this);
-        }
+    }
+
+    private int calculateProportion() {
+        return 0;
     }
 
     private void initTabLayout() {
@@ -207,8 +239,16 @@ public class DistributionActivity extends BaseActivity {
                     tvInitials.setText(initials);
                 }
                 tvName.setText(contact.getFullName());
-                if (contact.getAmountToPay() != 0)
-                    tvAmount.setText(String.valueOf(contact.getAmountToPay()));
+                switch (from){
+                    case ChooseMembersActivity.FROM_GROUP_SPENDS:
+                        tvAmount.setText(proportion);
+                        break;
+                    case ChooseMembersActivity.FROM_JOINT_PURCHASES:
+                        if (contact.getAmountToPay() != 0)
+                            tvAmount.setText(String.valueOf(contact.getAmountToPay()));
+                        break;
+                }
+
             }
         }
     }

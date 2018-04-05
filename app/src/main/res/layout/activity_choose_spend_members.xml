@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.DistributionActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.ChooseMembersActivity">
 
     <LinearLayout
         android:background="@color/black_light"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/ivBack"
             android:padding="16dp"
@@ -22,7 +22,6 @@
             android:layout_height="?attr/actionBarSize" />
 
         <RelativeLayout
-            android:layout_marginEnd="?attr/actionBarSize"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -39,55 +38,68 @@
                 android:background="@android:color/transparent"
                 tools:text="@string/app_name"/>
         </RelativeLayout>
+        <ImageView
+            android:id="@+id/ivPlus"
+            android:padding="16dp"
+            android:tint="@color/white"
+            android:src="@drawable/add_contact"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize" />
     </LinearLayout>
+    <RelativeLayout
+        android:background="@color/black_light"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selected_users"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:layout_marginStart="12dp"
+            android:id="@+id/fl_placeholder"
+            android:layout_centerVertical="true"
+            android:layout_width="42dp"
+            android:layout_height="42dp">
+            <ImageView
+                android:padding="12dp"
+                android:background="@color/gray_light"
+                android:src="@drawable/user_noname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:src="@drawable/awatar_profile"
+                android:tint="@color/black_light"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:text="@string/choose_minimum_two"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/grey"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/fl_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/llAmount"
-        android:paddingBottom="2dp"
+        android:visibility="gone"
         android:background="@color/black_light"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey2"
-            android:background="@android:color/transparent"
-            android:text="Сумма общей покупки"/>
-        <LinearLayout
-            android:layout_marginEnd="16dp"
-            android:layout_gravity="end"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_amount"
-                android:textColor="@color/white"
-                tools:text="32000"
-                android:textSize="30sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@color/grey2"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"/>
+        android:layout_height="?attr/actionBarSize">
 
-            <TextView
-                android:gravity="center_vertical"
-                android:textSize="20sp"
-                android:textColor="@color/grey2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/uah"/>
-        </LinearLayout>
+
     </LinearLayout>
 
     <RelativeLayout
@@ -100,14 +112,13 @@
             android:layout_height="match_parent">-->
         <LinearLayout
             android:background="@color/white"
-            android:layout_above="@+id/ll_finish"
+            android:layout_above="@+id/ll_go"
             android:isScrollContainer="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.myhailov.mykola.fishpay.views.TabLayout
                 android:id="@+id/tab_layout"
-                android:visibility="gone"
                 android:padding="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -119,13 +130,11 @@
 
         <!--</ScrollView>-->
 
-
-
         <LinearLayout
-            android:id="@+id/ll_finish"
-            android:background="@color/light_grey"
+            android:id="@+id/ll_go"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
+            android:background="@color/light_grey"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
             <View
@@ -133,10 +142,10 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray_light"/>
             <TextView
-                android:id="@+id/tv_finish"
+                android:id="@+id/tv_go"
                 android:textColor="@color/blue1"
                 android:textSize="18sp"
-                android:text="@string/finish"
+                android:text="@string/go"
                 android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
@@ -144,6 +153,5 @@
         </LinearLayout>
 
     </RelativeLayout>
-
 
 </LinearLayout>

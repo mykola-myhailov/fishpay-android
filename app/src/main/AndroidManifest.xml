@@ -106,7 +106,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.pay_requests.ConfirmPayRequestActivity"></activity>
+        <activity android:name=".activities.pay_requests.ConfirmPayRequestActivity" />
+        <activity android:name=".activities.group_spends.CreateGroupSpendActivity" />
     </application>
 
 </manifest>

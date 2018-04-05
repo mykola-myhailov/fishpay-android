@@ -30,4 +30,7 @@ public class Keys {
     public static final String OWNER = "owner";
     public static final String CLOSED = "closed";
     public static final String AMOUNT = "amount";
+    public static final String DESCRIPTION = "description";
+    public static final String GROUP = "group";
+    public static final String FROM = "from";
 }

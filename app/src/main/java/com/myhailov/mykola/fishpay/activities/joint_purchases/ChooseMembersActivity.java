@@ -22,6 +22,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
-import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE2;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST_MEMBER;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.PHONE;
@@ -52,14 +52,28 @@ public class ChooseMembersActivity extends BaseActivity  {
     private SelectableContactsAdapter selectableContactsAdapter;
     private SelectedClientsAdapter selectedClientsAdapter;
 
+    public final static String FROM_JOINT_PURCHASES = "joint_purchases", FROM_GROUP_SPENDS = "group_spends";
+    private String from = FROM_JOINT_PURCHASES;
+
+    private int groupSpendAmount;
+    private String groupName;
+    private String groupSpendDescription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_members);
         initCustomToolbar("Выберите участников");
 
-        commonPurchaseBody = getIntent().getParcelableExtra(PURCHASE);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(Keys.PURCHASE))
+        commonPurchaseBody = getIntent().getParcelableExtra(Keys.PURCHASE);
+        else {
+            from = FROM_GROUP_SPENDS;
+            groupSpendAmount =  extras.getInt(Keys.AMOUNT);
+            groupSpendDescription = extras.getString(Keys.DESCRIPTION);
+            groupName = extras.getString(Keys.GROUP);
+        }
         initViews();
         getContacts();
     }
@@ -192,7 +206,7 @@ public class ChooseMembersActivity extends BaseActivity  {
     private void showErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Внимание")
-                .setMessage("Для создания общей покупки добавте как минимум двоих участников.")
+                .setMessage("Нужно как минимум два участника.")
                 .setPositiveButton("Ок", null)
                 .create().show();
     }
@@ -208,14 +222,23 @@ public class ChooseMembersActivity extends BaseActivity  {
 
     private void nextActivity() {
         if (selectedUsers != null && selectedUsers.size() >= 2) {
-            Intent intent = new Intent(context, DistributionActivity.class)
-                    .putExtra(PURCHASE2, commonPurchaseBody)
-                    .putExtra(CONTACTS, selectedUsers);
+
+            Intent intent = new Intent(context, DistributionActivity.class);
+            intent.putExtra(CONTACTS, selectedUsers);
+            switch (from){
+                case FROM_JOINT_PURCHASES:
+                    intent.putExtra(PURCHASE2, commonPurchaseBody);
+                    break;
+                case FROM_GROUP_SPENDS:
+                    intent.putExtra(Keys.AMOUNT, groupSpendAmount);
+                    intent.putExtra(Keys.DESCRIPTION, groupSpendDescription);
+                    intent.putExtra(Keys.GROUP, groupName);
+                    break;
+            }
+            intent.putExtra(Keys.FROM, from);
             context.startActivity(intent);
         } else showErrorDialog();
     }
-
-
 
     private class SelectableContactsAdapter extends RecyclerView.Adapter<SelectableContactsAdapter.ViewHolder> {
 
