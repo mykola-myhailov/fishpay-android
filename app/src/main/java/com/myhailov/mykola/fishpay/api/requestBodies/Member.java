@@ -26,6 +26,7 @@ public class Member implements Parcelable {
     @SerializedName("phone") private String phone;
     @SerializedName("email") private String email;
     @SerializedName("photo_link") private String photo;
+    @SerializedName("member_part") private String member_part;
 
     public Member() {
     }
@@ -46,6 +47,7 @@ public class Member implements Parcelable {
         phone = in.readString();
         email = in.readString();
         photo = in.readString();
+        member_part = in.readString();
     }
 
     @Override
@@ -64,6 +66,7 @@ public class Member implements Parcelable {
         dest.writeString(phone);
         dest.writeString(email);
         dest.writeString(photo);
+        dest.writeString(member_part);
     }
 
     @Override
@@ -124,6 +127,20 @@ public class Member implements Parcelable {
         }
     }
 
+    public void set(Contact contact, String member_part) {
+     //   amountToPay = ((int) (contact.getAmountToPay() * 100));
+        this.member_part = member_part;
+        if (contact.getUserId() == -1 || !contact.isActiveUser()) {
+            type = "people";
+            firstName = contact.getName();
+            lastName = contact.getSurname();
+            phone = contact.getPhone();
+        } else if (contact.isActiveUser()) {
+            type = "user";
+            userId = String.valueOf(contact.getContactId());
+        }
+    }
+
     public String getId() {
         return id;
     }
@@ -173,6 +190,10 @@ public class Member implements Parcelable {
     public String getFirstName() {
         return firstName;
     }
+
+    public String getMember_part() { return member_part; }
+
+    public void setMember_part(String member_part) { this.member_part = member_part; }
 
     public String getLastName() {
         return lastName;

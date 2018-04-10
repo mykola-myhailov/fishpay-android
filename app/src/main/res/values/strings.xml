@@ -96,4 +96,6 @@
     <string name="send_request">Отправить запрос</string>
     <string name="start_sum">Стартовая сумма</string>
     <string name="about_spends">Описание расходов</string>
+    <string name="start_amount">Стартовая сумма</string>
+    <string name="no_group_spends">У вас ещё нет общих расходов</string>
 </resources>

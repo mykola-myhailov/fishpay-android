@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.api;
 
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
+import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -11,6 +12,7 @@ import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
+import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
@@ -300,11 +302,11 @@ public interface ApiInterface {
 
     // 9) spending
     @GET("api/commonSpendings")
-    Call<BaseResponse<Object>> getSpending(@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<GroupSpend>>> getSpending(@Header("Authorization") String token);
 
     @POST("api/commonSpendings")
     Call<BaseResponse<Object>> createSpending(@Header("Authorization") String token,
-                                              @Body RequestBody body);
+                                              @Body GroupSpendBody body);
 
 
     @DELETE("api/commonSpendings/{id}")

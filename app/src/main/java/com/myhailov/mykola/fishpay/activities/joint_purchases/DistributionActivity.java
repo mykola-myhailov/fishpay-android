@@ -21,6 +21,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
+import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -34,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
@@ -52,7 +55,8 @@ public class DistributionActivity extends BaseActivity {
     private int groupSpendAmount;
     private String groupName;
     private String groupSpendDescription;
-    private int proportion;
+    private String  proportion;
+    private Member[] members;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class DistributionActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         contacts = extras.getParcelableArrayList(CONTACTS);
         from = extras.getString(Keys.FROM);
+        members = new Member[]{};
 
         switch (from){
             case ChooseMembersActivity.FROM_GROUP_SPENDS:
@@ -97,8 +102,6 @@ public class DistributionActivity extends BaseActivity {
                 initTabLayout();
                 break;
         }
-
-
             if (contacts != null) {
                 defineAmounts(contacts, ((float) amount) / 100);
                 adapter = new DistributionContactsAdapter(contacts);
@@ -110,8 +113,10 @@ public class DistributionActivity extends BaseActivity {
             findViewById(R.id.tv_finish).setOnClickListener(this);
     }
 
-    private int calculateProportion() {
-        return 0;
+    private String calculateProportion() {
+         int quantity = contacts.size();
+         float proportion = 100.0f/quantity;
+         return String.format(Locale.ENGLISH,"%.1f", (proportion));
     }
 
     private void initTabLayout() {
@@ -128,41 +133,65 @@ public class DistributionActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_finish:
-                v.setClickable(false);
-                Member[] members = new Member[contacts.size()];
+                members = new Member[contacts.size()];
                 int i = 0;
-                for (Contact contact : contacts) {
-                    members[i] = new Member();
-                    members[i].set(contact);
-                    i++;
+
+                switch (from) {
+                    case ChooseMembersActivity.FROM_JOINT_PURCHASES:
+                        for (Contact contact : contacts) {
+                            members[i] = new Member();
+                            members[i].set(contact);
+                            i++;
+                        }
+                        createJointPurchaseRequest();
+                        break;
+                    case ChooseMembersActivity.FROM_GROUP_SPENDS:
+                        for (Contact contact : contacts) {
+                            members[i] = new Member();
+                            members[i].set(contact, proportion );
+                            i++;
+                        }
+                        createGroupSpendRequest();
+                        break;
+
                 }
-                commonPurchaseBody.setMembers(members);
-                ApiClient.getApiClient().createJointPurchase(TokenStorage.getToken(context), commonPurchaseBody)
-                        .enqueue(new BaseCallback<Object>(context, false) {
-                            @Override
-                            protected void onResult(int code, Object result) {
-                                if (code == 201) {
-                                    startActivity(new Intent(context, JointPurchasesActivity.class)
-                                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                                } else {
-                                    v.setClickable(true);
-                                }
-                            }
-
-                            @Override
-                            protected void onError(int code, String errorDescription) {
-                                super.onError(code, errorDescription);
-                                v.setClickable(true);
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
-                                super.onFailure(call, t);
-                                v.setClickable(true);
-                            }
-                        });
                 break;
         }
+    }
+
+    private void createGroupSpendRequest() {
+        if (Utils.isOnline(context)){
+            GroupSpendBody groupSpendBody
+                    = new GroupSpendBody(groupName, groupSpendDescription, groupSpendAmount, members);
+            ApiClient.getApiClient()
+                    .createSpending(TokenStorage.getToken(context), groupSpendBody)
+                    .enqueue(new BaseCallback<Object>(context, true) {
+                        @Override
+                        protected void onResult(int code, Object result) {
+                            if (code == 201) {
+                                startActivity(new Intent(context, JointPurchasesActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            }
+                        }
+                    });
+
+        } else Utils.noInternetToast(context);
+    }
+
+    private void createJointPurchaseRequest() {
+        if (Utils.isOnline(context)) {
+            commonPurchaseBody.setMembers(members);
+            ApiClient.getApiClient().createJointPurchase(TokenStorage.getToken(context), commonPurchaseBody)
+                    .enqueue(new BaseCallback<Object>(context, true) {
+                        @Override
+                        protected void onResult(int code, Object result) {
+                            if (code == 201) {
+                                startActivity(new Intent(context, JointPurchasesActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            }
+                        }
+                    });
+        } else Utils.noInternetToast(context);
     }
 
 
@@ -219,6 +248,7 @@ public class DistributionActivity extends BaseActivity {
             TextView tvInitials;
             TextView tvName;
             TextView tvAmount;
+            TextView tvUnits;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -226,6 +256,7 @@ public class DistributionActivity extends BaseActivity {
                 tvInitials = itemView.findViewById(R.id.tv_initials);
                 tvName = itemView.findViewById(R.id.tv_name);
                 tvAmount = itemView.findViewById(R.id.tv_amount);
+                tvUnits = itemView.findViewById(R.id.tvUnits);
             }
 
             void bind(Contact contact) {
@@ -242,6 +273,7 @@ public class DistributionActivity extends BaseActivity {
                 switch (from){
                     case ChooseMembersActivity.FROM_GROUP_SPENDS:
                         tvAmount.setText(proportion);
+                        tvUnits.setText("%");
                         break;
                     case ChooseMembersActivity.FROM_JOINT_PURCHASES:
                         if (contact.getAmountToPay() != 0)
