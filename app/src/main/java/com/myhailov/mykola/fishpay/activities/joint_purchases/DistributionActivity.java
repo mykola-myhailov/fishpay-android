@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.GroupSpendsActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -169,7 +170,7 @@ public class DistributionActivity extends BaseActivity {
                         @Override
                         protected void onResult(int code, Object result) {
                             if (code == 201) {
-                                startActivity(new Intent(context, JointPurchasesActivity.class)
+                                startActivity(new Intent(context, GroupSpendsActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                             }
                         }
