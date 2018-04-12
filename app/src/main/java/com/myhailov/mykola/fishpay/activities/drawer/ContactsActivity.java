@@ -111,8 +111,7 @@ public class ContactsActivity extends DrawerActivity {
                     Utils.noInternetToast(context);
                     return;
                 }
-                //
-                //
+
                 break;
         }
     }

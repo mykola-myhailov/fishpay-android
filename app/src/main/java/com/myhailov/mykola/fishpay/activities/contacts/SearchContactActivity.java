@@ -33,7 +33,6 @@ public class SearchContactActivity extends BaseActivity {
         (findViewById(R.id.tvSearch)).setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
         searchPhoneRequest();

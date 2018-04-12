@@ -101,7 +101,6 @@ public class ContactDetailsActivity extends BaseActivity {
                             if (publicCard != null) ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
                         }
                     });
-
         }
 
     }
@@ -133,6 +132,7 @@ public class ContactDetailsActivity extends BaseActivity {
             Utils.noInternetToast(context);
             return;
         }
+
         ApiClient.getApiClient()
                 .getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, true) {
