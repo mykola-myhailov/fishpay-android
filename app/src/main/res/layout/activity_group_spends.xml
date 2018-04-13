@@ -60,6 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.myhailov.mykola.fishpay.views.TabLayout
+                android:padding="12dp"
+                android:id="@+id/tab_l"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:visibility="gone"

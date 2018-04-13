@@ -93,6 +93,6 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
         closeProgressDialog();
         if (context == null) return;
         Log.e("onFailure", t.getMessage());
-        Utils.alert(context, t.getMessage());
+        Utils.toast(context, t.getMessage());
     }
 }
