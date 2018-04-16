@@ -14,7 +14,8 @@ public class GroupSpend {
     private String title;
 
     @SerializedName("description")
-    private String amount;
+    private String description;
+
 
     @SerializedName("start_amount")
     private int startAmount;
@@ -38,17 +39,12 @@ public class GroupSpend {
     //   "contact_creator_last_name":"ttfgh"
 
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
     public String getTitle() {
         return title;
     }
 
-    public String getAmount() {
-        return amount;
-    }
 
     public int getStartAmount() {
         return startAmount;

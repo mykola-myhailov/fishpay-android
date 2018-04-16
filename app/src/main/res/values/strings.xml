@@ -71,6 +71,7 @@
     <string name="total_amount">Общяя сумма</string>
     <string name="input_amount">Введите сумму</string>
     <string name="uah">грн</string>
+    <string name="uah2"> |грн</string>
     <string name="purchase_description">Описание покупки</string>
     <string name="pay_to">Оплатить до</string>
     <string name="message_for_members">Сообщение для учасников</string>

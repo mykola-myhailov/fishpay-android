@@ -13,6 +13,8 @@ public class SpendDetailActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spend_detail);
+
+
     }
 
     @Override

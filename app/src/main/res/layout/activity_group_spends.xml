@@ -58,7 +58,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.myhailov.mykola.fishpay.views.TabLayout
                 android:padding="12dp"
@@ -68,9 +68,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/placeholder"

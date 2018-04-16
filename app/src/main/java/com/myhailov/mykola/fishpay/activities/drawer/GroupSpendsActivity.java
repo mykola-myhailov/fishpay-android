@@ -4,41 +4,51 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.group_spends.CreateGroupSpendActivity;
+import com.myhailov.mykola.fishpay.activities.group_spends.SpendDetailActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
+import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
 
+import static com.myhailov.mykola.fishpay.utils.Utils.UAHtoPenny;
+import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
+
 public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnTabChangedListener  {
 
-    private ArrayList<GroupSpend> allSpends = new ArrayList<>(), mySpends = new ArrayList<>();
 
     private final static int TAB_ALL = 0;
     private final static int TAB_MY = 1;
-    private ArrayList<GroupSpend> spendsList;
+    private ArrayList<GroupSpend> selectedSpends = new ArrayList<>(),
+            allSpends = new ArrayList<>(),
+            myCreationSpends = new ArrayList<>();
     private RecyclerView rvSpends;
-    private SpendsAdapter spendsAdapter;
+    private SpendsAdapter spendsAdapter = new SpendsAdapter();
     private long myId;
     private TabLayout tabLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.activity_group_spends);
+        super.onCreate(savedInstanceState);;
         setContentView(R.layout.activity_group_spends);
 
         initDrawerToolbar(getString(R.string.joint_costs));
@@ -49,7 +59,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
         rvSpends = findViewById(R.id.recyclerView);
         rvSpends.setLayoutManager(new LinearLayoutManager(context));
-
+        initTabLayout();
         groupSpendsRequest();
 
     }
@@ -67,14 +77,18 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {
-                        if (code == 200){
+
                             allSpends = result;
                             for (GroupSpend spend : allSpends) {
                                 if (spend.getCreatorId() == myId){
-                                    mySpends.add(spend);
+                                    myCreationSpends.add(spend);
                                 }
                             }
-                        }
+                            selectedSpends = allSpends;
+                            spendsAdapter = new SpendsAdapter();
+                            rvSpends.setAdapter(spendsAdapter);
+                            Log.e("spends", allSpends.size() + "");
+
                     }
                 });
     }
@@ -86,31 +100,59 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 setSpendsList(allSpends);
                 break;
             case TAB_MY:
-                setSpendsList(mySpends);
+                setSpendsList(myCreationSpends);
                 break;
         }
     }
 
     public void setSpendsList(ArrayList<GroupSpend> spendsList) {
-
+        selectedSpends = spendsList;
+       rvSpends.setAdapter(new SpendsAdapter());
     }
 
 
     @Override
     public void onClick(View view) {
+        GroupSpend spend = (GroupSpend) view.getTag();
+        long spendId = spend.getId();
+        switch (view.getId()){
+            case R.id.ll_main_item:
+                context.startActivity(new Intent(context, SpendDetailActivity.class)
+                .putExtra(Keys.SPEND_ID, spendId));
+                break;
+            case R.id.tv_delete:
 
-    }
-
-
-    private class SpendsViewHolder extends RecyclerView.ViewHolder {
-        public SpendsViewHolder(View itemView) {
-            super(itemView);
+                break;
         }
     }
 
 
-    private class
-    SpendsAdapter extends RecyclerView.Adapter<SpendsViewHolder> {
+    private class SpendsViewHolder extends RecyclerView.ViewHolder {
+
+
+        SwipeRevealLayout swipeRevealLayout;
+        View llMaintItem;
+        View viewed;
+        TextView tvTitle, tvCreator, tvPart, tvDelete, tvAmount;
+
+        public SpendsViewHolder(View itemView) {
+            super(itemView);
+            swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
+            llMaintItem = itemView.findViewById(R.id.ll_main_item);
+            viewed = itemView.findViewById(R.id.viewed);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvCreator = itemView.findViewById(R.id.tv_creator);
+            tvPart = itemView.findViewById(R.id.tv_part);
+            tvDelete = itemView.findViewById(R.id.tv_delete);
+            tvAmount = itemView.findViewById(R.id.tv_amount);
+            llMaintItem.setOnClickListener((View.OnClickListener) context);
+            tvDelete.setOnClickListener((View.OnClickListener) context);
+        }
+    }
+
+
+    private class SpendsAdapter extends RecyclerView.Adapter<SpendsViewHolder> {
+
 
         @Override
         public SpendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -120,13 +162,22 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
         @Override
         public void onBindViewHolder(SpendsViewHolder holder, int position) {
-
+            GroupSpend spend = selectedSpends.get(position);
+            if (spend.getStatus().equals("NOT_VIEWED")) holder.viewed.setVisibility(View.VISIBLE);
+            else holder.viewed.setVisibility(View.INVISIBLE);
+            if (spend.getStatus().equals("CLOSED") || spend.getStatus().equals("REJECTED"))
+                holder.tvTitle.setTextColor(getResources().getColor(R.color.grey2));
+            else holder.tvTitle.setTextColor(getResources().getColor(R.color.black_light));
+            holder.tvTitle.setText(spend.getTitle());
+            holder.tvCreator.setText(spend.getCreatorName());
+            holder.tvPart.setText(spend.getMemberPart() + "%");
+            holder.tvAmount.setText(Utils.pennyToUah(spend.getStartAmount()) + " | грн");
+            holder.llMaintItem.setTag(spend);
+            holder.tvDelete.setTag(spend);
         }
 
         @Override
-        public int getItemCount() {
-            return 0;
-        }
+        public int getItemCount() { return selectedSpends.size(); }
     }
 
     @Override

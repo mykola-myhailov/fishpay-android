@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.joint_purchases.JointPurchaseDetailsActivity;
-import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
@@ -146,7 +144,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                 String id = ((JointPurchase) view.getTag()).getId();
                 showConfirmation(id);
                 break;
-            case R.id.ll_purchase:
+            case R.id.ll_main_item:
                 startActivityForResult(new Intent(context, JointPurchaseDetailsActivity.class)
                         .putExtra(PURCHASE, (JointPurchase) view.getTag()),
                         100
@@ -235,7 +233,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
             ViewHolder(View itemView) {
                 super(itemView);
                 swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
-                llPurchase = itemView.findViewById(R.id.ll_purchase);
+                llPurchase = itemView.findViewById(R.id.ll_main_item);
                 viewed = itemView.findViewById(R.id.viewed);
                 tvTitle = itemView.findViewById(R.id.tv_title);
                 tvCreator = itemView.findViewById(R.id.tv_creator);

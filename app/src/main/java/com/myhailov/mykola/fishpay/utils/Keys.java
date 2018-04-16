@@ -33,4 +33,5 @@ public class Keys {
     public static final String DESCRIPTION = "description";
     public static final String GROUP = "group";
     public static final String FROM = "from";
+    public static final String SPEND_ID = "spend_id";
 }

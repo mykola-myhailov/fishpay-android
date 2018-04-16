@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/ll_purchase"
+            android:id="@+id/ll_main_item"
             android:background="?android:attr/selectableItemBackground"
             android:orientation="vertical"
             android:layout_width="match_parent"
