@@ -2,7 +2,9 @@ package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,6 +58,16 @@ public class ConfirmPayRequestActivity extends BaseActivity {
         ((TextView) findViewById(R.id.tv_card)).setText(card);
         ((TextView) findViewById(R.id.met_amount)).setText(amount);
         etPassword = findViewById(R.id.password);
+        etPassword.requestFocus();
+        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+
+                }
+                return true;
+            }
+        });
         findViewById(R.id.tv_apply).setOnClickListener(this);
         ImageView ivAvatar = findViewById(R.id.iv_avatar);
         String initials = Utils.extractInitials(name, suname);
@@ -64,23 +76,31 @@ public class ConfirmPayRequestActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()){
+
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+
             case R.id.tv_apply:
-                String password = etPassword.getText().toString();
-                if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
-                else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
-                else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                else ApiClient.getApiClient().confirmInvoice(TokenStorage.getToken(context)
-                            , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
-                        @Override
-                        protected void onResult(int code, Object result) {
-                            context.startActivity(new Intent(context, PayRequestActivity.class));
-                        }
-                    });
+                apply();
                 break;
         }
-
-
     }
+
+    private void apply() {
+        String password = etPassword.getText().toString();
+        if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
+        else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+        else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        else ApiClient.getApiClient().confirmInvoice(TokenStorage.getToken(context)
+                    , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
+                @Override
+                protected void onResult(int code, Object result) {
+                    context.startActivity(new Intent(context, PayRequestActivity.class));
+                }
+            });
+    }
+
+
 }

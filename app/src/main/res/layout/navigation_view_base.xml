@@ -343,6 +343,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_send_request"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:layout_centerInParent="true"

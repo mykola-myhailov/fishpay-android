@@ -21,6 +21,7 @@ import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -89,6 +90,9 @@ public abstract class DrawerActivity extends BaseActivity {
                         case R.id.navGroupSpends:
                             nextActivityClass = GroupSpendsActivity.class;
                             break;
+                        case R.id.ll_send_request:
+                            nextActivityClass = CreatePayRequestActivity.class;
+                            break;
                     }
                     if (nextActivityClass != null/* && !(nextActivityClass.equals(context.getClass()) )*/)
                         startActivity(new Intent(context, nextActivityClass));
@@ -113,6 +117,7 @@ public abstract class DrawerActivity extends BaseActivity {
         navigationView.findViewById(R.id.navCharity).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.navActivity).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.navGroupSpends).setOnClickListener(navClickListener);
+        navigationView.findViewById(R.id.ll_send_request).setOnClickListener(navClickListener);
     }
 
     protected void initDrawerToolbar(String title) {

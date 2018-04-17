@@ -144,9 +144,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 if (!fromJointPurchase) amount = Utils.UAHtoPenny(amountUAH);
                 String comment = etComment.getText().toString();
 
-                String cardId = receiverCard.getId();
-                String memberId = null;
-                if (member != null) memberId = member.getId();
+
 
                 //validation
                 if (receiverPhone.equals("")) Utils.toast(context, getString(R.string.enter_phone_number));
@@ -155,6 +153,9 @@ public class CreatePayRequestActivity extends BaseActivity {
                 else if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
                 else if (amount == 0) Utils.toast(context, "Введите сумму");
                 else if (Utils.isOnline(context)){
+                    String cardId = receiverCard.getId();
+                    String memberId = null;
+                    if (member != null) memberId = member.getId();
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
                             receiverPhone, cardId, amount, comment, memberId, null)
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {

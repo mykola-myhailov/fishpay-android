@@ -207,20 +207,19 @@
         android:id="@+id/password"
         android:layout_marginStart="20dp"
         android:inputType="textPassword"
-        android:background="@null"
-        android:singleLine="true"
-        android:gravity="end"
         android:textColor="@color/black1"
         android:textSize="22sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <View
+
+
+<!--    <View
         android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="22dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
+        android:background="@color/grey2"/>-->
 
     <TextView
         android:background="?android:attr/selectableItemBackground"
