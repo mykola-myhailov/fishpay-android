@@ -126,6 +126,11 @@
             android:layout_below="@id/tv_card_number"/>
     </RelativeLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <RelativeLayout
         android:id="@+id/rl_request_amount"
         android:layout_width="match_parent"

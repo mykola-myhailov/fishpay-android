@@ -76,6 +76,9 @@ public class LoginActivity extends BaseActivity {
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
+        Log.e("device  ", Build.DEVICE );
+        Log.e("model  ", Build.MODEL);
+        Log.e("product  ", Build.PRODUCT);
      //   deviceId = deviceInfo;
     }
 
@@ -256,6 +259,7 @@ public class LoginActivity extends BaseActivity {
             Utils.noInternetToast(context);
             return;
         }
+
         ApiClient.getApiClient()
                 .getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, true) {
