@@ -1,57 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="109.5dp"
+    android:id="@+id/swipe_layout"
+    app:mode="same_level"
+    app:dragEdge="right">
 
-    <FrameLayout
-        android:id="@+id/flAvatarContainer"
-        android:layout_gravity="center_vertical"
-        android:layout_width="50dp"
-        android:layout_height="50dp">
-
-        <ImageView
-            tools:ignore="ContentDescription"
-            android:id="@+id/ivAvatar"
-            android:scaleType="centerCrop"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size" />
-
-        <TextView
-            android:id="@+id/tvInitials"
-            android:background="@color/transparent"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <View
-            android:id="@+id/vBackground"
-            android:background="@drawable/awatar_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
-
-
-    </FrameLayout>
 
     <TextView
-        android:id="@+id/tvName"
-        android:maxLength="20"
-        android:layout_marginStart="5dp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/flAvatarContainer"
+        android:id="@+id/tv_delete"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:background="@android:color/holo_red_dark"
+        android:textColor="@color/white"
+        android:text="@string/delete"/>
 
-    <ImageView
-        android:id="@+id/ivInvite"
-        android:visibility="gone"
-        android:src="@drawable/send_to_contact"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="ContentDescription" />
+    <RelativeLayout
+        android:id="@+id/container"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <FrameLayout
+            android:id="@+id/flAvatarContainer"
+            android:layout_gravity="center_vertical"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                tools:ignore="ContentDescription"
+                android:id="@+id/ivAvatar"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size" />
+
+            <TextView
+                android:id="@+id/tvInitials"
+                android:background="@color/transparent"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <View
+                android:id="@+id/vBackground"
+                android:background="@drawable/awatar_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:maxLength="20"
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/flAvatarContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/ivInvite"
+            android:visibility="gone"
+            android:src="@drawable/send_to_contact"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

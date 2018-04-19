@@ -148,7 +148,6 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
                     @Override
                     protected void onError(int code, String errorDescription) {
-                        super.onError(code, errorDescription);
                         tvClose.setClickable(true);
                     }
 

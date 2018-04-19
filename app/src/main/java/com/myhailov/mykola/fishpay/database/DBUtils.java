@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mykola Myhailov  on 15.01.18.
@@ -27,32 +29,41 @@ public class DBUtils {
         ContactDao contactsTable = DBUtils.getDaoSession(context).getContactDao();
         List<Contact> deviceContacts = contactsTable.loadAll();
         contactsTable.deleteAll();
-        ArrayList<String> appContactsPhones = new ArrayList<>();
+        Map<String, Contact> appContactsPhones = new HashMap<>();
+
         for (Contact appContact : appContacts) {
             if (appContact.isActiveUser()){
                 String phone = appContact.getPhone();
-                if (!appContactsPhones.contains(phone)) appContactsPhones.add(phone);
-                contactsTable.insert(makeContactWithUniqueId(appContact));
+                if (!appContactsPhones.containsKey(phone)) appContactsPhones.put(phone,  appContact);
             }
         }
+
         for (Contact deviceContact : deviceContacts){
             String phone = deviceContact.getPhone();
-            if (!appContactsPhones.contains(phone))
-                contactsTable.insert(makeContactWithUniqueId(deviceContact));
+            if (appContactsPhones.containsKey(phone)) {
+                Contact contact = appContactsPhones.get(phone);
+                if (contact.getPhoto() == null && deviceContact.getPhoto() != null)
+                    contact.setPhoto(deviceContact.getPhoto());
+            } else contactsTable.insert(makeContactWithUniqueId(deviceContact));
         }
+
+        for (Map.Entry<String, Contact> mapEntry : appContactsPhones.entrySet()){
+            contactsTable.insert(makeContactWithUniqueId(mapEntry.getValue()));
+        }
+
     }
 
     private static Contact makeContactWithUniqueId(Contact appContact) {
         String phone = appContact.getPhone();
         long userId = appContact.getUserId();
         String name =  appContact.getName();
-        String suname = appContact.getSurname();
+        String surname = appContact.getSurname();
         String photo = appContact.getPhoto();
         Contact newContact = new Contact();
         newContact.setPhone(phone);
         newContact.setUserId(userId);
         newContact.setName(name);
-        newContact.setSurname(suname);
+        newContact.setSurname(surname);
         newContact.setPhoto(photo);
         return newContact;
     }

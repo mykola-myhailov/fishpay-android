@@ -75,10 +75,8 @@ public class LoginActivity extends BaseActivity {
         tvShowPassword.setOnClickListener(this);
         etPassword = findViewById(R.id.etPassword);
         deviceId = DeviceIDStorage.getID(context);
-        deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
-        Log.e("device  ", Build.DEVICE );
-        Log.e("model  ", Build.MODEL);
-        Log.e("product  ", Build.PRODUCT);
+        deviceInfo = Build.MODEL;
+      //  deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
      //   deviceId = deviceInfo;
     }
 

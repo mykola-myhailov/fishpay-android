@@ -209,17 +209,18 @@
         android:inputType="textPassword"
         android:textColor="@color/black1"
         android:textSize="22sp"
-        android:layout_width="wrap_content"
+        android:background="@null"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
-<!--    <View
+   <View
         android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="22dp"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>-->
+        android:layout_height="1dp"
+        android:background="@color/grey2"/>
 
     <TextView
         android:background="?android:attr/selectableItemBackground"

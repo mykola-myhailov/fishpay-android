@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
 import com.myhailov.mykola.fishpay.database.Contact;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
 
 
+
     private Context context;
 
     public ContactsAdapter(Context context, List<Contact> contacts) {
@@ -34,9 +36,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
      class ContactsViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView ivAvatar, ivInvite;
-        private TextView tvName, tvInitials;
-        private View container;
+         private SwipeRevealLayout swipeRevealLayout;
+         private ImageView ivAvatar, ivInvite;
+         private TextView tvName, tvInitials, tvDelete;
+         private View container;
 
         ContactsViewHolder(View itemView) {
             super(itemView);
@@ -45,6 +48,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             ivInvite = itemView.findViewById(R.id.ivInvite);
             container = itemView.findViewById(R.id.container);
             tvInitials = itemView.findViewById(R.id.tvInitials);
+            tvDelete = itemView.findViewById(R.id.tvDelete);
         }
     }
 
@@ -66,7 +70,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         String photo = contact.getPhoto();
         String phone = contact.getPhone();
         final String initials = Utils.extractInitials(name, "");
-        if (userId == 0) {  //this contact is not app user
+        if (userId == 0) {
+            //this contact is not app user
         /*    Picasso picasso = new Picasso.Builder(context)
                     .listener(new Picasso.Listener() {
                         @Override
@@ -90,8 +95,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             holder.container.setTag(contact);
             holder.container.setOnClickListener((View.OnClickListener) context);
         }
-
-
     }
 
 
