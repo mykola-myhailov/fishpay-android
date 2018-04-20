@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
 import com.myhailov.mykola.fishpay.database.Contact;
@@ -23,13 +24,13 @@ import java.util.List;
  */
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
 
-
-
     private Context context;
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
     public ContactsAdapter(Context context, List<Contact> contacts) {
         this.context = context;
         this.contacts = contacts;
+        viewBinderHelper.setOpenOnlyOne(true);
     }
 
     private List<Contact> contacts;
@@ -43,12 +44,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         ContactsViewHolder(View itemView) {
             super(itemView);
+            swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
+            tvDelete = itemView.findViewById(R.id.tv_delete);
             tvName = itemView.findViewById(R.id.tvName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             ivInvite = itemView.findViewById(R.id.ivInvite);
             container = itemView.findViewById(R.id.container);
             tvInitials = itemView.findViewById(R.id.tvInitials);
-            tvDelete = itemView.findViewById(R.id.tvDelete);
+            tvDelete = itemView.findViewById(R.id.tv_delete);
         }
     }
 
@@ -86,7 +89,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 if (holder.ivAvatar.getDrawable() == null) holder.tvInitials.setText(initials);
             } else holder.tvInitials.setText(initials);
 
-//
+
         } else {  //this contact is app user
             if (photo != null && !photo.equals("")) {
                 Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
@@ -94,6 +97,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             } else holder.tvInitials.setText(initials);
             holder.container.setTag(contact);
             holder.container.setOnClickListener((View.OnClickListener) context);
+
+
+            if (contact.isActiveUser()) {
+                holder.tvDelete.setOnClickListener((View.OnClickListener) context);
+                viewBinderHelper.bind(holder.swipeRevealLayout,
+                        String.valueOf(contacts.get(position).getId()));
+
+            }
         }
     }
 

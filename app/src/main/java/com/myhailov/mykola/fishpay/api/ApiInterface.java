@@ -216,6 +216,13 @@ public interface ApiInterface {
     @POST("api/user/contacts/add/{userId}")
     Call<BaseResponse<String>> addContact(@Header("Authorization") String toke, @Path("userId") long id);
 
+
+    @FormUrlEncoded
+    @PUT ("/rest/api/user/contacts/{contactId}")
+    Call<BaseResponse<Object>> changeContactStatus (@Header("Authorization") String token,
+                                                    @Path("userId") long id,
+                                                    @Field("status") String status);
+
     //7) invoices
     @FormUrlEncoded @POST("api/moneyRequest/init")
     Call<BaseResponse<CreateInvoiceResult>> createInvoice

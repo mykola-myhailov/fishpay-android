@@ -1,8 +1,10 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,15 +20,21 @@ import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ContactsActivity extends DrawerActivity {
 
@@ -106,16 +114,50 @@ public class ContactsActivity extends DrawerActivity {
                 context.startActivity(contactDetailsIntent);
                 break;
 
+            case R.id.tv_delete:
+                long id = ((Contact) view.getTag()).getId();
+                showDeleteConfirmation(id);
+                break;
+
             case R.id.ivInvite:  // click on contact from device to invite
                 if (!Utils.isOnline(context)){
                     Utils.noInternetToast(context);
                     return;
                 }
-
                 break;
         }
     }
 
+    private void showDeleteConfirmation(final long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Вы действительно хотите общую покупку из списка?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteContactRequest(id);
+            }
+        });
+        builder.setNegativeButton("Отмена", null);
+        builder.create().show();
+    }
+
+    private void deleteContactRequest(long id) {
+        if (Utils.isOnline(context)){
+            ApiClient.getApiClient()
+                    .changeContactStatus(TokenStorage.getToken(context), id, "DELETED")
+                    .enqueue(new Callback<BaseResponse<Object>>() {
+                        @Override
+                        public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<BaseResponse<Object>> call, Throwable t) {
+
+                        }
+                    });
+        } else Utils.noInternetToast(context);
+    }
 
 
     private void initSearchView() {
