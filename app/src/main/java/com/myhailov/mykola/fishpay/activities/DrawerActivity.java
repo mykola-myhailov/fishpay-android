@@ -21,6 +21,7 @@ import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.TransactionActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -91,7 +92,7 @@ public abstract class DrawerActivity extends BaseActivity {
                             nextActivityClass = GroupSpendsActivity.class;
                             break;
                         case R.id.ll_send_request:
-                            nextActivityClass = CreatePayRequestActivity.class;
+                            nextActivityClass = TransactionActivity.class;
                             break;
                     }
                     if (nextActivityClass != null/* && !(nextActivityClass.equals(context.getClass()) )*/)

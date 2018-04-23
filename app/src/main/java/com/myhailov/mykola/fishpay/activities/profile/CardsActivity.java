@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +89,9 @@ public class CardsActivity extends BaseActivity {
         etCardNumber2 = findViewById(R.id.et_card_number_2);
         etCardNumber3 = findViewById(R.id.et_card_number_3);
         etCardNumber4 = findViewById(R.id.et_card_number_4);
+        etCardNumber1.addTextChangedListener(new FocusSwitchingTextWatcher(etCardNumber2));
+        etCardNumber2.addTextChangedListener(new FocusSwitchingTextWatcher(etCardNumber3));
+        etCardNumber3.addTextChangedListener(new FocusSwitchingTextWatcher(etCardNumber4));
         tvCardNumber.setOnClickListener(this);
         final View tvAddCard = findViewById(R.id.tv_add_card);
         tvAddCard.setOnClickListener(this);
@@ -116,6 +121,34 @@ public class CardsActivity extends BaseActivity {
 
         rvCards.setHasFixedSize(true);
         rvCards.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    private static class FocusSwitchingTextWatcher implements TextWatcher {
+
+        private final View nextViewToFocus;
+
+        FocusSwitchingTextWatcher(View nextViewToFocus) {
+            this.nextViewToFocus = nextViewToFocus;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 4) {
+                nextViewToFocus.requestFocus();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+
+
     }
 
     private void initToolbar() {
