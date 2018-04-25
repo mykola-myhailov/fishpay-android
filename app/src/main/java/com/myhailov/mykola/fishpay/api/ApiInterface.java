@@ -415,4 +415,29 @@ public interface ApiInterface {
 
     @GET("api/goods/{id}")
     Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
+
+
+
+    // Transfer
+    @FormUrlEncoded
+    @POST("api/transfer")
+    Call<BaseResponse<Object>>  transfer(@Header("Authorization") String token,
+                                         @Field("user_id_to") String user_id,
+                                         @Field("card_id") String card_id,
+                                         @Field("securityCode") String securityCode,
+                                         @Field("amount") long amount);
+
+
+    @FormUrlEncoded
+    @POST ("api/transfer/auditpay")
+    Call<BaseResponse<Object>> auditpay(@Header("Authorization") String token,
+                                                  @Field("fpt") String fpt,
+                                                  @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST ("api/transfer/sendlookup")
+    Call<BaseResponse<Object>> sendLookup(@Header("Authorization") String token,
+                                          @Field("fpt") String ftp,
+                                          @Field("id") String id,
+                                          @Field("code") String code);
 }
