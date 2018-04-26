@@ -110,7 +110,8 @@
         <activity android:name=".activities.group_spends.CreateGroupSpendActivity" />
         <activity android:name=".activities.group_spends.SpendDetailActivity" />
         <activity android:name=".activities.group_spends.ManualTransferActivity" />
-        <activity android:name=".activities.drawer.TransactionActivity"></activity>
+        <activity android:name=".activities.drawer.TransactionActivity" />
+        <activity android:name=".activities.pay_requests.BankWebActivity"></activity>
     </application>
 
 </manifest>

@@ -57,7 +57,6 @@ public interface ApiInterface {
     @FormUrlEncoded @POST("api/user/registration/checkOtp") // check code from sms
     Call<BaseResponse<String>> checkOTP (@Field("phoneNumber") String phone, @Field("codeOTP") String codeOTP);
 
-
     @Multipart @POST("api/user/create")   // registration
     Call<BaseResponse<RegistrationResult>>
     registration(@Header("deviceType") String device ,
@@ -75,9 +74,6 @@ public interface ApiInterface {
                  @Part("user_token") RequestBody firebaseToken,
                  @Part  MultipartBody.Part img);
 
-
-
-
     // 2) Authentication
     @FormUrlEncoded @POST("api/user/login")      // login
     Call<BaseResponse<LoginResult>> login ( @Header("deviceType") String device ,
@@ -90,16 +86,12 @@ public interface ApiInterface {
                                             @Field("device_type") String deviceType,
                                             @Field("user_token") String firebaseToken);
 
-
     @PUT ("api/sessions/invalidate")    //invalidation
     Call<BaseResponse<Object>> invalidion (@Query("phoneNumber") String phoneNumber,
                                            @Query("jti") String jti);
 
     @POST ("api/user/logout")   // logout
     Call<Void> logout (@Header("Authorization") String token);
-
-
-
 
     /// ?) password recovering
     @PUT("admin/passwordRecovery/init/{phone}")   // send sms on number
@@ -114,9 +106,6 @@ public interface ApiInterface {
     Call<BaseResponse<String>> passRecovery(@Field("recoveryId") String recoveryId,
                                           @Field("pass") String password,
                                           @Path("userId")String userId);
-
-
-
 
     // 3)delete account
     @GET("api/removeAcc/reasons")   // list of account reasons
@@ -191,7 +180,6 @@ public interface ApiInterface {
     @FormUrlEncoded @POST("api/user/cards/setPublic")
     Call<BaseResponse<Object>> setPublicCard (@Header("Authorization") String token,
                                               @Field("id") String id);
-
 
     //6) contacts
     @FormUrlEncoded
@@ -333,7 +321,6 @@ public interface ApiInterface {
                                                @Field("amount") String amount,
                                                @Field("comment") String comment);
 
-
     @DELETE("api/commonSpendings/transactions/{trans_id}")
     Call<BaseResponse<Object>> deleteTransaction (@Header("Authorization") String token,
                                                  @Path("trans_id") String transId,
@@ -348,9 +335,6 @@ public interface ApiInterface {
                                            @Field("comment") String comment,
                                            @Field("member_from") String memberFrom,
                                            @Field("member_to") String memberTo);
-
-
-
     // Charity
 
     @GET("api/charity")
@@ -367,7 +351,6 @@ public interface ApiInterface {
                                               @Field("members_visibility") RequestBody membersVisibility,
                                               @Field("pseudonym") RequestBody pseudonym,
                                               @Part  MultipartBody.Part img);   //main_photo
-
 
     @Multipart @POST("api/charity/{id}/uploadPhoto")
     Call<BaseResponse<Object>> uploadCharityPhoto  (@Header("Authorization") String token,
@@ -391,8 +374,6 @@ public interface ApiInterface {
     Call<BaseResponse<Object>>  closeChatiry (@Header("Authorization") String token,
                                               @Path("id") String id);
 
-
-
     // SelectedGoods
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
@@ -407,7 +388,6 @@ public interface ApiInterface {
                                           @Part("visibility") RequestBody visibility,
                                           @Part MultipartBody.Part img);      //main_photo
 
-
     @Multipart @POST("api/goods/{id}/uploadPhoto")
     Call<BaseResponse<Object>>  uploadGoodsPhoto (@Header("Authorization") String token,
                                                   @Path("id") String id,
@@ -415,8 +395,6 @@ public interface ApiInterface {
 
     @GET("api/goods/{id}")
     Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
-
-
 
     // Transfer
     @FormUrlEncoded
@@ -426,7 +404,6 @@ public interface ApiInterface {
                                          @Field("card_id") String card_id,
                                          @Field("securityCode") String securityCode,
                                          @Field("amount") long amount);
-
 
     @FormUrlEncoded
     @POST ("api/transfer/auditpay")

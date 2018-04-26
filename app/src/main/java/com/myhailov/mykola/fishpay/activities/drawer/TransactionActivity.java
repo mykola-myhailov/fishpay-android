@@ -16,12 +16,14 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.login.NextActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.BankWebActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -112,32 +114,22 @@ public class TransactionActivity extends DrawerActivity {
                             .enqueue(new BaseCallback<Object>(context, true) {
                                 @Override
                                 protected void onResult(int code, Object result) {
-                                    Log.d("result", result.toString());
-                                    switch (result.toString()){
 
-                                        case "success":
+                                    switch (result.toString()) {
+
+                                        case "SUCCESS":
                                             Utils.toast(context, "success");
                                             break;
-                                        case "rejected":
+                                        case "REJECTED":
                                             Utils.toast(context, "rejected");
                                             break;
-                                        case "reversed":
+                                        case "REVERSED":
                                             Utils.toast(context, "reversed");
                                             break;
                                         default:
-                                           // parseJson();
                                             LinkedTreeMap resultMap = (LinkedTreeMap) result;
-
-
-                                            fpt = (String) resultMap.get("fpt");
-                                            fptId = (String) resultMap.get("id");
-                                            String url = (String) resultMap.get("url");
-                                            LinkedTreeMap form_params = (LinkedTreeMap) resultMap.get("form_params");
-                                            String termUrl = (String) form_params.get("TermUrl");
-                                            String paReq = (String) form_params.get("PaReq");
-                                            requestToUAPay(url, termUrl, paReq);
+                                            parseResultMap(resultMap);
                                             break;
-
                                     }
                                 }
                             });
@@ -147,51 +139,39 @@ public class TransactionActivity extends DrawerActivity {
         }
     }
 
+    private void parseResultMap(LinkedTreeMap result) {
+        String type = (String) result.get("type");
+        if (type.equals("3DS")){
+            fpt = (String) result.get("fpt");
+            fptId = (String) result.get("id");
+            String url = (String) result.get("url");
+            LinkedTreeMap form_params = (LinkedTreeMap) result.get("form_params");
+            String termUrl = (String) form_params.get("TermUrl");
+            String paReq = (String) form_params.get("PaReq");
+
+            context.startActivity(new Intent(context, BankWebActivity.class)
+                    .putExtra(Keys.URL, url)
+                    .putExtra(Keys.TERM_URL, termUrl)
+                    .putExtra(Keys.PA_REQ, paReq)
+                    .putExtra(Keys.FPT, fpt)
+                    .putExtra(Keys.FPT_ID, fptId));
+        } else if (type.equals("lookup")){
+            fpt = (String) result.get("fpt");
+            fptId  = (String) result.get("id");
+            requestLookup(fpt, fptId);
+        }
+    }
 
 
-    private void requestToUAPay(String url, String termUrl, String paReq) {
-
+    private void requestLookup(String lookupKey, String lookupId) {
         if (Utils.isOnline(context)){
-
-            final WebView webview = new WebView(this);
-            setContentView(webview);
-            String postData = null;
-            try {
-                postData = "TermUrl=" + URLEncoder.encode(termUrl, "UTF-8") + "&PaReq=" + URLEncoder.encode(paReq, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            webview.setWebViewClient(new WebViewClient(){
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    webview.destroy();
-                    context.startActivity(new Intent(context, NextActivity.class));
-                    return true;
-                }
-            });
-            webview.postUrl(url,postData.getBytes());
-            webview.setWebViewClient(new WebViewClient(){
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    webview.destroy();
-                    auditpayRequest();
-                    return true;
-                }
-            });
-
 
         } else Utils.noInternetToast(context);
     }
 
-    private void auditpayRequest() {
-        ApiClient.getApiClient().auditpay(token, fpt, fptId)
-                .enqueue(new BaseCallback<Object>(context, true) {
-            @Override
-            protected void onResult(int code, Object result) {
-                Utils.toast(context, "успешно" );
-            }
-        });
-    }
+
+
+
 
 
     @Override

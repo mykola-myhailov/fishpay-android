@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.utils;
 
+import com.google.gson.internal.LinkedTreeMap;
+
 /** Created by Mykola Myhailov  on 16.11.17.*/
 
 public class Keys {
@@ -34,4 +36,10 @@ public class Keys {
     public static final String GROUP = "group";
     public static final String FROM = "from";
     public static final String SPEND_ID = "spend_id";
+
+    public static final String FPT = "fpt";
+    public static final String FPT_ID = "fpt_id";
+    public static final String URL = "url";
+    public static final String TERM_URL = "term_url";
+    public static final String PA_REQ = "pa_req";
 }
