@@ -29,11 +29,7 @@ import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.utils.Utils.UAHtoPenny;
-import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
-
 public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnTabChangedListener  {
-
 
     private final static int TAB_ALL = 0;
     private final static int TAB_MY = 1;
@@ -44,7 +40,6 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
     private SpendsAdapter spendsAdapter = new SpendsAdapter();
     private long myId;
     private TabLayout tabLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +56,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         rvSpends.setLayoutManager(new LinearLayoutManager(context));
         initTabLayout();
         groupSpendsRequest();
-
     }
-
 
     private void initTabLayout() {
         tabLayout = findViewById(R.id.tab_l);
@@ -78,16 +71,15 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {
 
-                            allSpends = result;
-                            for (GroupSpend spend : allSpends) {
-                                if (spend.getCreatorId() == myId){
-                                    myCreationSpends.add(spend);
-                                }
-                            }
-                            selectedSpends = allSpends;
-                            spendsAdapter = new SpendsAdapter();
-                            rvSpends.setAdapter(spendsAdapter);
-                            Log.e("spends", allSpends.size() + "");
+                        allSpends = result;
+                        for (GroupSpend spend : allSpends)
+                            if (spend.getCreatorId() == myId)
+                                myCreationSpends.add(spend);
+
+                        selectedSpends = allSpends;
+                        spendsAdapter = new SpendsAdapter();
+                        rvSpends.setAdapter(spendsAdapter);
+                        Log.e("spends", allSpends.size() + "");
 
                     }
                 });
@@ -121,31 +113,34 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 .putExtra(Keys.SPEND_ID, spendId));
                 break;
             case R.id.tv_delete:
-
+                deleteGroupSpendRequest();
                 break;
         }
+    }
+
+    private void deleteGroupSpendRequest() {
+        //TODO:
     }
 
 
     private class SpendsViewHolder extends RecyclerView.ViewHolder {
 
-
         SwipeRevealLayout swipeRevealLayout;
-        View llMaintItem;
+        View llMainItem;
         View viewed;
         TextView tvTitle, tvCreator, tvPart, tvDelete, tvAmount;
 
         public SpendsViewHolder(View itemView) {
             super(itemView);
             swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
-            llMaintItem = itemView.findViewById(R.id.ll_main_item);
+            llMainItem = itemView.findViewById(R.id.ll_main_item);
             viewed = itemView.findViewById(R.id.viewed);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvCreator = itemView.findViewById(R.id.tv_creator);
             tvPart = itemView.findViewById(R.id.tv_part);
             tvDelete = itemView.findViewById(R.id.tv_delete);
             tvAmount = itemView.findViewById(R.id.tv_amount);
-            llMaintItem.setOnClickListener((View.OnClickListener) context);
+            llMainItem.setOnClickListener((View.OnClickListener) context);
             tvDelete.setOnClickListener((View.OnClickListener) context);
         }
     }
@@ -172,7 +167,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
             holder.tvCreator.setText(spend.getCreatorName());
             holder.tvPart.setText(spend.getMemberPart() + "%");
             holder.tvAmount.setText(Utils.pennyToUah(spend.getStartAmount()) + " | грн");
-            holder.llMaintItem.setTag(spend);
+            holder.llMainItem.setTag(spend);
             holder.tvDelete.setTag(spend);
         }
 

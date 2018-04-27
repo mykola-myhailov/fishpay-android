@@ -14,7 +14,7 @@ public class SpendDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spend_detail);
 
-
+        //TODO:
     }
 
     @Override

@@ -126,6 +126,9 @@ public class TransactionActivity extends DrawerActivity {
                                         case "REVERSED":
                                             Utils.toast(context, "reversed");
                                             break;
+                                        case "ERROR":
+                                            Utils.toast(context, "error");
+                                            break;
                                         default:
                                             LinkedTreeMap resultMap = (LinkedTreeMap) result;
                                             parseResultMap(resultMap);
@@ -168,11 +171,6 @@ public class TransactionActivity extends DrawerActivity {
 
         } else Utils.noInternetToast(context);
     }
-
-
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -115,7 +115,7 @@ public class ContactsActivity extends DrawerActivity {
                 break;
 
             case R.id.tv_delete:
-                long id = ((Contact) view.getTag()).getId();
+                long id = ((Contact) view.getTag()).getUserId();
                 showDeleteConfirmation(id);
                 break;
 
@@ -130,7 +130,7 @@ public class ContactsActivity extends DrawerActivity {
 
     private void showDeleteConfirmation(final long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно хотите общую покупку из списка?");
+        builder.setTitle("Вы действительно хотите удалить контакт  из списка?");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -148,7 +148,7 @@ public class ContactsActivity extends DrawerActivity {
                     .enqueue(new Callback<BaseResponse<Object>>() {
                         @Override
                         public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
-
+                           // TODO:
                         }
 
                         @Override

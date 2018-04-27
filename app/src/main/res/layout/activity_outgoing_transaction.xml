@@ -70,7 +70,7 @@
                     android:id="@+id/tv_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Карта для приема платежа:"
+                    android:text="Карта для перевода платежа:"
                     android:textColor="@color/grey2"/>
 
                 <ImageView

@@ -21,7 +21,6 @@ public class BankWebActivity extends AppCompatActivity {
     private String termUrl, paReq, bankUrl, fpt, fptId;
     private Context context;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +39,26 @@ public class BankWebActivity extends AppCompatActivity {
         setContentView(webview);
         String postData = null;
         try {
-            postData = "TermUrl=" + URLEncoder.encode(termUrl, "UTF-8") + "&PaReq=" + URLEncoder.encode(paReq, "UTF-8");
+            postData = "TermUrl=" + URLEncoder.encode(termUrl, "UTF-8")
+                    + "&PaReq=" + URLEncoder.encode(paReq, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         if (postData != null) {
-            webview.postUrl(bankUrl, postData.getBytes());
             webview.setWebViewClient(new WebViewClient(){
                 @Override
                 public void onLoadResource(WebView view, String url) {
-                    if (url.equals(bankUrl))super.onLoadResource(view, url);
-                    else onBackPressed();
+                    super.onLoadResource(view, url);
+/*                 if (url.contains(????))super.onLoadResource(view, url){
+                        webview.destroy();
+                        requetAuditpay();
+                    }*/
                 }
             });
-        } else Utils.toast(context, getString(R.string.error));
+            webview.postUrl(bankUrl, postData.getBytes());
+        }
 
+        else Utils.toast(context, getString(R.string.error));
 
     }
 
@@ -65,6 +69,7 @@ public class BankWebActivity extends AppCompatActivity {
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
+                            Utils.toast(context, "Успешно");
                             onBackPressed();
                         }
                     });
