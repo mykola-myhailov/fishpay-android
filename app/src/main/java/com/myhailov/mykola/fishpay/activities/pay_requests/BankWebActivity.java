@@ -1,14 +1,20 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -45,14 +51,15 @@ public class BankWebActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (postData != null) {
+            webview.getSettings().setJavaScriptEnabled(true);
             webview.setWebViewClient(new WebViewClient(){
                 @Override
                 public void onLoadResource(WebView view, String url) {
                     super.onLoadResource(view, url);
-/*                 if (url.contains(????))super.onLoadResource(view, url){
+                 if (url.contains(ApiClient.BANK_REDIRECT)){
                         webview.destroy();
-                        requetAuditpay();
-                    }*/
+                        requestAuditpay();
+                    }
                 }
             });
             webview.postUrl(bankUrl, postData.getBytes());
@@ -62,17 +69,52 @@ public class BankWebActivity extends AppCompatActivity {
 
     }
 
-    private void requetAuditpay() {
+    private void requestAuditpay() {
         if (Utils.isOnline(context)){
             ApiClient.getApiClient()
                     .auditpay(TokenStorage.getToken(context), fpt, fptId)
-                    .enqueue(new BaseCallback<Object>(context, true) {
+                    .enqueue(new BaseCallback<AuditPayResult>(context, true) {
                         @Override
-                        protected void onResult(int code, Object result) {
-                            Utils.toast(context, "Успешно");
-                            onBackPressed();
+                        protected void onResult(int code, AuditPayResult result) {
+                            if (result.getType()!=null && result.getType().equals("lookup")
+                                    && result.getId() != null  && result.getKey() != null)
+                                requestLookup(result.getKey(), result.getId());
                         }
                     });
         }
+    }
+
+
+    private void requestLookup(String lookupKey, String lookupId) {
+        final EditText input = new EditText(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        new AlertDialog.Builder(context)
+                .setMessage("Введите SMS-код")
+                .setView(input)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String code = input.getText().toString();
+
+                        if (code.equals("")) Utils.toast(context, getString(R.string.enter_password));
+                            // else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                        else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+                        else ApiClient.getApiClient().sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
+                            .enqueue(new BaseCallback<Object>(context, true) {
+                                @Override
+                                protected void onResult(int code, Object result) {
+                                    //TODO:
+                                    onBackPressed();
+                                }
+                            });
+                    }
+                })
+                .create().show();
+        // context.startActivity(new Intent(context, PayRequestActivity.class) )
+
     }
 }

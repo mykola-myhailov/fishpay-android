@@ -1,7 +1,10 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.internal.LinkedTreeMap;
@@ -167,9 +171,29 @@ public class TransactionActivity extends DrawerActivity {
 
 
     private void requestLookup(String lookupKey, String lookupId) {
-        if (Utils.isOnline(context)){
+            final EditText input = new EditText(context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new AlertDialog.Builder(context)
+                    .setMessage("Введите SMS-код")
+                    .setView(input)
+                    .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String code = input.getText().toString();
 
-        } else Utils.noInternetToast(context);
+                            if (code.equals("")) Utils.toast(context, getString(R.string.enter_password));
+                           // else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                            else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+                            else ApiClient.getApiClient().sendLookup(TokenStorage.getToken(context),fpt, fptId, code);
+                        }
+                    })
+                    .create().show();
+            // context.startActivity(new Intent(context, PayRequestActivity.class) )
+
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.myhailov.mykola.fishpay.api;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
+import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
@@ -310,7 +311,7 @@ public interface ApiInterface {
 
     @GET("api/commonSpendings/{id}")
     Call<BaseResponse<Object>> getSpendingDetails (@Header("Authorization") String token,
-                                                   @Path("id") String id);
+                                                   @Path("id") long id);
 
     @FormUrlEncoded @POST("api/commonSpendings/{id}/transactions")
     Call<BaseResponse<Object>>  transaction   (@Header("Authorization") String token,
@@ -407,7 +408,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST ("api/transfer/auditpay")
-    Call<BaseResponse<Object>> auditpay(@Header("Authorization") String token,
+    Call<BaseResponse<AuditPayResult>> auditpay(@Header("Authorization") String token,
                                                   @Field("fpt") String fpt,
                                                   @Field("id") String id);
 

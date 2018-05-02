@@ -83,25 +83,21 @@
 
         </LinearLayout>
 
-
-
-
-
-            <belka.us.androidtoggleswitch.widgets.ToggleSwitch
-                android:id="@+id/toggleSwitch"
-                android:visibility="gone"
-                android:layout_margin="10dp"
-                android:padding="2dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_border"
-                custom:activeBgColor="@color/blue1"
-                custom:activeTextColor="@color/white"
-                custom:inactiveBgColor="@color/white"
-                custom:inactiveTextColor="@color/blue1"
-                custom:toggleWidth="120dp"
-                custom:cornerRadius="8dp" />
+        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+            android:id="@+id/toggleSwitch"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_border"
+            custom:activeBgColor="@color/blue1"
+            custom:activeTextColor="@color/white"
+            custom:inactiveBgColor="@color/white"
+            custom:inactiveTextColor="@color/blue1"
+            custom:toggleWidth="120dp"
+            custom:cornerRadius="8dp" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/refresh"

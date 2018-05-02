@@ -28,6 +28,10 @@ public class Member implements Parcelable {
     @SerializedName("photo_link") private String photo;
     @SerializedName("member_part") private String member_part;
 
+
+
+
+
     public Member() {
     }
 
