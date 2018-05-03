@@ -100,4 +100,5 @@
     <string name="start_amount">Стартовая сумма</string>
     <string name="no_group_spends">У вас ещё нет общих расходов</string>
     <string name="outgoing_transaction">Исходящий перевод</string>
+    <string name="enter_sms_code">введите СМС-код</string>
 </resources>

@@ -1,17 +1,19 @@
 package com.myhailov.mykola.fishpay.activities.group_spends;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.TransactionActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
-import com.myhailov.mykola.fishpay.api.requestBodies.Member;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
+import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.MemberDetails;
+import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -22,8 +24,10 @@ import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class SpendDetailActivity extends BaseActivity{
 
-    private RecyclerView rvContacts;
-    private ArrayList<Member> members;
+    private TextView tvAmount;
+    private RecyclerView recyclerView;
+
+    private ArrayList<MemberDetails> members;
     private ArrayList<Transaction> transactions;
     private long spendId;
 
@@ -34,17 +38,26 @@ public class SpendDetailActivity extends BaseActivity{
 
         spendId = getIntent().getExtras().getLong(Keys.SPEND_ID);
 
-        rvContacts = findViewById(R.id.rvContacts);
-        rvContacts.setLayoutManager(new LinearLayoutManager(context));
+        tvAmount = findViewById(R.id.tv_amount);
+
+        recyclerView = findViewById(R.id.rvContacts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         
         spendDetailRequest();
-        
     }
 
     private void spendDetailRequest() {
         if (Utils.isOnline(context))
-            ApiClient.getApiClient().getSpendingDetails(TokenStorage.getToken(context), spendId);
-           // .enqueue(new );
+            ApiClient.getApiClient().getSpendingDetails(TokenStorage.getToken(context), spendId)
+            .enqueue(new BaseCallback<SpendDetailResult>(context, true) {
+                @Override
+                protected void onResult(int code, SpendDetailResult result) {
+                    tvAmount.setText(String.valueOf(result.getSum()));
+                    members = result.getMembers();
+                    transactions = result.getTransactions();
+                    initToggleButtons();
+                }
+            });
     }
 
     @Override
@@ -56,24 +69,20 @@ public class SpendDetailActivity extends BaseActivity{
                 onBackPressed();
                 break;
         }
-
     }
-
 
     private void initToggleButtons() {
         final ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
-        labels.add("Активные");
-        labels.add("Все");;
+        labels.add("Список");
+        labels.add("Участники");;
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
         toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                if (position == 0) ;
-                else ;
-            
+              //  if (position == 0) recyclerView.setAdapter(new );
             }
         });
         final SwipeRefreshLayout refreshLayout = findViewById(R.id.refresh);
@@ -85,9 +94,6 @@ public class SpendDetailActivity extends BaseActivity{
                 refreshLayout.setEnabled(false);
             }
         });
-    }
-
-    private class Transaction {
     }
 }
 

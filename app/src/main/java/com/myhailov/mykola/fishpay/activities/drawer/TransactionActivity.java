@@ -165,12 +165,12 @@ public class TransactionActivity extends DrawerActivity {
         } else if (type.equals("lookup")){
             fpt = (String) result.get("fpt");
             fptId  = (String) result.get("id");
-            requestLookup(fpt, fptId);
+            requestLookup();
         }
     }
 
 
-    private void requestLookup(String lookupKey, String lookupId) {
+    private void requestLookup() {
             final EditText input = new EditText(context);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -185,15 +185,30 @@ public class TransactionActivity extends DrawerActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String code = input.getText().toString();
 
-                            if (code.equals("")) Utils.toast(context, getString(R.string.enter_password));
-                           // else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                            if (code.equals("")) Utils.toast(context, getString(R.string.enter_sms_code));
                             else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                            else ApiClient.getApiClient().sendLookup(TokenStorage.getToken(context),fpt, fptId, code);
+                            else ApiClient.getApiClient()
+                                        .sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
+                                        .enqueue(new BaseCallback<String>(context, true) {
+                                            @Override
+                                            protected void onResult(int code, String result) {
+                                                switch (result.toLowerCase()){
+                                                    case "error_code":
+                                                        Utils.toast(context, "Неверный код");
+                                                        requestLookup();
+                                                        break;
+                                                    case "success":
+                                                        Utils.toast(context, "Успешно");
+                                                        break;
+                                                    default:
+                                                        Utils.toast(context, "Ошибка");
+                                                        break;
+                                                }
+                                            }
+                                        });
                         }
                     })
                     .create().show();
-            // context.startActivity(new Intent(context, PayRequestActivity.class) )
-
     }
 
     @Override

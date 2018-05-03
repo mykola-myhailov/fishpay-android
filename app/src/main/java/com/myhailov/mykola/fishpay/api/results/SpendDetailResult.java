@@ -1,8 +1,6 @@
 package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
-import com.myhailov.mykola.fishpay.api.requestBodies.Member;
-
 import java.util.ArrayList;
 
 /**
@@ -28,7 +26,6 @@ public class SpendDetailResult {
     @SerializedName("status")
     private String status;
 
-
     @SerializedName("member_id")
     private long  memberId;
 
@@ -41,7 +38,47 @@ public class SpendDetailResult {
     @SerializedName("transactions")
     private ArrayList<Transaction> transactions;
 
-    private class MemberDetails {
+    public long getId() {
+        return id;
+    }
+
+    public long getCreatorId() {
+        return creatorId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getStartAmount() {
+        return startAmount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public long getSum() {
+        return sum;
+    }
+
+    public ArrayList<MemberDetails> getMembers() {
+        return members;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public class MemberDetails {
 
         @SerializedName("id")
         private long id;
@@ -87,24 +124,125 @@ public class SpendDetailResult {
 
         @SerializedName("relative_balance")
         private double relativeBallance;
+
+        public long getId() {
+            return id;
+        }
+
+        public double getPart() {
+            return part;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public long getSum() {
+            return sum;
+        }
+
+        public long getCommitment() {
+            return commitment;
+        }
+
+        public long getOverpaiment() {
+            return overpaiment;
+        }
+
+        public double getPartInOverpaiment() {
+            return partInOverpaiment;
+        }
+
+        public double getRelativeBallance() {
+            return relativeBallance;
+        }
     }
 
-    private class Transaction {
+    public class Transaction {
 
         @SerializedName("id")
         private long id;
 
+        @SerializedName("member_from")
+        private long memberFromId;
 
-/*
-        "id": 101,
-                "member_from": 136,
-                "member_to": null,
-                "amount": 200000,
-                "request_id": null,
-                "comment": "Тесты",
-                "created_at": "2018-04-13 12:05:17",
-                "transfer_id": null,
-                "member_from_first_name": "Bogonos",
-                "member_from_second_name": null*/
+        @SerializedName("member_to")
+        private long memberToId;
+
+        @SerializedName("amount")
+        private long amount;
+
+        @SerializedName("comment")
+        private String comment;
+
+        @SerializedName("transfer_id")
+        private long transferId;
+
+        @SerializedName("member_from_first_name")
+        private long memberFromName;
+
+        @SerializedName("member_from_second_name")
+        private long memberFromSurname;
+
+        public long getId() {
+            return id;
+        }
+
+        public long getMemberFromId() {
+            return memberFromId;
+        }
+
+        public long getMemberToId() {
+            return memberToId;
+        }
+
+        public long getAmount() {
+            return amount;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public long getTransferId() {
+            return transferId;
+        }
+
+        public long getMemberFromName() {
+            return memberFromName;
+        }
+
+        public long getMemberFromSurname() {
+            return memberFromSurname;
+        }
     }
+
 }

@@ -24,6 +24,7 @@ import com.myhailov.mykola.fishpay.api.results.RegistrationResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveReason;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
+import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 
 import java.util.ArrayList;
 
@@ -310,8 +311,8 @@ public interface ApiInterface {
                                               @Path("id") String id);
 
     @GET("api/commonSpendings/{id}")
-    Call<BaseResponse<Object>> getSpendingDetails (@Header("Authorization") String token,
-                                                   @Path("id") long id);
+    Call<BaseResponse<SpendDetailResult>> getSpendingDetails (@Header("Authorization") String token,
+                                                              @Path("id") long id);
 
     @FormUrlEncoded @POST("api/commonSpendings/{id}/transactions")
     Call<BaseResponse<Object>>  transaction   (@Header("Authorization") String token,
@@ -408,13 +409,13 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST ("api/transfer/auditpay")
-    Call<BaseResponse<AuditPayResult>> auditpay(@Header("Authorization") String token,
+    Call<BaseResponse<Object>> auditpay(@Header("Authorization") String token,
                                                   @Field("fpt") String fpt,
                                                   @Field("id") String id);
 
     @FormUrlEncoded
     @POST ("api/transfer/sendlookup")
-    Call<BaseResponse<Object>> sendLookup(@Header("Authorization") String token,
+    Call<BaseResponse<String>> sendLookup(@Header("Authorization") String token,
                                           @Field("fpt") String ftp,
                                           @Field("id") String id,
                                           @Field("code") String code);

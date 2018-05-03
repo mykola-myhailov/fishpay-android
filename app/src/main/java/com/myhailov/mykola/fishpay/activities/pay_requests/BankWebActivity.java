@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -73,19 +75,48 @@ public class BankWebActivity extends AppCompatActivity {
         if (Utils.isOnline(context)){
             ApiClient.getApiClient()
                     .auditpay(TokenStorage.getToken(context), fpt, fptId)
-                    .enqueue(new BaseCallback<AuditPayResult>(context, true) {
+                    .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
-                        protected void onResult(int code, AuditPayResult result) {
-                            if (result.getType()!=null && result.getType().equals("lookup")
-                                    && result.getId() != null  && result.getKey() != null)
-                                requestLookup(result.getKey(), result.getId());
+                        protected void onResult(int code, Object result) {
+                            switch (result.toString()) {
+
+                                case "SUCCESS":
+                                    Utils.toast(context, "success");
+                                    onBackPressed();
+                                    break;
+                                case "REJECTED":
+                                    Utils.toast(context, "rejected");
+                                    onBackPressed();
+                                    break;
+                                case "REVERSED":
+                                    Utils.toast(context, "reversed");
+                                    onBackPressed();
+                                    break;
+                                case "ERROR":
+                                    Utils.toast(context, "error");
+                                    onBackPressed();
+                                    break;
+                                default:
+                                    LinkedTreeMap resultMap = (LinkedTreeMap) result;
+                                    parseResultMap(resultMap);
+                                    break;
+                            }
                         }
                     });
         }
     }
 
+    private void parseResultMap(LinkedTreeMap result) {
+        String type = (String) result.get("type");
+         if (type.equals("lookup")){
+            fpt = (String) result.get("fpt");
+            fptId  = (String) result.get("id");
+            requestLookup();
+        }
+    }
 
-    private void requestLookup(String lookupKey, String lookupId) {
+
+    private void requestLookup() {
         final EditText input = new EditText(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -100,21 +131,31 @@ public class BankWebActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String code = input.getText().toString();
 
-                        if (code.equals("")) Utils.toast(context, getString(R.string.enter_password));
-                            // else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                        if (code.equals("")) Utils.toast(context, getString(R.string.enter_sms_code));
                         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                        else ApiClient.getApiClient().sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
-                            .enqueue(new BaseCallback<Object>(context, true) {
-                                @Override
-                                protected void onResult(int code, Object result) {
-                                    //TODO:
-                                    onBackPressed();
-                                }
-                            });
+                        else ApiClient.getApiClient()
+                                    .sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
+                                    .enqueue(new BaseCallback<String>(context, true) {
+                                        @Override
+                                        protected void onResult(int code, String result) {
+                                            switch (result.toLowerCase()){
+                                                case "error_code":
+                                                    Utils.toast(context, "Неверный код");
+                                                    requestLookup();
+                                                    break;
+                                                case "success":
+                                                    Utils.toast(context, "Успешно");
+                                                    onBackPressed();
+                                                    break;
+                                                default:
+                                                    Utils.toast(context, "Ошибка");
+                                                    onBackPressed();
+                                                    break;
+                                            }
+                                        }
+                                    });
                     }
                 })
                 .create().show();
-        // context.startActivity(new Intent(context, PayRequestActivity.class) )
-
     }
 }
