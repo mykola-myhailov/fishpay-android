@@ -109,8 +109,8 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         long spendId = spend.getId();
         switch (view.getId()){
             case R.id.ll_main_item:
-                context.startActivity(new Intent(context, SpendDetailActivity.class)
-                .putExtra(Keys.SPEND_ID, spendId));
+               // context.startActivity(new Intent(context, SpendDetailActivity.class)
+               // .putExtra(Keys.SPEND_ID, spendId));
                 break;
             case R.id.tv_delete:
                 deleteGroupSpendRequest();

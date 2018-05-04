@@ -32,19 +32,19 @@ public class SearchedContactsResult {
         private String name;
 
         @SerializedName("second_name")
-        private String suname;
+        private String surname;
 
         @SerializedName("imported_contacts_first_name")
         private String importedName;
 
-        @SerializedName("photo")
+        @SerializedName("photo_link")
         private String photo;
 
         protected SearchedContact(Parcel in) {
             id = in.readLong();
             phone = in.readString();
             name = in.readString();
-            suname = in.readString();
+            surname = in.readString();
             importedName = in.readString();
             photo = in.readString();
         }
@@ -73,8 +73,8 @@ public class SearchedContactsResult {
             return name;
         }
 
-        public String getSuname() {
-            return suname;
+        public String getSurname() {
+            return surname;
         }
 
         public String getImportedName() {
@@ -95,7 +95,7 @@ public class SearchedContactsResult {
             parcel.writeLong(id);
             parcel.writeString(phone);
             parcel.writeString(name);
-            parcel.writeString(suname);
+            parcel.writeString(surname);
             parcel.writeString(importedName);
             parcel.writeString(photo);
         }
@@ -113,5 +113,8 @@ public class SearchedContactsResult {
                 "public_card_number":null,"status":
         "ACTIVE","photo":"257d8a6d04c7d0b2c3ef94c424c9d2e8.tmp",
                 "is_blocked":false}]}}*/
+
+
+
 
 }

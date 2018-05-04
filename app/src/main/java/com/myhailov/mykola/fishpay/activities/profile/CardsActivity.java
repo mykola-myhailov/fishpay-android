@@ -97,7 +97,7 @@ public class CardsActivity extends BaseActivity {
         tvAddCard.setOnClickListener(this);
         progressBar = findViewById(R.id.progress_bar);
         rvCards = findViewById(R.id.rv_cards);
-        findViewById(R.id.ll_without_card).setOnClickListener(this);
+
 
         /*tvCardNumber.addTextChangedListener(new AutoAddTextWatcher(tvCardNumber, " ", 4, 8, 12));
         tvCardNumber.setImeOptions(IME_ACTION_DONE);
@@ -121,6 +121,9 @@ public class CardsActivity extends BaseActivity {
 
         rvCards.setHasFixedSize(true);
         rvCards.setLayoutManager(new LinearLayoutManager(context));
+
+        if (isForRequest) findViewById(R.id.ll_without_card).setVisibility(View.GONE);
+            else findViewById(R.id.ll_without_card).setOnClickListener(this);
     }
 
     private static class FocusSwitchingTextWatcher implements TextWatcher {
@@ -147,11 +150,10 @@ public class CardsActivity extends BaseActivity {
         public void afterTextChanged(Editable editable) {
 
         }
-
-
     }
 
     private void initToolbar() {
+        if (isForRequest) ((TextView) findViewById(R.id.tvToolBarTitle)).setText("Выберите карту");
         ((TextView) findViewById(R.id.tvToolBarTitle)).setText(getResources().getString(R.string.public_card));
         findViewById(R.id.ivBack).setOnClickListener(this);
     }

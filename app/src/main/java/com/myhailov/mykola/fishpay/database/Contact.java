@@ -81,7 +81,7 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
     public String getPhoto() {
-        return this.photo;
+        return photo;
     }
     public void setPhoto(String photo) {
         this.photo = photo;

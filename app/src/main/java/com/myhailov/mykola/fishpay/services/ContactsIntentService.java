@@ -37,9 +37,7 @@ public class ContactsIntentService extends IntentService {
     private void saveContacts() {
         ContactDao contactsTable = DBUtils.getDaoSession(this).getContactDao();
         contactsTable.deleteAll();
-        for (Contact contactInfo: contacts) {
-            contactsTable.insert(contactInfo);
-        }
+        contactsTable.insertInTx(contacts);
     }
 
     //extracting contacts info from device. It take a few seconds, so must execute in background

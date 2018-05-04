@@ -28,9 +28,9 @@ public class DBUtils {
     public static void saveAppContacts(Context context, ArrayList<Contact> appContacts) {
         ContactDao contactsTable = DBUtils.getDaoSession(context).getContactDao();
         List<Contact> deviceContacts = contactsTable.loadAll();
-        contactsTable.deleteAll();
-        Map<String, Contact> appContactsPhones = new HashMap<>();
+        ArrayList<Contact> allContacts = new ArrayList<>();
 
+        Map<String, Contact> appContactsPhones = new HashMap<>();
         for (Contact appContact : appContacts) {
             if (appContact.isActiveUser()){
                 String phone = appContact.getPhone();
@@ -44,13 +44,16 @@ public class DBUtils {
                 Contact contact = appContactsPhones.get(phone);
                 if (contact.getPhoto() == null && deviceContact.getPhoto() != null)
                     contact.setPhoto(deviceContact.getPhoto());
-            } else contactsTable.insert(makeContactWithUniqueId(deviceContact));
+            } else allContacts.add(makeContactWithUniqueId(deviceContact));
         }
 
-        for (Map.Entry<String, Contact> mapEntry : appContactsPhones.entrySet()){
-            contactsTable.insert(makeContactWithUniqueId(mapEntry.getValue()));
-        }
 
+        for (Map.Entry<String, Contact> mapEntry : appContactsPhones.entrySet())
+            allContacts.add(makeContactWithUniqueId(mapEntry.getValue()));
+
+
+        contactsTable.deleteAll();
+        contactsTable.insertInTx(allContacts);
     }
 
     private static Contact makeContactWithUniqueId(Contact appContact) {
