@@ -85,15 +85,6 @@ public class SpendDetailActivity extends BaseActivity{
               //  if (position == 0) recyclerView.setAdapter(new );
             }
         });
-        final SwipeRefreshLayout refreshLayout = findViewById(R.id.refresh);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                toggleSwitch.setVisibility(View.VISIBLE);
-                refreshLayout.setRefreshing(false);
-                refreshLayout.setEnabled(false);
-            }
-        });
     }
 }
 

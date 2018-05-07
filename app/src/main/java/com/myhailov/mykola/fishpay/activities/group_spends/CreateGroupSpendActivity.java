@@ -16,8 +16,6 @@ import com.myhailov.mykola.fishpay.views.MoneyEditText;
 
 public class CreateGroupSpendActivity extends BaseActivity {
 
-
-
     private MoneyEditText etAmount;
     private EditText etGroupName,
             etDescription;
