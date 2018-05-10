@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.results.CharityResult;
@@ -42,11 +43,16 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         holder.tvPercent.setText(item.getExecution() + "%");
         holder.tvGoal.setText(item.getTotalAmount().toString() + " |грн");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        holder.tvReport.setOnClickListener((View.OnClickListener) context);
+        holder.container.setOnClickListener((View.OnClickListener) context);
+
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
+
+        viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(item.getId()));
     }
 
     @Override
@@ -68,13 +74,19 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         private TextView tvName;
         private TextView tvGoal;
         private TextView tvPercent;
+        private TextView tvReport;
+        private View container;
+        private SwipeRevealLayout swipeRevealLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
+            container = itemView.findViewById(R.id.charity_item);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvName = itemView.findViewById(R.id.tv_author_name);
             tvGoal = itemView.findViewById(R.id.tv_goal);
             tvPercent = itemView.findViewById(R.id.tv_percent);
+            tvReport = itemView.findViewById(R.id.tv_report);
         }
     }
 }

@@ -102,4 +102,7 @@
     <string name="outgoing_transaction">Исходящий перевод</string>
     <string name="enter_sms_code">введите СМС-код</string>
     <string name="report">Пожаловатся</string>
+    <string name="charity_empty_contacts">Ваши контакти пока не создавали благотворительних сборов</string>
+    <string name="charity_empty_my">Вы еще не создавали благотворительних сборов</string>
+    <string name="charity_empty_global">Еще не создавали благотворительних сборов</string>
 </resources>

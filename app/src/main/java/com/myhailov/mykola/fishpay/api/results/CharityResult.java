@@ -81,7 +81,6 @@ public class CharityResult {
         @SerializedName("created_at")
         private String createdAt;
         @SerializedName("author_name")
-
         private String authorName;
 
         public Integer getId() {
