@@ -7,6 +7,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
+import com.myhailov.mykola.fishpay.api.results.CharityResult;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
@@ -340,10 +341,10 @@ public interface ApiInterface {
     // Charity
 
     @GET("api/charity")
-    Call<BaseResponse<Object>> getChatiry (@Header("Authorization") String token);
+    Call<BaseResponse<CharityResult>> getCharity (@Header("Authorization") String token);
 
     @Multipart @POST("api/charity")
-    Call<BaseResponse<Object>> createChatiry (@Header("Authorization") String token,
+    Call<BaseResponse<Object>> createCharity (@Header("Authorization") String token,
                                               @Part("title") RequestBody title,
                                               @Part("required_amount") RequestBody requiredAmount,
                                               @Field("init_collected_amount") RequestBody initCollAmount,

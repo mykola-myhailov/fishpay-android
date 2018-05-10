@@ -18,4 +18,6 @@
     <color name="green">#00f0c0</color>
     <color name="black2">#1C1C1D</color>
 
+    <color name="grey_text">#7F7F7F</color>
+
 </resources>
