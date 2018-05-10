@@ -66,7 +66,7 @@ public class SelectContactsActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.container:   // click on app user's contact, to see details
+            case R.id.container:   // click on app user's contact,
                 Contact contact = (Contact) view.getTag();
                 if (contact == null) {
                     Utils.toast(context, getString(R.string.error));

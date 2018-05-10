@@ -80,10 +80,10 @@ public class RegistrationActivity extends BaseActivity {
                 email = etEmail.getText().toString();
                 if (name.equals("")) Utils.toast(context, getString(R.string.enter_name));
                 else if (surname.equals("")) Utils.toast(context,getString(R.string.enter_surname));
-              //  else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
+                else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
                 else if (surname.length() < 2 || surname.length() > 20 )
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if (!Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
+                else if  (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
                 else {
                     Intent intent = new Intent(context, SetPasswordActivity.class);
                     intent.putExtra(Keys.PHONE, phone);

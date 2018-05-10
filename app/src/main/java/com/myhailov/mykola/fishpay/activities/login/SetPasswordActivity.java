@@ -73,7 +73,8 @@ public class SetPasswordActivity extends BaseActivity {
                 else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                 else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
                 else {
-                    String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+                    String firebaseToken = "";
+                   // String firebaseToken = FirebaseInstanceId.getInstance().getToken();
                     String deviceType = "android";
                     String devicetype = "android";
                     int versionCode = BuildConfig.VERSION_CODE;

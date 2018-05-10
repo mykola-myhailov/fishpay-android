@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
+import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
@@ -23,6 +25,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
 import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -32,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -53,6 +57,8 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Card receiverCard;
     private int amount;
     private boolean fromJointPurchase;
+    private View rlRequestAmount;
+    private ArrayList<Contact> appContacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +92,25 @@ public class CreatePayRequestActivity extends BaseActivity {
                 }
             }
         }
+        loadContacts();
         initCustomToolbar("запрос на оплату");
         initViews();
+    }
+
+    private void loadContacts() {
+        List<Contact> contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+        appContacts = new ArrayList<>();
+        for (Contact contact : contacts) {
+            long userId = contact.getUserId();
+            if (userId != 0) appContacts.add(contact);
+        }
     }
 
     private void initViews() {
         findViewById(R.id.iv_choose_contact).setOnClickListener(this);
         findViewById(R.id.tv_send_request).setOnClickListener(this);
         findViewById(R.id.rl_card).setOnClickListener(this);
-        rvContacts = findViewById(R.id.rv_contacts);
+
         etPhone = findViewById(R.id.et_phone);
         tvCard = findViewById(R.id.tv_card_number);
         etComment = findViewById(R.id.et_comment);
@@ -120,6 +136,13 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
         if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);
         else tvCard.setText(String.format("%s | %s", receiverCard, receiverCardName));
+
+        rlRequestAmount = findViewById(R.id.rl_request_amount);
+        rlRequestAmount.setVisibility(View.GONE);
+
+        rvContacts = findViewById(R.id.rv_contacts);
+        rvContacts.setLayoutManager(new LinearLayoutManager(context));
+        rvContacts.setAdapter(new ContactsAdapter(context, appContacts));
     }
 
     @Override
@@ -127,6 +150,21 @@ public class CreatePayRequestActivity extends BaseActivity {
         switch (view.getId()){
             case  R.id.ivBack:
                 onBackPressed();
+                break;
+            case R.id.container:   // click on app user's contact, to see details
+                Contact contact = (Contact) view.getTag();
+                if (contact != null){
+                    receiverContact = contact;
+                    rvContacts.setVisibility(View.GONE);
+                    rlRequestAmount.setVisibility(View.VISIBLE);
+                    receiverPhone = receiverContact.getPhone();
+                    receiverName = receiverContact.getName();
+                    if (receiverPhone != null) etPhone.setText(receiverPhone);
+
+                }
+                else Utils.toast(context, getString(R.string.error));
+
+
                 break;
             case R.id.rl_card:
                 startActivityForResult(new Intent(context, CardsActivity.class)
@@ -225,6 +263,8 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
         }
         else if (requestCode == REQUEST_CONTACT){
+            rvContacts.setVisibility(View.GONE);
+            rlRequestAmount.setVisibility(View.VISIBLE);
             receiverContact = data.getParcelableExtra(CONTACT);
             if (receiverContact != null) {
                 receiverPhone = receiverContact.getPhone();
@@ -246,4 +286,27 @@ public class CreatePayRequestActivity extends BaseActivity {
         return goodsArray.toString();
     }
 
+/*    private class ContactHolder extends RecyclerView.ViewHolder{
+
+        public ContactHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    private class SelectContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+        @Override
+        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(ContactHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return
+        }
+    }*/
 }

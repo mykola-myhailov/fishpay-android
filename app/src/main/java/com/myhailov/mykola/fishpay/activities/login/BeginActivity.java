@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.services.ContactsIntentService;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 
@@ -32,8 +34,13 @@ public class BeginActivity extends BaseActivity {
 
         startService(new Intent(this, ContactsIntentService.class));
      //   quicklogin();
-
         etPhone = findViewById(R.id.etPhone);
+        SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.contains(PrefKeys.PHONE)){
+            etPhone.setText(sharedPreferences.getString(PrefKeys.PHONE, ""));
+        }
+
+
         String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
         ((TextView) findViewById(R.id.tvVersion)).setText(versionText);
         (findViewById(R.id.tvNext)).setOnClickListener(this);
