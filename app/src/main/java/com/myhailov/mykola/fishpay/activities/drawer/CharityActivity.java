@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.drawer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,6 +68,9 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         switch (view.getId()) {
             case R.id.tv_report:
                 toast("Вы пожаловались");
+                break;
+            case R.id.charity_item:
+
                 break;
         }
 

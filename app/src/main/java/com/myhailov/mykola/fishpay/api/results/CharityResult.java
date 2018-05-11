@@ -8,7 +8,7 @@ public class CharityResult {
         @SerializedName("charity_program")
         private List<CharityProgram> charityProgram = null;
         @SerializedName("donation")
-        private List<Object> donation = null;
+        private List<Donation> donation = null;
         @SerializedName("total_donation")
         private Double totalDonation;
 
@@ -25,15 +25,15 @@ public class CharityResult {
             return this;
         }
 
-        public List<Object> getDonation() {
+        public List<Donation> getDonation() {
             return donation;
         }
 
-        public void setDonation(List<Object> donation) {
+        public void setDonation(List<Donation> donation) {
             this.donation = donation;
         }
 
-        public CharityResult withDonation(List<Object> donation) {
+        public CharityResult withDonation(List<Donation> donation) {
             this.donation = donation;
             return this;
         }
@@ -50,6 +50,116 @@ public class CharityResult {
             this.totalDonation = totalDonation;
             return this;
         }
+
+    public class Donation {
+
+        @SerializedName("id")
+        private Integer id;
+        @SerializedName("user_id")
+        private Integer userId;
+        @SerializedName("is_anonymous")
+        private String isAnonymous;
+        @SerializedName("amount")
+        private Integer amount;
+        @SerializedName("created_at")
+        private String createdAt;
+        @SerializedName("first_name")
+        private String firstName;
+        @SerializedName("second_name")
+        private String secondName;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Donation withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Integer getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Integer userId) {
+            this.userId = userId;
+        }
+
+        public Donation withUserId(Integer userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public String getIsAnonymous() {
+            return isAnonymous;
+        }
+
+        public void setIsAnonymous(String isAnonymous) {
+            this.isAnonymous = isAnonymous;
+        }
+
+        public Donation withIsAnonymous(String isAnonymous) {
+            this.isAnonymous = isAnonymous;
+            return this;
+        }
+
+        public Integer getAmount() {
+            return amount;
+        }
+
+        public void setAmount(Integer amount) {
+            this.amount = amount;
+        }
+
+        public Donation withAmount(Integer amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public Donation withCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public Donation withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public String getSecondName() {
+            return secondName;
+        }
+
+        public void setSecondName(String secondName) {
+            this.secondName = secondName;
+        }
+
+        public Donation withSecondName(String secondName) {
+            this.secondName = secondName;
+            return this;
+        }
+
+    }
 
 
     public class CharityProgram {

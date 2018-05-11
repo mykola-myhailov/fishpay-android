@@ -19,5 +19,8 @@
     <color name="black2">#1C1C1D</color>
 
     <color name="grey_text">#7F7F7F</color>
+    <color name="grey_text_secondary">#919191</color>
+    <color name="blue_text">#3E7099</color>
+    <color name="black_text">#323232</color>
 
 </resources>

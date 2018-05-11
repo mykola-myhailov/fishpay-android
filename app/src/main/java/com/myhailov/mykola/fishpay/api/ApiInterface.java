@@ -8,6 +8,7 @@ import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResult;
+import com.myhailov.mykola.fishpay.api.results.CharityResultById;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
@@ -362,8 +363,8 @@ public interface ApiInterface {
 
 
     @GET("api/charity/{id}")
-    Call<BaseResponse<Object>> getCharityDetails   (@Header("Authorization") String token,
-                                                    @Path("id") String id);
+    Call<BaseResponse<CharityResultById>> getCharityDetails   (@Header("Authorization") String token,
+                                                               @Path("id") String id);
 
 
     @FormUrlEncoded @POST("api/charity/{id}/donation")
