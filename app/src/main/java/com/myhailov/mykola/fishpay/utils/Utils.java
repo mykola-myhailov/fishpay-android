@@ -22,8 +22,10 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -208,6 +210,17 @@ public class Utils {
             ivAvatar.setImageDrawable(null);
             tvInitials.setText(initials);
         }
+    }
+
+    public static String convertStringToDate(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM y");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateFormat.format(convertedDate);
     }
 
 }

@@ -12,7 +12,7 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
-import com.myhailov.mykola.fishpay.api.results.CharityResult;
+import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
 
     private static final String TAG = CharityAdapter.class.getSimpleName();
     private Context context;
-    private List<CharityResult.CharityProgram> list;
+    private List<CharityProgram> list;
 
-    public CharityAdapter(Context context, List<CharityResult.CharityProgram> list) {
+    public CharityAdapter(Context context, List<CharityProgram> list) {
         this.context = context;
         this.list = list;
         viewBinderHelper.setOpenOnlyOne(true);
@@ -40,7 +40,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final CharityResult.CharityProgram item = list.get(position);
+        final CharityProgram item = list.get(position);
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvName.setText(item.getAuthorName());
@@ -71,7 +71,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         }
     }
 
-    public void setList(List<CharityResult.CharityProgram> list){
+    public void setList(List<CharityProgram> list){
         this.list = list;
         this.notifyDataSetChanged();
     }

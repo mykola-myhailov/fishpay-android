@@ -2,54 +2,55 @@ package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CharityResult {
-        @SerializedName("charity_program")
-        private List<CharityProgram> charityProgram = null;
-        @SerializedName("donation")
-        private List<Donation> donation = null;
-        @SerializedName("total_donation")
-        private Double totalDonation;
+    @SerializedName("charity_program")
+    private List<CharityProgram> charityProgram = null;
+    @SerializedName("donation")
+    private List<Donation> donation = null;
+    @SerializedName("total_donation")
+    private Double totalDonation;
 
-        public List<CharityProgram> getCharityProgram() {
-            return charityProgram;
-        }
+    public List<CharityProgram> getCharityProgram() {
+        return charityProgram;
+    }
 
-        public void setCharityProgram(List<CharityProgram> charityProgram) {
-            this.charityProgram = charityProgram;
-        }
+    public void setCharityProgram(List<CharityProgram> charityProgram) {
+        this.charityProgram = charityProgram;
+    }
 
-        public CharityResult withCharityProgram(List<CharityProgram> charityProgram) {
-            this.charityProgram = charityProgram;
-            return this;
-        }
+    public CharityResult withCharityProgram(List<CharityProgram> charityProgram) {
+        this.charityProgram = charityProgram;
+        return this;
+    }
 
-        public List<Donation> getDonation() {
-            return donation;
-        }
+    public List<Donation> getDonation() {
+        return donation;
+    }
 
-        public void setDonation(List<Donation> donation) {
-            this.donation = donation;
-        }
+    public void setDonation(List<Donation> donation) {
+        this.donation = donation;
+    }
 
-        public CharityResult withDonation(List<Donation> donation) {
-            this.donation = donation;
-            return this;
-        }
+    public CharityResult withDonation(List<Donation> donation) {
+        this.donation = donation;
+        return this;
+    }
 
-        public Double getTotalDonation() {
-            return totalDonation;
-        }
+    public Double getTotalDonation() {
+        return totalDonation;
+    }
 
-        public void setTotalDonation(Double totalDonation) {
-            this.totalDonation = totalDonation;
-        }
+    public void setTotalDonation(Double totalDonation) {
+        this.totalDonation = totalDonation;
+    }
 
-        public CharityResult withTotalDonation(Double totalDonation) {
-            this.totalDonation = totalDonation;
-            return this;
-        }
+    public CharityResult withTotalDonation(Double totalDonation) {
+        this.totalDonation = totalDonation;
+        return this;
+    }
 
     public class Donation {
 
@@ -162,7 +163,7 @@ public class CharityResult {
     }
 
 
-    public class CharityProgram {
+    public class CharityProgram implements Serializable{
 
         @SerializedName("id")
         private Integer id;

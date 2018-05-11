@@ -134,9 +134,16 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         tvDescription = v.findViewById(R.id.tv_description);
         tvDescription.setText(charity.getDescription());
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
+        if (charity.getExecution() > 100){
+            v.findViewById(R.id.tv_collected).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.tv_progress).setVisibility(View.GONE);
+        }else {
+            v.findViewById(R.id.tv_collected).setVisibility(View.GONE);
+            v.findViewById(R.id.tv_progress).setVisibility(View.VISIBLE);
+            ((TextView) v.findViewById(R.id.tv_progress)).setText(charity.getExecution() + "%");
+        }
 
         ((TextView) v.findViewById(R.id.tv_goal)).setText(charity.getRequiredAmount().toString());
-        ((TextView) v.findViewById(R.id.tv_progress)).setText(charity.getExecution() + "%");
 
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CharityListActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -25,6 +26,9 @@ import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_AMOUNT;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_LIST;
 
 public class CharityActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
     private final int TAB_GLOBAL = 0;
@@ -43,6 +47,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     private int tabPosition;
     private long myId;
     private String filterQuery = "";
+    private double amount;
 
 
     @Override
@@ -56,6 +61,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initRecyclerView();
         initTabLayout();
         initSearchView();
+        findViewById(R.id.iv_menu).setOnClickListener(this);
 
         myId = getMyId();
 
@@ -70,7 +76,18 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 toast("Вы пожаловались");
                 break;
             case R.id.charity_item:
-
+                break;
+            case R.id.iv_menu:
+                Intent intent = new Intent(this, CharityListActivity.class);
+                List<CharityProgram> list = new ArrayList<>();
+                for (CharityProgram charity : charities) {
+                    if (charity.getUserId() == myId) {
+                        list.add(charity);
+                    }
+                }
+                intent.putExtra(CHARITY_LIST, (ArrayList) list);
+                intent.putExtra(CHARITY_AMOUNT, amount);
+                startActivity(intent);
                 break;
         }
 
@@ -147,6 +164,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                         protected void onResult(int code, CharityResult result) {
                             if (code == 200) {
                                 if (result == null) return;
+                                amount = result.getTotalDonation();
                                 tvContributions.setText(result.getTotalDonation().toString());
                                 charities = result.getCharityProgram();
                                 adapter.setList(charities);
@@ -205,12 +223,12 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         return list;
     }
 
-    private void changeState(int tab, List<CharityProgram> list){
-        if (list.size() > 0){
+    private void changeState(int tab, List<CharityProgram> list) {
+        if (list.size() > 0) {
             rvCharity.setVisibility(View.VISIBLE);
             tvDescription.setVisibility(View.GONE);
             adapter.setList(list);
-        }else {
+        } else {
             rvCharity.setVisibility(View.GONE);
             switch (tab) {
                 case TAB_GLOBAL:

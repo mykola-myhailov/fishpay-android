@@ -114,6 +114,8 @@
         <activity android:name=".activities.pay_requests.BankWebActivity"/>
         <activity android:name=".activities.charity.CharityDetailsActivity">
         </activity>
+        <activity android:name=".activities.charity.CharityListActivity">
+        </activity>
     </application>
 
 </manifest>
