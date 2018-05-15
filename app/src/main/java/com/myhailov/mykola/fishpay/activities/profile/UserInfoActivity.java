@@ -93,7 +93,7 @@ public class UserInfoActivity extends BaseActivity {
                     //  else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
                 else if (surname.length() < 2 || surname.length() > 20 )
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if (!Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
+                else if (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
                 else editProfileRequest();
                 break;
         }
