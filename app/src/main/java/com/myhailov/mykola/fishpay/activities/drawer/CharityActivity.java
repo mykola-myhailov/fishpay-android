@@ -14,6 +14,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityListActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CreateCharityActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -67,6 +68,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initTabLayout();
         initSearchView();
         findViewById(R.id.iv_menu).setOnClickListener(this);
+        findViewById(R.id.ivPlus).setOnClickListener(this);
+
 
         myId = getMyId();
 
@@ -93,6 +96,9 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 intent.putExtra(CHARITY_LIST, (ArrayList) list);
                 intent.putExtra(CHARITY_AMOUNT, amount);
                 startActivity(intent);
+                break;
+            case R.id.ivPlus:
+                startActivity(new Intent(context, CreateCharityActivity.class));
                 break;
         }
 

@@ -118,6 +118,8 @@
         </activity>
         <activity android:name=".activities.charity.CharitySettingsActivity">
         </activity>
+        <activity android:name=".activities.charity.CreateCharityActivity">
+        </activity>
     </application>
 
 </manifest>
