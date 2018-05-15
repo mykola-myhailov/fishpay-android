@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,23 +10,21 @@ import android.widget.TextView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
 import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
 
 import java.util.List;
 
-import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
-
 public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHolder> {
-    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
-
     private static final String TAG = CharityAdapter.class.getSimpleName();
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     private Context context;
     private List<CharityProgram> list;
+    private OnItemClickListener listener;
 
-    public CharityAdapter(Context context, List<CharityProgram> list) {
+    public CharityAdapter(Context context, List<CharityProgram> list, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.list = list;
+        this.listener = onItemClickListener;
         viewBinderHelper.setOpenOnlyOne(true);
     }
 
@@ -39,7 +36,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final CharityProgram item = list.get(position);
 
         holder.tvTitle.setText(item.getTitle());
@@ -48,14 +45,11 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         holder.tvGoal.setText(item.getTotalAmount().toString() + " |грн");
 
         holder.tvReport.setOnClickListener((View.OnClickListener) context);
-//        holder.container.setOnClickListener((View.OnClickListener) context);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CharityDetailsActivity.class);
-                intent.putExtra(CHARITY_ID, item.getId().toString());
-                context.startActivity(intent);
+                listener.onItemClick(item.getId().toString(), item);
             }
         });
 
@@ -66,14 +60,18 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
     public int getItemCount() {
         if (list != null) {
             return list.size();
-        }else {
+        } else {
             return 0;
         }
     }
 
-    public void setList(List<CharityProgram> list){
+    public void setList(List<CharityProgram> list) {
         this.list = list;
         this.notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String id, CharityProgram item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

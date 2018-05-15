@@ -29,7 +29,7 @@ public class CharityListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_list);
-        initToolBar("Список взносов");
+        initCustomToolbar("Список взносов");
         if (getIntent() != null){
             charities = (ArrayList) getIntent().getSerializableExtra(CHARITY_LIST);
             amount = getIntent().getDoubleExtra(CHARITY_AMOUNT, 0.00);
@@ -44,6 +44,10 @@ public class CharityListActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+        }
     }
 }

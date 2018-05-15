@@ -43,7 +43,11 @@ public class Keys {
     public static final String TERM_URL = "term_url";
     public static final String PA_REQ = "pa_req";
     public static final String CHARITY_ID = "charity_id";
+    public static final String CHARITY_USER_ID = "charity_user_id";
     public static final String CHARITY_AMOUNT = "charity_amount";
     public static final String CHARITY_LIST = "charity_list";
+    public static final String CHARITY_RESULT = "charity_result";
+    public static final String CHARITY_VISIBILITY = "charity_visibility";
+    public static final String CHARITY_MEMBERS_VISIBILITY = "charity_members_visibility";
 
 }
