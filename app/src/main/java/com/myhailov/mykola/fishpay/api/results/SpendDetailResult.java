@@ -207,10 +207,10 @@ public class SpendDetailResult {
         private long transferId;
 
         @SerializedName("member_from_first_name")
-        private long memberFromName;
+        private String memberFromName;
 
         @SerializedName("member_from_second_name")
-        private long memberFromSurname;
+        private String memberFromSurname;
 
         public long getId() {
             return id;
@@ -236,11 +236,11 @@ public class SpendDetailResult {
             return transferId;
         }
 
-        public long getMemberFromName() {
+        public String getMemberFromName() {
             return memberFromName;
         }
 
-        public long getMemberFromSurname() {
+        public String getMemberFromSurname() {
             return memberFromSurname;
         }
     }

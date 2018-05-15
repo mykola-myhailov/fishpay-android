@@ -223,4 +223,34 @@ public class Utils {
         return dateFormat.format(convertedDate);
     }
 
+    public static void setText(TextView textView, String text){
+        if (text != null && textView != null){
+            textView.setText(text);
+        }
+    }
+
+    public static void setText(TextView textView, long text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, int text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, double text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, float text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
 }

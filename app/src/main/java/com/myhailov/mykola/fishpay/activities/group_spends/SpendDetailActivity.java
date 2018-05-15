@@ -1,6 +1,5 @@
 package com.myhailov.mykola.fishpay.activities.group_spends;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
@@ -82,7 +82,8 @@ public class SpendDetailActivity extends BaseActivity{
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-              //  if (position == 0) recyclerView.setAdapter(new );
+                if (position == 0) recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
+             //   else recyclerView.setAdapter(new SpendContactsAdapter());
             }
         });
     }
