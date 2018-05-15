@@ -85,14 +85,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             if (photo != null && !photo.equals("")) {
                 Uri photoUri = Uri.parse(contact.getPhoto());
                 Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
-                if (holder.ivAvatar.getDrawable() == null) holder.tvInitials.setText(initials);
             } else holder.tvInitials.setText(initials);
 
 
         } else {  //this contact is app user
             if (photo != null && !photo.equals("")) {
                 Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
-                if (holder.ivAvatar.getDrawable() == null) holder.tvInitials.setText(initials);
             } else holder.tvInitials.setText(initials);
             holder.container.setTag(contact);
             holder.container.setOnClickListener((View.OnClickListener) context);
