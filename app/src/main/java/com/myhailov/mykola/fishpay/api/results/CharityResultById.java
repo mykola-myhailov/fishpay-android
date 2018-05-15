@@ -2,9 +2,10 @@ package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CharityResultById {
+public class CharityResultById implements Serializable{
         @SerializedName("id")
         private Integer id;
         @SerializedName("title")
@@ -157,7 +158,7 @@ public class CharityResultById {
             this.donation = donation;
         }
 
-    public class Donation {
+    public class Donation implements Serializable{
 
         @SerializedName("id")
         private Integer id;

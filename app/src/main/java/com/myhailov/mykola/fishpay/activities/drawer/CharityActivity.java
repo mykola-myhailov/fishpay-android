@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityListActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CreateCharityActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -28,7 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_AMOUNT;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_LIST;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_USER_ID;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 
 public class CharityActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
     private final int TAB_GLOBAL = 0;
@@ -62,6 +68,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initTabLayout();
         initSearchView();
         findViewById(R.id.iv_menu).setOnClickListener(this);
+        findViewById(R.id.ivPlus).setOnClickListener(this);
+
 
         myId = getMyId();
 
@@ -89,6 +97,9 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 intent.putExtra(CHARITY_AMOUNT, amount);
                 startActivity(intent);
                 break;
+            case R.id.ivPlus:
+                startActivity(new Intent(context, CreateCharityActivity.class));
+                break;
         }
 
     }
@@ -111,7 +122,17 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
 
     private void initRecyclerView() {
         rvCharity.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new CharityAdapter(context, charities);
+        adapter = new CharityAdapter(context, charities, new CharityAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String id, CharityProgram item) {
+                Intent intent = new Intent(context, CharityDetailsActivity.class);
+                intent.putExtra(CHARITY_ID, id);
+                intent.putExtra(CHARITY_USER_ID, myId);
+                intent.putExtra(CHARITY_MEMBERS_VISIBILITY, item.getMembersVisibility());
+                intent.putExtra(CHARITY_VISIBILITY, item.getItemVisibility());
+                context.startActivity(intent);
+            }
+        });
         rvCharity.setAdapter(adapter);
 
     }
