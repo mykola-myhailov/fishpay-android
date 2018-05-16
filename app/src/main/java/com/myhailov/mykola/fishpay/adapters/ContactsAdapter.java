@@ -65,7 +65,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public void onBindViewHolder(final ContactsViewHolder holder, int position) {
         Contact contact = contacts.get(position);
         if (contact == null) return;
-        final String name = contact.getName();
+        final String name = contact.getName() + " "+ contact.getSurname();
         long userId = contact.getUserId();
 
         if (name != null) holder.tvName.setText(name.toUpperCase());

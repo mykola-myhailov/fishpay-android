@@ -29,48 +29,58 @@
         android:layout_height="wrap_content">
 
 
-    <TextView
-        android:id="@+id/tv_from"
-        android:text="от: "
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_from"
+            android:text="от: "
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_alignParentEnd="true"
-        android:textSize="12sp"
-        android:text="дата неизвестна"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_below="@+id/tv_from"
-        android:layout_marginTop="10dp"
-        android:text="описание недоступно"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_alignParentEnd="true"
+            android:textSize="12sp"
+            android:text="дата неизвестна"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
-    <TextView
-        android:id="@+id/tv_sum"
-        android:layout_alignBaseline="@+id/tv_description"
-        android:layout_toStartOf="@+id/tv_currency"
-        android:text="0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_below="@+id/tv_from"
+            android:layout_marginTop="10dp"
+            android:text="описание недоступно"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tv_currency"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBaseline="@+id/tv_description"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_sum"
+            android:layout_alignBaseline="@+id/tv_description"
+            android:layout_toStartOf="@+id/tv_currency"
+            android:text="0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_currency"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@+id/tv_description"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_to"
+            android:layout_below="@+id/tv_description"
+            android:layout_marginTop="10dp"
+            android:text="к: "
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </RelativeLayout>
