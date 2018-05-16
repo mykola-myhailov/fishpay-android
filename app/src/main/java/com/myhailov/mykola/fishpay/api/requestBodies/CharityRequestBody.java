@@ -2,8 +2,6 @@ package com.myhailov.mykola.fishpay.api.requestBodies;
 
 import com.google.gson.annotations.SerializedName;
 
-import com.myhailov.mykola.fishpay.api.results.CharityResultById;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,13 +10,13 @@ public class CharityRequestBody implements Serializable {
     @SerializedName("title")
     private String title;
     @SerializedName("required_amount")
-    private Integer requiredAmount;
+    private String requiredAmount;
     @SerializedName("init_collected_amount")
-    private Integer initCollectedAmount;
+    private String initCollectedAmount;
     @SerializedName("description")
     private String description;
     @SerializedName("user_card_id")
-    private Integer userCardId;
+    private String userCardId;
     @SerializedName("item_visibility")
     private String itemVisibility;
     @SerializedName("members_visibility")
@@ -37,19 +35,19 @@ public class CharityRequestBody implements Serializable {
         this.title = title;
     }
 
-    public Integer getRequiredAmount() {
+    public String getRequiredAmount() {
         return requiredAmount;
     }
 
-    public void setRequiredAmount(Integer requiredAmount) {
+    public void setRequiredAmount(String requiredAmount) {
         this.requiredAmount = requiredAmount;
     }
 
-    public Integer getInitCollectedAmount() {
+    public String getInitCollectedAmount() {
         return initCollectedAmount;
     }
 
-    public void setInitCollectedAmount(Integer initCollectedAmount) {
+    public void setInitCollectedAmount(String initCollectedAmount) {
         this.initCollectedAmount = initCollectedAmount;
     }
 
@@ -61,11 +59,11 @@ public class CharityRequestBody implements Serializable {
         this.description = description;
     }
 
-    public Integer getUserCardId() {
+    public String getUserCardId() {
         return userCardId;
     }
 
-    public void setUserCardId(Integer userCardId) {
+    public void setUserCardId(String userCardId) {
         this.userCardId = userCardId;
     }
 
@@ -109,10 +107,26 @@ public class CharityRequestBody implements Serializable {
         this.photos = photos;
     }
 
-    public class CharityPhoto implements Serializable{
+    public class CharityPhoto implements Serializable {
         @SerializedName("img")
         private String photo;
         @SerializedName("id")
         private String id;
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 }

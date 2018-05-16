@@ -66,7 +66,6 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
             charityVisibility = getIntent().getStringExtra(CHARITY_VISIBILITY);
             membersVisibility = getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY);
         }
-
         assignViews();
         initTabLayout();
         getCharityById();
@@ -174,7 +173,6 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                 initDescriptionView();
                 break;
             case TAB_CONTACT:
-                Log.d("sss", "onTabChanged: ");
                 initContactView();
                 break;
         }
@@ -186,7 +184,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         tvDescription = v.findViewById(R.id.tv_description);
         tvDescription.setText(charity.getDescription());
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
-        if (charity.getExecution() > 100) {
+        if (charity.getExecution() != null && charity.getExecution() > 100) {
             v.findViewById(R.id.tv_collected).setVisibility(View.VISIBLE);
             v.findViewById(R.id.tv_progress).setVisibility(View.GONE);
         } else {

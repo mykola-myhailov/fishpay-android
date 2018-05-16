@@ -108,5 +108,10 @@
     <string name="close_charity">Закрыть сбор</string>
     <string name="preview_charity">Предпросмотр</string>
     <string name="error_fill_information">Заполните информацию</string>
+    <string name="public_charity">Для всех</string>
+    <string name="contacts_charity">Только контакты</string>
+    <string name="author_charity">Только я</string>
+    <string name="charity_open">Открыто</string>
+    <string name="charity_close">Закрыто</string>
     <string name="session_end">Время сессии истекло</string>
 </resources>

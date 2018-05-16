@@ -348,12 +348,12 @@ public interface ApiInterface {
     Call<BaseResponse<Object>> createCharity (@Header("Authorization") String token,
                                               @Part("title") RequestBody title,
                                               @Part("required_amount") RequestBody requiredAmount,
-                                              @Field("init_collected_amount") RequestBody initCollAmount,
-                                              @Field("description") RequestBody description,
-                                              @Field("user_card_id") RequestBody userCardId,
-                                              @Field("item_visibility") RequestBody itemVisibility,
-                                              @Field("members_visibility") RequestBody membersVisibility,
-                                              @Field("pseudonym") RequestBody pseudonym,
+                                              @Part("init_collected_amount") RequestBody initCollAmount,
+                                              @Part("description") RequestBody description,
+                                              @Part("user_card_id") RequestBody userCardId,
+                                              @Part("item_visibility") RequestBody itemVisibility,
+                                              @Part("members_visibility") RequestBody membersVisibility,
+                                              @Part("pseudonym") RequestBody pseudonym,
                                               @Part  MultipartBody.Part img);   //main_photo
 
     @Multipart @POST("api/charity/{id}/uploadPhoto")
