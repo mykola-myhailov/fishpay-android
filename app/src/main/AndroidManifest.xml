@@ -120,6 +120,10 @@
         </activity>
         <activity android:name=".activities.charity.CreateCharityActivity">
         </activity>
+        <activity android:name=".activities.charity.CharityPreviewActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharitySuccessActivity">
+        </activity>
     </application>
 
 </manifest>
