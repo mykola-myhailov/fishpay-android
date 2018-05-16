@@ -108,4 +108,5 @@
     <string name="close_charity">Закрыть сбор</string>
     <string name="preview_charity">Предпросмотр</string>
     <string name="error_fill_information">Заполните информацию</string>
+    <string name="session_end">Время сессии истекло</string>
 </resources>

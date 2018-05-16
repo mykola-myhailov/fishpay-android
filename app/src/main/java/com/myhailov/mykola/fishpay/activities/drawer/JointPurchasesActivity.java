@@ -93,7 +93,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
 
                     @Override
                     protected void onError(int code, String errorDescription) {
-                        if (code == 404) {
+                        if (code == 244) {
                             setPurchasesList(new ArrayList<JointPurchase>());
                         } else super.onError(code, errorDescription);
                     }

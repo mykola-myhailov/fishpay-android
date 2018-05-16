@@ -33,7 +33,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
     protected abstract void onResult(int code, T result);
 
 
-    protected void onError(int code, String errorDescription){
+/*    protected void onError(int code, String errorDescription){
         switch (code){
             case 401:
                 Utils.alert(context, "Время сессии истекло");
@@ -45,6 +45,20 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
                 break;
         }
 
+    }*/
+
+
+    protected void onError(int code, String errorDescription){
+        switch (code){
+            case 241:
+                Utils.alert(context, context.getString(R.string.session_end));
+                context.startActivity(new Intent(context, BeginActivity.class));
+                break;
+            default:
+                if (errorDescription != null) Utils.toast(context, errorDescription);
+                else Utils.toast(context, context.getString(R.string.error));
+                break;
+        }
     }
 
 
@@ -70,7 +84,8 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
         closeProgressDialog();
         if (context == null) return;
         int code = response.code();
-        if (response.isSuccessful()){
+
+     /*   if (response.isSuccessful()){
             BaseResponse<T> body = response.body();
             if (body != null) {
                 T result = body.getResult();
@@ -84,8 +99,14 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
                 JSONObject jError = new JSONObject(response.errorBody().string());
                 onError(code, jError.getString("errorDescription"));
             } catch (Exception e) {Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();}
-        }
+        }*/
 
+        if (response.isSuccessful() && response.body() != null){
+            BaseResponse<T> body = response.body();
+            if (code < 240)onResult(code, body.getResult());
+            else onError(code, body.getErrorDescription());
+        }
+        else Utils.toast(context, context.getString(R.string.error));
     }
 
     @Override
