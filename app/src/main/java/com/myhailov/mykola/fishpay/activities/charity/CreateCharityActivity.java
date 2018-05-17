@@ -2,7 +2,6 @@ package com.myhailov.mykola.fishpay.activities.charity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,8 +96,12 @@ public class CreateCharityActivity extends BaseActivity {
         if (TextUtils.isEmpty(etCollectedAmount.getText())) {
             etCollectedAmount.setText("0");
         }
-        if (card == null){
+        if (card == null) {
             toast("Виберете карту");
+            return false;
+        }
+        if (TextUtils.isEmpty(charity.getMainPhoto())) {
+            toast("Виберете фото");
             return false;
         }
 
@@ -119,12 +123,15 @@ public class CreateCharityActivity extends BaseActivity {
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
             // get new image, make file and upload to server
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null){
+            if (bitmap != null) {
                 ivMainPhoto.setImageBitmap(bitmap);
 
                 File imageFile = null;
-                try {imageFile = File.createTempFile("main_photo" + ".jpg", null, context.getCacheDir());}
-                catch (IOException e) {e.printStackTrace();}
+                try {
+                    imageFile = File.createTempFile("main_photo" + ".jpg", null, context.getCacheDir());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 OutputStream outputStream = null;
                 try {
                     if (imageFile != null) outputStream = new FileOutputStream(imageFile);
@@ -164,15 +171,7 @@ public class CreateCharityActivity extends BaseActivity {
                 break;
             case R.id.tv_create:
                 if (checkViews()) {
-                    charity.setTitle(etTitle.getText().toString());
-                    charity.setInitCollectedAmount(etCollectedAmount.getText().toString());
-                    charity.setDescription(etDescription.getText().toString());
-                    charity.setRequiredAmount(etRequiredAmount.getText().toString());
-                    charity.setMembersVisibility("true");
-                    charity.setItemVisibility("PUBLIC");
-                    charity.setUserCardId(card.getId());
-
-
+                    setCharity();
                     Intent intent = new Intent(context, CharitySettingsActivity.class);
                     intent.putExtra(CHARITY_CREATE, true);
                     intent.putExtra(CHARITY_RESULT, charity);
@@ -180,6 +179,16 @@ public class CreateCharityActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void setCharity() {
+        charity.setTitle(etTitle.getText().toString());
+        charity.setInitCollectedAmount(Utils.UAHtoPenny(etCollectedAmount.getText().toString()) + "");
+        charity.setDescription(etDescription.getText().toString());
+        charity.setRequiredAmount(Utils.UAHtoPenny(etRequiredAmount.getText().toString()) + "");
+        charity.setMembersVisibility("true");
+        charity.setItemVisibility("PUBLIC");
+        charity.setUserCardId(card.getId());
     }
 
 

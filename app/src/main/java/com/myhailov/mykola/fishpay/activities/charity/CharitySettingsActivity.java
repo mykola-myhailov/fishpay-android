@@ -13,8 +13,11 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_CREATE;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
@@ -77,7 +80,11 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                     intent.putExtra(CHARITY_RESULT, charityCreate);
                     startActivity(intent);
                 } else {
-                    showAlert("Данные о сборе буду сохраняться в публичном доступе и дальше. Возможность взносов будет закрыта");
+                    if (charity.getStatus().equals("ACTIVE")) {
+                        showAlert("Данные о сборе буду сохраняться в публичном доступе и дальше. Возможность взносов будет закрыта");
+                    } else {
+                        toast("Закрыто");
+                    }
                 }
                 break;
         }
@@ -110,11 +117,11 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
         return true;
     }
 
-    private void charitySettings(){
+    private void charitySettings() {
         setClickable(false);
         charity = (CharityResultById) getIntent().getSerializableExtra(CHARITY_RESULT);
         if (!TextUtils.isEmpty(getIntent().getStringExtra(CHARITY_VISIBILITY))) {
-            switch (getIntent().getStringExtra(CHARITY_VISIBILITY)){
+            switch (getIntent().getStringExtra(CHARITY_VISIBILITY)) {
                 case "PUBLIC":
                     tvVisibility.setText(R.string.public_charity);
                     break;
@@ -128,9 +135,9 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
 
         }
         if (!TextUtils.isEmpty(getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY))) {
-            if (getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY).equals("true")){
+            if (getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY).equals("true")) {
                 tvListDonation.setText(getString(R.string.charity_open));
-            }else {
+            } else {
                 tvListDonation.setText(getString(R.string.charity_close));
             }
         }
@@ -180,12 +187,24 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: 15.05.2018 add request to close charity
+                        closeCharity(charity.getId().toString());
                     }
                 })
                 .setNegativeButton("no", null)
                 .create().show();
     }
+
+    private void closeCharity(String charityId) {
+        ApiClient.getApiClient().closeChatiry(TokenStorage.getToken(context), charityId)
+                .enqueue(new BaseCallback<Object>(context, false) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        toast("Закрито");
+                    }
+                });
+    }
+
+
 }
 
 

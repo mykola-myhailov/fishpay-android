@@ -11,7 +11,7 @@ public class CharityResult {
     @SerializedName("donation")
     private List<Donation> donation = null;
     @SerializedName("total_donation")
-    private Double totalDonation;
+    private Integer totalDonation;
 
     public List<CharityProgram> getCharityProgram() {
         return charityProgram;
@@ -39,17 +39,12 @@ public class CharityResult {
         return this;
     }
 
-    public Double getTotalDonation() {
+    public Integer getTotalDonation() {
         return totalDonation;
     }
 
-    public void setTotalDonation(Double totalDonation) {
+    public void setTotalDonation(Integer totalDonation) {
         this.totalDonation = totalDonation;
-    }
-
-    public CharityResult withTotalDonation(Double totalDonation) {
-        this.totalDonation = totalDonation;
-        return this;
     }
 
     public class Donation {
