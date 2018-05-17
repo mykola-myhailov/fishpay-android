@@ -11,7 +11,9 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHolder> {
@@ -41,8 +43,14 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvName.setText(item.getAuthorName());
-        holder.tvPercent.setText(item.getExecution() + "%");
-        holder.tvGoal.setText(item.getTotalAmount().toString() + " |грн");
+        if (item.getRequiredAmount() != 0) {
+            double percent = ((double)item.getTotalAmount() / (double)item.getRequiredAmount()) * 100;
+            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent) + " %");
+            holder.tvPercent.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvPercent.setVisibility(View.INVISIBLE);
+        }
+        holder.tvGoal.setText(Utils.pennyToUah(item.getTotalAmount()) + " |грн");
 
         holder.tvReport.setOnClickListener((View.OnClickListener) context);
 

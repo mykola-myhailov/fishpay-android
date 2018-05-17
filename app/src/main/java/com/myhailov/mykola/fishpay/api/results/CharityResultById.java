@@ -13,7 +13,7 @@ public class CharityResultById implements Serializable{
         @SerializedName("description")
         private String description;
         @SerializedName("required_amount")
-        private Double requiredAmount;
+        private Integer requiredAmount;
         @SerializedName("init_collected_amount")
         private Integer initCollectedAmount;
         @SerializedName("main_photo")
@@ -61,11 +61,11 @@ public class CharityResultById implements Serializable{
             this.description = description;
         }
 
-        public Double getRequiredAmount() {
+        public Integer getRequiredAmount() {
             return requiredAmount;
         }
 
-        public void setRequiredAmount(Double requiredAmount) {
+        public void setRequiredAmount(Integer requiredAmount) {
             this.requiredAmount = requiredAmount;
         }
 

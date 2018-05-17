@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +24,8 @@ import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
+
+import java.text.DecimalFormat;
 
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
@@ -91,6 +92,9 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     }
 
     private void initView() {
+        if (!charity.getStatus().equals("ACTIVE")) {
+            findViewById(R.id.tv_contribution).setVisibility(View.GONE);
+        }
         tvAuthor.setText(charity.getAuthorName());
         tvTitle.setText(charity.getTitle());
         String[] name = charity.getAuthorName().split(" ");
@@ -183,17 +187,22 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         TextView tvDescription;
         tvDescription = v.findViewById(R.id.tv_description);
         tvDescription.setText(charity.getDescription());
+        double percent = 0.00;
+        if (charity.getRequiredAmount() != 0) {
+            percent = ((double) charity.getTotalAmount() / (double) charity.getRequiredAmount()) * 100;
+        }
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
-        if (charity.getExecution() != null && charity.getExecution() > 100) {
+        if (percent > 100 || charity.getRequiredAmount() == 0) {
             v.findViewById(R.id.tv_collected).setVisibility(View.VISIBLE);
             v.findViewById(R.id.tv_progress).setVisibility(View.GONE);
+            ((TextView) v.findViewById(R.id.tv_goal)).setText(Utils.pennyToUah(charity.getTotalAmount()));
         } else {
             v.findViewById(R.id.tv_collected).setVisibility(View.GONE);
             v.findViewById(R.id.tv_progress).setVisibility(View.VISIBLE);
-            ((TextView) v.findViewById(R.id.tv_progress)).setText(charity.getExecution() + "%");
+            ((TextView) v.findViewById(R.id.tv_progress)).setText(new DecimalFormat("#0.00").format(percent) + " %");
+            ((TextView) v.findViewById(R.id.tv_goal)).setText(Utils.pennyToUah(charity.getRequiredAmount()));
         }
 
-        ((TextView) v.findViewById(R.id.tv_goal)).setText(charity.getRequiredAmount().toString());
 
     }
 
@@ -203,7 +212,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         rvCharityContact.setLayoutManager(new LinearLayoutManager(context));
         rvCharityContact.setAdapter(new CharityDetailContactsAdapter(context, charity.getDonation()));
 
-        ((TextView) v.findViewById(R.id.tv_amount)).setText(charity.getTotalAmount().toString());
+        ((TextView) v.findViewById(R.id.tv_amount)).setText(Utils.pennyToUah(charity.getInitCollectedAmount()));
 
     }
 

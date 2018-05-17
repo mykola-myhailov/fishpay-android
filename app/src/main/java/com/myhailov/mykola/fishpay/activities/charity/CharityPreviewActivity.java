@@ -18,8 +18,13 @@ import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
-import java.io.File;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.text.DecimalFormat;
+
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 
 public class CharityPreviewActivity extends BaseActivity {
@@ -58,20 +63,21 @@ public class CharityPreviewActivity extends BaseActivity {
 
     private void setValue() {
         tvTitle.setText(charity.getTitle());
-        tvAmount.setText(charity.getRequiredAmount());
+        tvAmount.setText(Utils.pennyToUah(Integer.parseInt(charity.getRequiredAmount())));
         tvDescription.setText(charity.getDescription());
         if (charity.getInitCollectedAmount().equals("0")) {
             tvPercent.setVisibility(View.GONE);
         } else {
-            long percent = (Long.parseLong(charity.getInitCollectedAmount()) / Long.parseLong(charity.getRequiredAmount())) * 100;
-            tvPercent.setText(percent + "%");
+
+            double percent = (Double.parseDouble(charity.getInitCollectedAmount()) / Double.parseDouble(charity.getRequiredAmount())) * 100;
+            tvPercent.setText(new DecimalFormat("#0.00").format(percent) + "%");
         }
         File imgFile = new File(charity.getMainPhoto());
-        if(imgFile.exists()){
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             ivPhoto.setImageBitmap(myBitmap);
         }
-        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -100,11 +106,20 @@ public class CharityPreviewActivity extends BaseActivity {
             @Override
             protected void onResult(int code, Object result) {
                 if (code == 201) {
-//                    for (CharityRequestBody.CharityPhoto charityPhoto : charity.getPhotos()) {
-//                        uploadCharityPhoto(charityPhoto);
-//                    }
+                    String id = "";
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.toString());
+                        id = jsonObject.getInt("id") + "";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for (String charityPhoto : charity.getPhotos()) {
+                        uploadCharityPhoto(charityPhoto, id);
+                    }
+                    Intent intent = new Intent(context, CharitySuccessActivity.class);
+                    intent.putExtra(CHARITY_ID, id);
 
-                    context.startActivity(new Intent(context, CharitySuccessActivity.class));
+                    context.startActivity(intent);
                 } else {
                     Utils.toast(context, "Произошла ошибка");
                     Log.d("sss", "onResult: " + code);
@@ -113,15 +128,14 @@ public class CharityPreviewActivity extends BaseActivity {
         });
     }
 
-    private void uploadCharityPhoto(CharityRequestBody.CharityPhoto photo){
-        // TODO: 16.05.2018 fix request
+    private void uploadCharityPhoto(String photo, String id) {
         ApiClient.getApiClient().uploadCharityPhoto(TokenStorage.getToken(context),
-                photo.getId(),
-                Utils.makeRequestBodyFile(Uri.parse(photo.getPhoto()), "main_photo") )
+                id,
+                Utils.makeRequestBodyFile(Uri.parse(photo)))
                 .enqueue(new BaseCallback<Object>(this, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-
+                        Log.d("sss", "onResult: " + code + "  |  " + result);
                     }
                 });
     }

@@ -25,7 +25,7 @@ public class CharityRequestBody implements Serializable {
     private String pseudonym;
     @SerializedName("main_photo")
     private String mainPhoto;
-    private List<CharityPhoto> photos = null;
+    private List<String> photos = null;
 
     public String getTitle() {
         return title;
@@ -99,34 +99,34 @@ public class CharityRequestBody implements Serializable {
         this.mainPhoto = mainPhoto;
     }
 
-    public List<CharityPhoto> getPhotos() {
+    public List<String> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<CharityPhoto> photos) {
+    public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
 
-    public class CharityPhoto implements Serializable {
-        @SerializedName("img")
-        private String photo;
-        @SerializedName("id")
-        private String id;
-
-        public String getPhoto() {
-            return photo;
-        }
-
-        public void setPhoto(String photo) {
-            this.photo = photo;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-    }
+//    public class CharityPhoto implements Serializable {
+//        @SerializedName("img")
+//        private String photo;
+//        @SerializedName("id")
+//        private String id;
+//
+//        public String getPhoto() {
+//            return photo;
+//        }
+//
+//        public void setPhoto(String photo) {
+//            this.photo = photo;
+//        }
+//
+//        public String getId() {
+//            return id;
+//        }
+//
+//        public void setId(String id) {
+//            this.id = id;
+//        }
+//    }
 }

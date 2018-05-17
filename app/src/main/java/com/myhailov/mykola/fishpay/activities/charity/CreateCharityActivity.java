@@ -2,8 +2,9 @@ package com.myhailov.mykola.fishpay.activities.charity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +17,17 @@ import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
+import com.myhailov.mykola.fishpay.adapters.CharityPhotoAdapter;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
@@ -31,6 +36,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class CreateCharityActivity extends BaseActivity {
+    private static final int REQUEST_IMAGES_PICK = 42;
     private EditText etTitle;
     private EditText etRequiredAmount;
     private EditText etCollectedAmount;
@@ -42,10 +48,12 @@ public class CreateCharityActivity extends BaseActivity {
     private TextView tvCardName;
     private TextView tvCardNumber;
     private TextView tvChangePhoto;
+    private RecyclerView rvPhoto;
 
     private Card card;
+    private boolean mainPhotoPick = false;
 
-
+    private List<String> photos = new ArrayList<>();
     private CharityRequestBody charity = new CharityRequestBody();
 
     @Override
@@ -57,7 +65,6 @@ public class CreateCharityActivity extends BaseActivity {
     }
 
     private void assignViews() {
-        findViewById(R.id.tv_create).setOnClickListener(this);
         etTitle = findViewById(R.id.et_title);
         etRequiredAmount = findViewById(R.id.et_total_amount);
         etCollectedAmount = findViewById(R.id.et_collected_amount);
@@ -68,10 +75,19 @@ public class CreateCharityActivity extends BaseActivity {
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvChangePhoto = findViewById(R.id.tv_change_photo);
         ivMainPhoto = findViewById(R.id.iv_main_photo);
+        rvPhoto = findViewById(R.id.rv_photo);
+        initRvPhoto();
 
         tvChangePhoto.setOnClickListener(this);
         ivCard.setOnClickListener(this);
         switchIndefinitely.setOnClickListener(this);
+        findViewById(R.id.tv_create).setOnClickListener(this);
+        findViewById(R.id.tv_add_photo).setOnClickListener(this);
+    }
+
+    private void initRvPhoto() {
+        rvPhoto.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
     }
 
     private boolean checkViews() {
@@ -96,13 +112,25 @@ public class CreateCharityActivity extends BaseActivity {
         if (TextUtils.isEmpty(etCollectedAmount.getText())) {
             etCollectedAmount.setText("0");
         }
-        if (card == null){
+        if (card == null) {
             toast("Виберете карту");
+            return false;
+        }
+        if (TextUtils.isEmpty(charity.getMainPhoto())) {
+            toast("Виберете фото");
             return false;
         }
 
         return true;
     }
+
+    private CharityPhotoAdapter.OnItemClickListener rvPhotoListener = new CharityPhotoAdapter.OnItemClickListener(){
+        @Override
+        public void onItemClick(int position) {
+            photos.remove(position);
+            rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,25 +147,38 @@ public class CreateCharityActivity extends BaseActivity {
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
             // get new image, make file and upload to server
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null){
-                ivMainPhoto.setImageBitmap(bitmap);
 
-                File imageFile = null;
-                try {imageFile = File.createTempFile("main_photo" + ".jpg", null, context.getCacheDir());}
-                catch (IOException e) {e.printStackTrace();}
-                OutputStream outputStream = null;
-                try {
-                    if (imageFile != null) outputStream = new FileOutputStream(imageFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    if (outputStream != null) outputStream.flush();
-                    if (outputStream != null) outputStream.close();
-                } catch (Exception e) {
-                    Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+            if (bitmap != null) {
+                if (mainPhotoPick) {
+                    ivMainPhoto.setImageBitmap(bitmap);
+                    charity.setMainPhoto(createFile(bitmap, "main_photo").getPath());
+                } else {
+                    photos.add(createFile(bitmap, "img").getPath());
+                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+
                 }
-                assert imageFile != null;
-                charity.setMainPhoto(imageFile.getPath());
             }
         }
+    }
+
+    private File createFile(Bitmap bitmap, String name) {
+        File imageFile = null;
+        try {
+            imageFile = File.createTempFile(name + ".jpg", null, context.getCacheDir());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        OutputStream outputStream = null;
+        try {
+            if (imageFile != null) outputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            if (outputStream != null) outputStream.flush();
+            if (outputStream != null) outputStream.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+        assert imageFile != null;
+        return imageFile;
     }
 
     @Override
@@ -146,7 +187,16 @@ public class CreateCharityActivity extends BaseActivity {
             case R.id.ivBack:
                 onBackPressed();
                 break;
+            case R.id.tv_add_photo:
+                if (photos.size() < 8) {
+                    mainPhotoPick = false;
+                    ImagePicker.pickImage(this, "Select your image:");
+                }else {
+                    toast("Больше выбрать нельзя");
+                }
+                break;
             case R.id.tv_change_photo:
+                mainPhotoPick = true;
                 ImagePicker.pickImage(this, "Select your image:");
                 break;
             case R.id.iv_card:
@@ -164,15 +214,7 @@ public class CreateCharityActivity extends BaseActivity {
                 break;
             case R.id.tv_create:
                 if (checkViews()) {
-                    charity.setTitle(etTitle.getText().toString());
-                    charity.setInitCollectedAmount(etCollectedAmount.getText().toString());
-                    charity.setDescription(etDescription.getText().toString());
-                    charity.setRequiredAmount(etRequiredAmount.getText().toString());
-                    charity.setMembersVisibility("true");
-                    charity.setItemVisibility("PUBLIC");
-                    charity.setUserCardId(card.getId());
-
-
+                    setCharity();
                     Intent intent = new Intent(context, CharitySettingsActivity.class);
                     intent.putExtra(CHARITY_CREATE, true);
                     intent.putExtra(CHARITY_RESULT, charity);
@@ -180,6 +222,17 @@ public class CreateCharityActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void setCharity() {
+        charity.setTitle(etTitle.getText().toString());
+        charity.setInitCollectedAmount(Utils.UAHtoPenny(etCollectedAmount.getText().toString()) + "");
+        charity.setDescription(etDescription.getText().toString());
+        charity.setRequiredAmount(Utils.UAHtoPenny(etRequiredAmount.getText().toString()) + "");
+        charity.setMembersVisibility("true");
+        charity.setItemVisibility("PUBLIC");
+        charity.setUserCardId(card.getId());
+        charity.setPhotos(photos);
     }
 
 
