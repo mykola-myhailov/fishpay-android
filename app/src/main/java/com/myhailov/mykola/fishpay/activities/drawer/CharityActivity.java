@@ -98,6 +98,24 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
 
     }
 
+    @Override
+    public void onTabChanged(int position) {
+        switch (position) {
+            case TAB_GLOBAL:
+                selectedCharities = getGlobalCharity();
+                changeState(TAB_GLOBAL, selectedCharities);
+                break;
+            case TAB_CONTACT:
+                selectedCharities = getContactsCharity();
+                changeState(TAB_CONTACT, selectedCharities);
+                break;
+            case TAB_MY:
+                selectedCharities = getMyCharity();
+                changeState(TAB_MY, selectedCharities);
+                break;
+        }
+    }
+
     private void assignViews() {
         tabLayout = findViewById(R.id.tab_layout_activity_сharity);
         rvCharity = findViewById(R.id.rv_charity);
@@ -201,23 +219,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     }
 
 
-    @Override
-    public void onTabChanged(int position) {
-        switch (position) {
-            case TAB_GLOBAL:
-                selectedCharities = getGlobalCharity();
-                changeState(TAB_GLOBAL, selectedCharities);
-                break;
-            case TAB_CONTACT:
-                selectedCharities = getContactsCharity();
-                changeState(TAB_CONTACT, selectedCharities);
-                break;
-            case TAB_MY:
-                selectedCharities = getMyCharity();
-                changeState(TAB_MY, selectedCharities);
-                break;
-        }
-    }
+
 
     private List<CharityProgram> getGlobalCharity() {
         List<CharityProgram> list = new ArrayList<>();
