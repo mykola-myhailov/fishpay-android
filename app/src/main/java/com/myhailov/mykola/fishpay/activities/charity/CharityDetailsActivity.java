@@ -27,7 +27,6 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
-import java.io.File;
 import java.text.DecimalFormat;
 
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -103,15 +102,6 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         }
         tvAuthor.setText(charity.getAuthorName());
         tvTitle.setText(charity.getTitle());
-        String[] name = charity.getAuthorName().split(" ");
-        String firstName = "";
-        String lastName = "";
-        if (name.length > 0 && !TextUtils.isEmpty(name[0])) {
-            firstName = name[0];
-        }
-        if (name.length > 1 && !TextUtils.isEmpty(name[1])) {
-            lastName = name[1];
-        }
 
         sliderPhoto.addSlider(getSliderView(charity.getMainPhoto(), charity.getId()));
         for (CharityResultById.Photo s : charity.getPhotos()) {
