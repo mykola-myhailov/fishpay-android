@@ -1,15 +1,14 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -33,7 +32,7 @@ public class CharityPreviewActivity extends BaseActivity {
     private TextView tvAmount;
     private TextView tvPercent;
     private TextView tvDescription;
-    private ImageView ivPhoto;
+    private SliderLayout sliderPhoto;
 
     private CharityRequestBody charity = new CharityRequestBody();
 
@@ -56,7 +55,7 @@ public class CharityPreviewActivity extends BaseActivity {
         tvAmount = findViewById(R.id.tv_amount);
         tvPercent = findViewById(R.id.tv_percent);
         tvDescription = findViewById(R.id.tv_description);
-        ivPhoto = findViewById(R.id.iv_charity_avatar);
+        sliderPhoto = findViewById(R.id.slider_image);
         findViewById(R.id.tv_contribution).setOnClickListener(this);
 
     }
@@ -72,11 +71,13 @@ public class CharityPreviewActivity extends BaseActivity {
             double percent = (Double.parseDouble(charity.getInitCollectedAmount()) / Double.parseDouble(charity.getRequiredAmount())) * 100;
             tvPercent.setText(new DecimalFormat("#0.00").format(percent) + "%");
         }
-        File imgFile = new File(charity.getMainPhoto());
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            ivPhoto.setImageBitmap(myBitmap);
+
+        sliderPhoto.addSlider(getSliderView(charity.getMainPhoto()));
+        for (String s : charity.getPhotos()) {
+            sliderPhoto.addSlider(getSliderView(s));
         }
+
+
     }
 
     @Override
@@ -89,6 +90,13 @@ public class CharityPreviewActivity extends BaseActivity {
                 onBackPressed();
                 break;
         }
+    }
+
+    private TextSliderView getSliderView(String path) {
+        File imgFile = new File(path);
+        TextSliderView textSliderView = new TextSliderView(this);
+        textSliderView.image(imgFile);
+        return textSliderView;
     }
 
     private void createCharityRequest() {

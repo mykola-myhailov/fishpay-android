@@ -33,7 +33,7 @@ public class CharityResultById implements Serializable{
         @SerializedName("execution")
         private Double execution;
         @SerializedName("photos")
-        private List<Object> photos = null;
+        private List<Photo> photos = null;
         @SerializedName("donation")
         private List<Donation> donation = null;
 
@@ -142,11 +142,11 @@ public class CharityResultById implements Serializable{
             this.execution = execution;
         }
 
-        public List<Object> getPhotos() {
+        public List<Photo> getPhotos() {
             return photos;
         }
 
-        public void setPhotos(List<Object> photos) {
+        public void setPhotos(List<Photo> photos) {
             this.photos = photos;
         }
 
@@ -156,6 +156,59 @@ public class CharityResultById implements Serializable{
 
         public void setDonation(List<Donation> donation) {
             this.donation = donation;
+        }
+
+        public class Photo implements Serializable{
+            @SerializedName("charity_item_id")
+            private Integer id;
+            @SerializedName("photo_url")
+            private String photoUrl;
+            @SerializedName("order")
+            private Integer order;
+            @SerializedName("created_at")
+            private String createdAt;
+            @SerializedName("updated_at")
+            private String updatedAt;
+
+            public Integer getId() {
+                return id;
+            }
+
+            public void setId(Integer id) {
+                this.id = id;
+            }
+
+            public String getPhotoUrl() {
+                return photoUrl;
+            }
+
+            public void setPhotoUrl(String photoUrl) {
+                this.photoUrl = photoUrl;
+            }
+
+            public Integer getOrder() {
+                return order;
+            }
+
+            public void setOrder(Integer order) {
+                this.order = order;
+            }
+
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
+            }
+
+            public String getUpdatedAt() {
+                return updatedAt;
+            }
+
+            public void setUpdatedAt(String updatedAt) {
+                this.updatedAt = updatedAt;
+            }
         }
 
     public class Donation implements Serializable{

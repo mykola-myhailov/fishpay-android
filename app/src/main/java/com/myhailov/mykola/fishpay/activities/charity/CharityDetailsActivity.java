@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
@@ -25,6 +27,7 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -35,6 +38,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_USER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
+import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrl;
 
 public class CharityDetailsActivity extends BaseActivity implements TabLayout.OnTabChangedListener {
     private final int TAB_DESCRIPTION = 0;
@@ -47,6 +51,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     private TextView tvTitle;
     private TextView tvAuthor;
     private ImageView ivSettings;
+    private SliderLayout sliderPhoto;
 
     private String charityId = "-1";
     private long userId = -1;
@@ -78,6 +83,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         tvAuthor = findViewById(R.id.tv_author);
         container = findViewById(R.id.container_charity);
         ivSettings = findViewById(R.id.iv_settings);
+        sliderPhoto = findViewById(R.id.slider_image);
         findViewById(R.id.tv_contribution).setOnClickListener(this);
         findViewById(R.id.iv_settings).setOnClickListener(this);
 
@@ -106,11 +112,20 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         if (name.length > 1 && !TextUtils.isEmpty(name[1])) {
             lastName = name[1];
         }
-        String initials = Utils.extractInitials(firstName, lastName);
 
-        Utils.displayAvatar(context, ((ImageView) findViewById(R.id.iv_charity_avatar)), charity.getMainPhoto(), initials);
+        sliderPhoto.addSlider(getSliderView(charity.getMainPhoto(), charity.getId()));
+        for (CharityResultById.Photo s : charity.getPhotos()) {
+            sliderPhoto.addSlider(getSliderView(s.getPhotoUrl(), s.getId()));
+        }
+
         container.removeAllViews();
         initDescriptionView();
+    }
+
+    private TextSliderView getSliderView(String photo, int id) {
+        TextSliderView textSliderView = new TextSliderView(this);
+        textSliderView.image(buildPhotoUrl(photo, id));
+        return textSliderView;
     }
 
     private void getCharityById() {
