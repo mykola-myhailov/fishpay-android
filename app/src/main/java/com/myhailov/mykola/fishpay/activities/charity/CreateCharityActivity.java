@@ -36,7 +36,6 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class CreateCharityActivity extends BaseActivity {
-    private static final int REQUEST_IMAGES_PICK = 42;
     private EditText etTitle;
     private EditText etRequiredAmount;
     private EditText etCollectedAmount;
@@ -55,6 +54,13 @@ public class CreateCharityActivity extends BaseActivity {
 
     private List<String> photos = new ArrayList<>();
     private CharityRequestBody charity = new CharityRequestBody();
+    private CharityPhotoAdapter.OnItemClickListener rvPhotoListener = new CharityPhotoAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(int position) {
+            photos.remove(position);
+            rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +97,6 @@ public class CreateCharityActivity extends BaseActivity {
     }
 
     private boolean checkViews() {
-        // TODO: 16.05.2018
         if (etTitle.getText().length() < 5) {
             etTitle.setError(getString(R.string.error_fill_information));
             return false;
@@ -124,14 +129,6 @@ public class CreateCharityActivity extends BaseActivity {
         return true;
     }
 
-    private CharityPhotoAdapter.OnItemClickListener rvPhotoListener = new CharityPhotoAdapter.OnItemClickListener(){
-        @Override
-        public void onItemClick(int position) {
-            photos.remove(position);
-            rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
-        }
-    };
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -145,9 +142,7 @@ public class CreateCharityActivity extends BaseActivity {
             }
         }
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
-            // get new image, make file and upload to server
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-
             if (bitmap != null) {
                 if (mainPhotoPick) {
                     ivMainPhoto.setImageBitmap(bitmap);
@@ -191,7 +186,7 @@ public class CreateCharityActivity extends BaseActivity {
                 if (photos.size() < 8) {
                     mainPhotoPick = false;
                     ImagePicker.pickImage(this, "Select your image:");
-                }else {
+                } else {
                     toast("Больше выбрать нельзя");
                 }
                 break;

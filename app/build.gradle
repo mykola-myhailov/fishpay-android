@@ -66,6 +66,10 @@ dependencies {
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.github.Mariovc:ImagePicker:1.1.1'
 
+    //ImageSlider
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.daimajia.slider:library:1.1.5@aar'
+
     implementation 'org.greenrobot:greendao:3.2.2'
 
     implementation 'us.belka:androidtoggleswitch:1.2.2'
