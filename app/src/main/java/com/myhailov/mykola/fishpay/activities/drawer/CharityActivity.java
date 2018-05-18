@@ -86,7 +86,6 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 break;
             case R.id.iv_menu:
                 Intent intent = new Intent(this, CharityListActivity.class);
-
                 intent.putExtra(CHARITY_LIST, (ArrayList) donations);
                 intent.putExtra(CHARITY_AMOUNT, amount);
                 startActivity(intent);
@@ -236,7 +235,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         List<CharityProgram> list = new ArrayList<>();
 
         for (CharityProgram charity : charities) {
-            if (charity.isContact()) {
+            if (charity.isContact() && !charity.getItemVisibility().equals("AUTHOR")) {
                 list.add(charity);
             }
         }

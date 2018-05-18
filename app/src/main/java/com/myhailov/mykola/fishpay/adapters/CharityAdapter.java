@@ -44,13 +44,15 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         holder.tvTitle.setText(item.getTitle());
         holder.tvName.setText(item.getAuthorName());
         if (item.getRequiredAmount() != 0) {
-            double percent = ((double)item.getTotalAmount() / (double)item.getRequiredAmount()) * 100;
-            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent) + " %");
+            double percent = ((double) item.getTotalAmount() / (double) item.getRequiredAmount()) * 100;
             holder.tvPercent.setVisibility(View.VISIBLE);
-        }else {
+            holder.tvPercentChar.setVisibility(View.VISIBLE);
+            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent));
+        } else {
             holder.tvPercent.setVisibility(View.INVISIBLE);
+            holder.tvPercentChar.setVisibility(View.INVISIBLE);
         }
-        holder.tvGoal.setText(Utils.pennyToUah(item.getTotalAmount()) + " |грн");
+        holder.tvGoal.setText(Utils.pennyToUah(item.getTotalAmount()));
 
         holder.tvReport.setOnClickListener((View.OnClickListener) context);
 
@@ -87,6 +89,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         private TextView tvName;
         private TextView tvGoal;
         private TextView tvPercent;
+        private TextView tvPercentChar;
         private TextView tvReport;
         private View container;
         private SwipeRevealLayout swipeRevealLayout;
@@ -100,6 +103,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             tvGoal = itemView.findViewById(R.id.tv_goal);
             tvPercent = itemView.findViewById(R.id.tv_percent);
             tvReport = itemView.findViewById(R.id.tv_report);
+            tvPercentChar = itemView.findViewById(R.id.textView23);
         }
     }
 }

@@ -2,6 +2,7 @@
 <com.chauthai.swipereveallayout.SwipeRevealLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/swipe_layout"
@@ -54,20 +55,19 @@
                    app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
 
            <TextView
-                   android:text="67% "
+                   android:text="67"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/tv_percent"
                    android:textSize="24sp"
                    android:textColor="#323232"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   android:layout_marginEnd="16dp"
                    app:layout_constraintBottom_toBottomOf="@+id/tv_title"
                    app:layout_constraintTop_toTopOf="@+id/tv_title"
-                   />
+                   app:layout_constraintEnd_toStartOf="@+id/textView23"
+                   android:layout_marginEnd="3dp"/>
 
            <TextView
-                   android:text="13000.00 |грн"
+                   android:text="13000.00"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/tv_goal"
@@ -75,10 +75,36 @@
                    android:textColor="#919191"
                    app:layout_constraintStart_toEndOf="@+id/tv_author_name"
                    android:layout_marginStart="8dp"
-                   android:layout_marginEnd="16dp"
-                   app:layout_constraintEnd_toEndOf="parent"
+                   android:layout_marginEnd="3dp"
                    app:layout_constraintHorizontal_bias="1.0"
-                   app:layout_constraintBaseline_toBaselineOf="@+id/tv_author_name"/>
+                   app:layout_constraintBaseline_toBaselineOf="@+id/tv_author_name"
+                   app:layout_constraintEnd_toStartOf="@+id/textView25"/>
+
+           <TextView
+                   android:text="%"
+                   android:textSize="24sp"
+                   android:textColor="@color/black_text"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/textView23"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintBottom_toBottomOf="@+id/tv_percent"
+                   android:layout_marginBottom="8dp"
+                   app:layout_constraintTop_toTopOf="@+id/tv_percent"
+                   android:layout_marginTop="8dp"
+                   android:layout_marginEnd="8dp"/>
+
+           <TextView
+                   android:text=" |грн"
+                   android:textSize="13sp"
+                   android:textColor="#919191"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/textView25"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   android:layout_marginEnd="8dp"
+                   app:layout_constraintBottom_toBottomOf="@+id/tv_goal"
+                   app:layout_constraintTop_toTopOf="@+id/tv_goal"/>
        </android.support.constraint.ConstraintLayout>
    </FrameLayout>
 </com.chauthai.swipereveallayout.SwipeRevealLayout>
