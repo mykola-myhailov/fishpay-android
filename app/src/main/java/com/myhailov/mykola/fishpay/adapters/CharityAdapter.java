@@ -13,7 +13,6 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHolder> {
@@ -43,11 +42,13 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvName.setText(item.getAuthorName());
+        // TODO: 18.05.2018 переписати з execution
         if (item.getRequiredAmount() != 0) {
-            double percent = ((double) item.getTotalAmount() / (double) item.getRequiredAmount()) * 100;
+//            double percent = ((double) item.getTotalAmount() / (double) item.getRequiredAmount()) * 100;
+//            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent));
+            holder.tvPercent.setText(item.getExecution() + "");
             holder.tvPercent.setVisibility(View.VISIBLE);
             holder.tvPercentChar.setVisibility(View.VISIBLE);
-            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent));
         } else {
             holder.tvPercent.setVisibility(View.INVISIBLE);
             holder.tvPercentChar.setVisibility(View.INVISIBLE);
@@ -63,7 +64,8 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             }
         });
 
-        viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(item.getId()));
+//        viewBinderHelper.bind(holder.swipeRevealLayout,item.getId()+"");
+
     }
 
     @Override

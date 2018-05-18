@@ -67,7 +67,6 @@ public class CharityPreviewActivity extends BaseActivity {
         if (charity.getInitCollectedAmount().equals("0")) {
             tvPercent.setVisibility(View.GONE);
         } else {
-
             double percent = (Double.parseDouble(charity.getInitCollectedAmount()) / Double.parseDouble(charity.getRequiredAmount())) * 100;
             tvPercent.setText(new DecimalFormat("#0.00").format(percent) + "%");
         }
