@@ -28,6 +28,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
@@ -85,8 +86,11 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                         if (code == 200) {
                             allPurchases = result;
                             for (JointPurchase purchase : allPurchases) {
-                                if (id.equals(purchase.getCreatorId())) myPurchases.add(purchase);
+                                if(purchase.getStatus().equals("DELETED")) allPurchases.remove(purchase);
+                                else if (id.equals(purchase.getCreatorId())) myPurchases.add(purchase);
                             }
+                            Collections.reverse(allPurchases);
+                            Collections.reverse(myPurchases);
                             setPurchasesList(tabLayout.getCurrentTab() == 0 ? allPurchases : myPurchases);
                         }
                     }
