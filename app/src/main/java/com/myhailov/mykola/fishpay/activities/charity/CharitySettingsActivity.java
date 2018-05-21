@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,12 +25,12 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 
-public class CharitySettingsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
+public class CharitySettingsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, Switch.OnCheckedChangeListener {
     private TextView tvTitle;
     private TextView tvCategory;
     private TextView tvVisibility;
     private TextView tvListDonation;
-    private TextView tvAuthor;
+    private TextView etPseudonym;
     private TextView tvClose;
     private Switch swPseudonym;
     private PopupMenu pmCharityVisibility;
@@ -75,7 +76,11 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                 break;
             case R.id.tv_close:
                 if (newCharity) {
-                    charityCreate.setPseudonym("");
+                    if (swPseudonym.isChecked()) {
+                        charityCreate.setPseudonym(etPseudonym.getText().toString());
+                    }else {
+                        charityCreate.setPseudonym("");
+                    }
                     Intent intent = new Intent(context, CharityPreviewActivity.class);
                     intent.putExtra(CHARITY_RESULT, charityCreate);
                     startActivity(intent);
@@ -117,6 +122,16 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
         return true;
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        etPseudonym.setText("");
+        if (isChecked){
+            etPseudonym.setEnabled(true);
+        }else {
+            etPseudonym.setEnabled(false);
+        }
+    }
+
     private void charitySettings() {
         setClickable(false);
         charity = (CharityResultById) getIntent().getSerializableExtra(CHARITY_RESULT);
@@ -153,7 +168,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
 
     private void setValue() {
         tvTitle.setText(charity.getTitle());
-        tvAuthor.setText(charity.getAuthorName());
+        etPseudonym.setText(charity.getAuthorName());
     }
 
     private void assignViews() {
@@ -162,8 +177,10 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
         tvCategory = findViewById(R.id.tv_category);
         tvVisibility = findViewById(R.id.tv_visible);
         tvListDonation = findViewById(R.id.tv_list_donation);
-        tvAuthor = findViewById(R.id.tv_author);
+        etPseudonym = findViewById(R.id.et_pseudonym);
         swPseudonym = findViewById(R.id.switch_name);
+
+        swPseudonym.setOnCheckedChangeListener(this);
         tvVisibility.setOnClickListener(this);
         tvListDonation.setOnClickListener(this);
         findViewById(R.id.tv_close).setOnClickListener(this);
@@ -203,7 +220,6 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                     }
                 });
     }
-
 
 }
 
