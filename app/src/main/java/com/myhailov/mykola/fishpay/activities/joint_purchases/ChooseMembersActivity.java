@@ -97,7 +97,13 @@ public class ChooseMembersActivity extends BaseActivity  {
                             long myId = -1;
                             for (Contact contact : allContacts) {
                                 if (contact.isActiveUser()) activeContacts.add(contact);
-                                if (contact.getPhone().equals(phone)) myId = contact.getUserId();
+                                if (contact.getPhone().equals(phone)){
+                                    myId = contact.getUserId();
+                                    int index = allContacts.indexOf(contact);
+                                    allContacts.remove(index);
+                                    allContacts.add(0, contact);
+                                    break;
+                                }
                             }
                             if (myId == -1) {
                                 myId = Long.parseLong(id);
