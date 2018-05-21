@@ -113,12 +113,12 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                     currentList = body.getResult();
                     rvRequests.getAdapter().notifyDataSetChanged();
                     stateIs(currentList.size() == 0 ? State.EMPTY_LIST : State.LOADED);
-                } else if (response.code() == 404) stateIs(State.EMPTY_LIST);
+                } else if (response.code() == 244) stateIs(State.EMPTY_LIST);
             }
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<PayRequest>>> call, Throwable t) {
-
+                stateIs(State.EMPTY_LIST);
             }
         };
     }

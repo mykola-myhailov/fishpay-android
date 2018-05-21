@@ -92,15 +92,11 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
                             Collections.reverse(allPurchases);
                             Collections.reverse(myPurchases);
                             setPurchasesList(tabLayout.getCurrentTab() == 0 ? allPurchases : myPurchases);
-                        }
+                        } else  if (code == 244) setPurchasesList(new ArrayList<JointPurchase>());
+
                     }
 
-                    @Override
-                    protected void onError(int code, String errorDescription) {
-                        if (code == 244) {
-                            setPurchasesList(new ArrayList<JointPurchase>());
-                        } else super.onError(code, errorDescription);
-                    }
+
                 });
 
 

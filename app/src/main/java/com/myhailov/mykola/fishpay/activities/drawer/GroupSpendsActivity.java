@@ -71,16 +71,17 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {
 
-                        allSpends = result;
-                        for (GroupSpend spend : allSpends)
-                            if (spend.getCreatorId() == myId)
-                                myCreationSpends.add(spend);
+                        if (code < 204){
+                            allSpends = result;
+                            for (GroupSpend spend : allSpends)
+                                if (spend.getCreatorId() == myId)
+                                    myCreationSpends.add(spend);
 
-                        selectedSpends = allSpends;
-                        spendsAdapter = new SpendsAdapter();
-                        rvSpends.setAdapter(spendsAdapter);
-                        Log.e("spends", allSpends.size() + "");
-
+                            selectedSpends = allSpends;
+                            spendsAdapter = new SpendsAdapter();
+                            rvSpends.setAdapter(spendsAdapter);
+                            Log.e("spends", allSpends.size() + "");
+                        } else if (code == 244) allSpends = new ArrayList<>();
                     }
                 });
     }

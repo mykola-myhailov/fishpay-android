@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
@@ -18,6 +20,7 @@ import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.activities.profile.UserInfoActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.ProfileResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
@@ -93,6 +96,11 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 avatar = profile.getPhoto();
                                 email = profile.getEmail();
                                 birthday = profile.getBirthday();
+                                Card card = profile.getCard();
+                                String cardJson = card == null ? null : new Gson().toJson(card);
+                         //       Log.e("cardJson1", cardJson);
+                                preferences.edit().putString(PrefKeys.CARD, cardJson).apply();
+
 
                                 setNameInDrawer(name);
                                 setSurnameInDrawer(surname);

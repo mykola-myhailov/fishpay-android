@@ -115,7 +115,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
         if (context == null) return;
         if (t.getMessage() != null) {
             Log.e("onFailure", t.getMessage());
-            Utils.toast(context, t.getMessage());
+          //  Utils.toast(context, t.getMessage());
         }
     }
 }

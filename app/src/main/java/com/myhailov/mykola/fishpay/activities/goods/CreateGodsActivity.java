@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
@@ -28,8 +27,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,6 +42,7 @@ public class CreateGodsActivity extends BaseActivity {
     private Uri imageUri;
     private Spinner categorySpinner;
     private SwitchCompat switchStatus;
+    private static  String PUBLIC = "PUBLIC", PRIVATE = "PRIVATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,13 +101,14 @@ public class CreateGodsActivity extends BaseActivity {
                 else if (imageUri == null) Utils.toast(context, "Выберите фото");
                 else if (!Utils.isOnline(context))Utils.noInternetToast(context);
                 else {
+                    String visibility = switchStatus.isChecked()? PRIVATE : PUBLIC;
                     String categoryId = Integer.toString(categorySpinner.getSelectedItemPosition());
                     ApiClient.getApiClient().createGoods(TokenStorage.getToken(context),
                             Utils.makeRequestBody(name),
                             Utils.makeRequestBody(descripton),
                             Utils.makeRequestBody(price),
                             Utils.makeRequestBody(categoryId),
-                            Utils.makeRequestBody(Boolean.toString(!switchStatus.isChecked())),
+                            Utils.makeRequestBody(visibility),
                             makeRequestBodyFile(imageUri)).enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {

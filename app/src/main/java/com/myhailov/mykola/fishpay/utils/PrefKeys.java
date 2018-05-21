@@ -16,4 +16,5 @@ public class PrefKeys {
     public final static String BIRTHDAY = "user_birthday";
     public static final String AVATAR = "user_avatar";
     public static final String ID = "id";
+    public static final String CARD = "card";
 }
