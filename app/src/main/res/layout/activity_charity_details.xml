@@ -138,7 +138,8 @@
                 android:id="@+id/view"
                 app:layout_constraintBottom_toTopOf="@+id/tv_contribution"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
 
         <TextView
                 android:text="Взнос"
@@ -151,7 +152,8 @@
                 android:id="@+id/tv_contribution"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
     </android.support.constraint.ConstraintLayout>
 
 

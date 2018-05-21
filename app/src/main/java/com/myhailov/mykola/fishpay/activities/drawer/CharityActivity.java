@@ -184,7 +184,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         for (CharityProgram item : selectedCharities) {
             String name = item.getAuthorName().toLowerCase();
             String title = item.getTitle().toLowerCase();
-            if (name.contains(search) || title.contains(search)) {
+            String pseudonym = item.getPseudonym();
+            if (name.contains(search) || title.contains(search) || pseudonym.contains(search)) {
                 filteredCharity.add(item);
             }
         }

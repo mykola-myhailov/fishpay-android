@@ -96,8 +96,9 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     }
 
     private void initView() {
-        if (!charity.getStatus().equals("ACTIVE")) {
-            findViewById(R.id.tv_contribution).setVisibility(View.GONE);
+        if (charity.getStatus().equals("ACTIVE")) {
+            findViewById(R.id.tv_contribution).setVisibility(View.VISIBLE);
+            findViewById(R.id.view).setVisibility(View.VISIBLE);
         }
         tvAuthor.setText(charity.getAuthorName());
         tvTitle.setText(charity.getTitle());

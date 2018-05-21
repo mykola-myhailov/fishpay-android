@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,11 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         final CharityProgram item = list.get(position);
 
         holder.tvTitle.setText(item.getTitle());
-        holder.tvName.setText(item.getAuthorName());
+        if (TextUtils.isEmpty(item.getPseudonym())) {
+            holder.tvName.setText(item.getAuthorName());
+        }else {
+            holder.tvName.setText(item.getPseudonym());
+        }
         if (item.getRequiredAmount() != 0) {
 
             holder.tvPercent.setText(item.getExecution() + "");
