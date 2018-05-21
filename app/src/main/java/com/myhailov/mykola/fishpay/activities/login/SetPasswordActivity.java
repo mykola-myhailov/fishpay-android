@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ public class SetPasswordActivity extends BaseActivity {
     private Uri imageUri;
     private ImageView ivAvatar;
     private EditText etPassword;
+    private TextView tvShowPassword;
+    private boolean showPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,9 @@ public class SetPasswordActivity extends BaseActivity {
         deviceId = DeviceIDStorage.getID(context);
         deviceInfo = Build.DEVICE + " " + Build.MODEL + " " + Build.PRODUCT;
       //  deviceId = deviceInfo;
+
+        tvShowPassword = findViewById(R.id.tvShowPassword);
+        tvShowPassword.setOnClickListener(this);
 
         String visiblePhone = "+" + phone;
         ((TextView) findViewById(R.id.tvPhone)).setText(visiblePhone);
@@ -103,6 +109,21 @@ public class SetPasswordActivity extends BaseActivity {
                             });
                 }
                 break;
+            case R.id.tvShowPassword:
+                if (showPass){
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    tvShowPassword.setText("Показать пароль");
+
+                    showPass = false;
+                } else {
+                    etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etPassword.setSelection(etPassword.getText().length());
+                    tvShowPassword.setText("Спрятать пароль");
+                    showPass = true;
+                }
+                break;
+
         }
     }
 
