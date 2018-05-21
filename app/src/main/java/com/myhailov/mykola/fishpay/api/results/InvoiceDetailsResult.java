@@ -89,10 +89,10 @@ public class InvoiceDetailsResult {
             return phone;
         }
 
-        public String getPhoto() {
+
+    public String getPhoto() {
             return photo;
         }
-
 
 
     }

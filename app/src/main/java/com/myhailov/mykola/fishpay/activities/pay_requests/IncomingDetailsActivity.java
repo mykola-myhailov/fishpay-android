@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
+import com.myhailov.mykola.fishpay.activities.drawer.TransactionActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
@@ -21,6 +22,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     private String invoiceId, panMasked, amount, comment,
             requesterPhone, requesterName, requesterPhoto, status;
+    private String requesterId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +31,11 @@ public class IncomingDetailsActivity extends BaseActivity {
         initToolBar("Запрос на оплату", R.color.black2);
 
         Bundle extras = getIntent().getExtras();
-        long requsetId = extras.getLong(Keys.REQUEST_ID);
+        long requestId = extras.getLong(Keys.REQUEST_ID);
 
         if (Utils.isOnline(context)){
 
-            ApiClient.getApiClient().getInvoiceDetails(TokenStorage.getToken(context), requsetId)
+            ApiClient.getApiClient().getInvoiceDetails(TokenStorage.getToken(context), requestId)
                     .enqueue(new BaseCallback<InvoiceDetailsResult>(context, true) {
                         @Override
                         protected void onResult(int code, InvoiceDetailsResult result) {
@@ -48,6 +50,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                                     requesterName =  requester.getName();
                                     requesterPhoto = requester.getPhoto();
                                     requesterPhone = requester.getPhone();
+                                    requesterId = requester.getId();
                                 }
                                 initViews();
                             }
@@ -89,7 +92,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
         switch (view.getId()){
             case R.id.tvAccept:
-                acceptRequest();
+                accept();
                 break;
             case R.id.tvReject:
                 rejectRequest();
@@ -97,20 +100,12 @@ public class IncomingDetailsActivity extends BaseActivity {
         }
     }
 
-    private void acceptRequest() {
-       /* if (Utils.isOnline(context)){
-            ApiClient.getApiClient().acceptInvoice(TokenStorage.getToken(context), invoiceId)
-                    .enqueue(new BaseCallback<Object>(context, true) {
-                        @Override
-                        protected void onResult(int code, Object result) {
-                            if (code == 202) {
-                                context.startActivity(new Intent(context, PayRequestActivity.class));
-                            }
-                        }
-                    });
-        }
-        else Utils.noInternetToast(context);
-*/
+    private void accept() {
+        context.startActivity(new Intent(context, TransactionActivity.class)
+                .putExtra(Keys.AMOUNT, amount)
+                .putExtra(Keys.NAME, requesterName)
+                .putExtra(Keys.USER_ID,  requesterId)
+        );
     }
 
     private void rejectRequest() {
