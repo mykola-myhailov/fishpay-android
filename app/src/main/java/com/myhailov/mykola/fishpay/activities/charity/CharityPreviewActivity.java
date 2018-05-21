@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
@@ -94,7 +95,8 @@ public class CharityPreviewActivity extends BaseActivity {
     private TextSliderView getSliderView(String path) {
         File imgFile = new File(path);
         TextSliderView textSliderView = new TextSliderView(this);
-        textSliderView.image(imgFile);
+        textSliderView.image(imgFile)
+                .setScaleType(BaseSliderView.ScaleType.CenterInside);
         return textSliderView;
     }
 

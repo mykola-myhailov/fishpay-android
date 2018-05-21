@@ -27,6 +27,8 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_AMOUNT;
@@ -68,7 +70,6 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initSearchView();
         findViewById(R.id.iv_menu).setOnClickListener(this);
         findViewById(R.id.ivPlus).setOnClickListener(this);
-
 
         myId = getMyId();
 
@@ -198,12 +199,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                         protected void onResult(int code, CharityResult result) {
                             if (code == 200) {
                                 if (result == null) return;
-                                donations = result.getDonation();
-                                amount = result.getTotalDonation();
-                                tvContributions.setText(Utils.pennyToUah(result.getTotalDonation()));
-                                charities = result.getCharityProgram();
-                                selectedCharities = charities;
-                                rvCharity.setAdapter(new CharityAdapter(context, charities, rvListener));
+                                setValue(result);
                             } else if (code == 404) {
 
                             }
@@ -212,13 +208,27 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         } else Utils.noInternetToast(context);
     }
 
+    private void setValue(CharityResult result) {
+        donations = result.getDonation();
+        amount = result.getTotalDonation();
+        tvContributions.setText(Utils.pennyToUah(result.getTotalDonation()));
+        charities = result.getCharityProgram();
+        Collections.sort(charities, new Comparator<CharityProgram>() {
+            @Override
+            public int compare(CharityProgram o1, CharityProgram o2) {
+                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null) return 0;
+                return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+
+            }
+        });
+        selectedCharities = charities;
+        rvCharity.setAdapter(new CharityAdapter(context, charities, rvListener));
+    }
+
     private long getMyId() {
         return Long.valueOf(context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
                 .getString(PrefKeys.ID, ""));
     }
-
-
-
 
     private List<CharityProgram> getGlobalCharity() {
         List<CharityProgram> list = new ArrayList<>();

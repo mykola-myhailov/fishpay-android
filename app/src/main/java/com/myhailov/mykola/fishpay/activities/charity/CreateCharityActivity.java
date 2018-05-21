@@ -41,9 +41,9 @@ public class CreateCharityActivity extends BaseActivity {
     private EditText etCollectedAmount;
     private EditText etDescription;
     private Switch switchIndefinitely;
-    private String pathPhoto;
     private ImageView ivCard;
     private ImageView ivMainPhoto;
+    private ImageView ivDeleteMainPhoto;
     private TextView tvCardName;
     private TextView tvCardNumber;
     private TextView tvChangePhoto;
@@ -81,6 +81,7 @@ public class CreateCharityActivity extends BaseActivity {
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvChangePhoto = findViewById(R.id.tv_change_photo);
         ivMainPhoto = findViewById(R.id.iv_main_photo);
+        ivDeleteMainPhoto = findViewById(R.id.iv_delete_main_photo);
         rvPhoto = findViewById(R.id.rv_photo);
         initRvPhoto();
 
@@ -88,6 +89,7 @@ public class CreateCharityActivity extends BaseActivity {
         ivCard.setOnClickListener(this);
         switchIndefinitely.setOnClickListener(this);
         findViewById(R.id.tv_create).setOnClickListener(this);
+        ivDeleteMainPhoto.setOnClickListener(this);
         findViewById(R.id.tv_add_photo).setOnClickListener(this);
     }
 
@@ -98,30 +100,35 @@ public class CreateCharityActivity extends BaseActivity {
 
     private boolean checkViews() {
         if (etTitle.getText().length() < 5) {
-            etTitle.setError(getString(R.string.error_fill_information));
+            toast(getString(R.string.error_fill_information));
+            etTitle.setError(getString(R.string.error_county, 5));
+            scrollToView(etTitle);
             return false;
         }
         if (!switchIndefinitely.isChecked()) {
             if (etRequiredAmount.getText().toString().equals("0") || TextUtils.isEmpty(etRequiredAmount.getText())) {
+                toast("Введите необходимую сумму");
                 etRequiredAmount.setError(getString(R.string.error_fill_information));
+                scrollToView(etRequiredAmount);
                 return false;
             }
         }
         if (etDescription.getText().length() < 15) {
-            etDescription.setError(getString(R.string.error_fill_information));
+            etDescription.setError(getString(R.string.error_county, 15));
+            toast("Введите подробное описание");
+            scrollToView(etDescription);
             return false;
-        }
-        if (TextUtils.isEmpty(etCollectedAmount.getText())) {
-            etCollectedAmount.setText("0");
         }
         if (TextUtils.isEmpty(etCollectedAmount.getText())) {
             etCollectedAmount.setText("0");
         }
         if (card == null) {
+            scrollToView(ivCard);
             toast("Виберете карту");
             return false;
         }
         if (TextUtils.isEmpty(charity.getMainPhoto())) {
+            scrollToView(ivMainPhoto);
             toast("Виберете фото");
             return false;
         }
@@ -147,6 +154,7 @@ public class CreateCharityActivity extends BaseActivity {
                 if (mainPhotoPick) {
                     ivMainPhoto.setImageBitmap(bitmap);
                     charity.setMainPhoto(createFile(bitmap, "main_photo").getPath());
+                    ivDeleteMainPhoto.setVisibility(View.VISIBLE);
                 } else {
                     photos.add(createFile(bitmap, "img").getPath());
                     rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
@@ -181,6 +189,10 @@ public class CreateCharityActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.ivBack:
                 onBackPressed();
+                break;
+            case R.id.iv_delete_main_photo:
+                ivMainPhoto.setImageBitmap(null);
+                ivDeleteMainPhoto.setVisibility(View.GONE);
                 break;
             case R.id.tv_add_photo:
                 if (photos.size() < 8) {
@@ -230,5 +242,8 @@ public class CreateCharityActivity extends BaseActivity {
         charity.setPhotos(photos);
     }
 
+    private void scrollToView(View v) {
+        v.getParent().requestChildFocus(v, v);
+    }
 
 }

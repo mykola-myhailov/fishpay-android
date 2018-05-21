@@ -42,10 +42,8 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvName.setText(item.getAuthorName());
-        // TODO: 18.05.2018 переписати з execution
         if (item.getRequiredAmount() != 0) {
-//            double percent = ((double) item.getTotalAmount() / (double) item.getRequiredAmount()) * 100;
-//            holder.tvPercent.setText(new DecimalFormat("#0.00").format(percent));
+
             holder.tvPercent.setText(item.getExecution() + "");
             holder.tvPercent.setVisibility(View.VISIBLE);
             holder.tvPercentChar.setVisibility(View.VISIBLE);
@@ -64,7 +62,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             }
         });
 
-//        viewBinderHelper.bind(holder.swipeRevealLayout,item.getId()+"");
+//        viewBinderHelper.bind(holder.swipeRevealLayout, item.getId().toString());
 
     }
 

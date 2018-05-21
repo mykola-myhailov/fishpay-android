@@ -271,7 +271,7 @@
             <ImageView
                     android:layout_width="110dp"
                     android:layout_height="65dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerInside"
                     android:id="@+id/iv_main_photo"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     android:layout_marginTop="8dp"
@@ -405,6 +405,18 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tv_card_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="16dp"/>
+
+            <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    android:id="@+id/iv_delete_main_photo"
+                    app:layout_constraintTop_toTopOf="@+id/iv_main_photo"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_main_photo"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/iv_main_photo"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone"/>
 
 
         </android.support.constraint.ConstraintLayout>

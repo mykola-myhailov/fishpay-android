@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
@@ -112,7 +113,8 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
 
     private TextSliderView getSliderView(String photo, int id) {
         TextSliderView textSliderView = new TextSliderView(this);
-        textSliderView.image(buildPhotoUrl(photo, id));
+        textSliderView.image(buildPhotoUrl(photo, id))
+                .setScaleType(BaseSliderView.ScaleType.CenterInside);
         return textSliderView;
     }
 
@@ -194,8 +196,11 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
         if (charity.getExecution() == null || charity.getExecution() > 100) {
             v.findViewById(R.id.tv_collected).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.tv_goal_finish).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.tv_currency_finish).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.tv_currency).setVisibility(View.INVISIBLE);
             v.findViewById(R.id.tv_progress).setVisibility(View.GONE);
-            ((TextView) v.findViewById(R.id.tv_goal)).setText(Utils.pennyToUah(charity.getTotalAmount()));
+            ((TextView) v.findViewById(R.id.tv_goal_finish)).setText(Utils.pennyToUah(charity.getTotalAmount()));
         } else {
             v.findViewById(R.id.tv_collected).setVisibility(View.GONE);
             v.findViewById(R.id.tv_progress).setVisibility(View.VISIBLE);
