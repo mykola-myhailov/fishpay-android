@@ -1,19 +1,23 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -25,6 +29,7 @@ import java.text.DecimalFormat;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
+import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 
 public class CharityPreviewActivity extends BaseActivity {
     private TextView tvTitle;
@@ -62,9 +67,16 @@ public class CharityPreviewActivity extends BaseActivity {
 
     private void setValue() {
         tvTitle.setText(charity.getTitle());
+        if (TextUtils.isEmpty(charity.getPseudonym())) {
+            SharedPreferences preferences = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+            tvAuthor.setText(preferences.getString(PrefKeys.NAME, "") + " "
+                    + preferences.getString(PrefKeys.SURNAME, ""));
+        } else {
+            tvAuthor.setText(charity.getPseudonym());
+        }
         tvAmount.setText(Utils.pennyToUah(Integer.parseInt(charity.getRequiredAmount())));
         tvDescription.setText(charity.getDescription());
-        if (charity.getInitCollectedAmount().equals("0")) {
+        if (charity.getRequiredAmount().equals("0")) {
             tvPercent.setVisibility(View.GONE);
         } else {
             double percent = (Double.parseDouble(charity.getInitCollectedAmount()) / Double.parseDouble(charity.getRequiredAmount())) * 100;
@@ -94,7 +106,8 @@ public class CharityPreviewActivity extends BaseActivity {
     private TextSliderView getSliderView(String path) {
         File imgFile = new File(path);
         TextSliderView textSliderView = new TextSliderView(this);
-        textSliderView.image(imgFile);
+        textSliderView.image(imgFile)
+                .setScaleType(BaseSliderView.ScaleType.CenterInside);
         return textSliderView;
     }
 

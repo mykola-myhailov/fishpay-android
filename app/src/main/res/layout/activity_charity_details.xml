@@ -65,7 +65,6 @@
 
         <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/slider_image"
-                android:scaleType="centerInside"
                 app:auto_cycle="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -139,7 +138,8 @@
                 android:id="@+id/view"
                 app:layout_constraintBottom_toTopOf="@+id/tv_contribution"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
 
         <TextView
                 android:text="Взнос"
@@ -152,7 +152,8 @@
                 android:id="@+id/tv_contribution"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
     </android.support.constraint.ConstraintLayout>
 
 
