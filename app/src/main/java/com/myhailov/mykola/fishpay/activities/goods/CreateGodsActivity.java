@@ -54,7 +54,7 @@ public class CreateGodsActivity extends BaseActivity {
 
     private void getCategoriesRequest() {
 
-    };
+    }
 
     private void initViews() {
         findViewById(R.id.tvCreate).setOnClickListener(this);

@@ -382,6 +382,10 @@ public interface ApiInterface {
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
 
+    @DELETE("api/goods/{id}")
+    Call<BaseResponse<Object>> deleteGoods (@Header("Authorization") String token,
+                                           @Path("id") String id);
+
 
     @Multipart @POST("api/goods")
     Call<BaseResponse<Object>>  createGoods (@Header("Authorization") String token,
