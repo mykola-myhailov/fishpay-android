@@ -8,7 +8,7 @@
     android:background="@android:color/white"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <LinearLayout
         android:orientation="vertical"
@@ -64,34 +64,87 @@
         </android.support.design.widget.AppBarLayout>
 
 
-        <LinearLayout
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <belka.us.androidtoggleswitch.widgets.ToggleSwitch
-                android:id="@+id/toggleSwitch"
-                android:layout_margin="10dp"
-                android:padding="2dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/blue_border"
-                custom:activeBgColor="@color/blue1"
-                custom:activeTextColor="@color/white"
-                custom:inactiveBgColor="@color/white"
-                custom:inactiveTextColor="@color/blue1"
-                custom:toggleWidth="120dp"
-                custom:cornerRadius="8dp" />
+                    android:id="@+id/toggleSwitch"
+                    android:layout_margin="10dp"
+                    android:padding="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_border"
+                    custom:activeBgColor="@color/blue1"
+                    custom:activeTextColor="@color/white"
+                    custom:inactiveBgColor="@color/white"
+                    custom:inactiveTextColor="@color/blue1"
+                    custom:toggleWidth="120dp"
+                    custom:cornerRadius="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                    android:id="@+id/recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/toggleSwitch"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="visible"/>
+
+            <TextView
+                    android:text="Сделаете продажу удобную для Вас и Вашых клиентов"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_clear"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_clear2"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:visibility="gone"/>
+
+            <TextView
+                    android:text="Просто заполните раздел «Товары» продукцией или услугами которые Вы предоставляете своим клиентам. Вы получете точность и удобство, клиенты быстроту оплаты. "
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_clear2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_clear"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="32dp"
+                    android:layout_marginTop="32dp"
+                    android:visibility="gone"/>
             <!--  main activity content - here -->
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

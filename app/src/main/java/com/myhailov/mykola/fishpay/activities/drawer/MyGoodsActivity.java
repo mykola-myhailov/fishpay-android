@@ -31,7 +31,11 @@ public class MyGoodsActivity extends DrawerActivity {
 
     private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ToggleSwitch toggleSwitch;
     private GoodsAdapter goodsAdapter;
+
+    private TextView tvInform;
+    private TextView tvInform2;
 
     private long id;
     private int tabPosition = 0;
@@ -48,6 +52,8 @@ public class MyGoodsActivity extends DrawerActivity {
         initToggleButtons();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        tvInform = findViewById(R.id.tv_clear);
+        tvInform2 = findViewById(R.id.tv_clear2);
 
         getGoods();
         Log.d("sss", "onCreate: ");
@@ -61,16 +67,23 @@ public class MyGoodsActivity extends DrawerActivity {
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        for (GoodsResults product : result) {
-                            if (product.isVisibility() || product.getUserId() == id) {
-                                publicGoods.add(product);
+                        if (result.size() != 0) {
+                            for (GoodsResults product : result) {
+                                if (product.isVisibility() || product.getUserId() == id) {
+                                    publicGoods.add(product);
+                                }
+                                if (product.getUserId() == id) {
+                                    privateGoods.add(product);
+                                }
                             }
-                            if (product.getUserId() == id) {
-                                privateGoods.add(product);
-                            }
+                            goodsAdapter = new GoodsAdapter(publicGoods);
+                            recyclerView.setAdapter(goodsAdapter);
+                        }else {
+                            tvInform.setVisibility(View.VISIBLE);
+                            tvInform2.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            toggleSwitch.setVisibility(View.GONE);
                         }
-                        goodsAdapter = new GoodsAdapter(publicGoods);
-                        recyclerView.setAdapter(goodsAdapter);
                     }
                 });
     }
@@ -97,7 +110,7 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
     private void initToggleButtons() {
-        ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
+        toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("Все");
         labels.add("Мои");
