@@ -50,5 +50,6 @@ public class Keys {
     public static final String CHARITY_RESULT = "charity_result";
     public static final String CHARITY_VISIBILITY = "charity_visibility";
     public static final String CHARITY_MEMBERS_VISIBILITY = "charity_members_visibility";
+    public static final String GOODS = "goods";
 
 }

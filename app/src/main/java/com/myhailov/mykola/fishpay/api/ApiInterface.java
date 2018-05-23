@@ -6,6 +6,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.api.results.CategoryResult;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById;
@@ -381,6 +382,9 @@ public interface ApiInterface {
     // SelectedGoods
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
+
+    @GET("api/goods/categories")
+    Call<BaseResponse<ArrayList<CategoryResult>>>  getCategory (@Header("Authorization") String token);
 
     @DELETE("api/goods/{id}")
     Call<BaseResponse<Object>> deleteGoods (@Header("Authorization") String token,

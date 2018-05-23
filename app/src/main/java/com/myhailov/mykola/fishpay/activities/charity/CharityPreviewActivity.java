@@ -84,8 +84,10 @@ public class CharityPreviewActivity extends BaseActivity {
         }
 
         sliderPhoto.addSlider(getSliderView(charity.getMainPhoto()));
-        for (String s : charity.getPhotos()) {
-            sliderPhoto.addSlider(getSliderView(s));
+        if (charity.getPhotos() != null) {
+            for (String s : charity.getPhotos()) {
+                sliderPhoto.addSlider(getSliderView(s));
+            }
         }
 
 
@@ -142,7 +144,6 @@ public class CharityPreviewActivity extends BaseActivity {
                     context.startActivity(intent);
                 } else {
                     Utils.toast(context, "Произошла ошибка");
-                    Log.d("sss", "onResult: " + code);
                 }
             }
         });
@@ -155,7 +156,7 @@ public class CharityPreviewActivity extends BaseActivity {
                 .enqueue(new BaseCallback<Object>(this, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-                        Log.d("sss", "onResult: " + code + "  |  " + result);
+
                     }
                 });
     }

@@ -56,7 +56,7 @@
     <string name="permissinons_contacts">Разрешая приложению доступ к контактной книге я принимаю
         <a href="http://www.google.com">правила приложения</a> и
         <a href="http://www.google.com">политику безопасности</a> </string>
-    <string name="enter_price">Введите имя</string>
+    <string name="enter_price">Введите цену</string>
     <string name="card_name">Название карты:</string>
     <string name="input_card_name">Введите название карты</string>
     <string name="card_number">Номер карты:</string>
