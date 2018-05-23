@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -68,9 +69,6 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initRecyclerView();
         initTabLayout();
         initSearchView();
-        findViewById(R.id.iv_menu).setOnClickListener(this);
-        findViewById(R.id.ivPlus).setOnClickListener(this);
-
         myId = getMyId();
 
         getCharity();
@@ -121,7 +119,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         rvCharity = findViewById(R.id.rv_charity);
         tvContributions = findViewById(R.id.tv_contributions);
         tvDescription = findViewById(R.id.tv_description);
-
+        findViewById(R.id.iv_menu).setOnClickListener(this);
+        findViewById(R.id.ivPlus).setOnClickListener(this);
     }
 
     private void initTabLayout() {
@@ -184,7 +183,10 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         for (CharityProgram item : selectedCharities) {
             String name = item.getAuthorName().toLowerCase();
             String title = item.getTitle().toLowerCase();
-            String pseudonym = item.getPseudonym();
+            String pseudonym = "";
+            if (!TextUtils.isEmpty(item.getPseudonym())){
+                pseudonym  = item.getPseudonym();
+            }
             if (name.contains(search) || title.contains(search) || pseudonym.contains(search)) {
                 filteredCharity.add(item);
             }
@@ -212,7 +214,9 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     private void setValue(CharityResult result) {
         donations = result.getDonation();
         amount = result.getTotalDonation();
-        tvContributions.setText(Utils.pennyToUah(result.getTotalDonation()));
+        String contributions = Utils.pennyToUah(result.getTotalDonation());
+        if (contributions.equals("0")) contributions = "0.00";
+        tvContributions.setText(contributions);
         charities = result.getCharityProgram();
         Collections.sort(charities, new Comparator<CharityProgram>() {
             @Override
