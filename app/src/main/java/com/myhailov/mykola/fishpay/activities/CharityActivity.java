@@ -200,12 +200,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                     .enqueue(new BaseCallback<CharityResult>(this, true) {
                         @Override
                         protected void onResult(int code, CharityResult result) {
-                            if (code == 200) {
                                 if (result == null) return;
                                 setValue(result);
-                            } else if (code == 404) {
-
-                            }
                         }
                     });
         } else Utils.noInternetToast(context);
