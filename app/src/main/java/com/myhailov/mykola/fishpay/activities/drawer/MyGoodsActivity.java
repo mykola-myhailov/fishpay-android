@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +18,10 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
-import com.myhailov.mykola.fishpay.activities.goods.CreateGodsActivity;
+import com.myhailov.mykola.fishpay.activities.goods.CreateGoodsActivity;
+import com.myhailov.mykola.fishpay.activities.goods.GoodsFilterActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.results.CharityResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -27,12 +30,17 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.CATEGORY;
+
 public class MyGoodsActivity extends DrawerActivity {
+    private static final int CODE_FILTER = 564;
 
     private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
+    private List<String> category;
     private RecyclerView recyclerView;
     private ToggleSwitch toggleSwitch;
     private GoodsAdapter goodsAdapter;
@@ -40,6 +48,7 @@ public class MyGoodsActivity extends DrawerActivity {
     private TextView tvInform;
     private TextView tvInform2;
 
+    private String filterQuery = "";
     private long id;
     private int tabPosition = 0;
 
@@ -53,22 +62,92 @@ public class MyGoodsActivity extends DrawerActivity {
         id = getMyId();
         createDrawer();
         initToggleButtons();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        tvInform = findViewById(R.id.tv_clear);
-        tvInform2 = findViewById(R.id.tv_clear2);
 
+        initViews();
         sendRequestGoods();
+        initSearchView();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ivPlus:
-                context.startActivity(new Intent(context, CreateGodsActivity.class));
+                context.startActivity(new Intent(context, CreateGoodsActivity.class));
+                break;
+            case R.id.tv_filter:
+                startActivityForResult(new Intent(context, GoodsFilterActivity.class), CODE_FILTER);
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CODE_FILTER){
+            if (data != null){
+                category = data.getStringArrayListExtra(CATEGORY);
+            }
+        }
+    }
+
+    private void initViews(){
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        tvInform = findViewById(R.id.tv_clear);
+        tvInform2 = findViewById(R.id.tv_clear2);
+        findViewById(R.id.tv_filter).setOnClickListener(this);
+    }
+
+    private void initSearchView() {
+        SearchView searchView = findViewById(R.id.search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterQuery = query;
+                filter();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterQuery = newText;
+                filter();
+                return true;
+            }
+        });
+        searchView.setQueryHint("Поиск по названию");
+        EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+    }
+
+    private void filter() {
+        if (filterQuery == null || filterQuery.equals("")) {
+            if (tabPosition == 0){
+                recyclerView.setAdapter(new GoodsAdapter(publicGoods));
+            }else {
+                recyclerView.setAdapter(new GoodsAdapter(privateGoods));
+            }
+            return;
+        }
+        if (tabPosition == 0){
+            filterList(publicGoods);
+        }else {
+            filterList(privateGoods);
+        }
+
+    }
+
+    private void filterList(List<GoodsResults> goods){
+        List<GoodsResults> filteredGoods = new ArrayList<>();
+        String search = filterQuery.toLowerCase();
+        for (GoodsResults item : goods) {
+            String title = item.getTitle().toLowerCase();
+            if (title.contains(search)) {
+                filteredGoods.add(item);
+            }
+        }
+        recyclerView.setAdapter(new GoodsAdapter((ArrayList) filteredGoods));
     }
 
     private void sendRequestGoods() {
@@ -169,8 +248,7 @@ public class MyGoodsActivity extends DrawerActivity {
                     if (tabPosition != position) {
                         tabPosition = 0;
                         if (publicGoods.size() != 0) {
-                            goodsAdapter = new GoodsAdapter(publicGoods);
-                            recyclerView.setAdapter(goodsAdapter);
+                            filter();
                         } else {
                             showListEmpty();
                         }
@@ -179,8 +257,7 @@ public class MyGoodsActivity extends DrawerActivity {
                     if (tabPosition != position) {
                         tabPosition = 1;
                         if (privateGoods.size() != 0) {
-                            goodsAdapter = new GoodsAdapter(privateGoods);
-                            recyclerView.setAdapter(goodsAdapter);
+                            filter();
                         } else {
                             showListEmpty();
                         }

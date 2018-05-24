@@ -7,6 +7,20 @@ public class CategoryResult {
     Integer id;
     @SerializedName("name_key")
     String category;
+    private boolean checked;
+
+    public CategoryResult(Integer id, String category) {
+        this.id = id;
+        this.category = category;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     public Integer getId() {
         return id;

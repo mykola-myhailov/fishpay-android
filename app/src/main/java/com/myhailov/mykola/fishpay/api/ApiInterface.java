@@ -30,6 +30,7 @@ import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -46,6 +47,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /** Created by Mykola Myhailov  on 14.11.17. */
 
@@ -386,6 +388,9 @@ public interface ApiInterface {
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>> getGoods (@Header("Authorization") String token,
                                                           @Query("visibility") String visibility);
+    @GET("api/goods")
+    Call<BaseResponse<ArrayList<GoodsResults>>> getGoods (@Header("Authorization") String token,
+                                                          @QueryMap Map<String, String> options);
 
     @GET("api/goods/categories")
     Call<BaseResponse<ArrayList<CategoryResult>>>  getCategory (@Header("Authorization") String token);

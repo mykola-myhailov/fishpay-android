@@ -199,7 +199,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
 
     private void showAlert(String message) {
         new AlertDialog.Builder(context)
-                .setTitle("Закрыть благотворительный сбор?")
+                .setTitle("Закрыть взаимопомощь?")
                 .setMessage(message)
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override

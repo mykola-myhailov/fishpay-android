@@ -36,7 +36,7 @@ import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
 
-public class CreateGodsActivity extends BaseActivity {
+public class CreateGoodsActivity extends BaseActivity {
 
     private List<String> categories = new ArrayList();
     private List<String> photos = new ArrayList();
@@ -74,7 +74,7 @@ public class CreateGodsActivity extends BaseActivity {
         });
         etGoodsName = findViewById(R.id.etGoodsName);
         etDescription = findViewById(R.id.etDescription);
-        etPrice = findViewById(R.id.etPrice);
+        etPrice = findViewById(R.id.etPrice_from);
         ivPhoto = findViewById(R.id.ivMainPhoto);
         rvPhoto = findViewById(R.id.rv_photo);
         rvPhoto.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -188,7 +188,6 @@ public class CreateGodsActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (bitmap != null) {

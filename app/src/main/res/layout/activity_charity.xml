@@ -118,7 +118,7 @@
                     android:id="@id/tv_currency"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text"
-                    android:text="| грн"
+                    android:text="@string/uah2"
                     app:layout_constraintStart_toEndOf="@+id/tv_contributions"
                     android:layout_marginStart="8dp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_contributions"/>
@@ -147,7 +147,7 @@
                     android:layout_gravity="center"
                     android:queryHint="поиск по контакту или названию"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     app:layout_constraintStart_toStartOf="@+id/tv_contributions"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_contributions"

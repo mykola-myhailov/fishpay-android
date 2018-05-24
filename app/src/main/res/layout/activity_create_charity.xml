@@ -134,7 +134,7 @@
                     />
 
             <TextView
-                    android:text="|грн"
+                    android:text="@string/uah2"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text_currency"
                     android:layout_width="wrap_content"
@@ -222,7 +222,7 @@
                     />
 
             <TextView
-                    android:text="|грн"
+                    android:text="@string/uah2"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text_currency"
                     android:layout_width="wrap_content"

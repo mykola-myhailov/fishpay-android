@@ -104,7 +104,7 @@
                 android:layout_marginEnd="8dp"/>
 
         <TextView
-                android:text="|грн"
+                android:text="@string/uah2"
                 android:textSize="13sp"
                 android:textColor="#919191"
                 android:layout_width="wrap_content"
