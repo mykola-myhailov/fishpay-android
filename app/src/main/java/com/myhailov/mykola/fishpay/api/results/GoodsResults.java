@@ -30,7 +30,7 @@ public class GoodsResults {
     private boolean visibility;
 
     @SerializedName("price")
-    private String price;
+    private Integer price;
 
     @SerializedName("category")
     private String category;
@@ -63,7 +63,7 @@ public class GoodsResults {
         return visibility;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 

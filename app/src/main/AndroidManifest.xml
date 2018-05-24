@@ -124,6 +124,8 @@
         </activity>
         <activity android:name=".activities.charity.CharitySuccessActivity">
         </activity>
+        <activity android:name=".activities.goods.GoodsPreviewActivity">
+        </activity>
     </application>
 
 </manifest>
