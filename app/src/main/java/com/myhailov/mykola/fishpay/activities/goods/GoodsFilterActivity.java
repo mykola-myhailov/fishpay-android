@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.adapters.CategoryAdapter;
-import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.CategoryResult;
@@ -67,7 +64,7 @@ public class GoodsFilterActivity extends BaseActivity {
                 break;
             case R.id.tv_ok:
                 Intent intent = new Intent();
-                intent.putStringArrayListExtra(CATEGORY,(ArrayList<String>) categories);
+                intent.putStringArrayListExtra(CATEGORY, (ArrayList<String>) categories);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -88,7 +85,7 @@ public class GoodsFilterActivity extends BaseActivity {
         findViewById(R.id.ivBack).setOnClickListener(this);
     }
 
-    private void setChecked(int id, int position){
+    private void setChecked(int id, int position) {
         if (id == -1) {
             categories.clear();
             for (CategoryResult categoryResult : categoriesWithID) {
@@ -104,7 +101,7 @@ public class GoodsFilterActivity extends BaseActivity {
         }
     }
 
-    private void clearFocus(){
+    private void clearFocus() {
         etEndPrice.clearFocus();
         etStartPrice.clearFocus();
     }
