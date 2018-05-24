@@ -110,15 +110,24 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 if (response.code() == 200) {
                     BaseResponse<ArrayList<PayRequest>> body = response.body();
                     if (body == null)return;
-                    currentList = body.getResult();
+                    currentList = new ArrayList<>();
+                    ArrayList<PayRequest> result = response.body().getResult();
+                    if (result != null){
+                        for (PayRequest request:result ) {
+                            if (!request.getStatus().equals("DELETED")){
+                                currentList.add(request);
+                            }
+                        }
+                    }
+
                     rvRequests.getAdapter().notifyDataSetChanged();
                     stateIs(currentList.size() == 0 ? State.EMPTY_LIST : State.LOADED);
-                } else if (response.code() == 404) stateIs(State.EMPTY_LIST);
+                } else if (response.code() == 244) stateIs(State.EMPTY_LIST);
             }
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<PayRequest>>> call, Throwable t) {
-
+                stateIs(State.EMPTY_LIST);
             }
         };
     }
@@ -246,7 +255,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
             }
 
             void bind(PayRequest request) {
-                viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
+                viewed.setVisibility(request._getStatus().equals("ACTIVE")  ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
                 tvStatus.setText("через: FISHPAY");

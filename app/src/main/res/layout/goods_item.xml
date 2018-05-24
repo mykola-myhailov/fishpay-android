@@ -1,53 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="5dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <FrameLayout
-        android:id="@+id/flAvatarContainer"
-        android:layout_gravity="center_vertical"
-        android:layout_width="50dp"
-        android:layout_height="50dp">
-
-        <ImageView
-            tools:ignore="ContentDescription"
-            android:id="@+id/ivPhoto"
-            android:scaleType="centerCrop"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size" />
-
-        <View
-            android:id="@+id/vBackground"
-            android:background="@drawable/awatar_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
-    </FrameLayout>
-
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipe_layout"
+        app:mode="same_level"
+        app:dragEdge="right">
 
     <TextView
-        android:layout_toEndOf="@+id/flAvatarContainer"
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:text="@string/delete"/>
 
-    <TextView
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/tvGrn"
-        android:text=" | грн"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_toLeftOf="@+id/tvGrn"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-</RelativeLayout>
+        <FrameLayout
+                android:id="@+id/flAvatarContainer"
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp">
+
+            <ImageView
+                    tools:ignore="ContentDescription"
+                    android:id="@+id/ivPhoto"
+                    android:scaleType="centerCrop"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"/>
+
+            <View
+                    android:id="@+id/vBackground"
+                    android:background="@drawable/awatar_profile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+        </FrameLayout>
+
+
+        <TextView
+                android:layout_toEndOf="@+id/flAvatarContainer"
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_text_secondary"
+                android:textSize="15sp"
+                tools:text="Джинсовая юбка с бахромой, синяя. Размер XS. Очень красивая стильная юбка с новой колекции"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"/>
+
+        <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/tvGrn"
+                android:textSize="17sp"
+                android:textColor="#737171"
+                android:text=" | грн"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+        <TextView
+                android:id="@+id/tvPrice"
+                android:textSize="17sp"
+                android:textColor="@color/blue1"
+                android:layout_toLeftOf="@+id/tvGrn"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10000"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/tvGrn"
+                android:layout_marginEnd="8dp"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

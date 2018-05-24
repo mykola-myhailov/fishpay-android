@@ -107,6 +107,10 @@ public class Utils {
         }
     }
 
+    public static String buildPhotoUrl(String photo, int id){
+        return ApiClient.BASE_API_URL + "api/resources/charity/" + id + "/" + photo;
+    }
+
 
     public static void displayAvatar(final Context context, final ImageView imageView, Uri photo, final String initials){
         if (photo != null){
@@ -221,6 +225,36 @@ public class Utils {
             e.printStackTrace();
         }
         return dateFormat.format(convertedDate);
+    }
+
+    public static void setText(TextView textView, String text){
+        if (text != null && textView != null){
+            textView.setText(text);
+        }
+    }
+
+    public static void setText(TextView textView, long text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, int text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, double text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
+    }
+
+    public static void setText(TextView textView, float text){
+        if (textView!= null){
+            textView.setText(text + "");
+        }
     }
 
 }

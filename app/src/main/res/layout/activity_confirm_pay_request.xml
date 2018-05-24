@@ -76,7 +76,7 @@
                 android:gravity="center"
                 android:paddingStart="4dp"
                 android:textAllCaps="true"
-                android:text="as"
+                android:text=""
                 android:textColor="@color/black_light"
                 android:textSize="42sp" />
         </FrameLayout>

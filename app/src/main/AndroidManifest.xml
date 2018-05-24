@@ -116,6 +116,16 @@
         </activity>
         <activity android:name=".activities.charity.CharityListActivity">
         </activity>
+        <activity android:name=".activities.charity.CharitySettingsActivity">
+        </activity>
+        <activity android:name=".activities.charity.CreateCharityActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharityPreviewActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharitySuccessActivity">
+        </activity>
+        <activity android:name=".activities.goods.GoodsPreviewActivity">
+        </activity>
     </application>
 
 </manifest>

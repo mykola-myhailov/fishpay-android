@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,7 +15,6 @@ import android.widget.TextView;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
-import com.myhailov.mykola.fishpay.activities.login.NextActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.BankWebActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
@@ -30,12 +25,6 @@ import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -48,13 +37,14 @@ public class TransactionActivity extends DrawerActivity {
     private TextView tvCard, tvName;
     private ImageView ivChoseContact;
     private EditText etComment, etAmount, etCvv;
-    private Card receiverCard;
-    private String receiverPhone = "", receiverName = "",
-            receiverCardNumber = "", receiverCardName = "";
+    private Card card;
+    private String receiverPhone = "", receiverName = "", receiverId = null,
+            cardNumber = "", cardName = "";
 
     private Contact receiverContact;
     private int amount;
     private String fpt, fptId;
+    private String amountUAH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +52,12 @@ public class TransactionActivity extends DrawerActivity {
         setContentView(R.layout.activity_outgoing_transaction);
 
         createDrawer();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            if (extras.containsKey(Keys.NAME)) receiverName = extras.getString(Keys.NAME);
+            if (extras.containsKey(Keys.USER_ID)) receiverId = extras.getString(Keys.NAME);
+            if (extras.containsKey(Keys.AMOUNT)) amountUAH = (extras.getString(Keys.AMOUNT));
+        }
         initDrawerToolbar(getString(R.string.outgoing_transaction));
         initViews();
     }
@@ -76,6 +72,8 @@ public class TransactionActivity extends DrawerActivity {
         etComment = findViewById(R.id.et_comment);
         etAmount = findViewById(R.id.et_sum);
         etCvv = findViewById(R.id.et_cvv);
+        if (receiverName != null && !receiverName.equals("")) tvName.setText(receiverName);
+        etAmount.setText(amountUAH);
     }
 
     @Override
@@ -94,25 +92,25 @@ public class TransactionActivity extends DrawerActivity {
                 // preparing
 
 
-                final String amountUAH = etAmount.getText().toString();
+                amountUAH = etAmount.getText().toString();
                 amount = Utils.UAHtoPenny(amountUAH);
              //   String comment = etComment.getText().toString();
                 final String cvv = etCvv.getText().toString();
-
+                if (receiverContact != null) receiverContact.getUserId();
 
                 //validation
-                if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (receiverContact == null) Utils.toast(context, "выберите контакт");
+                if (card == null) Utils.toast(context, getString(R.string.enter_card));
+                else if (receiverId == null) Utils.toast(context, "выберите контакт");
                 else if (amount == 0) Utils.toast(context, "Введите сумму");
                 else if (cvv.equals("")) Utils.toast(context,"Введите CVV");
                 else if (Utils.isOnline(context)){
-                   // String cardId = receiverCard.getId();
+                   // String cardId = card.getId();
                   //  String memberId = null;
                   //  if (member != null) memberId = member.getId();
                     ApiClient.getApiClient().transfer(
                             token,
-                            132 + "",
-                            receiverCard.getId(),
+                            receiverId + "",
+                            card.getId(),
                             cvv,
                             amount)
                             .enqueue(new BaseCallback<Object>(context, true) {
@@ -217,13 +215,13 @@ public class TransactionActivity extends DrawerActivity {
 
         if (resultCode != RESULT_OK) return;
         if (requestCode == REQUEST_CARD){
-            receiverCard = data.getParcelableExtra(CARD);
-            if (receiverCard != null) {
-                receiverCardNumber = receiverCard.getLastFourNumbers();
-                receiverCardName = receiverCard.getName();
-                if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);
-                else tvCard.setText(String.format("%s | %s", receiverCardName, receiverCardNumber));
-                Log.d("receiverCard", receiverCardNumber);
+            card = data.getParcelableExtra(CARD);
+            if (card != null) {
+                cardNumber = card.getLastFourNumbers();
+                cardName = card.getName();
+                if (cardName.equals("")) tvCard.setText(cardNumber);
+                else tvCard.setText(String.format("%s | %s", cardName, cardNumber));
+                Log.d("card", cardNumber);
             }
         }
 

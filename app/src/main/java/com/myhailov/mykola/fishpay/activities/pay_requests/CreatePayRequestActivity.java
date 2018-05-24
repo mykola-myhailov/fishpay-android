@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
@@ -27,6 +29,7 @@ import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.MoneyEditText;
@@ -51,10 +54,10 @@ public class CreatePayRequestActivity extends BaseActivity {
     private TextView tvCard;
     private RecyclerView rvContacts;
     private String receiverPhone = "", receiverName = "",
-            receiverCardNumber = "", receiverCardName = "";
+            receiverCardNumber = "", cardName = "";
     private Contact receiverContact;
     private Member member;
-    private Card receiverCard;
+    private Card card;
     private int amount;
     private boolean fromJointPurchase;
     private View rlRequestAmount;
@@ -85,12 +88,21 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
 
             if (extras.containsKey(Keys.CARD)){
-                receiverCard = extras.getParcelable(Keys.CARD);
-                if (receiverCard != null){
-                    receiverCardNumber = receiverCard.getLastFourNumbers();
-                    receiverCardName = receiverCard.getName();
-                }
+                card = extras.getParcelable(Keys.CARD);
             }
+
+        }
+        if (card == null){
+            SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+            if (sharedPreferences.contains(PrefKeys.CARD)){
+                String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
+                Log.e("cardJson", cardJson);
+                card = cardJson  == null ? null : new Gson().fromJson(cardJson, Card.class);
+            }
+        }
+        if (card != null){
+            receiverCardNumber = card.getLastFourNumbers();
+            cardName = card.getName();
         }
         loadContacts();
         initCustomToolbar("запрос на оплату");
@@ -134,8 +146,8 @@ public class CreatePayRequestActivity extends BaseActivity {
             etPhone.setCursorVisible(false);
             etPhone.setFocusableInTouchMode(false);
         }
-        if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);
-        else tvCard.setText(String.format("%s | %s", receiverCard, receiverCardName));
+        if (cardName.equals("")) tvCard.setText(receiverCardNumber);
+        else tvCard.setText(String.format("%s | %s", receiverCardNumber, cardName));
 
         rlRequestAmount = findViewById(R.id.rl_request_amount);
         rlRequestAmount.setVisibility(View.GONE);
@@ -188,10 +200,10 @@ public class CreatePayRequestActivity extends BaseActivity {
                 if (receiverPhone.equals("")) Utils.toast(context, getString(R.string.enter_phone_number));
                 else if (receiverPhone.length() < 12) Utils.toast(context, getString(R.string.short_number));
                 else if (receiverPhone.length() > 13) Utils.toast(context, getString(R.string.long_number));
-                else if (receiverCard == null) Utils.toast(context, getString(R.string.enter_card));
+                else if (card == null) Utils.toast(context, getString(R.string.enter_card));
                 else if (amount == 0) Utils.toast(context, "Введите сумму");
                 else if (Utils.isOnline(context)){
-                    String cardId = receiverCard.getId();
+                    String cardId = card.getId();
                     String memberId = null;
                     if (member != null) memberId = member.getId();
                     ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
@@ -253,13 +265,13 @@ public class CreatePayRequestActivity extends BaseActivity {
 
         if (resultCode != RESULT_OK) return;
         if (requestCode == REQUEST_CARD){
-            receiverCard = data.getParcelableExtra(CARD);
-            if (receiverCard != null) {
-                receiverCardNumber = receiverCard.getLastFourNumbers();
-                receiverCardName = receiverCard.getName();
-                if (receiverCardName.equals("")) tvCard.setText(receiverCardNumber);
-                else tvCard.setText(String.format("%s | %s", receiverCardName, receiverCardNumber));
-                Log.d("receiverCard", receiverCardNumber);
+            card = data.getParcelableExtra(CARD);
+            if (card != null) {
+                receiverCardNumber = card.getLastFourNumbers();
+                cardName = card.getName();
+                if (cardName.equals("")) tvCard.setText(receiverCardNumber);
+                else tvCard.setText(String.format("%s | %s", cardName, receiverCardNumber));
+                Log.d("card", receiverCardNumber);
             }
         }
         else if (requestCode == REQUEST_CONTACT){
@@ -273,6 +285,7 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
         }
     }
+
     private  String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
         JSONArray goodsArray = new JSONArray();
         try {

@@ -6,6 +6,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.api.results.CategoryResult;
 import com.myhailov.mykola.fishpay.api.results.ChangePassVerifyResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById;
@@ -348,12 +349,12 @@ public interface ApiInterface {
     Call<BaseResponse<Object>> createCharity (@Header("Authorization") String token,
                                               @Part("title") RequestBody title,
                                               @Part("required_amount") RequestBody requiredAmount,
-                                              @Field("init_collected_amount") RequestBody initCollAmount,
-                                              @Field("description") RequestBody description,
-                                              @Field("user_card_id") RequestBody userCardId,
-                                              @Field("item_visibility") RequestBody itemVisibility,
-                                              @Field("members_visibility") RequestBody membersVisibility,
-                                              @Field("pseudonym") RequestBody pseudonym,
+                                              @Part("init_collected_amount") RequestBody initCollAmount,
+                                              @Part("description") RequestBody description,
+                                              @Part("user_card_id") RequestBody userCardId,
+                                              @Part("item_visibility") RequestBody itemVisibility,
+                                              @Part("members_visibility") RequestBody membersVisibility,
+                                              @Part("pseudonym") RequestBody pseudonym,
                                               @Part  MultipartBody.Part img);   //main_photo
 
     @Multipart @POST("api/charity/{id}/uploadPhoto")
@@ -381,6 +382,13 @@ public interface ApiInterface {
     // SelectedGoods
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
+
+    @GET("api/goods/categories")
+    Call<BaseResponse<ArrayList<CategoryResult>>>  getCategory (@Header("Authorization") String token);
+
+    @DELETE("api/goods/{id}")
+    Call<BaseResponse<Object>> deleteGoods (@Header("Authorization") String token,
+                                           @Path("id") String id);
 
 
     @Multipart @POST("api/goods")

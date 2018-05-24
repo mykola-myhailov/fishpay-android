@@ -11,7 +11,7 @@ public class CharityResult {
     @SerializedName("donation")
     private List<Donation> donation = null;
     @SerializedName("total_donation")
-    private Double totalDonation;
+    private Integer totalDonation;
 
     public List<CharityProgram> getCharityProgram() {
         return charityProgram;
@@ -39,17 +39,12 @@ public class CharityResult {
         return this;
     }
 
-    public Double getTotalDonation() {
+    public Integer getTotalDonation() {
         return totalDonation;
     }
 
-    public void setTotalDonation(Double totalDonation) {
+    public void setTotalDonation(Integer totalDonation) {
         this.totalDonation = totalDonation;
-    }
-
-    public CharityResult withTotalDonation(Double totalDonation) {
-        this.totalDonation = totalDonation;
-        return this;
     }
 
     public class Donation {
@@ -163,7 +158,7 @@ public class CharityResult {
     }
 
 
-    public class CharityProgram implements Serializable{
+    public class CharityProgram implements Serializable {
 
         @SerializedName("id")
         private Integer id;
@@ -186,7 +181,7 @@ public class CharityResult {
         @SerializedName("members_visibility")
         private String membersVisibility;
         @SerializedName("pseudonym")
-        private Object pseudonym;
+        private String pseudonym;
         @SerializedName("is_contact")
         private Boolean isContact;
         @SerializedName("created_at")
@@ -202,22 +197,12 @@ public class CharityResult {
             this.id = id;
         }
 
-        public CharityProgram withId(Integer id) {
-            this.id = id;
-            return this;
-        }
-
         public String getTitle() {
             return title;
         }
 
         public void setTitle(String title) {
             this.title = title;
-        }
-
-        public CharityProgram withTitle(String title) {
-            this.title = title;
-            return this;
         }
 
         public Integer getUserId() {
@@ -228,22 +213,12 @@ public class CharityResult {
             this.userId = userId;
         }
 
-        public CharityProgram withUserId(Integer userId) {
-            this.userId = userId;
-            return this;
-        }
-
         public Integer getRequiredAmount() {
             return requiredAmount;
         }
 
         public void setRequiredAmount(Integer requiredAmount) {
             this.requiredAmount = requiredAmount;
-        }
-
-        public CharityProgram withRequiredAmount(Integer requiredAmount) {
-            this.requiredAmount = requiredAmount;
-            return this;
         }
 
         public Double getExecution() {
@@ -254,22 +229,12 @@ public class CharityResult {
             this.execution = execution;
         }
 
-        public CharityProgram withExecution(Double execution) {
-            this.execution = execution;
-            return this;
-        }
-
         public Integer getTotalAmount() {
             return totalAmount;
         }
 
         public void setTotalAmount(Integer totalAmount) {
             this.totalAmount = totalAmount;
-        }
-
-        public CharityProgram withTotalAmount(Integer totalAmount) {
-            this.totalAmount = totalAmount;
-            return this;
         }
 
         public Integer getInitCollectedAmount() {
@@ -280,22 +245,12 @@ public class CharityResult {
             this.initCollectedAmount = initCollectedAmount;
         }
 
-        public CharityProgram withInitCollectedAmount(Integer initCollectedAmount) {
-            this.initCollectedAmount = initCollectedAmount;
-            return this;
-        }
-
         public String getMainPhoto() {
             return mainPhoto;
         }
 
         public void setMainPhoto(String mainPhoto) {
             this.mainPhoto = mainPhoto;
-        }
-
-        public CharityProgram withMainPhoto(String mainPhoto) {
-            this.mainPhoto = mainPhoto;
-            return this;
         }
 
         public String getItemVisibility() {
@@ -306,11 +261,6 @@ public class CharityResult {
             this.itemVisibility = itemVisibility;
         }
 
-        public CharityProgram withItemVisibility(String itemVisibility) {
-            this.itemVisibility = itemVisibility;
-            return this;
-        }
-
         public String getMembersVisibility() {
             return membersVisibility;
         }
@@ -319,23 +269,14 @@ public class CharityResult {
             this.membersVisibility = membersVisibility;
         }
 
-        public CharityProgram withMembersVisibility(String membersVisibility) {
-            this.membersVisibility = membersVisibility;
-            return this;
-        }
-
-        public Object getPseudonym() {
+        public String getPseudonym() {
             return pseudonym;
         }
 
-        public void setPseudonym(Object pseudonym) {
+        public void setPseudonym(String pseudonym) {
             this.pseudonym = pseudonym;
         }
 
-        public CharityProgram withPseudonym(Object pseudonym) {
-            this.pseudonym = pseudonym;
-            return this;
-        }
 
         public Boolean isContact() {
             return isContact;
@@ -343,11 +284,6 @@ public class CharityResult {
 
         public void setIsContact(Boolean isContact) {
             this.isContact = isContact;
-        }
-
-        public CharityProgram withIsContact(Boolean isContact) {
-            this.isContact = isContact;
-            return this;
         }
 
         public String getCreatedAt() {
@@ -358,11 +294,6 @@ public class CharityResult {
             this.createdAt = createdAt;
         }
 
-        public CharityProgram withCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
         public String getAuthorName() {
             return authorName;
         }
@@ -371,10 +302,6 @@ public class CharityResult {
             this.authorName = authorName;
         }
 
-        public CharityProgram withAuthorName(String authorName) {
-            this.authorName = authorName;
-            return this;
-        }
 
     }
 }

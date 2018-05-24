@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityListActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CreateCharityActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -25,10 +28,16 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_AMOUNT;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_LIST;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_USER_ID;
+import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 
 public class CharityActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
     private final int TAB_GLOBAL = 0;
@@ -38,16 +47,15 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
 
     private TabLayout tabLayout;
     private RecyclerView rvCharity;
-    private CharityAdapter adapter;
     private TextView tvContributions;
     private TextView tvDescription;
 
+    private List<CharityResult.Donation> donations = new ArrayList<>();
     private List<CharityProgram> charities;
     private List<CharityProgram> selectedCharities = new ArrayList<>();
-    private int tabPosition;
     private long myId;
     private String filterQuery = "";
-    private double amount;
+    private int amount;
 
 
     @Override
@@ -61,8 +69,6 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         initRecyclerView();
         initTabLayout();
         initSearchView();
-        findViewById(R.id.iv_menu).setOnClickListener(this);
-
         myId = getMyId();
 
         getCharity();
@@ -79,18 +85,33 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 break;
             case R.id.iv_menu:
                 Intent intent = new Intent(this, CharityListActivity.class);
-                List<CharityProgram> list = new ArrayList<>();
-                for (CharityProgram charity : charities) {
-                    if (charity.getUserId() == myId) {
-                        list.add(charity);
-                    }
-                }
-                intent.putExtra(CHARITY_LIST, (ArrayList) list);
+                intent.putExtra(CHARITY_LIST, (ArrayList) donations);
                 intent.putExtra(CHARITY_AMOUNT, amount);
                 startActivity(intent);
                 break;
+            case R.id.ivPlus:
+                startActivity(new Intent(context, CreateCharityActivity.class));
+                break;
         }
 
+    }
+
+    @Override
+    public void onTabChanged(int position) {
+        switch (position) {
+            case TAB_GLOBAL:
+                selectedCharities = getGlobalCharity();
+                changeState(TAB_GLOBAL, selectedCharities);
+                break;
+            case TAB_CONTACT:
+                selectedCharities = getContactsCharity();
+                changeState(TAB_CONTACT, selectedCharities);
+                break;
+            case TAB_MY:
+                selectedCharities = getMyCharity();
+                changeState(TAB_MY, selectedCharities);
+                break;
+        }
     }
 
     private void assignViews() {
@@ -98,7 +119,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         rvCharity = findViewById(R.id.rv_charity);
         tvContributions = findViewById(R.id.tv_contributions);
         tvDescription = findViewById(R.id.tv_description);
-
+        findViewById(R.id.iv_menu).setOnClickListener(this);
+        findViewById(R.id.ivPlus).setOnClickListener(this);
     }
 
     private void initTabLayout() {
@@ -111,10 +133,22 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
 
     private void initRecyclerView() {
         rvCharity.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new CharityAdapter(context, charities);
-        rvCharity.setAdapter(adapter);
+        rvCharity.setAdapter(new CharityAdapter(context, charities, rvListener));
 
     }
+
+    private CharityAdapter.OnItemClickListener rvListener = new CharityAdapter.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(String id, CharityProgram item) {
+            Intent intent = new Intent(context, CharityDetailsActivity.class);
+            intent.putExtra(CHARITY_ID, id);
+            intent.putExtra(CHARITY_USER_ID, myId);
+            intent.putExtra(CHARITY_MEMBERS_VISIBILITY, item.getMembersVisibility());
+            intent.putExtra(CHARITY_VISIBILITY, item.getItemVisibility());
+            context.startActivity(intent);
+        }
+    };
 
     private void initSearchView() {
         SearchView searchView = findViewById(R.id.search);
@@ -142,18 +176,22 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     private void filter() {
         List<CharityProgram> filteredCharity = new ArrayList<>();
         if (filterQuery == null || filterQuery.equals("")) {
-            adapter.setList(charities);
+            rvCharity.setAdapter(new CharityAdapter(context, charities, rvListener));
             return;
         }
         String search = filterQuery.toLowerCase();
         for (CharityProgram item : selectedCharities) {
             String name = item.getAuthorName().toLowerCase();
             String title = item.getTitle().toLowerCase();
-            if (name.contains(search) || title.contains(search)) {
+            String pseudonym = "";
+            if (!TextUtils.isEmpty(item.getPseudonym())){
+                pseudonym  = item.getPseudonym();
+            }
+            if (name.contains(search) || title.contains(search) || pseudonym.contains(search)) {
                 filteredCharity.add(item);
             }
         }
-        adapter.setList(filteredCharity);
+        rvCharity.setAdapter(new CharityAdapter(context, filteredCharity, rvListener));
     }
 
     private void getCharity() {
@@ -164,10 +202,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                         protected void onResult(int code, CharityResult result) {
                             if (code == 200) {
                                 if (result == null) return;
-                                amount = result.getTotalDonation();
-                                tvContributions.setText(result.getTotalDonation().toString());
-                                charities = result.getCharityProgram();
-                                adapter.setList(charities);
+                                setValue(result);
                             } else if (code == 404) {
 
                             }
@@ -176,36 +211,46 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         } else Utils.noInternetToast(context);
     }
 
+    private void setValue(CharityResult result) {
+        donations = result.getDonation();
+        amount = result.getTotalDonation();
+        String contributions = Utils.pennyToUah(result.getTotalDonation());
+        if (contributions.equals("0")) contributions = "0.00";
+        tvContributions.setText(contributions);
+        charities = result.getCharityProgram();
+        Collections.sort(charities, new Comparator<CharityProgram>() {
+            @Override
+            public int compare(CharityProgram o1, CharityProgram o2) {
+                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null) return 0;
+                return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+
+            }
+        });
+        selectedCharities = charities;
+        rvCharity.setAdapter(new CharityAdapter(context, charities, rvListener));
+    }
+
     private long getMyId() {
         return Long.valueOf(context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
                 .getString(PrefKeys.ID, ""));
     }
 
-
-    @Override
-    public void onTabChanged(int position) {
-        tabPosition = position;
-        switch (position) {
-            case TAB_GLOBAL:
-                selectedCharities = charities;
-                changeState(TAB_GLOBAL, selectedCharities);
-                break;
-            case TAB_CONTACT:
-                selectedCharities = getContactsCharity();
-                changeState(TAB_CONTACT, selectedCharities);
-                break;
-            case TAB_MY:
-                selectedCharities = getMyCharity();
-                changeState(TAB_MY, selectedCharities);
-                break;
+    private List<CharityProgram> getGlobalCharity() {
+        List<CharityProgram> list = new ArrayList<>();
+        for (CharityProgram charity : charities) {
+            if (charity.getItemVisibility().equals("PUBLIC")) {
+                list.add(charity);
+            }
         }
+        return list;
     }
+
 
     private List<CharityProgram> getContactsCharity() {
         List<CharityProgram> list = new ArrayList<>();
 
         for (CharityProgram charity : charities) {
-            if (charity.isContact()) {
+            if (charity.isContact() && !charity.getItemVisibility().equals("AUTHOR")) {
                 list.add(charity);
             }
         }
@@ -227,7 +272,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         if (list.size() > 0) {
             rvCharity.setVisibility(View.VISIBLE);
             tvDescription.setVisibility(View.GONE);
-            adapter.setList(list);
+            rvCharity.setAdapter(new CharityAdapter(context, list, rvListener));
         } else {
             rvCharity.setVisibility(View.GONE);
             switch (tab) {

@@ -15,6 +15,8 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.List;
 
+import okhttp3.internal.Util;
+
 public class CharityDetailContactsAdapter extends RecyclerView.Adapter<CharityDetailContactsAdapter.ViewHolder> {
 
     private static final String TAG = CharityDetailContactsAdapter.class.getSimpleName();
@@ -38,7 +40,7 @@ public class CharityDetailContactsAdapter extends RecyclerView.Adapter<CharityDe
         Donation item = list.get(position);
 
         holder.tvName.setText(item.getFirstName() + " " + item.getSecondName());
-        holder.tvAmount.setText(item.getAmount().toString());
+        holder.tvAmount.setText(Utils.pennyToUah(item.getAmount()));
         String initials = Utils.extractInitials(item.getFirstName(), item.getSecondName());
         Utils.displayAvatar(context, holder.ivAvatar, "", initials);
 

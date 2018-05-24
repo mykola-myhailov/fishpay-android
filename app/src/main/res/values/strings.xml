@@ -56,7 +56,7 @@
     <string name="permissinons_contacts">Разрешая приложению доступ к контактной книге я принимаю
         <a href="http://www.google.com">правила приложения</a> и
         <a href="http://www.google.com">политику безопасности</a> </string>
-    <string name="enter_price">Введите имя</string>
+    <string name="enter_price">Введите цену</string>
     <string name="card_name">Название карты:</string>
     <string name="input_card_name">Введите название карты</string>
     <string name="card_number">Номер карты:</string>
@@ -65,7 +65,7 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
-    <string name="null_string" />
+    <string name="null_string"/>
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="total_amount">Общяя сумма</string>
@@ -105,4 +105,15 @@
     <string name="charity_empty_contacts">Ваши контакти пока не создавали благотворительних сборов</string>
     <string name="charity_empty_my">Вы еще не создавали благотворительних сборов</string>
     <string name="charity_empty_global">Еще не создавали благотворительних сборов</string>
+    <string name="close_charity">Закрыть сбор</string>
+    <string name="preview_charity">Предпросмотр</string>
+    <string name="error_fill_information">Заполните информацию</string>
+    <string name="error_county">Минимальное количество знаков %d</string>
+    <string name="public_charity">Для всех</string>
+    <string name="contacts_charity">Только контакты</string>
+    <string name="author_charity">Только я</string>
+    <string name="charity_open">Открыто</string>
+    <string name="charity_close">Закрыто</string>
+    <string name="session_end">Время сессии истекло</string>
+    <string name="charity_link">https://www.fishpay.com/request/id%s</string>
 </resources>

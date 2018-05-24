@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class ContactsActivity extends DrawerActivity {
 
-    private List<Contact> contacts, appContacts, displayedContacts, filteredContacts;
+    private List<Contact> allContacts, appContacts, displayedContacts, filteredContacts;
     private RecyclerView rvContacts;
     private String filterQuery = "";
 
@@ -47,11 +47,11 @@ public class ContactsActivity extends DrawerActivity {
 
         createDrawer();
         initDrawerToolbar(getString(R.string.my_contacts));
-        contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         appContacts = new ArrayList<>();
         displayedContacts = new ArrayList<>();
         filteredContacts = new ArrayList<>();
-        for (Contact contact : contacts) {
+        for (Contact contact : allContacts) {
             long userId = contact.getUserId();
             if (userId != 0) appContacts.add(contact);
         }
@@ -63,7 +63,7 @@ public class ContactsActivity extends DrawerActivity {
         initSearchView();
         displayedContacts = appContacts;
         filter();
-        Log.d("log", contacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " "+
+        Log.d("log", allContacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " "+
         filteredContacts.size());
 
     }
@@ -80,7 +80,7 @@ public class ContactsActivity extends DrawerActivity {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
                 if (position == 0) displayedContacts = appContacts;
-                else displayedContacts = contacts;
+                else displayedContacts = allContacts;
                 filter();
             }
         });
