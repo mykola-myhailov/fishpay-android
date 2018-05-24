@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -16,10 +15,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
+import com.myhailov.mykola.fishpay.activities.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -146,15 +147,70 @@ public class LoginActivity extends BaseActivity {
             String devicetype = "android";
             int versionCode = BuildConfig.VERSION_CODE;
             String language = "ru";
-            final Retrofit retrofit = ApiClient.getRetrofit();
-            retrofit.create(ApiInterface.class).login(devicetype, versionCode, language, phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
+            ApiClient.getApiClient()
+                    .login(devicetype, versionCode, language, phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
+                    .enqueue(new BaseCallback<JsonElement>(context, true) {
+
+                        @Override
+                        public void onResponse(@NonNull Call<BaseResponse<JsonElement>> call,
+                                               @NonNull Response<BaseResponse<JsonElement>> response) {
+                            closeProgressDialog();
+                            BaseResponse<JsonElement> loginResponse = response.body();
+                            if (loginResponse == null) return;
+                            if (response.code() == 243) {
+                                try {
+                                    String message = loginResponse.getErrorDescription();
+                                    JsonObject jtiResult = loginResponse.getResult().getAsJsonObject();
+                                    if (jtiResult != null) {
+                                        String jti = jtiResult.get("jti").getAsString();
+                                        if (jti != null ) showInvalDialog(jti, message);
+                                    }
+                                } catch (Exception e) {e.printStackTrace();}
+                            }
+                            else if(response.code() == 240) {
+                                attempt++;
+                                if (attempt < 3) Utils.alert(context, "Неверный пароль");
+                                else {
+                                    Utils.alert(context, "Неверный пароль." +
+                                            " Количество попыток исчерпано, попробуйте через 15 минут");
+                                    Handler handler = new Handler();
+                                    Runnable runnable = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            attempt = 0;
+                                        }
+                                    };
+                                    handler.postDelayed(runnable, 15 * 60 * 1000);
+                                }
+                            }
+
+                            else super.onResponse(call, response);
+                        }
+
+
+                        @Override
+                        protected void onResult(int code, JsonElement result) {
+                            switch (code){
+                                case 200:
+                                    JsonObject loginResult = result.getAsJsonObject();
+                                    TokenStorage.setToken(context, loginResult.get("access_token").getAsString());
+                                    uploadContactsRequest();
+                                    context.startActivity(new Intent(context, ProfileSettingsActivity.class));
+                                    break;
+                            }
+
+                        }
+                    });
+            //final Retrofit retrofit = ApiClient.getRetrofit();
+            /*retrofit.create(ApiInterface.class).login(devicetype, versionCode, language, phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
 
                         @Override
                         public void onResponse(@NonNull Call<BaseResponse<LoginResult>> call,
                                                @NonNull Response<BaseResponse<LoginResult>> response) {
+                            closeProgressDialog();
                             if (response.code() == 203) {
-                                closeProgressDialog();
+
                                 ResponseBody responseBody = response.errorBody();
                                 try {
                                     String responseBodyString = responseBody.string();
@@ -215,7 +271,7 @@ public class LoginActivity extends BaseActivity {
                         protected void onError(int code, String errorDescription) {
 
                         }
-                    });
+                    });*/
         }
     }
 

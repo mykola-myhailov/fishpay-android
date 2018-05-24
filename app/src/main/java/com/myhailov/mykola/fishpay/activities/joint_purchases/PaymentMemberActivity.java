@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -12,17 +11,13 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
-import com.myhailov.mykola.fishpay.api.results.JointPurchase;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.MoneyEditText;
-
-import org.w3c.dom.Text;
 
 import retrofit2.Call;
 

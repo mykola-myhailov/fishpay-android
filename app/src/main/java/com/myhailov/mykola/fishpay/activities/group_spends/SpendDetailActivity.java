@@ -52,9 +52,11 @@ public class SpendDetailActivity extends BaseActivity{
             .enqueue(new BaseCallback<SpendDetailResult>(context, true) {
                 @Override
                 protected void onResult(int code, SpendDetailResult result) {
+                    if (result == null) return;
                     tvAmount.setText(String.valueOf(result.getSum()));
                     members = result.getMembers();
                     transactions = result.getTransactions();
+                    initCustomToolbar(result.getTitle());
                     initToggleButtons();
                 }
             });

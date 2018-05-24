@@ -8,7 +8,8 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
+import com.myhailov.mykola.fishpay.activities.ContactsActivity;
+import com.myhailov.mykola.fishpay.activities.TransactionActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -38,7 +39,7 @@ public class ContactDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
 
-        initToolBar("просмотр профайла");
+        initCustomToolbar("просмотр профайла");
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
@@ -58,8 +59,9 @@ public class ContactDetailsActivity extends BaseActivity {
                                 String name = result.getName();
                                 String surname = result.getSuname();
                                 String photo = result.getPhoto();
+                                String phone = result.getPhone();
                                 tvIsAdded.setText("B списке контактов");
-                                ((TextView) findViewById(R.id.tvPhone)).setText(phone);
+                                if (phone != null) ((TextView) findViewById(R.id.tvPhone)).setText("+"+phone);
                                 ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
                                 String initials = Utils.extractInitials(name, surname);
                                 Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
@@ -91,14 +93,16 @@ public class ContactDetailsActivity extends BaseActivity {
             ((TextView) findViewById(R.id.tvCardNumber)).setVisibility(View.GONE);
         }
         (findViewById(R.id.tvGet)).setOnClickListener(this);
-
-
+        (findViewById(R.id.tvGive)).setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(final View view) {
         switch (view.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.tvInContactsList:
                 if (isAdded) break;
                 if (Utils.isOnline(context)){
@@ -117,6 +121,12 @@ public class ContactDetailsActivity extends BaseActivity {
                         .putExtra(Keys.CONTACT, contact ));
 
                 break;
+
+            case R.id.tvGive:
+                context.startActivity((new Intent(context, TransactionActivity.class))
+                        .putExtra(Keys.CONTACT, contact ));
+
+
         }
     }
 

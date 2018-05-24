@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities.drawer;
+package com.myhailov.mykola.fishpay.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +26,8 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -118,6 +120,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                                 currentList.add(request);
                             }
                         }
+                        Collections.reverse(currentList);
                     }
 
                     rvRequests.getAdapter().notifyDataSetChanged();

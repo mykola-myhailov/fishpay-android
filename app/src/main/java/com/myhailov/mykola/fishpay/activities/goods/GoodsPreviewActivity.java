@@ -13,7 +13,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.MyGoodsActivity;
+import com.myhailov.mykola.fishpay.activities.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.GoodsRequestBody;

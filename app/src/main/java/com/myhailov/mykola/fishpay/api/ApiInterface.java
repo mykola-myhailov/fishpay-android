@@ -1,6 +1,7 @@
 package com.myhailov.mykola.fishpay.api;
 
 
+import com.google.gson.JsonElement;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
@@ -81,15 +82,15 @@ public interface ApiInterface {
 
     // 2) Authentication
     @FormUrlEncoded @POST("api/user/login")      // login
-    Call<BaseResponse<LoginResult>> login ( @Header("deviceType") String device ,
-                                            @Header("version") int version,
-                                            @Header("language") String language,
-                                            @Field("phoneNumber") String phoneNumber,
-                                            @Field("pass") String password,
-                                            @Field("deviceId") String deviceId,
-                                            @Field("deviceInfo") String deviceInfo,
-                                            @Field("device_type") String deviceType,
-                                            @Field("user_token") String firebaseToken);
+    Call<BaseResponse<JsonElement>> login (@Header("deviceType") String device ,
+                                           @Header("version") int version,
+                                           @Header("language") String language,
+                                           @Field("phoneNumber") String phoneNumber,
+                                           @Field("pass") String password,
+                                           @Field("deviceId") String deviceId,
+                                           @Field("deviceInfo") String deviceInfo,
+                                           @Field("device_type") String deviceType,
+                                           @Field("user_token") String firebaseToken);
 
     @PUT ("api/sessions/invalidate")    //invalidation
     Call<BaseResponse<Object>> invalidion (@Query("phoneNumber") String phoneNumber,
@@ -180,7 +181,7 @@ public interface ApiInterface {
 
     @DELETE("api/user/cards/{cardId}")
     Call<BaseResponse<Object>> deleteCard (@Header("Authorization") String token,
-                                           @Path("cardNumber") String cardNumber);
+                                           @Path("cardNumber") String cardId);
 
     @FormUrlEncoded @POST("api/user/cards/setPublic")
     Call<BaseResponse<Object>> setPublicCard (@Header("Authorization") String token,

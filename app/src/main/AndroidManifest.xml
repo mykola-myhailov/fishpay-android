@@ -30,16 +30,16 @@
         <activity android:name=".activities.login.SetPasswordActivity"/>
         <activity android:name=".activities.login.NextActivity"/>
         <activity android:name=".activities.login.RestorePassActivity"/>
-        <activity android:name=".activities.drawer.ProfileSettingsActivity"/>
-        <activity android:name=".activities.drawer.ContactsActivity"/>
-        <activity android:name=".activities.drawer.PayRequestActivity"/>
+        <activity android:name=".activities.ProfileSettingsActivity"/>
+        <activity android:name=".activities.ContactsActivity"/>
+        <activity android:name=".activities.PayRequestActivity"/>
         <activity
-                android:name=".activities.drawer.JointPurchasesActivity"
+                android:name=".activities.JointPurchasesActivity"
                 android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.drawer.MyGoodsActivity"/>
-        <activity android:name=".activities.drawer.CharityActivity"/>
-        <activity android:name=".activities.drawer.ActivityActivity"/>
-        <activity android:name=".activities.drawer.GroupSpendsActivity"/>
+        <activity android:name=".activities.MyGoodsActivity"/>
+        <activity android:name=".activities.CharityActivity"/>
+        <activity android:name=".activities.ActivityActivity"/>
+        <activity android:name=".activities.GroupSpendsActivity"/>
         <activity android:name=".activities.profile.UserInfoActivity"/>
         <activity
                 android:name=".activities.profile.CardsActivity"
@@ -72,7 +72,7 @@
                 android:name=".activities.joint_purchases.MembersPartActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar.Dark"/>
-        <activity android:name=".activities.drawer.ContactsPermissionsActivity"/>
+        <activity android:name=".activities.ContactsPermissionsActivity"/>
 
         <service android:name=".services.ContactsIntentService"/>
 
@@ -110,7 +110,7 @@
         <activity android:name=".activities.group_spends.CreateGroupSpendActivity"/>
         <activity android:name=".activities.group_spends.SpendDetailActivity"/>
         <activity android:name=".activities.group_spends.ManualTransferActivity"/>
-        <activity android:name=".activities.drawer.TransactionActivity"/>
+        <activity android:name=".activities.TransactionActivity"/>
         <activity android:name=".activities.pay_requests.BankWebActivity"/>
         <activity android:name=".activities.charity.CharityDetailsActivity">
         </activity>

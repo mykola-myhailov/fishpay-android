@@ -19,7 +19,9 @@ public class BaseResponse<T> {
     @SerializedName("result")
     private T result;
 
-    String getErrorDescription() {return errorDescription;}
+    public String getErrorDescription() {
+        if (errorDescription == null) return "";
+        return errorDescription;}
 
     public T getResult() {
         return result;

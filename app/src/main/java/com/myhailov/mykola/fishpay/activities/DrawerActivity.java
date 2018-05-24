@@ -13,16 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.drawer.ActivityActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.CharityActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.GroupSpendsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.MyGoodsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.TransactionActivity;
-import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;

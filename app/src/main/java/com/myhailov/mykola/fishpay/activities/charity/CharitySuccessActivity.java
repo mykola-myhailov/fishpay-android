@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.CharityActivity;
+import com.myhailov.mykola.fishpay.activities.CharityActivity;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 

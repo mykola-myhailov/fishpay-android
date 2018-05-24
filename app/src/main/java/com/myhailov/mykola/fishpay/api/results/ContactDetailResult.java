@@ -8,8 +8,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class ContactDetailResult {
 
+    @SerializedName("phone_number")
+    private String phone;
+
     @SerializedName("public_card")
-    private String publicCard;
+    private String panMasked;
 
     @SerializedName("first_name")
     private String name;
@@ -27,7 +30,10 @@ public class ContactDetailResult {
     private String userId;
 
     public String getPublicCard() {
-        return publicCard;
+        if (panMasked == null) return "-";
+        return panMasked.substring(0, 4)
+                + " " + panMasked.substring(4, 6)
+                + "** **** " + panMasked.substring(6);
     }
 
     public String getName() {
@@ -56,4 +62,8 @@ public class ContactDetailResult {
                 "imported_contact_first_name": "Чистяков",
                 "imported_contact_last_name": null,
                 "photo_link": "e6629087ab01edbe878da2ce5b74b412.jpg"*/
+
+    public String getPhone() {
+        return phone;
+    }
 }

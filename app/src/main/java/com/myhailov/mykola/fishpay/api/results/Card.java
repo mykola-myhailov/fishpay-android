@@ -14,7 +14,7 @@ public class Card implements Comparable<Card>, Parcelable {
 
     private @SerializedName("id") String id;
     private @SerializedName("name") String name;
-    private @SerializedName("pan_masked") String cardNumber;
+    private @SerializedName("pan_masked") String panMasked;
     private @SerializedName("type") String type;
 
 
@@ -24,7 +24,7 @@ public class Card implements Comparable<Card>, Parcelable {
     private Card(Parcel in) {
         id = in.readString();
         name = in.readString();
-        cardNumber = in.readString();
+        panMasked = in.readString();
         type = in.readString();
     }
 
@@ -32,7 +32,7 @@ public class Card implements Comparable<Card>, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(name);
-        dest.writeString(cardNumber);
+        dest.writeString(panMasked);
         dest.writeString(type);
     }
 
@@ -57,12 +57,17 @@ public class Card implements Comparable<Card>, Parcelable {
         return name;
     }
 
+    public String getPanMasked() { return panMasked; }
+
     public String getCardNumber() {
-        return cardNumber;
+        if (panMasked == null) return "-";
+        return panMasked.substring(0, 4)
+                + " " + panMasked.substring(4, 6)
+                + "** **** " + panMasked.substring(6);
     }
 
     public String getLastFourNumbers() {
-        return "**** " + cardNumber.substring(6);
+        return "**** " + panMasked.substring(6);
     }
 
     public String getType() {
@@ -78,4 +83,5 @@ public class Card implements Comparable<Card>, Parcelable {
     public String getId() {
         return id;
     }
+
 }

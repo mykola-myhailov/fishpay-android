@@ -11,11 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -37,10 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
-
-import tw.henrychuang.lib.AutoAddTextWatcher;
-
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 
 public class CardsActivity extends BaseActivity {
@@ -229,7 +223,7 @@ public class CardsActivity extends BaseActivity {
 
     private void deleteCard(Card card) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().deleteCard(TokenStorage.getToken(context), card.getCardNumber())
+            ApiClient.getApiClient().deleteCard(TokenStorage.getToken(context), card.getId())
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -314,7 +308,7 @@ public class CardsActivity extends BaseActivity {
             case R.id.ll_card:
 //                if (isForRequest) {
 //                    setResult();
-//                } else setPublicCard(((Card) view.getTag()).getCardNumber());
+//                } else setPublicCard(((Card) view.getTag()).getPanMasked());
                 chooseCard(((Card) view.getTag()));
                 break;
             case R.id.et_date_end:

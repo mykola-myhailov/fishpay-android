@@ -17,7 +17,7 @@ public class TokenStorage {
     @NonNull
     public static String getToken(@NonNull Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(TOKEN_STORAGE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(TOKEN_KEY, "");
+        return "Bearer " + sharedPreferences.getString(TOKEN_KEY, "");
     }
 
     public static void setToken(@NonNull Context context, String token){

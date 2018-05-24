@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ProfileSettingsActivity;
+import com.myhailov.mykola.fishpay.activities.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.utils.Keys;

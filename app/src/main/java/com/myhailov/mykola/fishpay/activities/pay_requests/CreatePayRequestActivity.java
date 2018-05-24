@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.PayRequestActivity;
+import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -150,11 +150,13 @@ public class CreatePayRequestActivity extends BaseActivity {
         else tvCard.setText(String.format("%s | %s", receiverCardNumber, cardName));
 
         rlRequestAmount = findViewById(R.id.rl_request_amount);
-        rlRequestAmount.setVisibility(View.GONE);
 
         rvContacts = findViewById(R.id.rv_contacts);
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
         rvContacts.setAdapter(new ContactsAdapter(context, appContacts));
+
+        if (receiverContact == null) rlRequestAmount.setVisibility(View.GONE);
+        else rvContacts.setVisibility(View.GONE);
     }
 
     @Override

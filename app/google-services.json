@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "65879379169",
+    "firebase_url": "https://fishpay-4203e.firebaseio.com",
+    "project_id": "fishpay-4203e",
+    "storage_bucket": "fishpay-4203e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65879379169:android:e9e875ccd8378547",
+        "android_client_info": {
+          "package_name": "com.myhailov.mykola.fishpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65879379169-qv0t1a4ugoou3enjl6nn6uvhuarls7rd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1g4yD7Ho_53YSkGe0BpbiepNknZumfRo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,38 +1,24 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
-import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.ContactsActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class SelectContactsActivity extends BaseActivity {
 

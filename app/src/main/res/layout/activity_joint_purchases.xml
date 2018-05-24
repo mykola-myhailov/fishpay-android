@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
-    tools:context="com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity">
+    tools:context="com.myhailov.mykola.fishpay.activities.JointPurchasesActivity">
 
     <LinearLayout
         android:orientation="vertical"

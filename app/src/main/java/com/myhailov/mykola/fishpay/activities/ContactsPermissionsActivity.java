@@ -1,11 +1,10 @@
-package com.myhailov.mykola.fishpay.activities.drawer;
+package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 
 public class ContactsPermissionsActivity extends DrawerActivity {
 

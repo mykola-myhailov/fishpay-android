@@ -3,24 +3,20 @@ package com.myhailov.mykola.fishpay.activities.joint_purchases;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.GroupSpendsActivity;
-import com.myhailov.mykola.fishpay.activities.drawer.JointPurchasesActivity;
+import com.myhailov.mykola.fishpay.activities.GroupSpendsActivity;
+import com.myhailov.mykola.fishpay.activities.JointPurchasesActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
@@ -35,12 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
-import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE2;
 
 public class DistributionActivity extends BaseActivity {

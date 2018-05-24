@@ -1,4 +1,4 @@
-package com.myhailov.mykola.fishpay.activities.drawer;
+package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;

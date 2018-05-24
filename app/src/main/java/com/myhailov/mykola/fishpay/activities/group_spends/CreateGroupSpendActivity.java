@@ -46,17 +46,24 @@ public class CreateGroupSpendActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        if (isDataValid()) {
-            String groupName = etGroupName.getText().toString();
-            int amount = etAmount.getCurrency();
-            String description = etDescription.getText().toString();
-            context.startActivity(new Intent(context, ChooseMembersActivity.class)
-                    .putExtra(Keys.AMOUNT, amount)
-                    .putExtra(Keys.DESCRIPTION, description)
-                    .putExtra(Keys.GROUP, groupName)
-            );
-        }
+        switch (view.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
 
+            case R.id.tv_create:
+                if (isDataValid()) {
+                    String groupName = etGroupName.getText().toString();
+                    int amount = etAmount.getCurrency();
+                    String description = etDescription.getText().toString();
+                    context.startActivity(new Intent(context, ChooseMembersActivity.class)
+                            .putExtra(Keys.AMOUNT, amount)
+                            .putExtra(Keys.DESCRIPTION, description)
+                            .putExtra(Keys.GROUP, groupName)
+                    );
+                }
+                break;
+        }
     }
 
     private boolean isDataValid() {
