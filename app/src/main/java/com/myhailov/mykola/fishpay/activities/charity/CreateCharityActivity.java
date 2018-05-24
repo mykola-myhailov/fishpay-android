@@ -66,7 +66,7 @@ public class CreateCharityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_charity);
-        initCustomToolbar("Создать благотворительный сбор");
+        initCustomToolbar("Создать взаимопомощь");
         assignViews();
     }
 

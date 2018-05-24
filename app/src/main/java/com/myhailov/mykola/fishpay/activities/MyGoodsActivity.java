@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +18,8 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.DrawerActivity;
-import com.myhailov.mykola.fishpay.activities.goods.CreateGodsActivity;
+import com.myhailov.mykola.fishpay.activities.goods.CreateGoodsActivity;
+import com.myhailov.mykola.fishpay.activities.goods.GoodsFilterActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
@@ -24,12 +28,19 @@ import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.CATEGORY;
+
 public class MyGoodsActivity extends DrawerActivity {
+    private static final int CODE_FILTER = 564;
 
     private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
+    private List<String> category;
     private RecyclerView recyclerView;
     private ToggleSwitch toggleSwitch;
     private GoodsAdapter goodsAdapter;
@@ -37,6 +48,7 @@ public class MyGoodsActivity extends DrawerActivity {
     private TextView tvInform;
     private TextView tvInform2;
 
+    private String filterQuery = "";
     private long id;
     private int tabPosition = 0;
 
@@ -50,55 +62,167 @@ public class MyGoodsActivity extends DrawerActivity {
         id = getMyId();
         createDrawer();
         initToggleButtons();
+
+        initViews();
+        sendRequestGoods();
+        initSearchView();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ivPlus:
+                context.startActivity(new Intent(context, CreateGoodsActivity.class));
+                break;
+            case R.id.tv_filter:
+                startActivityForResult(new Intent(context, GoodsFilterActivity.class), CODE_FILTER);
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CODE_FILTER){
+            if (data != null){
+                category = data.getStringArrayListExtra(CATEGORY);
+            }
+        }
+    }
+
+    private void initViews(){
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         tvInform = findViewById(R.id.tv_clear);
         tvInform2 = findViewById(R.id.tv_clear2);
+        findViewById(R.id.tv_filter).setOnClickListener(this);
+    }
 
-        getGoods();
-        Log.d("sss", "onCreate: ");
+    private void initSearchView() {
+        SearchView searchView = findViewById(R.id.search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterQuery = query;
+                filter();
+                return true;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterQuery = newText;
+                filter();
+                return true;
+            }
+        });
+        searchView.setQueryHint("Поиск по названию");
+        EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+    }
+
+    private void filter() {
+        if (filterQuery == null || filterQuery.equals("")) {
+            if (tabPosition == 0){
+                recyclerView.setAdapter(new GoodsAdapter(publicGoods));
+            }else {
+                recyclerView.setAdapter(new GoodsAdapter(privateGoods));
+            }
+            return;
+        }
+        if (tabPosition == 0){
+            filterList(publicGoods);
+        }else {
+            filterList(privateGoods);
+        }
 
     }
 
-    private void getGoods() {
+    private void filterList(List<GoodsResults> goods){
+        List<GoodsResults> filteredGoods = new ArrayList<>();
+        String search = filterQuery.toLowerCase();
+        for (GoodsResults item : goods) {
+            String title = item.getTitle().toLowerCase();
+            if (title.contains(search)) {
+                filteredGoods.add(item);
+            }
+        }
+        recyclerView.setAdapter(new GoodsAdapter((ArrayList) filteredGoods));
+    }
+
+    private void sendRequestGoods() {
+        publicGoods.clear();
+        getGoods("public");
+        getGoods("private ");
+        getUserGoods();
+    }
+
+    private void getGoods(String visibility) {
         ApiClient.getApiClient()
-                .getGoods(TokenStorage.getToken(context))
+                .getGoods(TokenStorage.getToken(context), visibility)
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
                         if (result.size() != 0) {
-                            for (GoodsResults product : result) {
-                                if (product.isVisibility() || product.getUserId() == id) {
-                                    publicGoods.add(product);
+                            publicGoods.addAll(result);
+                            Collections.sort(publicGoods, new Comparator<GoodsResults>() {
+                                @Override
+                                public int compare(GoodsResults o1, GoodsResults o2) {
+                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null) return 0;
+                                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
                                 }
-                                if (product.getUserId() == id) {
-                                    privateGoods.add(product);
-                                }
-                            }
+                            });
                             goodsAdapter = new GoodsAdapter(publicGoods);
                             recyclerView.setAdapter(goodsAdapter);
-                        }else {
-                            tvInform.setVisibility(View.VISIBLE);
-                            tvInform2.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                            toggleSwitch.setVisibility(View.GONE);
+                        } else {
+                            showListEmpty();
                         }
                     }
                 });
     }
 
-    private void deleteGoods(String id, final GoodsResults item) {
-        ApiClient.getApiClient().deleteGoods(TokenStorage.getToken(context), id)
+    private void getUserGoods() {
+        ApiClient.getApiClient()
+                .getUserGoods(TokenStorage.getToken(context))
+                .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
+                    @Override
+                    protected void onResult(int code, ArrayList<GoodsResults> result) {
+                        if (result.size() != 0) {
+                            privateGoods.addAll(result);
+                        }
+                    }
+                });
+    }
+
+
+    private void showListEmpty() {
+        tvInform.setVisibility(View.VISIBLE);
+        tvInform2.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        toggleSwitch.setVisibility(View.GONE);
+    }
+
+    private void deleteGoods(final long id) {
+        ApiClient.getApiClient().deleteGoods(TokenStorage.getToken(context), id + "")
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
                         if (code == 202) {
-                            publicGoods.remove(item);
-                            privateGoods.remove(item);
+                            GoodsResults deleteGoods = new GoodsResults();
+                            for (GoodsResults publicGood : publicGoods) {
+                                if (publicGood.getId() == id){
+                                    deleteGoods = publicGood;
+                                }
+                            }
+                            publicGoods.remove(deleteGoods);
+                            for (GoodsResults publicGood : privateGoods) {
+                                if (publicGood.getId() == id){
+                                    deleteGoods = publicGood;
+                                }
+                            }
+                            privateGoods.remove(deleteGoods);
                             goodsAdapter.notifyDataSetChanged();
-                            toast("Удалено успешно");
-
+                            toast("Успешно удалено");
                         }
                     }
                 });
@@ -121,22 +245,28 @@ public class MyGoodsActivity extends DrawerActivity {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
                 if (position == 0) {
-                    tabPosition = 0;
-                    goodsAdapter = new GoodsAdapter(publicGoods);
-                    recyclerView.setAdapter(goodsAdapter);
+                    if (tabPosition != position) {
+                        tabPosition = 0;
+                        if (publicGoods.size() != 0) {
+                            filter();
+                        } else {
+                            showListEmpty();
+                        }
+                    }
                 } else {
-                    tabPosition = 1;
-                    goodsAdapter = new GoodsAdapter(privateGoods);
-                    recyclerView.setAdapter(goodsAdapter);
+                    if (tabPosition != position) {
+                        tabPosition = 1;
+                        if (privateGoods.size() != 0) {
+                            filter();
+                        } else {
+                            showListEmpty();
+                        }
+                    }
                 }
             }
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        context.startActivity(new Intent(context, CreateGodsActivity.class));
-    }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
         private SwipeRevealLayout swipe_layout;
@@ -173,17 +303,22 @@ public class MyGoodsActivity extends DrawerActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final GoodsResults item = goods.get(position);
-            if (item.getUserId() != id) holder.swipe_layout.setLockDrag(true);
 
             holder.tvTitle.setText(item.getTitle());
             holder.tvPrice.setText(Utils.pennyToUah(item.getPrice()));
             Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
+
             viewBinderHelper.bind(holder.swipe_layout, item.getId() + "");
+            if (item.getUserId() != id) {
+                holder.swipe_layout.setLockDrag(true);
+            }else {
+                holder.swipe_layout.setLockDrag(false);
+            }
 
             holder.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteGoods(item.getId() + "", item);
+                    deleteGoods(item.getId());
                 }
             });
         }

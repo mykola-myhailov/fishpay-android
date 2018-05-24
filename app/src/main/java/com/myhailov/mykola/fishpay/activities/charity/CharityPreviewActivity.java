@@ -140,7 +140,6 @@ public class CharityPreviewActivity extends BaseActivity {
                     }
                     Intent intent = new Intent(context, CharitySuccessActivity.class);
                     intent.putExtra(CHARITY_ID, id);
-
                     context.startActivity(intent);
                 } else {
                     Utils.toast(context, "Произошла ошибка");

@@ -33,7 +33,9 @@ public class CharitySuccessActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_to_work:
-                startActivity(new Intent(context, CharityActivity.class));
+                Intent intent = new Intent(context, CharityActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 break;
             case R.id.tv_link:
                 break;

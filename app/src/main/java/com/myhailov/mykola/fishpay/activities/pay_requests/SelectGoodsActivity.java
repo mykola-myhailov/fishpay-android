@@ -39,7 +39,7 @@ public class SelectGoodsActivity extends BaseActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         ApiClient.getApiClient()
-                .getGoods(TokenStorage.getToken(context))
+                .getUserGoods(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {

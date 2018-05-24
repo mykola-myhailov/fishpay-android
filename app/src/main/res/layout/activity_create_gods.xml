@@ -161,7 +161,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etGoodsName"/>
 
         <com.myhailov.mykola.fishpay.views.MoneyEditText
-                android:id="@+id/etPrice"
+                android:id="@+id/etPrice_from"
                 android:singleLine="true"
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
@@ -178,9 +178,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_4"
-                app:layout_constraintStart_toStartOf="@+id/etPrice"
+                app:layout_constraintStart_toStartOf="@+id/etPrice_from"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/etPrice"/>
+                app:layout_constraintTop_toBottomOf="@+id/etPrice_from"/>
 
         <EditText
                 android:singleLine="true"
@@ -189,7 +189,7 @@
                 android:ems="10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/etPrice"
+                app:layout_constraintStart_toStartOf="@+id/etPrice_from"
                 app:layout_constraintEnd_toEndOf="@+id/etGoodsName"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_4"/>
@@ -249,14 +249,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_5"/>
 
         <TextView
-                android:text="|грн"
+                android:text="@string/uah2"
                 android:textSize="24sp"
                 android:textColor="@color/grey_text_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView27"
                 app:layout_constraintEnd_toEndOf="@+id/etGoodsName"
-                app:layout_constraintBaseline_toBaselineOf="@+id/etPrice"/>
+                app:layout_constraintBaseline_toBaselineOf="@+id/etPrice_from"/>
 
         <ImageView
                 android:layout_width="20dp"

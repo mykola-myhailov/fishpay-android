@@ -172,7 +172,7 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_amount"/>
 
             <TextView
-                    android:text="|грн"
+                    android:text="@string/uah2"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text"
                     android:layout_width="wrap_content"

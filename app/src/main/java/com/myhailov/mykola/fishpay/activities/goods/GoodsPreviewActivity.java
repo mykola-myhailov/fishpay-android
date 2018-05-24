@@ -35,6 +35,7 @@ public class GoodsPreviewActivity extends BaseActivity {
     private TextView tvAuthor;
     private TextView tvPrice;
     private TextView tvDescription;
+    private TextView tvCategory;
     private SliderLayout sliderPhoto;
 
     private GoodsRequestBody goods;
@@ -60,6 +61,9 @@ public class GoodsPreviewActivity extends BaseActivity {
             case R.id.tv_save:
                 createGoods();
                 break;
+            case R.id.ivBack:
+                onBackPressed();
+                break;
         }
 
     }
@@ -69,8 +73,10 @@ public class GoodsPreviewActivity extends BaseActivity {
         tvAuthor = findViewById(R.id.tv_author);
         tvPrice = findViewById(R.id.tv_price);
         tvDescription = findViewById(R.id.tv_description);
+        tvCategory = findViewById(R.id.tv_category);
         sliderPhoto = findViewById(R.id.slider_image);
         findViewById(R.id.tv_save).setOnClickListener(this);
+        findViewById(R.id.ivBack).setOnClickListener(this);
 
     }
 
@@ -78,6 +84,7 @@ public class GoodsPreviewActivity extends BaseActivity {
         tvTitle.setText(goods.getTitle());
         tvDescription.setText(goods.getDescription());
         tvPrice.setText(Utils.pennyToUah(Integer.parseInt(goods.getPrice())));
+        tvCategory.setText(goods.getCategory());
         SharedPreferences preferences = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE);
         tvAuthor.setText(preferences.getString(PrefKeys.NAME, "") + " "
                 + preferences.getString(PrefKeys.SURNAME, ""));
@@ -98,7 +105,7 @@ public class GoodsPreviewActivity extends BaseActivity {
                     Utils.makeRequestBody(goods.getTitle()),
                     Utils.makeRequestBody(goods.getDescription()),
                     Utils.makeRequestBody(goods.getPrice()),
-                    Utils.makeRequestBody(goods.getCategory()),
+                    Utils.makeRequestBody(goods.getCategoryId()),
                     Utils.makeRequestBody(goods.getVisibility()),
                     makeRequestBodyFile(Uri.parse(goods.getMainPhoto()), "main_photo"))
                     .enqueue(new BaseCallback<Object>(context, true) {
@@ -115,7 +122,9 @@ public class GoodsPreviewActivity extends BaseActivity {
                                 for (String photo : goods.getPhotos()) {
                                     uploadGoodsPhoto(photo, id);
                                 }
-                                context.startActivity(new Intent(context, MyGoodsActivity.class));
+                                Intent intent = new Intent(context, MyGoodsActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                context.startActivity(intent);
                             } else {
                                 toast("Ошибка, код: " + code);
                             }

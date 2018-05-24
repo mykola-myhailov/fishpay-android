@@ -34,7 +34,11 @@ public class CharityListActivity extends BaseActivity {
             amount = getIntent().getIntExtra(CHARITY_AMOUNT, 0);
         }
         tvAmount = findViewById(R.id.tv_amount);
-        tvAmount.setText(Utils.pennyToUah(amount));
+        String am = Utils.pennyToUah(amount);
+        if (am.equals("0")){
+            am = "0.00";
+        }
+        tvAmount.setText(am);
 
         rvCharityList = findViewById(R.id.rv_charity_list);
         rvCharityList.setLayoutManager(new LinearLayoutManager(context));

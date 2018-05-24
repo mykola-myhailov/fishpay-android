@@ -8,9 +8,18 @@ public class GoodsRequestBody implements Serializable{
     private String description;
     private String price;
     private String category;
+    private String categoryId;
     private String visibility;
     private String mainPhoto;
     private List<String> photos = null;
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getTitle() {
         return title;
