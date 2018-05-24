@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.goods.CreateGoodsActivity;
 import com.myhailov.mykola.fishpay.activities.goods.GoodsFilterActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -83,14 +81,14 @@ public class MyGoodsActivity extends DrawerActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE_FILTER){
-            if (data != null){
+        if (requestCode == CODE_FILTER) {
+            if (data != null) {
                 category = data.getStringArrayListExtra(CATEGORY);
             }
         }
     }
 
-    private void initViews(){
+    private void initViews() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         tvInform = findViewById(R.id.tv_clear);
@@ -123,22 +121,22 @@ public class MyGoodsActivity extends DrawerActivity {
 
     private void filter() {
         if (filterQuery == null || filterQuery.equals("")) {
-            if (tabPosition == 0){
+            if (tabPosition == 0) {
                 recyclerView.setAdapter(new GoodsAdapter(publicGoods));
-            }else {
+            } else {
                 recyclerView.setAdapter(new GoodsAdapter(privateGoods));
             }
             return;
         }
-        if (tabPosition == 0){
+        if (tabPosition == 0) {
             filterList(publicGoods);
-        }else {
+        } else {
             filterList(privateGoods);
         }
 
     }
 
-    private void filterList(List<GoodsResults> goods){
+    private void filterList(List<GoodsResults> goods) {
         List<GoodsResults> filteredGoods = new ArrayList<>();
         String search = filterQuery.toLowerCase();
         for (GoodsResults item : goods) {
@@ -163,12 +161,13 @@ public class MyGoodsActivity extends DrawerActivity {
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        if (result.size() != 0) {
+                        if (result != null || result.size() != 0) {
                             publicGoods.addAll(result);
                             Collections.sort(publicGoods, new Comparator<GoodsResults>() {
                                 @Override
                                 public int compare(GoodsResults o1, GoodsResults o2) {
-                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null) return 0;
+                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                                        return 0;
                                     return o2.getCreatedAt().compareTo(o1.getCreatedAt());
                                 }
                             });
@@ -187,7 +186,7 @@ public class MyGoodsActivity extends DrawerActivity {
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        if (result.size() != 0) {
+                        if (result != null || result.size() != 0) {
                             privateGoods.addAll(result);
                         }
                     }
@@ -207,23 +206,22 @@ public class MyGoodsActivity extends DrawerActivity {
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-                        if (code == 202) {
-                            GoodsResults deleteGoods = new GoodsResults();
-                            for (GoodsResults publicGood : publicGoods) {
-                                if (publicGood.getId() == id){
-                                    deleteGoods = publicGood;
-                                }
+                        GoodsResults deleteGoods = new GoodsResults();
+                        for (GoodsResults publicGood : publicGoods) {
+                            if (publicGood.getId() == id) {
+                                deleteGoods = publicGood;
                             }
-                            publicGoods.remove(deleteGoods);
-                            for (GoodsResults publicGood : privateGoods) {
-                                if (publicGood.getId() == id){
-                                    deleteGoods = publicGood;
-                                }
-                            }
-                            privateGoods.remove(deleteGoods);
-                            goodsAdapter.notifyDataSetChanged();
-                            toast("Успешно удалено");
                         }
+                        publicGoods.remove(deleteGoods);
+                        for (GoodsResults publicGood : privateGoods) {
+                            if (publicGood.getId() == id) {
+                                deleteGoods = publicGood;
+                            }
+                        }
+                        privateGoods.remove(deleteGoods);
+                        goodsAdapter.notifyDataSetChanged();
+                        toast("Успешно удалено");
+
                     }
                 });
     }
@@ -311,7 +309,7 @@ public class MyGoodsActivity extends DrawerActivity {
             viewBinderHelper.bind(holder.swipe_layout, item.getId() + "");
             if (item.getUserId() != id) {
                 holder.swipe_layout.setLockDrag(true);
-            }else {
+            } else {
                 holder.swipe_layout.setLockDrag(false);
             }
 

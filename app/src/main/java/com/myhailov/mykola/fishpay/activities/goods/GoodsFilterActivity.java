@@ -115,14 +115,11 @@ public class GoodsFilterActivity extends BaseActivity {
                     .enqueue(new BaseCallback<ArrayList<CategoryResult>>(context, false) {
                         @Override
                         protected void onResult(int code, ArrayList<CategoryResult> result) {
+                            if (result == null) return;
                             categoriesWithID.clear();
                             categoriesWithID.add(new CategoryResult(-1, getString(R.string.all)));
                             if (result.size() != 0) {
                                 categoriesWithID.addAll(result);
-
-//                                for (CategoryResult categoryResult : result) {
-//                                    categories.add(categoryResult.getCategory());
-//                                }
                                 rvCategory.setAdapter(new CategoryAdapter(context, categoriesWithID,
                                         categoryListener));
                             }

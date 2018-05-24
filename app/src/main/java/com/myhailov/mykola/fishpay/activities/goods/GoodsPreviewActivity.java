@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,13 +40,12 @@ public class GoodsPreviewActivity extends BaseActivity {
     private GoodsRequestBody goods;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_preview);
         initCustomToolbar("Просмотр товара");
-        if (getIntent() != null){
+        if (getIntent() != null) {
             goods = (GoodsRequestBody) getIntent().getSerializableExtra(GOODS);
         }
         assignViews();
@@ -57,7 +55,7 @@ public class GoodsPreviewActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_save:
                 createGoods();
                 break;
@@ -97,10 +95,10 @@ public class GoodsPreviewActivity extends BaseActivity {
         }
     }
 
-    private void createGoods(){
-        if (!Utils.isOnline(context)){
+    private void createGoods() {
+        if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
-        }else {
+        } else {
             ApiClient.getApiClient().createGoods(TokenStorage.getToken(context),
                     Utils.makeRequestBody(goods.getTitle()),
                     Utils.makeRequestBody(goods.getDescription()),
@@ -111,29 +109,26 @@ public class GoodsPreviewActivity extends BaseActivity {
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            if (code == 201) {
-                                String id = "";
-                                try {
-                                    JSONObject jsonObject = new JSONObject(result.toString());
-                                    id = jsonObject.getInt("id") + "";
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                for (String photo : goods.getPhotos()) {
-                                    uploadGoodsPhoto(photo, id);
-                                }
-                                Intent intent = new Intent(context, MyGoodsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                context.startActivity(intent);
-                            } else {
-                                toast("Ошибка, код: " + code);
+                            if (result == null) return;
+                            String id = "";
+                            try {
+                                JSONObject jsonObject = new JSONObject(result.toString());
+                                id = jsonObject.getInt("id") + "";
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+                            for (String photo : goods.getPhotos()) {
+                                uploadGoodsPhoto(photo, id);
+                            }
+                            Intent intent = new Intent(context, MyGoodsActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            context.startActivity(intent);
                         }
                     });
         }
     }
 
-    private void uploadGoodsPhoto(String photo, String id){
+    private void uploadGoodsPhoto(String photo, String id) {
         ApiClient.getApiClient().uploadGoodsPhoto(TokenStorage.getToken(context),
                 id,
                 makeRequestBodyFile(Uri.parse(photo)))

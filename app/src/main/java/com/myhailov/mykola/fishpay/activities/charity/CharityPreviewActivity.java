@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -127,23 +126,20 @@ public class CharityPreviewActivity extends BaseActivity {
         ).enqueue(new BaseCallback<Object>(context, true) {
             @Override
             protected void onResult(int code, Object result) {
-                if (code == 201) {
-                    String id = "";
-                    try {
-                        JSONObject jsonObject = new JSONObject(result.toString());
-                        id = jsonObject.getInt("id") + "";
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    for (String charityPhoto : charity.getPhotos()) {
-                        uploadCharityPhoto(charityPhoto, id);
-                    }
-                    Intent intent = new Intent(context, CharitySuccessActivity.class);
-                    intent.putExtra(CHARITY_ID, id);
-                    context.startActivity(intent);
-                } else {
-                    Utils.toast(context, "Произошла ошибка");
+                if (result == null) return;
+                String id = "";
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    id = jsonObject.getInt("id") + "";
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                for (String charityPhoto : charity.getPhotos()) {
+                    uploadCharityPhoto(charityPhoto, id);
+                }
+                Intent intent = new Intent(context, CharitySuccessActivity.class);
+                intent.putExtra(CHARITY_ID, id);
+                context.startActivity(intent);
             }
         });
     }
@@ -155,7 +151,7 @@ public class CharityPreviewActivity extends BaseActivity {
                 .enqueue(new BaseCallback<Object>(this, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-
+                        if (result == null) return;
                     }
                 });
     }

@@ -169,7 +169,7 @@ public class CreateGoodsActivity extends BaseActivity {
                 .enqueue(new BaseCallback<ArrayList<CategoryResult>>(context, false) {
                     @Override
                     protected void onResult(int code, ArrayList<CategoryResult> result) {
-
+                        if (result == null) return;
                         for (CategoryResult categoryResult : result) {
                             categories.add(categoryResult.getCategory());
                         }

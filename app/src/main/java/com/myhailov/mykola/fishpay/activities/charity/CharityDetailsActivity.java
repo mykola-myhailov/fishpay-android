@@ -126,16 +126,13 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                     .enqueue(new BaseCallback<CharityResultById>(this, true) {
                         @Override
                         protected void onResult(int code, CharityResultById result) {
-                            if (code == 200) {
-                                if (result == null) return;
-                                charity = result;
-                                if (userId != -1 && userId == charity.getAuthorId()) {
-                                    ivSettings.setVisibility(View.VISIBLE);
-                                }
-                                initView();
-                            } else if (code == 404) {
-
+                            if (result == null) return;
+                            charity = result;
+                            if (userId != -1 && userId == charity.getAuthorId()) {
+                                ivSettings.setVisibility(View.VISIBLE);
                             }
+                            initView();
+
                         }
                     });
         } else Utils.noInternetToast(context);
