@@ -153,7 +153,7 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onResponse(@NonNull Call<BaseResponse<LoginResult>> call,
                                                @NonNull Response<BaseResponse<LoginResult>> response) {
-                            if (response.code() == 403) {
+                            if (response.code() == 203) {
                                 closeProgressDialog();
                                 ResponseBody responseBody = response.errorBody();
                                 try {
@@ -178,20 +178,13 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         protected void onResult(int code, @Nullable LoginResult result) {
-                            if (code == 200) {
-                                if (result != null)
-                                    TokenStorage.setToken(context, result.getToken());
-                                uploadContactsRequest();
-                                context.startActivity(new Intent(context, ProfileSettingsActivity.class));
-                            }
-                        }
-
-
-
-                        @Override
-                        protected void onError(int code, String errorDescription) {
                             switch (code) {
-                                case 400:
+                                case 200:
+                                    if (result != null)
+                                        TokenStorage.setToken(context, result.getToken());
+                                    uploadContactsRequest();
+                                    context.startActivity(new Intent(context, ProfileSettingsActivity.class));
+                                case 240:
                                     attempt++;
                                     if (attempt < 3) Utils.alert(context, "Неверный пароль");
                                     else {
@@ -208,6 +201,19 @@ public class LoginActivity extends BaseActivity {
                                     }
 
                             }
+                            if (code == 200) {
+                                if (result != null)
+                                    TokenStorage.setToken(context, result.getToken());
+                                uploadContactsRequest();
+                                context.startActivity(new Intent(context, ProfileSettingsActivity.class));
+                            }
+                        }
+
+
+
+                        @Override
+                        protected void onError(int code, String errorDescription) {
+
                         }
                     });
         }
