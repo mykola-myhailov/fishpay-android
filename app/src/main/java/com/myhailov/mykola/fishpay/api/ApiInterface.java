@@ -381,7 +381,11 @@ public interface ApiInterface {
 
     // SelectedGoods
     @GET("api/goods")
-    Call<BaseResponse<ArrayList<GoodsResults>>>  getGoods (@Header("Authorization") String token);
+    Call<BaseResponse<ArrayList<GoodsResults>>> getUserGoods (@Header("Authorization") String token);
+
+    @GET("api/goods")
+    Call<BaseResponse<ArrayList<GoodsResults>>> getGoods (@Header("Authorization") String token,
+                                                          @Query("visibility") String visibility);
 
     @GET("api/goods/categories")
     Call<BaseResponse<ArrayList<CategoryResult>>>  getCategory (@Header("Authorization") String token);

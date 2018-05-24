@@ -67,7 +67,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             }
         });
 
-//        viewBinderHelper.bind(holder.swipeRevealLayout, item.getId().toString());
+        viewBinderHelper.bind(holder.swipeRevealLayout, item.getId().toString());
 
     }
 

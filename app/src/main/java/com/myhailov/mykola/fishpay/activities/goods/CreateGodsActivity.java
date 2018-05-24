@@ -133,14 +133,17 @@ public class CreateGodsActivity extends BaseActivity {
 
         if (TextUtils.isEmpty(etGoodsName.getText().toString()) || etGoodsName.getText().toString().length() < 5) {
             Utils.toast(context, "Имя товара должно состоять не менее чем из 5 символов");
+            scrollToView(etGoodsName);
             return false;
         }
         if (TextUtils.isEmpty(etPrice.getText().toString()) || etPrice.getText().toString().equals("0")) {
             Utils.toast(context, getString(R.string.enter_price));
+            scrollToView(etPrice);
             return false;
         }
         if (TextUtils.isEmpty(etDescription.getText().toString()) || etDescription.getText().toString().length() < 8) {
             Utils.toast(context, "Описание товара должно состоять не менее чем из 8 символов");
+            scrollToView(etDescription);
             return false;
         }
 
@@ -156,7 +159,8 @@ public class CreateGodsActivity extends BaseActivity {
         goods.setPrice(Utils.UAHtoPenny(etPrice.getText().toString()) + "");
         goods.setDescription(etDescription.getText().toString());
         goods.setVisibility(switchStatus.isChecked() ? PRIVATE : PUBLIC);
-        goods.setCategory(Integer.toString(categorySpinner.getSelectedItemPosition()));
+        goods.setCategoryId(Integer.toString(categorySpinner.getSelectedItemPosition()));
+        goods.setCategory(categorySpinner.getSelectedItem().toString());
         goods.setPhotos(photos);
     }
 
@@ -218,5 +222,9 @@ public class CreateGodsActivity extends BaseActivity {
         }
         assert imageFile != null;
         return imageFile;
+    }
+
+    private void scrollToView(View v) {
+        v.getParent().requestChildFocus(v, v);
     }
 }
