@@ -9,6 +9,8 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.adapters.CategoryAdapter;
@@ -22,12 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CATEGORY;
+import static com.myhailov.mykola.fishpay.utils.Keys.MAX_PRICE;
+import static com.myhailov.mykola.fishpay.utils.Keys.MIN_PRICE;
 
 public class GoodsFilterActivity extends BaseActivity {
 
     private RecyclerView rvCategory;
     private EditText etStartPrice, etEndPrice;
     private TextView tvOk;
+    private CrystalRangeSeekbar rangeSeekbar;
 
     private List<String> categories = new ArrayList();
     private List<CategoryResult> categoriesWithID = new ArrayList();
@@ -65,6 +70,8 @@ public class GoodsFilterActivity extends BaseActivity {
             case R.id.tv_ok:
                 Intent intent = new Intent();
                 intent.putStringArrayListExtra(CATEGORY, (ArrayList<String>) categories);
+                intent.putExtra(MIN_PRICE, etStartPrice.getText().toString());
+                intent.putExtra(MAX_PRICE, etEndPrice.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -76,9 +83,20 @@ public class GoodsFilterActivity extends BaseActivity {
         rvCategory = findViewById(R.id.rv_category);
         rvCategory.setLayoutManager(new LinearLayoutManager(context));
 
-        tvOk = findViewById(R.id.tv_ok);
         etStartPrice = findViewById(R.id.etPrice_from);
+        rangeSeekbar = findViewById(R.id.sb_range);
         etEndPrice = findViewById(R.id.etPrice_to);
+        tvOk = findViewById(R.id.tv_ok);
+
+        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                etStartPrice.setText(minValue.toString());
+                etEndPrice.setText(maxValue.toString());
+            }
+        });
+
+
         clearFocus();
 
         tvOk.setOnClickListener(this);

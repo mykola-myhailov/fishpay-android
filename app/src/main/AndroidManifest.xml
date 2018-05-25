@@ -76,7 +76,7 @@
 
         <service android:name=".services.ContactsIntentService" />
 
-        <activity android:name=".activities.goods.CreateGoodsActivity" />
+        <activity android:name=".activities.goods.CreateGoodsActivity"/>
         <activity
             android:name=".activities.joint_purchases.CreateMemberActivity"
             android:screenOrientation="portrait" />
@@ -106,21 +106,30 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.pay_requests.ConfirmPayRequestActivity" />
-        <activity android:name=".activities.group_spends.CreateGroupSpendActivity" />
-        <activity android:name=".activities.group_spends.SpendDetailActivity" />
-        <activity android:name=".activities.group_spends.ManualTransferActivity" />
-        <activity android:name=".activities.TransactionActivity" />
-        <activity android:name=".activities.pay_requests.BankWebActivity" />
-        <activity android:name=".activities.charity.CharityDetailsActivity"></activity>
-        <activity android:name=".activities.charity.CharityListActivity"></activity>
-        <activity android:name=".activities.charity.CharitySettingsActivity"></activity>
-        <activity android:name=".activities.charity.CreateCharityActivity"></activity>
-        <activity android:name=".activities.charity.CharityPreviewActivity"></activity>
-        <activity android:name=".activities.charity.CharitySuccessActivity"></activity>
-        <activity android:name=".activities.goods.GoodsPreviewActivity"></activity>
-        <activity android:name=".activities.goods.GoodsFilterActivity"></activity>
-        <activity android:name=".activities.group_spends.AddNewSpendActivity"></activity>
+        <activity android:name=".activities.pay_requests.ConfirmPayRequestActivity"/>
+        <activity android:name=".activities.group_spends.CreateGroupSpendActivity"/>
+        <activity android:name=".activities.group_spends.SpendDetailActivity"/>
+        <activity android:name=".activities.group_spends.ManualTransferActivity"/>
+        <activity android:name=".activities.TransactionActivity"/>
+        <activity android:name=".activities.pay_requests.BankWebActivity"/>
+        <activity android:name=".activities.charity.CharityDetailsActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharityListActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharitySettingsActivity">
+        </activity>
+        <activity android:name=".activities.charity.CreateCharityActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharityPreviewActivity">
+        </activity>
+        <activity android:name=".activities.charity.CharitySuccessActivity">
+        </activity>
+        <activity android:name=".activities.goods.GoodsPreviewActivity">
+        </activity>
+        <activity android:name=".activities.goods.GoodsFilterActivity">
+        </activity>
+        <activity android:name=".activities.goods.ReviewGoodsActivity">
+        </activity>
     </application>
 
 </manifest>

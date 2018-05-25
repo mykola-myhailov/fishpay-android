@@ -27,7 +27,6 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 
 public class CharitySettingsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, Switch.OnCheckedChangeListener {
     private TextView tvTitle;
-    private TextView tvCategory;
     private TextView tvVisibility;
     private TextView tvListDonation;
     private TextView etPseudonym;
@@ -160,7 +159,6 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     }
 
     private void setClickable(boolean flag) {
-        tvCategory.setClickable(flag);
         tvVisibility.setClickable(flag);
         tvListDonation.setClickable(flag);
         swPseudonym.setClickable(flag);
@@ -174,7 +172,6 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     private void assignViews() {
         tvClose = findViewById(R.id.tv_close);
         tvTitle = findViewById(R.id.tv_title);
-        tvCategory = findViewById(R.id.tv_category);
         tvVisibility = findViewById(R.id.tv_visible);
         tvListDonation = findViewById(R.id.tv_list_donation);
         etPseudonym = findViewById(R.id.et_pseudonym);

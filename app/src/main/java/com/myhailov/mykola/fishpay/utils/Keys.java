@@ -51,6 +51,9 @@ public class Keys {
     public static final String CHARITY_VISIBILITY = "charity_visibility";
     public static final String CHARITY_MEMBERS_VISIBILITY = "charity_members_visibility";
     public static final String GOODS = "goods";
+    public static final String GOODS_ID = "goods_id";
     public static final String CATEGORY = "category";
+    public static final String MIN_PRICE = "min_price";
+    public static final String MAX_PRICE = "max_price";
 
 }

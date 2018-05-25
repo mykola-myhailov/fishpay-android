@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.goods.CreateGoodsActivity;
 import com.myhailov.mykola.fishpay.activities.goods.GoodsFilterActivity;
+import com.myhailov.mykola.fishpay.activities.goods.ReviewGoodsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
@@ -28,17 +30,23 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CATEGORY;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
+import static com.myhailov.mykola.fishpay.utils.Keys.MAX_PRICE;
+import static com.myhailov.mykola.fishpay.utils.Keys.MIN_PRICE;
 
 public class MyGoodsActivity extends DrawerActivity {
     private static final int CODE_FILTER = 564;
 
     private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
     private List<String> category;
+    private String minPrice, maxPrice;
     private RecyclerView recyclerView;
     private ToggleSwitch toggleSwitch;
     private GoodsAdapter goodsAdapter;
@@ -84,6 +92,17 @@ public class MyGoodsActivity extends DrawerActivity {
         if (requestCode == CODE_FILTER) {
             if (data != null) {
                 category = data.getStringArrayListExtra(CATEGORY);
+                minPrice = data.getStringExtra(MIN_PRICE);
+                maxPrice = data.getStringExtra(MAX_PRICE);
+                Map<String, String> parameters = new HashMap<>();
+
+                parameters.put("visibility", "public");
+                parameters.put("priceFrom", Utils.UAHtoPenny(minPrice) + "");
+                parameters.put("priceTo", Utils.UAHtoPenny(maxPrice) + "");
+                publicGoods.clear();
+                getGoods(category, parameters);
+                parameters.put("visibility", "private");
+                getGoods(category, parameters);
             }
         }
     }
@@ -151,17 +170,18 @@ public class MyGoodsActivity extends DrawerActivity {
     private void sendRequestGoods() {
         publicGoods.clear();
         getGoods("public");
-        getGoods("private ");
+        getGoods("private");
         getUserGoods();
     }
 
-    private void getGoods(String visibility) {
+
+    private void getGoods(List<String> categories, Map<String, String> parameters) {
         ApiClient.getApiClient()
-                .getGoods(TokenStorage.getToken(context), visibility)
+                .getGoods(TokenStorage.getToken(context), categories, parameters)
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        if (result != null || result.size() != 0) {
+                        if (result != null && result.size() != 0) {
                             publicGoods.addAll(result);
                             Collections.sort(publicGoods, new Comparator<GoodsResults>() {
                                 @Override
@@ -173,9 +193,38 @@ public class MyGoodsActivity extends DrawerActivity {
                             });
                             goodsAdapter = new GoodsAdapter(publicGoods);
                             recyclerView.setAdapter(goodsAdapter);
-                        } else {
-                            showListEmpty();
                         }
+                        if (publicGoods.isEmpty()) {
+                            showListEmpty(true);
+                        } else showListEmpty(false);
+
+                    }
+                });
+    }
+
+
+    private void getGoods(String visibility) {
+        ApiClient.getApiClient()
+                .getGoods(TokenStorage.getToken(context), visibility)
+                .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
+                    @Override
+                    protected void onResult(int code, ArrayList<GoodsResults> result) {
+                        if (result != null && result.size() != 0) {
+                            publicGoods.addAll(result);
+                            Collections.sort(publicGoods, new Comparator<GoodsResults>() {
+                                @Override
+                                public int compare(GoodsResults o1, GoodsResults o2) {
+                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                                        return 0;
+                                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                                }
+                            });
+                            goodsAdapter = new GoodsAdapter(publicGoods);
+                            recyclerView.setAdapter(goodsAdapter);
+                        }
+                        if (publicGoods.isEmpty()) {
+                            showListEmpty(true);
+                        } else showListEmpty(false);
                     }
                 });
     }
@@ -186,7 +235,7 @@ public class MyGoodsActivity extends DrawerActivity {
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-                        if (result != null || result.size() != 0) {
+                        if (result != null && result.size() != 0) {
                             privateGoods.addAll(result);
                         }
                     }
@@ -194,11 +243,16 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
 
-    private void showListEmpty() {
-        tvInform.setVisibility(View.VISIBLE);
-        tvInform2.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        toggleSwitch.setVisibility(View.GONE);
+    private void showListEmpty(boolean flag) {
+        if (flag) {
+            tvInform.setVisibility(View.VISIBLE);
+            tvInform2.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvInform.setVisibility(View.GONE);
+            tvInform2.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void deleteGoods(final long id) {
@@ -247,8 +301,9 @@ public class MyGoodsActivity extends DrawerActivity {
                         tabPosition = 0;
                         if (publicGoods.size() != 0) {
                             filter();
+                            showListEmpty(false);
                         } else {
-                            showListEmpty();
+                            showListEmpty(true);
                         }
                     }
                 } else {
@@ -256,8 +311,9 @@ public class MyGoodsActivity extends DrawerActivity {
                         tabPosition = 1;
                         if (privateGoods.size() != 0) {
                             filter();
+                            showListEmpty(false);
                         } else {
-                            showListEmpty();
+                            showListEmpty(true);
                         }
                     }
                 }
@@ -270,6 +326,7 @@ public class MyGoodsActivity extends DrawerActivity {
         private SwipeRevealLayout swipe_layout;
         private TextView tvPrice, tvTitle, tvDelete;
         private ImageView ivPhoto;
+        private View container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -278,6 +335,7 @@ public class MyGoodsActivity extends DrawerActivity {
             tvTitle = itemView.findViewById(R.id.tvTitle);
             ivPhoto = itemView.findViewById(R.id.ivPhoto);
             tvDelete = itemView.findViewById(R.id.tv_delete);
+            container = itemView.findViewById(R.id.container);
         }
     }
 
@@ -312,6 +370,15 @@ public class MyGoodsActivity extends DrawerActivity {
             } else {
                 holder.swipe_layout.setLockDrag(false);
             }
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("ssss", "onClick: ");
+                    Intent intent = new Intent(context, ReviewGoodsActivity.class);
+                    intent.putExtra(GOODS_ID, item.getId());
+                    startActivity(intent);
+                }
+            });
 
             holder.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

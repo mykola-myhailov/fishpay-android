@@ -159,7 +159,7 @@ public class CreateGoodsActivity extends BaseActivity {
         goods.setPrice(Utils.UAHtoPenny(etPrice.getText().toString()) + "");
         goods.setDescription(etDescription.getText().toString());
         goods.setVisibility(switchStatus.isChecked() ? PRIVATE : PUBLIC);
-        goods.setCategoryId(Integer.toString(categorySpinner.getSelectedItemPosition()));
+        goods.setCategoryId(Integer.toString(categorySpinner.getSelectedItemPosition()) + 1);
         goods.setCategory(categorySpinner.getSelectedItem().toString());
         goods.setPhotos(photos);
     }

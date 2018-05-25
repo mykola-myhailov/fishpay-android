@@ -31,10 +31,8 @@ import static com.myhailov.mykola.fishpay.utils.Utils.makeRequestBodyFile;
 
 public class GoodsPreviewActivity extends BaseActivity {
     private TextView tvTitle;
-    private TextView tvAuthor;
     private TextView tvPrice;
     private TextView tvDescription;
-    private TextView tvCategory;
     private SliderLayout sliderPhoto;
 
     private GoodsRequestBody goods;
@@ -68,10 +66,8 @@ public class GoodsPreviewActivity extends BaseActivity {
 
     private void assignViews() {
         tvTitle = findViewById(R.id.tv_title);
-        tvAuthor = findViewById(R.id.tv_author);
         tvPrice = findViewById(R.id.tv_price);
         tvDescription = findViewById(R.id.tv_description);
-        tvCategory = findViewById(R.id.tv_category);
         sliderPhoto = findViewById(R.id.slider_image);
         findViewById(R.id.tv_save).setOnClickListener(this);
         findViewById(R.id.ivBack).setOnClickListener(this);
@@ -82,10 +78,6 @@ public class GoodsPreviewActivity extends BaseActivity {
         tvTitle.setText(goods.getTitle());
         tvDescription.setText(goods.getDescription());
         tvPrice.setText(Utils.pennyToUah(Integer.parseInt(goods.getPrice())));
-        tvCategory.setText(goods.getCategory());
-        SharedPreferences preferences = context.getSharedPreferences(USER_PREFS, MODE_PRIVATE);
-        tvAuthor.setText(preferences.getString(PrefKeys.NAME, "") + " "
-                + preferences.getString(PrefKeys.SURNAME, ""));
 
         sliderPhoto.addSlider(getSliderView(goods.getMainPhoto()));
         if (goods.getPhotos() != null) {
