@@ -213,6 +213,11 @@ public class SpendDetailResult {
         @SerializedName("member_from_second_name")
         private String memberFromSurname;
 
+        @SerializedName("created_at")
+        private String created_at;
+
+        public String getDate() { return created_at; }
+
         public long getId() {
             return id;
         }

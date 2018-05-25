@@ -65,7 +65,7 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
-    <string name="null_string"/>
+    <string name="null_string" />
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="total_amount">Общяя сумма</string>
@@ -123,4 +123,5 @@
     <string name="category">Категории</string>
     <string name="all">Все</string>
     <string name="use">Использовать</string>
+    <string name="add">Добавить</string>
 </resources>

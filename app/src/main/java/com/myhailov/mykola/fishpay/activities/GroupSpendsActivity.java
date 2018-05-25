@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.group_spends.CreateGroupSpendActivity;
 import com.myhailov.mykola.fishpay.activities.group_spends.SpendDetailActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -38,7 +37,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
             myCreationSpends = new ArrayList<>();
     private RecyclerView rvSpends;
     private SpendsAdapter spendsAdapter = new SpendsAdapter();
-    private long myId;
+    private long myUserId;
     private TabLayout tabLayout;
 
     @Override
@@ -49,7 +48,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         initDrawerToolbar(getString(R.string.joint_costs));
         createDrawer();
 
-        myId = Long.valueOf(context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
+        myUserId = Long.valueOf(context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
                 .getString(PrefKeys.ID, ""));
 
         rvSpends = findViewById(R.id.recyclerView);
@@ -74,7 +73,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                         if (code < 204){
                             allSpends = result;
                             for (GroupSpend spend : allSpends)
-                                if (spend.getCreatorId() == myId)
+                                if (spend.getCreatorId() == myUserId)
                                     myCreationSpends.add(spend);
 
                             selectedSpends = allSpends;
@@ -123,7 +122,6 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         //TODO:
     }
 
-
     private class SpendsViewHolder extends RecyclerView.ViewHolder {
 
         SwipeRevealLayout swipeRevealLayout;
@@ -148,7 +146,6 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
 
     private class SpendsAdapter extends RecyclerView.Adapter<SpendsViewHolder> {
-
 
         @Override
         public SpendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
