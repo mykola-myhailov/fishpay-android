@@ -122,11 +122,11 @@ public class CreateCharityActivity extends BaseActivity {
         if (TextUtils.isEmpty(etCollectedAmount.getText())) {
             etCollectedAmount.setText("0");
         }
-//        if (card == null) {
-//            scrollToView(ivCard);
-//            toast("Виберете карту");
-//            return false;
-//        }
+        if (card == null) {
+            scrollToView(ivCard);
+            toast("Виберете карту");
+            return false;
+        }
         if (TextUtils.isEmpty(charity.getMainPhoto())) {
             scrollToView(ivMainPhoto);
             toast("Виберете фото");
@@ -238,7 +238,7 @@ public class CreateCharityActivity extends BaseActivity {
         charity.setRequiredAmount(Utils.UAHtoPenny(etRequiredAmount.getText().toString()) + "");
         charity.setMembersVisibility("true");
         charity.setItemVisibility("PUBLIC");
-//        charity.setUserCardId(card.getId());
+        charity.setUserCardId(card.getId());
         charity.setPhotos(photos);
     }
 
