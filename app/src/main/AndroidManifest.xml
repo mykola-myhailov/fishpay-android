@@ -128,6 +128,8 @@
         </activity>
         <activity android:name=".activities.goods.GoodsFilterActivity">
         </activity>
+        <activity android:name=".activities.goods.ReviewGoodsActivity">
+        </activity>
     </application>
 
 </manifest>

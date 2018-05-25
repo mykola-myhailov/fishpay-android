@@ -118,6 +118,7 @@
     <string name="charity_link">https://www.fishpay.com/request/id%s</string>
     <string name="charity_create_success">Ваша програма взаимопомощи успешно создана. Тепер он открыт для других участников</string>
     <string name="price">Цена</string>
+    <string name="price_goods">Цена товара</string>
     <string name="from">от</string>
     <string name="to">до</string>
     <string name="category">Категории</string>

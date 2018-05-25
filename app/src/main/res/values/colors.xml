@@ -26,5 +26,6 @@
     <color name="black_text">#323232</color>
     <color name="black_text_secondary">#171717</color>
     <color name="checked_checkbox">#FF392E</color>
+    <color name="bar_disabled">#CECED2</color>
 
 </resources>
