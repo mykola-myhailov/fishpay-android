@@ -16,6 +16,7 @@ import com.myhailov.mykola.fishpay.api.results.CheckRecoveryResult;
 import com.myhailov.mykola.fishpay.api.results.ContactDetailResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
+import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
@@ -31,6 +32,7 @@ import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -391,6 +393,7 @@ public interface ApiInterface {
                                                           @Query("visibility") String visibility);
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>> getGoods (@Header("Authorization") String token,
+                                                          @Query("category") List<String> category,
                                                           @QueryMap Map<String, String> options);
 
     @GET("api/goods/categories")
@@ -416,7 +419,7 @@ public interface ApiInterface {
                                                   @Part MultipartBody.Part img);      //img            ?
 
     @GET("api/goods/{id}")
-    Call<BaseResponse<Object>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
+    Call<BaseResponse<GoodsByIdResult>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
 
     // Transfer
     @FormUrlEncoded

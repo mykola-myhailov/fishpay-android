@@ -111,6 +111,10 @@ public class Utils {
         return ApiClient.BASE_API_URL + "api/resources/charity/" + id + "/" + photo;
     }
 
+    public static String buildPhotoUrlGoods(String photo, int id){
+        return ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo;
+    }
+
 
     public static void displayAvatar(final Context context, final ImageView imageView, Uri photo, final String initials){
         if (photo != null){
