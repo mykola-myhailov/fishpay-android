@@ -95,6 +95,8 @@
 
             <TextView
                     android:text="Заголовок"
+                    android:textSize="17sp"
+                    android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_title"
@@ -111,6 +113,7 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:hint="Введите название"
+                    android:textColorHint="@color/grey_text_hint"
                     tools:text="Помощь потерпевшим от урагана Ирма"
                     android:id="@+id/et_title"
                     android:maxLength="255"
@@ -124,7 +127,7 @@
             <TextView
                     android:text="Необходимая сумма"
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView11"
@@ -153,6 +156,7 @@
                     android:inputType="numberDecimal"
                     android:ems="10"
                     android:hint="Введите сумму"
+                    android:textColorHint="@color/grey_text_hint"
                     android:id="@+id/et_total_amount"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView11"
@@ -162,7 +166,7 @@
 
             <TextView
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:text="Неограниченая сумма"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,7 +200,7 @@
             <TextView
                     android:text="Уже собрано"
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView17"
@@ -214,6 +218,7 @@
                     android:inputType="numberDecimal"
                     android:ems="10"
                     android:hint="Введите сумму"
+                    android:textColorHint="@color/grey_text_hint"
                     android:id="@+id/et_collected_amount"
                     app:layout_constraintTop_toBottomOf="@+id/textView17"
                     app:layout_constraintEnd_toStartOf="@+id/textView18"
@@ -234,7 +239,7 @@
 
             <TextView
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:text="Подробное описание "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -251,6 +256,7 @@
                     android:ems="10"
                     android:id="@+id/et_description"
                     android:hint="Сообщения для пользователей"
+                    android:textColorHint="@color/grey_text_hint"
                     app:layout_constraintEnd_toEndOf="@+id/textView18"
                     app:layout_constraintStart_toStartOf="@+id/textView19"
                     android:layout_marginTop="8dp"
@@ -259,7 +265,7 @@
 
             <TextView
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:text="Заглавное фото"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -277,7 +283,7 @@
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView20"
-                    />
+                    android:visibility="invisible"/>
 
             <TextView
                     android:text="Изменить фото"
@@ -291,7 +297,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/et_description"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_main_photo"
-                    />
+                    android:visibility="invisible"/>
 
             <View
                     android:layout_alignParentBottom="true"
@@ -306,7 +312,7 @@
 
             <TextView
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:text="Галерея"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -324,7 +330,8 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView22"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
-                    app:layout_constraintEnd_toEndOf="@+id/view2"/>
+                    app:layout_constraintEnd_toEndOf="@+id/view2"
+                    android:visibility="visible"/>
 
             <TextView
                     android:textSize="24sp"
@@ -336,7 +343,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/rv_photo"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
-                    />
+                    android:visibility="gone"/>
 
             <View
                     android:layout_alignParentBottom="true"
@@ -352,7 +359,7 @@
 
             <TextView
                     android:textSize="17sp"
-                    android:textColor="@color/grey_text"
+                    android:textColor="@color/grey_text_title"
                     android:text="Карта для приема"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -372,7 +379,7 @@
                     app:layout_constraintStart_toStartOf="@+id/textView24"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView24"
-                    />
+                    android:visibility="invisible"/>
 
             <TextView
                     android:textSize="17sp"
@@ -383,7 +390,8 @@
                     android:id="@+id/tv_card_number"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tv_card_name"
                     app:layout_constraintStart_toEndOf="@+id/tv_card_name"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="8dp"
+                    android:visibility="invisible"/>
 
             <View
                     android:layout_alignParentBottom="true"
@@ -418,6 +426,47 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_main_photo"
                     android:layout_marginStart="8dp"
                     android:visibility="gone"/>
+
+            <TextView
+                    android:text="Добавить фото"
+                    android:textSize="24sp"
+                    android:textColor="@color/grey_text_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_add_main_photo"
+                    app:layout_constraintStart_toStartOf="@+id/textView20"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
+                    app:layout_constraintBottom_toBottomOf="@+id/view2"
+                    android:layout_marginBottom="8dp"/>
+
+            <TextView
+                    android:text="Добавить фото"
+                    android:textSize="24sp"
+                    android:textColor="@color/grey_text_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_add_secondary_photo"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22"
+                    app:layout_constraintStart_toStartOf="@+id/textView22"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/view3"
+                    />
+
+            <TextView
+                    android:text="Виберете карту"
+                    android:textSize="24sp"
+                    android:textColor="@color/grey_text_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_add_card"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView24"
+                    app:layout_constraintBottom_toBottomOf="@+id/view4"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/textView24"
+                    />
 
 
         </android.support.constraint.ConstraintLayout>
