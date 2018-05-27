@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.group_spends;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +43,8 @@ public class SpendDetailActivity extends BaseActivity{
 
         recyclerView = findViewById(R.id.rvContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        
+
+
         spendDetailRequest();
     }
 
@@ -58,8 +60,14 @@ public class SpendDetailActivity extends BaseActivity{
                     transactions = result.getTransactions();
                     initCustomToolbar(result.getTitle());
                     initToggleButtons();
+                    initViews();
+
                 }
             });
+    }
+
+    private void initViews() {
+        (findViewById(R.id.iv_plus)).setOnClickListener(this);
     }
 
     @Override
@@ -70,6 +78,8 @@ public class SpendDetailActivity extends BaseActivity{
             case R.id.ivBack:
                 onBackPressed();
                 break;
+            case R.id.iv_plus:
+                context.startActivity(new Intent(context, AddNewSpendActivity.class));
         }
     }
 

@@ -39,17 +39,17 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
         private SwipeRevealLayout swipeRevealLayout;
         private TextView tvName, tvInitials, tvDelete, tvFrom, tvTo,  tvDate, tvDescription, tvSum, tvAmount;
         private View container;
+
         public TransactionHolder(View itemView) {
             super(itemView);
             swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
             tvDelete = itemView.findViewById(R.id.tv_delete);
             tvFrom = itemView.findViewById(R.id.tv_from);
+            tvTo = itemView.findViewById(R.id.tv_to);
             tvDate = itemView.findViewById(R.id.tv_date);
             tvDescription = itemView.findViewById(R.id.tv_description);
             container = itemView.findViewById(R.id.container);
-            tvSum = itemView.findViewById(R.id.tv_sum);
             tvAmount = itemView.findViewById(R.id.tv_amount);
-            tvTo = itemView.findViewById(R.id.tv_to);
             tvDelete = itemView.findViewById(R.id.tv_delete);
         }
     }
@@ -61,7 +61,9 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
         Utils.setText(holder.tvAmount, transaction.getAmount() );
         Utils.setText(holder.tvDescription, transaction.getComment());
         Utils.setText(holder.tvFrom, transaction.getMemberFromName() + " " + transaction.getMemberFromSurname());
-       // Utils.setText(holder.tvDate, transaction.getDate());
+
+        Utils.setText(holder.tvDate, transaction.getDate());
+
         ;
       //  transaction.getM
     }
