@@ -40,6 +40,8 @@ public class CreateGoodsActivity extends BaseActivity {
 
     private List<String> categories = new ArrayList();
     private List<String> photos = new ArrayList();
+
+    private TextView tvAddMainPhoto, tvChangeMainPhoto, tvAddSecondaryPhoto, tvAddPhoto;
     private GoodsRequestBody goods = new GoodsRequestBody();
     private EditText etGoodsName, etPrice, etDescription;
     private RecyclerView rvPhoto;
@@ -59,48 +61,15 @@ public class CreateGoodsActivity extends BaseActivity {
         initViews();
     }
 
-
-    private void initViews() {
-        findViewById(R.id.tvCreate).setOnClickListener(this);
-        findViewById(R.id.tvChangePhoto).setOnClickListener(this);
-        final TextView tvStatus = findViewById(R.id.tvStatus);
-        switchStatus = findViewById(R.id.switchStatus);
-        switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) tvStatus.setText("Приватный");
-                else tvStatus.setText("Публичный");
-            }
-        });
-        etGoodsName = findViewById(R.id.etGoodsName);
-        etDescription = findViewById(R.id.etDescription);
-        etPrice = findViewById(R.id.etPrice_from);
-        ivPhoto = findViewById(R.id.ivMainPhoto);
-        rvPhoto = findViewById(R.id.rv_photo);
-        rvPhoto.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        ivDeleteMainPhoto = findViewById(R.id.iv_delete);
-
-
-        findViewById(R.id.ivBack).setOnClickListener(this);
-        ivDeleteMainPhoto.setOnClickListener(this);
-        findViewById(R.id.tv_add_photo).setOnClickListener(this);
-
-    }
-
-    private void initSpinner() {
-        categorySpinner = findViewById(R.id.categorySpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_spinner_item, categories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(adapter);
-    }
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
                 onBackPressed();
+                break;
+            case R.id.tv_add_main_photo:
+                mainPhotoPick = true;
+                ImagePicker.pickImage(this, "Select your image:");
                 break;
             case R.id.tv_add_photo:
                 if (photos.size() < 8) {
@@ -110,9 +79,17 @@ public class CreateGoodsActivity extends BaseActivity {
                     toast("Больше выбрать нельзя");
                 }
                 break;
-            case R.id.iv_delete:
+            case R.id.tv_add_secondary_photo:
+                Log.d("ssss", "onClick: ");
+                mainPhotoPick = false;
+                ImagePicker.pickImage(this, "Select your image:");
+                break;
+            case R.id.iv_delete_main_photo:
                 ivDeleteMainPhoto.setVisibility(View.GONE);
-                ivPhoto.setImageResource(R.drawable.camera);
+                ivPhoto.setVisibility(View.INVISIBLE);
+                tvAddMainPhoto.setVisibility(View.VISIBLE);
+                tvChangeMainPhoto.setVisibility(View.INVISIBLE);
+                ivDeleteMainPhoto.setVisibility(View.GONE);
                 break;
             case R.id.tvChangePhoto:
                 mainPhotoPick = true;
@@ -127,6 +104,76 @@ public class CreateGoodsActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
+            Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+            if (bitmap != null) {
+                if (mainPhotoPick) {
+                    ivPhoto.setImageBitmap(bitmap);
+                    goods.setMainPhoto(createFile(bitmap, "main_photo").getPath());
+                    ivDeleteMainPhoto.setVisibility(View.VISIBLE);
+                    ivPhoto.setVisibility(View.VISIBLE);
+                    tvChangeMainPhoto.setVisibility(View.VISIBLE);
+                    tvAddMainPhoto.setVisibility(View.GONE);
+                } else {
+                    if (tvAddPhoto.getVisibility() != View.VISIBLE) {
+                        rvPhoto.setVisibility(View.VISIBLE);
+                        tvAddPhoto.setVisibility(View.VISIBLE);
+                        tvAddSecondaryPhoto.setVisibility(View.INVISIBLE);
+                    }
+                    photos.add(createFile(bitmap, "img").getPath());
+                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+                }
+            }
+        }
+    }
+
+    private void initViews() {
+        tvChangeMainPhoto = findViewById(R.id.tvChangePhoto);
+        tvAddMainPhoto = findViewById(R.id.tv_add_main_photo);
+        ivDeleteMainPhoto = findViewById(R.id.iv_delete_main_photo);
+        tvAddSecondaryPhoto = findViewById(R.id.tv_add_secondary_photo);
+        tvAddPhoto = findViewById(R.id.tv_add_photo);
+
+        final TextView tvStatus = findViewById(R.id.tvStatus);
+        switchStatus = findViewById(R.id.switchStatus);
+        switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) tvStatus.setText("Приватный");
+                else tvStatus.setText("Публичный");
+            }
+        });
+        etGoodsName = findViewById(R.id.etGoodsName);
+        etDescription = findViewById(R.id.etDescription);
+        etPrice = findViewById(R.id.etPrice_from);
+        ivPhoto = findViewById(R.id.iv_main_photo);
+        rvPhoto = findViewById(R.id.rv_photo);
+        rvPhoto.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
+        tvAddPhoto.setOnClickListener(this);
+        tvAddSecondaryPhoto.setOnClickListener(this);
+        tvChangeMainPhoto.setOnClickListener(this);
+        tvAddMainPhoto.setOnClickListener(this);
+        findViewById(R.id.ivBack).setOnClickListener(this);
+        ivDeleteMainPhoto.setOnClickListener(this);
+        findViewById(R.id.tv_add_photo).setOnClickListener(this);
+        ivDeleteMainPhoto = findViewById(R.id.iv_delete_main_photo);
+        tvAddPhoto = findViewById(R.id.tv_add_photo);
+        findViewById(R.id.tvCreate).setOnClickListener(this);
+
+    }
+
+    private void initSpinner() {
+        categorySpinner = findViewById(R.id.categorySpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                R.layout.item_spinner, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
+    }
+
 
     private boolean checkGoods() {
 
@@ -182,26 +229,15 @@ public class CreateGoodsActivity extends BaseActivity {
         @Override
         public void onItemClick(int position) {
             photos.remove(position);
+            if (photos.size() == 0) {
+                rvPhoto.setVisibility(View.INVISIBLE);
+                tvAddPhoto.setVisibility(View.GONE);
+                tvAddSecondaryPhoto.setVisibility(View.VISIBLE);
+            }
             rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
         }
     };
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
-            Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null) {
-                if (mainPhotoPick) {
-                    ivPhoto.setImageBitmap(bitmap);
-                    goods.setMainPhoto(createFile(bitmap, "main_photo").getPath());
-                    ivDeleteMainPhoto.setVisibility(View.VISIBLE);
-                } else {
-                    photos.add(createFile(bitmap, "img").getPath());
-                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
-                }
-            }
-        }
-    }
 
     private File createFile(Bitmap bitmap, String name) {
         File imageFile = null;
