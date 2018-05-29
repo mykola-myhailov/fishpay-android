@@ -43,8 +43,9 @@ public class GoodsPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_preview);
         initCustomToolbar("Просмотр товара");
-        if (getIntent() != null) {
-            goods = (GoodsRequestBody) getIntent().getSerializableExtra(GOODS);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            goods = (GoodsRequestBody) extras.getSerializable(GOODS);
         }
         assignViews();
         setValue();

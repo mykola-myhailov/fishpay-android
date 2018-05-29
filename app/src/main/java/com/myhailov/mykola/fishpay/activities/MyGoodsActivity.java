@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,9 +96,9 @@ public class MyGoodsActivity extends DrawerActivity {
                 category = data.getStringArrayListExtra(CATEGORY);
                 minPrice = data.getStringExtra(MIN_PRICE);
                 maxPrice = data.getStringExtra(MAX_PRICE);
-                if (tabPosition == 0){
+                if (tabPosition == 0) {
                     filterGoods(publicGoods);
-                }else filterGoods(privateGoods);
+                } else filterGoods(privateGoods);
 
 //                Map<String, String> parameters = new HashMap<>();
 //
@@ -121,9 +122,9 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
 
-    private void filterGoods(List <GoodsResults> lists) {
+    private void filterGoods(List<GoodsResults> lists) {
         filteredGoods.clear();
-        for (GoodsResults  list : lists) {
+        for (GoodsResults list : lists) {
             if (list.getPrice() >= Utils.UAHtoPenny(minPrice) && list.getPrice() <= Utils.UAHtoPenny(maxPrice)) {
                 if (!category.isEmpty()) {
                     for (String s : category) {
@@ -408,9 +409,15 @@ public class MyGoodsActivity extends DrawerActivity {
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ReviewGoodsActivity.class);
+                    Intent intent;
+                    if (item.getUserId() != id) {
+                        intent = new Intent(context, ReviewGoodsActivity.class);
+                    } else {
+                        intent = new Intent(context, CreateGoodsActivity.class);
+                    }
                     intent.putExtra(GOODS_ID, item.getId());
                     startActivity(intent);
+                    Log.d("sss", "onClick: " + item.getId());
                 }
             });
 

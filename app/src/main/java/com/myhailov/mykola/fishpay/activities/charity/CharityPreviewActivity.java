@@ -45,8 +45,9 @@ public class CharityPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_preview);
         initCustomToolbar("Предпросмотр");
-        if (getIntent() != null) {
-            charity = (CharityRequestBody) getIntent().getSerializableExtra(CHARITY_RESULT);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            charity = (CharityRequestBody) extras.getSerializable(CHARITY_RESULT);
         }
 
         assignViews();

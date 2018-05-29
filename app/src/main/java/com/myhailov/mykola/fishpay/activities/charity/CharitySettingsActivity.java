@@ -39,6 +39,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
 
     private CharityResultById charity = new CharityResultById();
     private CharityRequestBody charityCreate = new CharityRequestBody();
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,12 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
         setContentView(R.layout.activity_charity_settings);
         initCustomToolbar("Настройки");
         assignViews();
-        if (getIntent() != null) {
-            if (getIntent().getBooleanExtra(CHARITY_CREATE, false)) {
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.getBoolean(CHARITY_CREATE, false)) {
                 newCharity = true;
                 tvClose.setText(getString(R.string.preview_charity));
-                charityCreate = (CharityRequestBody) getIntent().getSerializableExtra(CHARITY_RESULT);
+                charityCreate = (CharityRequestBody) extras.getSerializable(CHARITY_RESULT);
                 initPopupMenu(tvVisibility, tvListDonation);
                 tvTitle.setText(charityCreate.getTitle());
             } else {
@@ -133,9 +135,9 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
 
     private void charitySettings() {
         setClickable(false);
-        charity = (CharityResultById) getIntent().getSerializableExtra(CHARITY_RESULT);
-        if (!TextUtils.isEmpty(getIntent().getStringExtra(CHARITY_VISIBILITY))) {
-            switch (getIntent().getStringExtra(CHARITY_VISIBILITY)) {
+        charity = (CharityResultById) extras.getSerializable(CHARITY_RESULT);
+        if (!TextUtils.isEmpty(extras.getString(CHARITY_VISIBILITY))) {
+            switch (extras.getString(CHARITY_VISIBILITY, "")) {
                 case "PUBLIC":
                     tvVisibility.setText(R.string.public_charity);
                     break;
@@ -148,8 +150,8 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
             }
 
         }
-        if (!TextUtils.isEmpty(getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY))) {
-            if (getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY).equals("true")) {
+        if (!TextUtils.isEmpty(extras.getString(CHARITY_MEMBERS_VISIBILITY))) {
+            if (extras.getString(CHARITY_MEMBERS_VISIBILITY, "").equals("true")) {
                 tvListDonation.setText(getString(R.string.charity_open));
             } else {
                 tvListDonation.setText(getString(R.string.charity_close));

@@ -1,5 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.goods;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,9 +10,12 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
+import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -35,8 +39,9 @@ public class ReviewGoodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_goods);
         initCustomToolbar("Просмотр товара");
-        if (getIntent() != null) {
-            id = getIntent().getLongExtra(GOODS_ID, 0);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getLong(GOODS_ID, 0);
         }
         assignViews();
         getGoodsById(id + "");
@@ -51,6 +56,11 @@ public class ReviewGoodsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_author:
+                Intent intent = new Intent(context, ContactDetailsActivity.class);
+                Contact contact = new Contact();
+                contact.setUserId(Long.parseLong(goods.getUserId()));
+                intent.putExtra(Keys.CONTACT, contact);
+                startActivity(intent);
                 break;
         }
     }

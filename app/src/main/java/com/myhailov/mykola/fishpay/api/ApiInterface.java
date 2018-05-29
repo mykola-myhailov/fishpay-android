@@ -44,6 +44,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -384,6 +385,14 @@ public interface ApiInterface {
     Call<BaseResponse<Object>>  closeChatiry (@Header("Authorization") String token,
                                               @Path("id") String id);
 
+
+    @PUT("api/goods/{id}")
+    Call<BaseResponse<Object>> editGoods(@Header("Authorization") String token,
+                                         @Path("id") String id,
+                                         @Part("description") RequestBody description,
+                                         @Part("price") RequestBody price,
+                                         @Part("category") RequestBody category,
+                                         @Part("visibility") RequestBody visibility);
     // SelectedGoods
     @GET("api/goods")
     Call<BaseResponse<ArrayList<GoodsResults>>> getUserGoods (@Header("Authorization") String token);

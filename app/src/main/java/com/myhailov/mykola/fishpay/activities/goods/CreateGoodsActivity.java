@@ -19,11 +19,13 @@ import android.widget.TextView;
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.adapters.CharityPhotoAdapter;
+import com.myhailov.mykola.fishpay.adapters.EditPhotoAdapter;
+import com.myhailov.mykola.fishpay.adapters.PhotoAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.GoodsRequestBody;
 import com.myhailov.mykola.fishpay.api.results.CategoryResult;
+import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -35,30 +37,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 
 public class CreateGoodsActivity extends BaseActivity {
+    private static final String PUBLIC = "PUBLIC", PRIVATE = "PRIVATE";
 
     private List<String> categories = new ArrayList();
     private List<String> photos = new ArrayList();
 
     private TextView tvAddMainPhoto, tvChangeMainPhoto, tvAddSecondaryPhoto, tvAddPhoto;
-    private GoodsRequestBody goods = new GoodsRequestBody();
     private EditText etGoodsName, etPrice, etDescription;
     private RecyclerView rvPhoto;
     private ImageView ivPhoto;
     private ImageView ivDeleteMainPhoto;
     private Spinner categorySpinner;
     private SwitchCompat switchStatus;
-    private static String PUBLIC = "PUBLIC", PRIVATE = "PRIVATE";
+
+    private GoodsRequestBody goods = new GoodsRequestBody();
+    private GoodsByIdResult goodsById;
     private boolean mainPhotoPick = false;
+    private long goodsId;
+    private boolean createNewGoods = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_gods);
         getCategory();
-        initCustomToolbar("Создать товар");
+
         initViews();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey(GOODS_ID)) {
+            createNewGoods = false;
+            goodsId = extras.getLong(GOODS_ID, 0);
+            getGoodsById(goodsId + "");
+            initCustomToolbar("Редактировать товар");
+            ((TextView)findViewById(R.id.tvCreate)).setText(getString(R.string.save));
+        } else {
+            createNewGoods = true;
+            initCustomToolbar("Создать товар");
+        }
     }
 
     @Override
@@ -68,8 +86,10 @@ public class CreateGoodsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_add_main_photo:
-                mainPhotoPick = true;
-                ImagePicker.pickImage(this, "Select your image:");
+                if (createNewGoods) {
+                    mainPhotoPick = true;
+                    ImagePicker.pickImage(this, "Select your image:");
+                }
                 break;
             case R.id.tv_add_photo:
                 if (photos.size() < 8) {
@@ -80,15 +100,17 @@ public class CreateGoodsActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_add_secondary_photo:
-                Log.d("ssss", "onClick: ");
-                mainPhotoPick = false;
-                ImagePicker.pickImage(this, "Select your image:");
+                if (createNewGoods) {
+                    mainPhotoPick = false;
+                    ImagePicker.pickImage(this, "Select your image:");
+                }
+
                 break;
             case R.id.iv_delete_main_photo:
                 ivDeleteMainPhoto.setVisibility(View.GONE);
                 ivPhoto.setVisibility(View.INVISIBLE);
-                tvAddMainPhoto.setVisibility(View.VISIBLE);
                 tvChangeMainPhoto.setVisibility(View.INVISIBLE);
+                tvAddMainPhoto.setVisibility(View.VISIBLE);
                 ivDeleteMainPhoto.setVisibility(View.GONE);
                 break;
             case R.id.tvChangePhoto:
@@ -97,9 +119,14 @@ public class CreateGoodsActivity extends BaseActivity {
             case R.id.tvCreate:
                 if (checkGoods()) {
                     setGoodsValue();
-                    Intent intent = new Intent(context, GoodsPreviewActivity.class);
-                    intent.putExtra(GOODS, goods);
-                    startActivity(intent);
+                    if (createNewGoods) {
+                        Intent intent = new Intent(context, GoodsPreviewActivity.class);
+                        intent.putExtra(GOODS, goods);
+                        startActivity(intent);
+                    }else {
+
+                    }
+
                 }
                 break;
         }
@@ -124,7 +151,7 @@ public class CreateGoodsActivity extends BaseActivity {
                         tvAddSecondaryPhoto.setVisibility(View.INVISIBLE);
                     }
                     photos.add(createFile(bitmap, "img").getPath());
-                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+                    rvPhoto.setAdapter(new PhotoAdapter(context, photos, rvPhotoListener));
                 }
             }
         }
@@ -174,10 +201,7 @@ public class CreateGoodsActivity extends BaseActivity {
         categorySpinner.setAdapter(adapter);
     }
 
-
     private boolean checkGoods() {
-
-
         if (TextUtils.isEmpty(etGoodsName.getText().toString()) || etGoodsName.getText().toString().length() < 5) {
             Utils.toast(context, "Имя товара должно состоять не менее чем из 5 символов");
             scrollToView(etGoodsName);
@@ -206,10 +230,52 @@ public class CreateGoodsActivity extends BaseActivity {
         goods.setPrice(Utils.UAHtoPenny(etPrice.getText().toString()) + "");
         goods.setDescription(etDescription.getText().toString());
         goods.setVisibility(switchStatus.isChecked() ? PRIVATE : PUBLIC);
-        goods.setCategoryId(Integer.toString(categorySpinner.getSelectedItemPosition()) + 1);
+        goods.setCategoryId(Integer.toString(categorySpinner.getSelectedItemPosition() + 1));
         goods.setCategory(categorySpinner.getSelectedItem().toString());
         goods.setPhotos(photos);
     }
+
+    private void setValue() {
+        if (goodsById.getCategory() != null) {
+            categorySpinner.setSelection(goodsById.getCategory().getId() - 1);
+        }
+        switchStatus.setChecked(goodsById.getVisibility().equals(PRIVATE));
+        etGoodsName.setText(goodsById.getTitle());
+        etGoodsName.setEnabled(false);
+        etPrice.setText(Utils.pennyToUah(Integer.parseInt(goodsById.getPrice())));
+        etDescription.setText(goodsById.getDescription());
+
+        Utils.displayGoods(context, ivPhoto, goodsById.getMainPhoto(), goodsById.getId());
+        ivPhoto.setVisibility(View.VISIBLE);
+        tvAddMainPhoto.setVisibility(View.GONE);
+
+        rvPhoto.setAdapter(new EditPhotoAdapter(context, goodsById.getPhotos(), null));
+        rvPhoto.setVisibility(View.VISIBLE);
+        tvAddSecondaryPhoto.setVisibility(View.INVISIBLE);
+    }
+
+    private void getGoodsById(String id) {
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+        } else {
+            ApiClient.getApiClient().getGoodsDetails(TokenStorage.getToken(context), id)
+                    .enqueue(new BaseCallback<GoodsByIdResult>(context, true) {
+                        @Override
+                        protected void onResult(int code, GoodsByIdResult result) {
+                            if (result != null) {
+                                goodsById = result;
+                                setValue();
+                            }
+                        }
+                    });
+        }
+    }
+
+    // TODO: 29.05.2018 write request
+//    private void editGoods(){
+//        ApiClient.getApiClient().editGoods(TokenStorage.getToken(context),
+//                )
+//    }
 
     private void getCategory() {
         ApiClient.getApiClient().getCategory(TokenStorage.getToken(context))
@@ -225,7 +291,7 @@ public class CreateGoodsActivity extends BaseActivity {
                 });
     }
 
-    private CharityPhotoAdapter.OnItemClickListener rvPhotoListener = new CharityPhotoAdapter.OnItemClickListener() {
+    private PhotoAdapter.OnItemClickListener rvPhotoListener = new PhotoAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
             photos.remove(position);
@@ -234,7 +300,7 @@ public class CreateGoodsActivity extends BaseActivity {
                 tvAddPhoto.setVisibility(View.GONE);
                 tvAddSecondaryPhoto.setVisibility(View.VISIBLE);
             }
-            rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+            rvPhoto.setAdapter(new PhotoAdapter(context, photos, rvPhotoListener));
         }
     };
 
