@@ -12,6 +12,13 @@ public class AddNewSpendActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_spend);
+
+        initCustomToolbar("Добавить расход");
+        initViews();
+    }
+
+    private void initViews() {
+        initViews();
     }
 
     @Override

@@ -43,7 +43,7 @@
     <RelativeLayout
         android:id="@+id/rlBlack"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/llToolbar"
         android:background="@color/black1">
 
@@ -51,9 +51,10 @@
         <FrameLayout
             android:id="@+id/flAvatarContainer"
             android:background="@color/white"
+            android:layout_marginTop="5dp"
+
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical">
+            android:layout_height="50dp">
 
             <ImageView
                 android:id="@+id/ivAvatar"
@@ -79,64 +80,130 @@
 
         <TextView
             android:id="@+id/tvName"
+            android:layout_toEndOf="@+id/flAvatarContainer"
             android:textAllCaps="true"
+            android:layout_marginTop="5dp"
+            android:text="test"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvPhone"
-            android:textColor="@color/white"
+            android:layout_below="@+id/tvName"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/flAvatarContainer"
+            android:textColor="@color/gray_light"
+            android:textSize="18dp"
+            android:text="+222222222222"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <View
+            android:layout_below="@+id/flAvatarContainer"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:layout_width="300dp"
             android:layout_height="1dp" />
 
         <TextView
             android:id="@+id/groupOfSpends"
-            android:textAllCaps="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/flAvatarContainer"
+            android:textColor="@color/gray_light"
+            android:text="fffffffffffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tvSpendName"
+            android:layout_below="@+id/groupOfSpends"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:textSize="18dp"
+            android:text="sdfsfsfssfdsf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/flAvatarContainer"
+            android:src="@drawable/menu_spends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 
     <RelativeLayout
+        android:layout_below="@+id/rlBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/ivComment"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tvComment"
+            android:layout_toEndOf="@+id/ivComment"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue1"
+            android:text="Lsdfsfsfffffffffsdfsfsf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/divider2"
+            android:layout_below="@+id/tvComment"
+            android:layout_marginTop="15dp"
+            android:background="@color/black1"
+            android:layout_marginStart="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
         <TextView
+            android:id="@+id/tvCurrency"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/divider2"
+            android:text=" | грн"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
         <TextView
+            android:id="@+id/tvAmount"
+            android:layout_toStartOf="@+id/tvCurrency"
+            android:layout_below="@+id/divider2"
+            android:layout_marginEnd="10dp"
+            android:text="333"
             android:layout_width="wrap_content"
+            android:textSize="30dp"
+            android:textColor="@color/blue1"
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
 
     <TextView
         android:id="@+id/tv_add"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
         android:text="@string/add"
+        android:textAllCaps="true"
+        android:textColor="@color/blue1"
         android:gravity="center"
         android:textAlignment="center"
         android:layout_width="match_parent"
