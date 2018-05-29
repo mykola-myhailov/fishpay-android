@@ -36,17 +36,10 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class CreateCharityActivity extends BaseActivity {
-    private EditText etTitle;
-    private EditText etRequiredAmount;
-    private EditText etCollectedAmount;
-    private EditText etDescription;
+    private EditText etTitle, etCollectedAmount, etRequiredAmount, etDescription;
     private Switch switchIndefinitely;
-    private ImageView ivCard;
-    private ImageView ivMainPhoto;
-    private ImageView ivDeleteMainPhoto;
-    private TextView tvCardName;
-    private TextView tvCardNumber;
-    private TextView tvChangePhoto;
+    private ImageView ivMainPhoto, ivDeleteMainPhoto, ivCard;
+    private TextView tvCardName, tvCardNumber, tvChangePhoto, tvAddMainPhoto, tvAddSecondaryPhoto, tvAddPhoto, tvAddCard;
     private RecyclerView rvPhoto;
 
     private Card card;
@@ -58,6 +51,11 @@ public class CreateCharityActivity extends BaseActivity {
         @Override
         public void onItemClick(int position) {
             photos.remove(position);
+            if (photos.size() == 0) {
+                rvPhoto.setVisibility(View.INVISIBLE);
+                tvAddPhoto.setVisibility(View.GONE);
+                tvAddSecondaryPhoto.setVisibility(View.VISIBLE);
+            }
             rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
         }
     };
@@ -66,8 +64,109 @@ public class CreateCharityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_charity);
-        initCustomToolbar("Создать взаимопомощь");
+        initCustomToolbar("Создать новую");
         assignViews();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+            case R.id.iv_delete_main_photo:
+                ivMainPhoto.setImageBitmap(null);
+                ivMainPhoto.setVisibility(View.INVISIBLE);
+                tvAddMainPhoto.setVisibility(View.VISIBLE);
+                tvChangePhoto.setVisibility(View.INVISIBLE);
+                ivDeleteMainPhoto.setVisibility(View.GONE);
+                break;
+            case R.id.tv_add_photo:
+                if (photos.size() < 8) {
+                    mainPhotoPick = false;
+                    ImagePicker.pickImage(this, "Select your image:");
+                } else {
+                    toast("Больше выбрать нельзя");
+                }
+                break;
+            case R.id.tv_add_secondary_photo:
+                mainPhotoPick = false;
+                ImagePicker.pickImage(this, "Select your image:");
+                break;
+            case R.id.tv_add_main_photo:
+                mainPhotoPick = true;
+                ImagePicker.pickImage(this, "Select your image:");
+                break;
+            case R.id.tv_change_photo:
+                mainPhotoPick = true;
+                ImagePicker.pickImage(this, "Select your image:");
+                break;
+            case R.id.iv_card:
+                startActivityForResult(new Intent(context, CardsActivity.class)
+                        .putExtra(REQUEST, true), REQUEST_CARD);
+                break;
+            case R.id.tv_add_card:
+                startActivityForResult(new Intent(context, CardsActivity.class)
+                        .putExtra(REQUEST, true), REQUEST_CARD);
+                break;
+            case R.id.switch_indefinitely:
+                if (switchIndefinitely.isChecked()) {
+                    etRequiredAmount.setEnabled(false);
+                    etRequiredAmount.setText("0");
+                    etRequiredAmount.setError(null);
+                } else {
+                    etRequiredAmount.setEnabled(true);
+                }
+                break;
+            case R.id.tv_create:
+                if (checkViews()) {
+                    setCharity();
+                    Intent intent = new Intent(context, CharitySettingsActivity.class);
+                    intent.putExtra(CHARITY_CREATE, true);
+                    intent.putExtra(CHARITY_RESULT, charity);
+                    startActivity(intent);
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CARD && resultCode == RESULT_OK) {
+            card = data.getParcelableExtra(CARD);
+            if (card != null) {
+                tvCardName.setText(card.getName());
+                tvCardNumber.setText(card.getLastFourNumbers());
+                tvCardName.setVisibility(View.VISIBLE);
+                tvCardNumber.setVisibility(View.VISIBLE);
+                tvAddCard.setVisibility(View.GONE);
+            } else {
+
+            }
+        }
+        if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
+            Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+            if (bitmap != null) {
+                if (mainPhotoPick) {
+                    ivMainPhoto.setImageBitmap(bitmap);
+                    charity.setMainPhoto(createFile(bitmap, "main_photo").getPath());
+                    ivDeleteMainPhoto.setVisibility(View.VISIBLE);
+                    ivMainPhoto.setVisibility(View.VISIBLE);
+                    tvChangePhoto.setVisibility(View.VISIBLE);
+                    tvAddMainPhoto.setVisibility(View.GONE);
+                } else {
+                    if (tvAddPhoto.getVisibility() != View.VISIBLE) {
+                        rvPhoto.setVisibility(View.VISIBLE);
+                        tvAddPhoto.setVisibility(View.VISIBLE);
+                        tvAddSecondaryPhoto.setVisibility(View.INVISIBLE);
+                    }
+                    photos.add(createFile(bitmap, "img").getPath());
+                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+
+                }
+            }
+        }
     }
 
     private void assignViews() {
@@ -83,14 +182,21 @@ public class CreateCharityActivity extends BaseActivity {
         ivMainPhoto = findViewById(R.id.iv_main_photo);
         ivDeleteMainPhoto = findViewById(R.id.iv_delete_main_photo);
         rvPhoto = findViewById(R.id.rv_photo);
+        tvAddMainPhoto = findViewById(R.id.tv_add_main_photo);
+        tvAddSecondaryPhoto = findViewById(R.id.tv_add_secondary_photo);
+        tvAddPhoto = findViewById(R.id.tv_add_photo);
+        tvAddCard = findViewById(R.id.tv_add_card);
         initRvPhoto();
 
+        tvAddCard.setOnClickListener(this);
+        tvAddSecondaryPhoto.setOnClickListener(this);
+        tvAddMainPhoto.setOnClickListener(this);
         tvChangePhoto.setOnClickListener(this);
         ivCard.setOnClickListener(this);
         switchIndefinitely.setOnClickListener(this);
         findViewById(R.id.tv_create).setOnClickListener(this);
         ivDeleteMainPhoto.setOnClickListener(this);
-        findViewById(R.id.tv_add_photo).setOnClickListener(this);
+        tvAddPhoto.setOnClickListener(this);
     }
 
     private void initRvPhoto() {
@@ -136,33 +242,6 @@ public class CreateCharityActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CARD && resultCode == RESULT_OK) {
-            card = data.getParcelableExtra(CARD);
-            if (card != null) {
-                tvCardName.setText(card.getName());
-                tvCardNumber.setText(card.getLastFourNumbers());
-            } else {
-
-            }
-        }
-        if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
-            Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null) {
-                if (mainPhotoPick) {
-                    ivMainPhoto.setImageBitmap(bitmap);
-                    charity.setMainPhoto(createFile(bitmap, "main_photo").getPath());
-                    ivDeleteMainPhoto.setVisibility(View.VISIBLE);
-                } else {
-                    photos.add(createFile(bitmap, "img").getPath());
-                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
-
-                }
-            }
-        }
-    }
 
     private File createFile(Bitmap bitmap, String name) {
         File imageFile = null;
@@ -184,52 +263,6 @@ public class CreateCharityActivity extends BaseActivity {
         return imageFile;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ivBack:
-                onBackPressed();
-                break;
-            case R.id.iv_delete_main_photo:
-                ivMainPhoto.setImageBitmap(null);
-                ivDeleteMainPhoto.setVisibility(View.GONE);
-                break;
-            case R.id.tv_add_photo:
-                if (photos.size() < 8) {
-                    mainPhotoPick = false;
-                    ImagePicker.pickImage(this, "Select your image:");
-                } else {
-                    toast("Больше выбрать нельзя");
-                }
-                break;
-            case R.id.tv_change_photo:
-                mainPhotoPick = true;
-                ImagePicker.pickImage(this, "Select your image:");
-                break;
-            case R.id.iv_card:
-                startActivityForResult(new Intent(context, CardsActivity.class)
-                        .putExtra(REQUEST, true), REQUEST_CARD);
-                break;
-            case R.id.switch_indefinitely:
-                if (switchIndefinitely.isChecked()) {
-                    etRequiredAmount.setEnabled(false);
-                    etRequiredAmount.setText("0");
-                    etRequiredAmount.setError(null);
-                } else {
-                    etRequiredAmount.setEnabled(true);
-                }
-                break;
-            case R.id.tv_create:
-                if (checkViews()) {
-                    setCharity();
-                    Intent intent = new Intent(context, CharitySettingsActivity.class);
-                    intent.putExtra(CHARITY_CREATE, true);
-                    intent.putExtra(CHARITY_RESULT, charity);
-                    startActivity(intent);
-                }
-                break;
-        }
-    }
 
     private void setCharity() {
         charity.setTitle(etTitle.getText().toString());

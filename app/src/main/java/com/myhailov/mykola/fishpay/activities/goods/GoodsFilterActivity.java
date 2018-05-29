@@ -38,12 +38,12 @@ public class GoodsFilterActivity extends BaseActivity {
     private List<CategoryResult> categoriesWithID = new ArrayList();
     private CategoryAdapter.OnItemClickListener categoryListener = new CategoryAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(CheckedTextView ctv, int id, int position) {
+        public void onItemClick(CheckedTextView ctv, String id, int position) {
             clearFocus();
             if (ctv.isChecked()) {
                 ctv.setChecked(false);
                 categoriesWithID.get(position).setChecked(false);
-                categories.remove(id + "");
+                categories.remove(id);
             } else {
                 ctv.setChecked(true);
                 setChecked(id, position);
@@ -51,12 +51,18 @@ public class GoodsFilterActivity extends BaseActivity {
         }
     };
 
+    private long maxPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_filter);
         getCategory();
         initCustomToolbar("Фильтр");
+
+        if (getIntent() != null) {
+            maxPrice = getIntent().getIntExtra(MAX_PRICE, 1000000) / 100;
+        }
 
         initViews();
     }
@@ -87,6 +93,8 @@ public class GoodsFilterActivity extends BaseActivity {
         rangeSeekbar = findViewById(R.id.sb_range);
         etEndPrice = findViewById(R.id.etPrice_to);
         tvOk = findViewById(R.id.tv_ok);
+        etEndPrice.setText(maxPrice + "");
+        rangeSeekbar.setMaxValue(maxPrice);
 
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -103,8 +111,8 @@ public class GoodsFilterActivity extends BaseActivity {
         findViewById(R.id.ivBack).setOnClickListener(this);
     }
 
-    private void setChecked(int id, int position) {
-        if (id == -1) {
+    private void setChecked(String id, int position) {
+        if (id.equals(getString(R.string.all))) {
             categories.clear();
             for (CategoryResult categoryResult : categoriesWithID) {
                 categoryResult.setChecked(false);
@@ -115,7 +123,7 @@ public class GoodsFilterActivity extends BaseActivity {
             categoriesWithID.get(0).setChecked(false);
             categoriesWithID.get(position).setChecked(true);
             rvCategory.getAdapter().notifyDataSetChanged();
-            categories.add(id + "");
+            categories.add(id);
         }
     }
 

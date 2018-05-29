@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,6 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +43,7 @@ public class MyGoodsActivity extends DrawerActivity {
     private static final int CODE_FILTER = 564;
 
     private ArrayList<GoodsResults> publicGoods = new ArrayList<>(), privateGoods = new ArrayList<>();
+    private List<GoodsResults> filteredGoods = new ArrayList<>();
     private List<String> category;
     private String minPrice, maxPrice;
     private RecyclerView recyclerView;
@@ -81,7 +80,9 @@ public class MyGoodsActivity extends DrawerActivity {
                 context.startActivity(new Intent(context, CreateGoodsActivity.class));
                 break;
             case R.id.tv_filter:
-                startActivityForResult(new Intent(context, GoodsFilterActivity.class), CODE_FILTER);
+                Intent intent = new Intent(context, GoodsFilterActivity.class);
+                intent.putExtra(MAX_PRICE, getMaxPrice());
+                startActivityForResult(intent, CODE_FILTER);
                 break;
         }
 
@@ -94,15 +95,19 @@ public class MyGoodsActivity extends DrawerActivity {
                 category = data.getStringArrayListExtra(CATEGORY);
                 minPrice = data.getStringExtra(MIN_PRICE);
                 maxPrice = data.getStringExtra(MAX_PRICE);
-                Map<String, String> parameters = new HashMap<>();
+                if (tabPosition == 0){
+                    filterGoods(publicGoods);
+                }else filterGoods(privateGoods);
 
-                parameters.put("visibility", "public");
-                parameters.put("priceFrom", Utils.UAHtoPenny(minPrice) + "");
-                parameters.put("priceTo", Utils.UAHtoPenny(maxPrice) + "");
-                publicGoods.clear();
-                getGoods(category, parameters);
-                parameters.put("visibility", "private");
-                getGoods(category, parameters);
+//                Map<String, String> parameters = new HashMap<>();
+//
+//                parameters.put("visibility", "public");
+//                parameters.put("priceFrom", Utils.UAHtoPenny(minPrice) + "");
+//                parameters.put("priceTo", Utils.UAHtoPenny(maxPrice) + "");
+//                publicGoods.clear();
+//                getGoods(category, parameters);
+//                parameters.put("visibility", "private");
+//                getGoods(category, parameters);
             }
         }
     }
@@ -113,6 +118,26 @@ public class MyGoodsActivity extends DrawerActivity {
         tvInform = findViewById(R.id.tv_clear);
         tvInform2 = findViewById(R.id.tv_clear2);
         findViewById(R.id.tv_filter).setOnClickListener(this);
+    }
+
+
+    private void filterGoods(List <GoodsResults> lists) {
+        filteredGoods.clear();
+        for (GoodsResults  list : lists) {
+            if (list.getPrice() >= Utils.UAHtoPenny(minPrice) && list.getPrice() <= Utils.UAHtoPenny(maxPrice)) {
+                if (!category.isEmpty()) {
+                    for (String s : category) {
+                        if (s.equals(list.getCategory())) {
+                            filteredGoods.add(list);
+                            break;
+                        }
+                    }
+                } else {
+                    filteredGoods.add(list);
+                }
+            }
+        }
+        recyclerView.setAdapter(new GoodsAdapter((ArrayList) filteredGoods));
     }
 
     private void initSearchView() {
@@ -136,6 +161,16 @@ public class MyGoodsActivity extends DrawerActivity {
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+    }
+
+    public int getMaxPrice() {
+        int maxPrice = 0;
+        for (GoodsResults publicGood : publicGoods) {
+            if (maxPrice < publicGood.getPrice()) {
+                maxPrice = publicGood.getPrice();
+            }
+        }
+        return maxPrice;
     }
 
     private void filter() {
@@ -373,7 +408,6 @@ public class MyGoodsActivity extends DrawerActivity {
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("ssss", "onClick: ");
                     Intent intent = new Intent(context, ReviewGoodsActivity.class);
                     intent.putExtra(GOODS_ID, item.getId());
                     startActivity(intent);

@@ -42,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.ctvCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick((CheckedTextView) v, item.getId(), position);
+                listener.onItemClick((CheckedTextView) v, item.getCategory(), position);
             }
         });
     }
@@ -53,7 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     public interface OnItemClickListener {
-        void onItemClick(CheckedTextView ctv, int id,int position);
+        void onItemClick(CheckedTextView ctv, String id,int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

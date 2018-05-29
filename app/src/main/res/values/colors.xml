@@ -24,6 +24,8 @@
     <color name="grey_text_currency">#6C6C6C</color>
     <color name="blue_text">#3E7099</color>
     <color name="black_text">#323232</color>
+    <color name="grey_text_hint">#E0E0E0</color>
+    <color name="grey_text_title">#808080</color>
     <color name="black_text_secondary">#171717</color>
     <color name="checked_checkbox">#FF392E</color>
     <color name="bar_disabled">#CECED2</color>
