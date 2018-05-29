@@ -63,7 +63,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_details);
-        initCustomToolbar("Стихийное бедствие");
+        initCustomToolbar(getString(R.string.charity));
         if (getIntent() != null) {
             charityId = getIntent().getStringExtra(CHARITY_ID);
             userId = getIntent().getLongExtra(CHARITY_USER_ID, -1);
