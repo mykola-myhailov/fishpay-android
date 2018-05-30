@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.adapters.EditPhotoAdapter;
 import com.myhailov.mykola.fishpay.adapters.PhotoAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -72,7 +73,7 @@ public class CreateGoodsActivity extends BaseActivity {
             goodsId = extras.getLong(GOODS_ID, 0);
             getGoodsById(goodsId + "");
             initCustomToolbar("Редактировать товар");
-            ((TextView)findViewById(R.id.tvCreate)).setText(getString(R.string.save));
+            ((TextView) findViewById(R.id.tvCreate)).setText(getString(R.string.save));
         } else {
             createNewGoods = true;
             initCustomToolbar("Создать товар");
@@ -123,8 +124,10 @@ public class CreateGoodsActivity extends BaseActivity {
                         Intent intent = new Intent(context, GoodsPreviewActivity.class);
                         intent.putExtra(GOODS, goods);
                         startActivity(intent);
-                    }else {
-
+                    } else {
+                        if (checkGoods()) {
+                            editGoods();
+                        }
                     }
 
                 }
@@ -218,7 +221,7 @@ public class CreateGoodsActivity extends BaseActivity {
             return false;
         }
 
-        if (TextUtils.isEmpty(goods.getMainPhoto())) {
+        if (createNewGoods && TextUtils.isEmpty(goods.getMainPhoto())) {
             Utils.toast(context, "Выберите фото");
             return false;
         }
@@ -271,11 +274,25 @@ public class CreateGoodsActivity extends BaseActivity {
         }
     }
 
-    // TODO: 29.05.2018 write request
-//    private void editGoods(){
-//        ApiClient.getApiClient().editGoods(TokenStorage.getToken(context),
-//                )
-//    }
+    private void editGoods() {
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+        } else {
+            ApiClient.getApiClient().editGoods(TokenStorage.getToken(context),
+                    goodsId + "", etDescription.getText().toString(),
+                    Utils.UAHtoPenny(etPrice.getText().toString()) + "",
+                    Integer.toString(categorySpinner.getSelectedItemPosition() + 1),
+                    switchStatus.isChecked() ? PRIVATE : PUBLIC)
+                    .enqueue(new BaseCallback<Object>(context, true) {
+                        @Override
+                        protected void onResult(int code, Object result) {
+                            toast("Товар изменен");
+                            startActivity(new Intent(context, MyGoodsActivity.class));
+                            finish();
+                        }
+                    });
+        }
+    }
 
     private void getCategory() {
         ApiClient.getApiClient().getCategory(TokenStorage.getToken(context))

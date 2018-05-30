@@ -76,7 +76,8 @@
 
         <service android:name=".services.ContactsIntentService"/>
 
-        <activity android:name=".activities.goods.CreateGoodsActivity"/>
+        <activity android:name=".activities.goods.CreateGoodsActivity"
+                android:windowSoftInputMode="stateHidden"/>
         <activity
                 android:name=".activities.joint_purchases.CreateMemberActivity"
                 android:screenOrientation="portrait"/>

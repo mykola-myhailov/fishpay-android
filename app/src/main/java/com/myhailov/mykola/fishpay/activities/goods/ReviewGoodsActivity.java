@@ -14,10 +14,12 @@ import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
-import com.myhailov.mykola.fishpay.database.Contact;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import java.util.ArrayList;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrlGoods;
@@ -56,11 +58,7 @@ public class ReviewGoodsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_author:
-                Intent intent = new Intent(context, ContactDetailsActivity.class);
-                Contact contact = new Contact();
-                contact.setUserId(Long.parseLong(goods.getUserId()));
-                intent.putExtra(Keys.CONTACT, contact);
-                startActivity(intent);
+                getUserInfo();
                 break;
         }
     }
@@ -103,6 +101,23 @@ public class ReviewGoodsActivity extends BaseActivity {
         return textSliderView;
     }
 
+    private void getUserInfo() {
+        if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        else
+            ApiClient.getApiClient().searchContact(TokenStorage.getToken(context), goods.getUser().getPhone())
+                    .enqueue(new BaseCallback<SearchedContactsResult>(context, true) {
+                        @Override
+                        protected void onResult(int code, SearchedContactsResult result) {
+                            ArrayList<SearchedContactsResult.SearchedContact> contacts = result.getContacts();
+                            if (contacts == null || contacts.size() < 1) return;
+                            SearchedContactsResult.SearchedContact contact = contacts.get(0);
+                            if (contact == null) return;
+                            Intent intent = new Intent(context, ContactDetailsActivity.class);
+                            intent.putExtra(Keys.SEARCHED_CONTACT, contact);
+                            context.startActivity(intent);
+                        }
+                    });
+    }
 
     private void getGoodsById(String id) {
         if (!Utils.isOnline(context)) {
