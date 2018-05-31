@@ -19,8 +19,9 @@ public class CharitySuccessActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_success);
-        if (getIntent() != null) {
-            id = getIntent().getStringExtra(CHARITY_ID);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getString(CHARITY_ID);
         }
 
         findViewById(R.id.tv_to_work).setOnClickListener(this);

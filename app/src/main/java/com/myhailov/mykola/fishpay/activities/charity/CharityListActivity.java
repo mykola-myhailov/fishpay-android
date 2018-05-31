@@ -29,9 +29,10 @@ public class CharityListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_list);
         initCustomToolbar("Список взносов");
-        if (getIntent() != null) {
-            charities = (ArrayList) getIntent().getSerializableExtra(CHARITY_LIST);
-            amount = getIntent().getIntExtra(CHARITY_AMOUNT, 0);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            charities = (ArrayList) extras.getSerializable(CHARITY_LIST);
+            amount = extras.getInt(CHARITY_AMOUNT, 0);
         }
         tvAmount = findViewById(R.id.tv_amount);
         String am = Utils.pennyToUah(amount);

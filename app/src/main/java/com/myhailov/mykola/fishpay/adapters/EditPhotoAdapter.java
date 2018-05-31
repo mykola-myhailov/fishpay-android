@@ -1,8 +1,6 @@
 package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
-import java.io.File;
 import java.util.List;
 
-public class CharityPhotoAdapter extends RecyclerView.Adapter<CharityPhotoAdapter.ViewHolder> {
+public class EditPhotoAdapter extends RecyclerView.Adapter<EditPhotoAdapter.ViewHolder> {
 
-    private static final String TAG = CharityPhotoAdapter.class.getSimpleName();
+    private static final String TAG = PhotoAdapter.class.getSimpleName();
     private Context context;
-    private List<String> list;
+    private List<GoodsByIdResult.Photo> list;
     private OnItemClickListener listener;
 
-    public CharityPhotoAdapter(Context context, List<String> list, OnItemClickListener onItemClickListener) {
+    public EditPhotoAdapter(Context context, List<GoodsByIdResult.Photo> list, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.list = list;
         this.listener = onItemClickListener;
@@ -36,28 +35,9 @@ public class CharityPhotoAdapter extends RecyclerView.Adapter<CharityPhotoAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        String item = list.get(position);
-        File imgFile = new File(item);
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.photo.setImageBitmap(myBitmap);
-        }
-
-
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(position);
-            }
-        });
-
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                listener.onItemClick();
-            }
-        });
+        GoodsByIdResult.Photo item = list.get(position);
+        holder.delete.setVisibility(View.GONE);
+        Utils.displayGoods(context, holder.photo, item.getPhotoUrl(), item.getId());
     }
 
     @Override

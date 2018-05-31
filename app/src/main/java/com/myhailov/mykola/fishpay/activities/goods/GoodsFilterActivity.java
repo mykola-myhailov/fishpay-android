@@ -60,8 +60,9 @@ public class GoodsFilterActivity extends BaseActivity {
         getCategory();
         initCustomToolbar("Фильтр");
 
-        if (getIntent() != null) {
-            maxPrice = getIntent().getIntExtra(MAX_PRICE, 1000000) / 100;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            maxPrice = extras.getInt(MAX_PRICE, 1000000) / 100;
         }
 
         initViews();

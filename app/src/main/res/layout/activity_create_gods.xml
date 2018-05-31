@@ -108,6 +108,7 @@
 
 
         <android.support.v7.widget.SwitchCompat
+                android:theme="@style/SwitchStyle"
                 android:id="@+id/switchStatus"
                 android:shadowColor="@color/blue1"
                 android:layout_alignParentEnd="true"
@@ -179,6 +180,7 @@
                 android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:hint="Введите сумму"

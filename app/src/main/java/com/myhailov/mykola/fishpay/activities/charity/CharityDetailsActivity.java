@@ -39,6 +39,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrl;
 
 public class CharityDetailsActivity extends BaseActivity implements TabLayout.OnTabChangedListener {
+    public static final long NOTHING = -1;
     private final int TAB_DESCRIPTION = 0;
     private final int TAB_CONTACT = 1;
 
@@ -51,8 +52,8 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     private ImageView ivSettings;
     private SliderLayout sliderPhoto;
 
-    private String charityId = "-1";
-    private long userId = -1;
+    private String charityId = NOTHING + "";
+    private long userId = NOTHING;
     private String charityVisibility = new String();
     private String membersVisibility;
     private CharityResultById charity = new CharityResultById();
@@ -64,11 +65,12 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_details);
         initCustomToolbar(getString(R.string.charity));
-        if (getIntent() != null) {
-            charityId = getIntent().getStringExtra(CHARITY_ID);
-            userId = getIntent().getLongExtra(CHARITY_USER_ID, -1);
-            charityVisibility = getIntent().getStringExtra(CHARITY_VISIBILITY);
-            membersVisibility = getIntent().getStringExtra(CHARITY_MEMBERS_VISIBILITY);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            charityId = extras.getString(CHARITY_ID, "");
+            userId = extras.getLong(CHARITY_USER_ID, -1);
+            charityVisibility = extras.getString(CHARITY_VISIBILITY);
+            membersVisibility = extras.getString(CHARITY_MEMBERS_VISIBILITY);
         }
         assignViews();
         initTabLayout();

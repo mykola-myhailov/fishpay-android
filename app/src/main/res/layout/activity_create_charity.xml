@@ -178,6 +178,7 @@
             <Switch
                     android:text=""
                     android:textSize="24sp"
+                    android:theme="@style/SwitchStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/switch_indefinitely"
@@ -370,7 +371,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView22"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
                     app:layout_constraintEnd_toEndOf="@+id/view2"
-                    android:visibility="visible"/>
+                    android:visibility="invisible"/>
 
             <TextView
                     android:textSize="24sp"

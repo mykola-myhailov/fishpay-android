@@ -17,7 +17,7 @@ import com.mvc.imagepicker.ImagePicker;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
-import com.myhailov.mykola.fishpay.adapters.CharityPhotoAdapter;
+import com.myhailov.mykola.fishpay.adapters.PhotoAdapter;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -47,7 +47,7 @@ public class CreateCharityActivity extends BaseActivity {
 
     private List<String> photos = new ArrayList<>();
     private CharityRequestBody charity = new CharityRequestBody();
-    private CharityPhotoAdapter.OnItemClickListener rvPhotoListener = new CharityPhotoAdapter.OnItemClickListener() {
+    private PhotoAdapter.OnItemClickListener rvPhotoListener = new PhotoAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
             photos.remove(position);
@@ -56,7 +56,7 @@ public class CreateCharityActivity extends BaseActivity {
                 tvAddPhoto.setVisibility(View.GONE);
                 tvAddSecondaryPhoto.setVisibility(View.VISIBLE);
             }
-            rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+            rvPhoto.setAdapter(new PhotoAdapter(context, photos, rvPhotoListener));
         }
     };
 
@@ -162,7 +162,7 @@ public class CreateCharityActivity extends BaseActivity {
                         tvAddSecondaryPhoto.setVisibility(View.INVISIBLE);
                     }
                     photos.add(createFile(bitmap, "img").getPath());
-                    rvPhoto.setAdapter(new CharityPhotoAdapter(context, photos, rvPhotoListener));
+                    rvPhoto.setAdapter(new PhotoAdapter(context, photos, rvPhotoListener));
 
                 }
             }
