@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.group_spends.AddNewSpendActivity">
+    tools:context=".activities.group_spends.AddMoreSpendsActivity">
 
     <LinearLayout
         android:id="@+id/llToolbar"
@@ -83,7 +83,7 @@
             android:layout_toEndOf="@+id/flAvatarContainer"
             android:textAllCaps="true"
             android:layout_marginTop="5dp"
-            android:text="test"
+            android:text=""
             android:layout_marginStart="10dp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
@@ -96,11 +96,12 @@
             android:layout_toEndOf="@+id/flAvatarContainer"
             android:textColor="@color/gray_light"
             android:textSize="18dp"
-            android:text="+222222222222"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <View
+            android:id="@+id/divider1"
             android:layout_below="@+id/flAvatarContainer"
             android:layout_marginTop="5dp"
             android:background="@color/white"
@@ -113,7 +114,7 @@
             android:layout_marginStart="10dp"
             android:layout_below="@+id/flAvatarContainer"
             android:textColor="@color/gray_light"
-            android:text="fffffffffffffff"
+            android:text="Группа расходов"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -126,7 +127,7 @@
             android:textColor="@color/white"
             android:textAllCaps="true"
             android:textSize="18dp"
-            android:text="sdfsfsfssfdsf"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -159,41 +160,58 @@
         <TextView
             android:id="@+id/tvComment"
             android:layout_toEndOf="@+id/ivComment"
+            android:maxWidth="200dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/blue1"
-            android:text="Lsdfsfsfffffffffsdfsfsf"
+            android:text="Введите комментарий"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/etComment"
+            android:layout_toEndOf="@+id/ivComment"
+            android:layout_below="@+id/tvComment"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/blue1"
+            android:hint="(обязательное поле)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="null" />
+
         <View
             android:id="@+id/divider2"
-            android:layout_below="@+id/tvComment"
-            android:layout_marginTop="15dp"
-            android:background="@color/black1"
-            android:layout_marginStart="50dp"
+            android:layout_below="@+id/etComment"
+            android:layout_marginTop="5dp"
+            android:background="@color/gray_light"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:layout_height="1dp"/>
 
         <TextView
             android:id="@+id/tvCurrency"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_below="@+id/divider2"
             android:text=" | грн"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvAmount"
+        <EditText
+            android:id="@+id/etAmount"
             android:layout_toStartOf="@+id/tvCurrency"
+            android:inputType="numberDecimal"
+            android:layout_alignBaseline="@+id/tvCurrency"
             android:layout_below="@+id/divider2"
             android:layout_marginEnd="10dp"
-            android:text="333"
+            android:text="0"
             android:layout_width="wrap_content"
             android:textSize="30dp"
             android:textColor="@color/blue1"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="null" />
     </RelativeLayout>
 
 

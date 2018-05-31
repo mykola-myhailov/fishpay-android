@@ -1,11 +1,14 @@
 package com.myhailov.mykola.fishpay.api.results;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Mykola Myhailov  on 10.04.18.
  */
-public class GroupSpend {
+public class GroupSpend implements Parcelable {
 
     @SerializedName("id")
     private long id;
@@ -35,10 +38,14 @@ public class GroupSpend {
     @SerializedName("creator_last_name")
     private String creatorSurname;
 
-    //  "contact_creator_first_name":"y\u011dtyhg",
-    //   "contact_creator_last_name":"ttfgh"
+    // unused:
+    //  "contact_creator_first_name":"",
+    //   "contact_creator_last_name":""
 
 
+
+
+    //Getters:
     public long getId() { return id; }
 
     public String getTitle() {
@@ -69,4 +76,54 @@ public class GroupSpend {
     public String getCreatorSurname() {
         return creatorSurname;
     }
+
+
+
+
+    //Parcelable implementation:
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeInt(startAmount);
+        parcel.writeString(memberPart);
+        parcel.writeString(status);
+        parcel.writeLong(creatorId);
+        parcel.writeString(creatorName);
+        parcel.writeString(creatorSurname);
+    }
+
+    protected GroupSpend(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        description = in.readString();
+        startAmount = in.readInt();
+        memberPart = in.readString();
+        status = in.readString();
+        creatorId = in.readLong();
+        creatorName = in.readString();
+        creatorSurname = in.readString();
+    }
+
+    public static final Creator<GroupSpend> CREATOR = new Creator<GroupSpend>() {
+        @Override
+        public GroupSpend createFromParcel(Parcel in) {
+            return new GroupSpend(in);
+        }
+
+        @Override
+        public GroupSpend[] newArray(int size) {
+            return new GroupSpend[size];
+        }
+    };
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
 }

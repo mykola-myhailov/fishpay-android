@@ -323,12 +323,12 @@ public interface ApiInterface {
                                                               @Path("id") long id);
 
     @FormUrlEncoded @POST("api/commonSpendings/{id}/transactions")
-    Call<BaseResponse<Object>>  transaction   (@Header("Authorization") String token,
-                                               @Path("id") String id,
+    Call<BaseResponse<JsonElement>>  spendTransaction   (@Header("Authorization") String token,
+                                               @Path("id") long id,
                                                @Field("returnUpdated") boolean returnUpdated,
                                                @Field("member_from") String memberFrom,
                                                @Field("member_to") String memberTo,
-                                               @Field("amount") String amount,
+                                               @Field("amount") int amount,
                                                @Field("comment") String comment);
 
     @DELETE("api/commonSpendings/transactions/{trans_id}")

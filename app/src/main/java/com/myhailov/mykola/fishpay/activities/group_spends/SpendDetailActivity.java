@@ -12,10 +12,12 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.MemberDetails;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -30,20 +32,25 @@ public class SpendDetailActivity extends BaseActivity{
 
     private ArrayList<MemberDetails> members;
     private ArrayList<Transaction> transactions;
+    private GroupSpend spend;
     private long spendId;
+    private boolean iAmCreator;
+    private long myUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spend_detail);
-
-        spendId = getIntent().getExtras().getLong(Keys.SPEND_ID);
-
+        Bundle extras = getIntent().getExtras();
+        spend= extras.getParcelable(Keys.SPEND);
+        spendId = spend.getId();
         tvAmount = findViewById(R.id.tv_amount);
+
+        myUserId = Long.valueOf(getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
+                .getString(PrefKeys.ID, "0"));
 
         recyclerView = findViewById(R.id.rvContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
 
         spendDetailRequest();
     }
@@ -59,6 +66,7 @@ public class SpendDetailActivity extends BaseActivity{
                     members = result.getMembers();
                     transactions = result.getTransactions();
                     initCustomToolbar(result.getTitle());
+                    iAmCreator = (result.getCreatorId() == myUserId);
                     initToggleButtons();
                     initViews();
 
@@ -67,7 +75,7 @@ public class SpendDetailActivity extends BaseActivity{
     }
 
     private void initViews() {
-        (findViewById(R.id.iv_plus)).setOnClickListener(this);
+        if (iAmCreator) (findViewById(R.id.iv_plus)).setOnClickListener(this);
     }
 
     @Override
@@ -79,7 +87,9 @@ public class SpendDetailActivity extends BaseActivity{
                 onBackPressed();
                 break;
             case R.id.iv_plus:
-                context.startActivity(new Intent(context, AddNewSpendActivity.class));
+                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
+                .putExtra(Keys.SPEND, spend));
+                break;
         }
     }
 

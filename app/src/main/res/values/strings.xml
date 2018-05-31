@@ -125,4 +125,6 @@
     <string name="all">Все</string>
     <string name="use">Использовать</string>
     <string name="add">Добавить</string>
+    <string name="enter_comment">Введите комментарий</string>
+    <string name="enter_amount">Введите сумму</string>
 </resources>

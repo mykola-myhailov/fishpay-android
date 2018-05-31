@@ -130,7 +130,7 @@
         </activity>
         <activity android:name=".activities.goods.ReviewGoodsActivity">
         </activity>
-        <activity android:name=".activities.group_spends.AddNewSpendActivity" />
+        <activity android:name=".activities.group_spends.AddMoreSpendsActivity" />
     </application>
 
 </manifest>

@@ -48,9 +48,12 @@
     </RelativeLayout>
 
     <TextView
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:id="@+id/tv_"
         android:gravity="center"
+        android:layout_marginStart="10dp"
+        android:text="Всего расходов:"
+        android:textColor="@color/gray_light"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
