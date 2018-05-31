@@ -108,6 +108,7 @@
 
 
         <android.support.v7.widget.SwitchCompat
+                android:theme="@style/SwitchStyle"
                 android:id="@+id/switchStatus"
                 android:shadowColor="@color/blue1"
                 android:layout_alignParentEnd="true"
