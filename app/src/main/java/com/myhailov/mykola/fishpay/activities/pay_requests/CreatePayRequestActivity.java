@@ -301,21 +301,21 @@ public class CreatePayRequestActivity extends BaseActivity {
         return goodsArray.toString();
     }
 
-/*    private class ContactHolder extends RecyclerView.ViewHolder{
+/*    private class MemberHolder extends RecyclerView.ViewHolder{
 
-        public ContactHolder(View itemView) {
+        public MemberHolder(View itemView) {
             super(itemView);
         }
     }
 
-    private class SelectContactAdapter extends RecyclerView.Adapter<ContactHolder> {
+    private class SelectContactAdapter extends RecyclerView.Adapter<MemberHolder> {
         @Override
-        public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MemberHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return null;
         }
 
         @Override
-        public void onBindViewHolder(ContactHolder holder, int position) {
+        public void onBindViewHolder(MemberHolder holder, int position) {
 
         }
 

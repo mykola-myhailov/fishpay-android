@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
     public SpendTransactionsAdapter(Context context, ArrayList<Transaction> transactions) {
         this.context = context;
         this.transactions = transactions;
+        Log.e("transactons.size", transactions.size() + "");
     }
 
     @Override
@@ -37,7 +39,7 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
 
     class TransactionHolder extends RecyclerView.ViewHolder{
         private SwipeRevealLayout swipeRevealLayout;
-        private TextView tvName, tvInitials, tvDelete, tvFrom, tvTo,  tvDate, tvDescription, tvSum, tvAmount;
+        private TextView tvDelete, tvFrom, tvTo,  tvDate, tvDescription, tvAmount;
         private View container;
 
         public TransactionHolder(View itemView) {
@@ -61,7 +63,6 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
         Utils.setText(holder.tvAmount, transaction.getAmount() );
         Utils.setText(holder.tvDescription, transaction.getComment());
         Utils.setText(holder.tvFrom, transaction.getMemberFromName() + " " + transaction.getMemberFromSurname());
-
         Utils.setText(holder.tvDate, transaction.getDate());
 
         ;

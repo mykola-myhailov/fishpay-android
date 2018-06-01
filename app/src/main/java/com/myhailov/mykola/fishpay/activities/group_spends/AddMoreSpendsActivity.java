@@ -7,9 +7,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonElement;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
@@ -50,6 +52,7 @@ public class AddMoreSpendsActivity extends BaseActivity {
         userSurname = preferences.getString(PrefKeys.SURNAME, "");
         phoneNumber = preferences.getString(PrefKeys.PHONE, "");
         photoLink = preferences.getString(PrefKeys.AVATAR, "");
+        userId = preferences.getString(PrefKeys.ID, "");
 
 
         initViews();
@@ -72,12 +75,16 @@ public class AddMoreSpendsActivity extends BaseActivity {
 
         tvSpendTitle = findViewById(R.id.tvSpendName);
         tvSpendTitle.setText(spendTitle);
+
+        findViewById(R.id.tv_add).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            //case R.id.
+            case R.id.tv_add:
+                addSpendRequest();
+                break;
         }
     }
 
@@ -85,7 +92,13 @@ public class AddMoreSpendsActivity extends BaseActivity {
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else if (isDataValid())
         ApiClient.getApiClient().spendTransaction(TokenStorage.getToken(context),
-                spendId, true,userId, null, pennyAmount, comment);
+                spendId, true,userId, null, pennyAmount, comment)
+                .enqueue(new BaseCallback<JsonElement>(context, true) {
+                    @Override
+                    protected void onResult(int code, JsonElement result) {
+
+                    }
+                });
     }
 
     private boolean isDataValid() {

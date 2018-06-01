@@ -127,4 +127,10 @@
     <string name="add">Добавить</string>
     <string name="enter_comment">Введите комментарий</string>
     <string name="enter_amount">Введите сумму</string>
+    <string name="role">роль: </string>
+    <string name="total_cost">всего расходов:</string>
+    <string name="share">доля: </string>
+    <string name="creator">создатель</string>
+    <string name="member">участник</string>
+    <string name="no_account">без аккаунта</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.adapters.SpendMembersAdapter;
 import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -97,15 +98,17 @@ public class SpendDetailActivity extends BaseActivity{
         final ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
         labels.add("Список");
-        labels.add("Участники");;
+        labels.add("Участники");
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
+        recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
         toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                if (position == 0) recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
-             //   else recyclerView.setAdapter(new SpendContactsAdapter());
+               if (position == 0)
+                    recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
+                else recyclerView.setAdapter(new SpendMembersAdapter(context, members));
             }
         });
     }

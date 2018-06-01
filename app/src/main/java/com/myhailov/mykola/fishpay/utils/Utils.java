@@ -22,6 +22,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -203,6 +204,14 @@ public class Utils {
         return amount;
     }
 
+    public static String pennyToUah(long penny) {
+        String amount;
+        if (penny != 0)
+            amount = String.format(Locale.ENGLISH,"%.2f", (float) (penny / (float) 100));
+        else amount = "0";
+        return amount;
+    }
+
     public static int UAHtoPenny(String UAH) {
         Double penny = 0.0;
         try {
@@ -235,33 +244,40 @@ public class Utils {
     }
 
     public static void setText(TextView textView, String text){
-        if (text != null && textView != null){
+        if (text != null && text != "null" && textView != null){
             textView.setText(text);
         }
     }
 
     public static void setText(TextView textView, long text){
         if (textView!= null){
-            textView.setText(text + "");
+            textView.setText(String.valueOf(text));
         }
     }
 
     public static void setText(TextView textView, int text){
         if (textView!= null){
-            textView.setText(text + "");
+            textView.setText(String.valueOf(text));
         }
     }
 
     public static void setText(TextView textView, double text){
         if (textView!= null){
-            textView.setText(text + "");
+            textView.setText(String.valueOf(text));
         }
     }
 
     public static void setText(TextView textView, float text){
         if (textView!= null){
-            textView.setText(text + "");
+            textView.setText(String.valueOf(text));
         }
     }
 
+    public static String toPercentage(double part) {
+        DecimalFormat percentFormat = new DecimalFormat("0.0%");
+        percentFormat.setDecimalSeparatorAlwaysShown(false);
+        percentFormat.setMinimumFractionDigits(0);
+        percentFormat.setMaximumFractionDigits(0);
+        return percentFormat.format(0);
+    }
 }

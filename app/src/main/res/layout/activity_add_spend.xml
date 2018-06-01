@@ -177,8 +177,7 @@
             android:textColor="@color/blue1"
             android:hint="(обязательное поле)"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="null" />
+            android:layout_height="wrap_content" />
 
         <View
             android:id="@+id/divider2"
@@ -210,8 +209,7 @@
             android:layout_width="wrap_content"
             android:textSize="30dp"
             android:textColor="@color/blue1"
-            android:layout_height="wrap_content"
-            android:background="null" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 
