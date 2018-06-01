@@ -9,17 +9,22 @@
         app:mode="same_level"
         app:dragEdge="right">
 
-    <TextView
-            android:id="@+id/tv_delete"
+    <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:gravity="center"
-            android:background="@android:color/holo_red_dark"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:text="@string/delete"/>
+            android:layout_height="match_parent" >
+        <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:gravity="center"
+                android:background="@android:color/holo_red_dark"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:text="@string/delete"
+                android:layout_height="match_parent"/>
+    </FrameLayout>
+
 
     <android.support.constraint.ConstraintLayout
             android:id="@+id/container"

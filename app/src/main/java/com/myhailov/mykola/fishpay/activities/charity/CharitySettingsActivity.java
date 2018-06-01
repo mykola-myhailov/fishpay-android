@@ -1,13 +1,17 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,9 +35,11 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     private TextView tvListDonation;
     private TextView etPseudonym;
     private TextView tvClose;
+    private TextView tvCloseCharityAlert, tvCancelAlert;
     private Switch swPseudonym;
     private PopupMenu pmCharityVisibility;
     private PopupMenu pmMembersVisibility;
+    private AlertDialog alertDialog;
 
     private boolean newCharity = false;
 
@@ -75,6 +81,13 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
             case R.id.tv_list_donation:
                 pmMembersVisibility.show();
                 break;
+            case R.id.tv_cancel_alert:
+                alertDialog.cancel();
+                break;
+            case R.id.tv_close_charity_alert:
+                closeCharity(charity.getId().toString());
+                alertDialog.cancel();
+                break;
             case R.id.tv_close:
                 if (newCharity) {
                     if (swPseudonym.isChecked()) {
@@ -87,7 +100,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                     startActivity(intent);
                 } else {
                     if (charity.getStatus().equals("ACTIVE")) {
-                        showAlert("Данные о сборе буду сохраняться в публичном доступе и дальше. Возможность взносов будет закрыта");
+                        showAlert();
                     } else {
                         toast("Закрыто");
                     }
@@ -196,18 +209,20 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
         pmMembersVisibility.setOnMenuItemClickListener(this);
     }
 
-    private void showAlert(String message) {
-        new AlertDialog.Builder(context)
-                .setTitle("Закрыть взаимопомощь?")
-                .setMessage(message)
-                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        closeCharity(charity.getId().toString());
-                    }
-                })
-                .setNegativeButton("no", null)
-                .create().show();
+    private void showAlert() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_charity_close, null);
+        dialogBuilder.setView(dialogView);
+        tvCloseCharityAlert = dialogView.findViewById(R.id.tv_close_charity_alert);
+        tvCancelAlert = dialogView.findViewById(R.id.tv_cancel_alert);
+
+        tvCloseCharityAlert.setOnClickListener(this);
+        tvCancelAlert.setOnClickListener(this);
+
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
     private void closeCharity(String charityId) {

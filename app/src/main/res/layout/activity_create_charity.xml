@@ -106,6 +106,7 @@
                     android:layout_marginTop="8dp"/>
 
             <EditText
+                    android:theme="@style/editTextTheme"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:layout_width="0dp"
@@ -113,6 +114,8 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:hint="Введите название"
+                    android:background="@null"
+                    android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
                     tools:text="Помощь потерпевшим от урагана Ирма"
                     android:id="@+id/et_title"
@@ -124,6 +127,17 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"/>
 
+            <View
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="0dp"
+                    android:layout_height="00.5dp"
+                    android:background="@color/grey2"
+                    android:id="@+id/view6"
+                    app:layout_constraintTop_toBottomOf="@+id/et_title"
+                    app:layout_constraintEnd_toEndOf="@+id/switch_indefinitely"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    android:layout_marginTop="8dp"/>
+
             <TextView
                     android:text="Необходимая сумма"
                     android:textSize="17sp"
@@ -132,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView11"
                     app:layout_constraintStart_toStartOf="@+id/et_title"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/et_title"
                     />
 
@@ -148,6 +162,7 @@
                     />
 
             <com.myhailov.mykola.fishpay.views.MoneyEditText
+                    android:theme="@style/editTextTheme"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textAlignment="textEnd"
@@ -155,6 +170,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="10"
+                    android:background="@null"
+                    android:textCursorDrawable="@color/grey"
                     android:hint="Введите сумму"
                     android:textColorHint="@color/grey_text_hint"
                     android:id="@+id/et_total_amount"
@@ -163,6 +180,17 @@
                     app:layout_constraintEnd_toStartOf="@+id/textView13"
                     app:layout_constraintStart_toStartOf="@+id/textView11"
                     />
+
+            <View
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="0dp"
+                    android:layout_height="00.5dp"
+                    android:background="@color/grey2"
+                    android:id="@+id/view7"
+                    app:layout_constraintTop_toBottomOf="@+id/et_total_amount"
+                    app:layout_constraintEnd_toEndOf="@+id/switch_indefinitely"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    android:layout_marginTop="8dp"/>
 
             <TextView
                     android:textSize="17sp"
@@ -183,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/switch_indefinitely"
                     app:layout_constraintEnd_toEndOf="@+id/textView13"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/et_total_amount"
                     />
 
@@ -211,6 +239,7 @@
                     />
 
             <com.myhailov.mykola.fishpay.views.MoneyEditText
+                    android:theme="@style/editTextTheme"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textAlignment="textEnd"
@@ -219,6 +248,8 @@
                     android:inputType="numberDecimal"
                     android:ems="10"
                     android:hint="Введите сумму"
+                    android:background="@null"
+                    android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
                     android:id="@+id/et_collected_amount"
                     app:layout_constraintTop_toBottomOf="@+id/textView17"
@@ -226,6 +257,17 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="@+id/textView17"
                     />
+
+            <View
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="0dp"
+                    android:layout_height="00.5dp"
+                    android:background="@color/grey2"
+                    android:id="@+id/view8"
+                    app:layout_constraintTop_toBottomOf="@+id/et_collected_amount"
+                    app:layout_constraintEnd_toEndOf="@+id/switch_indefinitely"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    android:layout_marginTop="8dp"/>
 
             <TextView
                     android:text="@string/uah2"
@@ -245,24 +287,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView19"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/et_collected_amount"
                     app:layout_constraintStart_toStartOf="@+id/et_collected_amount"
                     />
 
             <EditText
+                    android:theme="@style/editTextTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/et_description"
                     android:hint="Сообщения для пользователей"
+                    android:background="@null"
+                    android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
                     app:layout_constraintEnd_toEndOf="@+id/textView18"
                     app:layout_constraintStart_toStartOf="@+id/textView19"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/textView19"
                     />
+
+            <View
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="0dp"
+                    android:layout_height="00.5dp"
+                    android:background="@color/grey2"
+                    android:id="@+id/view9"
+                    app:layout_constraintEnd_toEndOf="@+id/switch_indefinitely"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    app:layout_constraintTop_toBottomOf="@+id/et_description"
+                    android:layout_marginTop="8dp"/>
 
             <TextView
                     android:textSize="17sp"
@@ -272,7 +328,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView20"
                     app:layout_constraintStart_toStartOf="@+id/et_description"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/et_description"
                     />
 

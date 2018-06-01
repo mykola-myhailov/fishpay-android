@@ -65,7 +65,7 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
-    <string name="null_string" />
+    <string name="null_string"/>
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="total_amount">Общяя сумма</string>
@@ -106,6 +106,10 @@
     <string name="charity_empty_my">Вы еще не создавали програм взаимопомощи</string>
     <string name="charity_empty_global">Еще не создавали програм взаимопомощи</string>
     <string name="close_charity">Закрыть сбор</string>
+    <string name="close_charity_alert">Закрыть програму взаимопомощи?</string>
+    <string name="close_charity_alert_description">Данные о сборе буду сохраняться в публичном доступе и дальше. Возможность взносов будет закрыта</string>
+    <string name="cancel">Отменить</string>
+    <string name="close">Закрыть</string>
     <string name="preview_charity">Предпросмотр</string>
     <string name="error_fill_information">Заполните информацию</string>
     <string name="error_county">Минимальное количество знаков %d</string>
