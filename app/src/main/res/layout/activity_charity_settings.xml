@@ -148,6 +148,7 @@
 
     <Switch
             android:text=""
+            android:theme="@style/SwitchStyle"
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -184,9 +185,14 @@
             app:layout_constraintHorizontal_bias="0.0"/>
 
     <EditText
+            android:theme="@style/editTextTheme"
             android:textSize="24sp"
             android:textColor="@color/black"
             android:enabled="false"
+            android:background="@null"
+            android:hint="Введите название"
+            android:textColorHint="@color/grey_text_hint"
+            android:textCursorDrawable="@color/grey"
             tools:text="фонд «Яблочко»"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -196,6 +202,18 @@
             app:layout_constraintTop_toBottomOf="@+id/textView15"
             app:layout_constraintEnd_toEndOf="@+id/switch_name"
             app:layout_constraintHorizontal_bias="0.0"/>
+
+    <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="0dp"
+            android:layout_height="00.5dp"
+            android:background="@color/grey2"
+            android:id="@+id/view_5"
+            app:layout_constraintTop_toBottomOf="@+id/et_pseudonym"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp"/>
 
     <TextView
             android:text="@string/close_charity"

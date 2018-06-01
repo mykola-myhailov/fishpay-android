@@ -417,7 +417,6 @@ public class MyGoodsActivity extends DrawerActivity {
                     }
                     intent.putExtra(GOODS_ID, item.getId());
                     startActivity(intent);
-                    Log.d("sss", "onClick: " + item.getId());
                 }
             });
 

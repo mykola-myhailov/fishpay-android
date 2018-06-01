@@ -91,7 +91,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
 
     private void initTabLayout() {
         tabLayout.addTab(new Tab("Описание", TAB_DESCRIPTION));
-        tabLayout.addTab(new Tab("Контакты", TAB_CONTACT));
+        tabLayout.addTab(new Tab("Участники", TAB_CONTACT));
         tabLayout.setTabChangedListener(this);
         tabLayout.setTabSelectedAt(TAB_DESCRIPTION);
 
