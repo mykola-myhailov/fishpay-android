@@ -200,7 +200,7 @@ public interface ApiInterface {
 
     @PUT("api/user/contacts/{userId}/block")
     Call<BaseResponse<Object>> blockUserById(@Header("Authorization") String token,
-                                             @Part("status") RequestBody status,
+                                             @Part("status") String status,
                                              @Path("userId") String id);
 
     @GET("api/user/contacts")

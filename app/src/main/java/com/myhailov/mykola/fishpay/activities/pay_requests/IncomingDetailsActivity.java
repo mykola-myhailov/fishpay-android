@@ -43,6 +43,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         long requestId = extras.getLong(Keys.REQUEST_ID);
+        Log.d("sss", "onCreate: "+ requestId);
 
         if (Utils.isOnline(context)) {
 
@@ -84,7 +85,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                 rejectRequest();
                 break;
             case R.id.tv_block_user:
-                alertDialog.cancel();
+                blockUser();
                 break;
             case R.id.tv_send_complaint:
                 alertDialog.cancel();
@@ -157,7 +158,18 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     }
 
-
+    private void blockUser(){
+        if(Utils.isOnline(context)){
+         ApiClient.getApiClient().blockUserById(TokenStorage.getToken(context),
+                 "BLOCKED", requesterId)
+                 .enqueue(new BaseCallback<Object>(context, true) {
+                     @Override
+                     protected void onResult(int code, Object result) {
+                         alertDialog.cancel();
+                     }
+                 });
+        }
+    }
 
 
     private void accept() {
@@ -174,7 +186,6 @@ public class IncomingDetailsActivity extends BaseActivity {
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            Log.d("sss", "onResult: " + code);
                             if (code == 202) {
                                 context.startActivity(new Intent(context, PayRequestActivity.class));
                             }
