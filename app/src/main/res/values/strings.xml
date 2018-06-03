@@ -137,4 +137,8 @@
     <string name="creator">создатель</string>
     <string name="member">участник</string>
     <string name="no_account">без аккаунта</string>
+    <string name="send_complaint">Отправить жалобу</string>
+    <string name="block_user">Заблокировать пользователя</string>
+    <string name="across_fishpay">Через FISHPAY</string>
+    <string name="send_across_fishpay">Запрос отправлен сегодня через систему FISHPAY</string>
 </resources>

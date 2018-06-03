@@ -198,6 +198,10 @@ public interface ApiInterface {
     Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token,
                                               @Field("contacts") String contacts);
 
+    @PUT("api/user/contacts/{userId}/block")
+    Call<BaseResponse<Object>> blockUserById(@Header("Authorization") String token,
+                                             @Part("status") RequestBody status,
+                                             @Path("userId") String id);
 
     @GET("api/user/contacts")
     Call<BaseResponse<ContactsResult>> getContacts(@Header("Authorization") String token,
