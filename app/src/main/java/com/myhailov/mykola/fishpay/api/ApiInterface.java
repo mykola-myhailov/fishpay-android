@@ -197,10 +197,10 @@ public interface ApiInterface {
     @PUT ("api/user/contacts/syncData")
     Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token,
                                               @Field("contacts") String contacts);
-
+    @FormUrlEncoded
     @PUT("api/user/contacts/{userId}/block")
     Call<BaseResponse<Object>> blockUserById(@Header("Authorization") String token,
-                                             @Part("status") String status,
+                                             @Field("status") String status,
                                              @Path("userId") String id);
 
     @GET("api/user/contacts")
