@@ -74,6 +74,7 @@
     <string name="uah2"> |грн</string>
     <string name="purchase_description">Описание покупки</string>
     <string name="pay_to">Оплатить до</string>
+    <string name="pay_card">Оплатить с карты</string>
     <string name="message_for_members">Сообщение для учасников</string>
     <string name="input_date">Введите дату</string>
     <string name="card_for_reception">Карта для приема</string>
@@ -144,4 +145,5 @@
     <string name="password_incorrect">Пароль введен не правильно</string>
     <string name="password_changed">Пароль успешно изменён.</string>
     <string name="use_new_password">Для входа в систему воспользуйтесь новым паролем</string>
+    <string name="publish_name">Публиковать имя</string>
 </resources>

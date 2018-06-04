@@ -16,7 +16,6 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityAdapter;
 import com.myhailov.mykola.fishpay.adapters.CharityDetailContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -28,14 +27,11 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
-import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
-import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_USER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
-import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrl;
 
 public class CharityDetailsActivity extends BaseActivity implements TabLayout.OnTabChangedListener {
@@ -75,6 +71,41 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         assignViews();
         initTabLayout();
         getCharityById();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+            case R.id.iv_settings:
+                Intent intent = new Intent(context, CharitySettingsActivity.class);
+                intent.putExtra(CHARITY_MEMBERS_VISIBILITY, membersVisibility);
+                intent.putExtra(CHARITY_VISIBILITY, charityVisibility);
+                intent.putExtra(CHARITY_RESULT, charity);
+                startActivity(intent);
+                break;
+            case R.id.tv_contribution:
+                Intent donationIntent = new Intent(context, CharityDonationActivity.class);
+                donationIntent.putExtra(CHARITY_RESULT, charity);
+                startActivity(donationIntent);
+                break;
+        }
+
+    }
+
+    @Override
+    public void onTabChanged(int position) {
+        container.removeAllViews();
+        switch (position) {
+            case TAB_DESCRIPTION:
+                initDescriptionView();
+                break;
+            case TAB_CONTACT:
+                initContactView();
+                break;
+        }
     }
 
     private void assignViews() {
@@ -138,53 +169,6 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                         }
                     });
         } else Utils.noInternetToast(context);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ivBack:
-                onBackPressed();
-                break;
-            case R.id.iv_settings:
-                Intent intent = new Intent(this, CharitySettingsActivity.class);
-                intent.putExtra(CHARITY_MEMBERS_VISIBILITY, membersVisibility);
-                intent.putExtra(CHARITY_VISIBILITY, charityVisibility);
-                intent.putExtra(CHARITY_RESULT, charity);
-                startActivity(intent);
-                break;
-            case R.id.tv_contribution:
-                startActivityForResult(new Intent(context, CardsActivity.class)
-                        .putExtra(REQUEST, true), REQUEST_CARD);
-                break;
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CARD && resultCode == RESULT_OK) {
-            card = data.getParcelableExtra(CARD);
-            if (card != null) {
-                // TODO: 15.05.2018 create request
-            } else {
-
-            }
-        }
-    }
-
-    @Override
-    public void onTabChanged(int position) {
-        container.removeAllViews();
-        switch (position) {
-            case TAB_DESCRIPTION:
-                initDescriptionView();
-                break;
-            case TAB_CONTACT:
-                initContactView();
-                break;
-        }
     }
 
     private void initDescriptionView() {
