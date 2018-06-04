@@ -43,7 +43,6 @@ public class IncomingDetailsActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         long requestId = extras.getLong(Keys.REQUEST_ID);
-        Log.d("sss", "onCreate: "+ requestId);
 
         if (Utils.isOnline(context)) {
 

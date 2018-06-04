@@ -137,7 +137,7 @@ public class CreateCharityActivity extends BaseActivity {
             card = data.getParcelableExtra(CARD);
             if (card != null) {
                 tvCardName.setText(card.getName());
-                tvCardNumber.setText(card.getLastFourNumbers());
+                tvCardNumber.setText("|" + card.getLastFourNumbers());
                 tvCardName.setVisibility(View.VISIBLE);
                 tvCardNumber.setVisibility(View.VISIBLE);
                 tvAddCard.setVisibility(View.GONE);
