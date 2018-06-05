@@ -41,7 +41,7 @@ public class ChangePasswordActivity extends BaseActivity {
     /*  title = "изменить пароль"  */
     private void changePassVerifyRequest(String password){
         String token = TokenStorage.getToken(context);
-        ApiClient.getApiClient().changePassVerify(token, password)
+        ApiClient.getApiInterface().changePassVerify(token, password)
                 .enqueue(new BaseCallback<ChangePassVerifyResult>(context, true) {
                     @Override
                     protected void onResult(int code, ChangePassVerifyResult result) {

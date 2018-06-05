@@ -155,7 +155,7 @@ public class DistributionActivity extends BaseActivity {
         if (Utils.isOnline(context)){
             GroupSpendBody groupSpendBody
                     = new GroupSpendBody(groupName, groupSpendDescription, groupSpendAmount, members);
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .createSpending(TokenStorage.getToken(context), groupSpendBody)
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
@@ -173,7 +173,7 @@ public class DistributionActivity extends BaseActivity {
     private void createJointPurchaseRequest() {
         if (Utils.isOnline(context)) {
             commonPurchaseBody.setMembers(members);
-            ApiClient.getApiClient().createJointPurchase(TokenStorage.getToken(context), commonPurchaseBody)
+            ApiClient.getApiInterface().createJointPurchase(TokenStorage.getToken(context), commonPurchaseBody)
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {

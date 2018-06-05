@@ -2,9 +2,7 @@ package com.myhailov.mykola.fishpay.activities.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -49,7 +47,7 @@ public class NewPasswordActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) passChangeId = extras.getString(Keys.PASS_CHANGE_ID);
 
-        ApiClient.getApiClient().changePass(token, newPassword, passChangeId).enqueue(
+        ApiClient.getApiInterface().changePass(token, newPassword, passChangeId).enqueue(
                 new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {

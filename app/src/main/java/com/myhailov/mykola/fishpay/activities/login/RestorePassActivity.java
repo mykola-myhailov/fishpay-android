@@ -46,7 +46,7 @@ public class RestorePassActivity extends BaseActivity {
                 if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
                 else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                 else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                else ApiClient.getApiClient().passRecovery(recoveryId, password, userId)
+                else ApiClient.getApiInterface().passRecovery(recoveryId, password, userId)
                             .enqueue(new BaseCallback<String>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable String result) {

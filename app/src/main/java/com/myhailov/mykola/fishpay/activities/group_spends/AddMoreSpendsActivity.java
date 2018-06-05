@@ -91,7 +91,7 @@ public class AddMoreSpendsActivity extends BaseActivity {
     private void addSpendRequest(){
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else if (isDataValid())
-        ApiClient.getApiClient().spendTransaction(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
                 spendId, true,userId, null, pennyAmount, comment)
                 .enqueue(new BaseCallback<JsonElement>(context, true) {
                     @Override

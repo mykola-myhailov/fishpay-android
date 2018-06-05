@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.activities.profile.ChangeLanguageActivity;
@@ -82,7 +80,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     private void getProfileRequest(){
 
-        ApiClient.getApiClient().getProfile(token)
+        ApiClient.getApiInterface().getProfile(token)
                 .enqueue(new BaseCallback<ProfileResult>(context, true) {
                     @Override
                     protected void onResult(int code, ProfileResult result) {
@@ -165,7 +163,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
         String allowMoneyRequests = "1";
         String touchIdLogin = "1";
         String lang = "ru";
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .setPreferences(token, allowMoneyRequests, touchIdLogin, lang )
                 .enqueue(new BaseCallback<Object>(context, false) {
                              @Override
@@ -188,14 +186,14 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     private void getPreferenceRequest() {
         String key;
-        ApiClient.getApiClient().getPreferences(token, key).enqueue(
+        ApiClient.getApiInterface().getPreferences(token, key).enqueue(
                 //TODO:
         );
     }
 
     private void getDevicesRequest(){
         boolean isNeededAllDevices;
-        ApiClient.getApiClient().getDevices(token, isNeededAllDevices).enqueue(
+        ApiClient.getApiInterface().getDevices(token, isNeededAllDevices).enqueue(
                 //TODO:
         );
     }

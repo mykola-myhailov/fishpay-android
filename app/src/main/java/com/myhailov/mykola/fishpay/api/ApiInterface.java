@@ -434,7 +434,12 @@ public interface ApiInterface {
     @GET("api/goods/{id}")
     Call<BaseResponse<GoodsByIdResult>> getGoodsDetails(@Header("Authorization") String token, @Path("id") String id);
 
-    // Transfer
+
+
+
+
+
+    // Transaction (Transfer user-to-user)
     @FormUrlEncoded
     @POST("api/transfer")
     Call<BaseResponse<Object>>  transfer(@Header("Authorization") String token,
@@ -455,4 +460,30 @@ public interface ApiInterface {
                                           @Field("fpt") String ftp,
                                           @Field("id") String id,
                                           @Field("code") String code);
+
+
+
+
+    // Transaction (Payment on incoming request)
+    @FormUrlEncoded
+    @POST("api/moneyRequest/{requestId}/attemptpay")
+    Call<BaseResponse<Object>>  paymentIncoming(@Header("Authorization") String token,
+                                         @Field("requestId") String requestId,
+                                         @Field("card_id") String card_id,
+                                         @Field("securityCode") String securityCode);
+
+    @FormUrlEncoded
+    @POST ("api/moneyRequest/{requestId}/auditpay")
+    Call<BaseResponse<Object>> auditpayIncomging(@Header("Authorization") String token,
+                                        @Field("fpt") String fpt,
+                                        @Field("requestId") String requestId,
+                                        @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST ("api/moneyRequest/{requestId}/sendlookup")
+    Call<BaseResponse<String>> sendLookupIncoming(@Header("Authorization") String token,
+                                                  @Field("requestId") String requestId,
+                                                  @Field("fpt") String ftp,
+                                                  @Field("id") String id,
+                                                  @Field("code") String code);
 }

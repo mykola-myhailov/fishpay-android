@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.goods;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.myhailov.mykola.fishpay.activities.MyGoodsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.GoodsRequestBody;
-import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -26,7 +24,6 @@ import org.json.JSONObject;
 import java.io.File;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
-import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 import static com.myhailov.mykola.fishpay.utils.Utils.makeRequestBodyFile;
 
 public class GoodsPreviewActivity extends BaseActivity {
@@ -92,7 +89,7 @@ public class GoodsPreviewActivity extends BaseActivity {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
         } else {
-            ApiClient.getApiClient().createGoods(TokenStorage.getToken(context),
+            ApiClient.getApiInterface().createGoods(TokenStorage.getToken(context),
                     Utils.makeRequestBody(goods.getTitle()),
                     Utils.makeRequestBody(goods.getDescription()),
                     Utils.makeRequestBody(goods.getPrice()),
@@ -122,7 +119,7 @@ public class GoodsPreviewActivity extends BaseActivity {
     }
 
     private void uploadGoodsPhoto(String photo, String id) {
-        ApiClient.getApiClient().uploadGoodsPhoto(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().uploadGoodsPhoto(TokenStorage.getToken(context),
                 id,
                 makeRequestBodyFile(Uri.parse(photo)))
                 .enqueue(new BaseCallback<Object>(context, true) {

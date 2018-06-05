@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -44,7 +43,7 @@ public class DelAccConfirmActivity extends BaseActivity {
         if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
         else if (password.length() < 8) Utils.toast(context, getString(R.string.short_password));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient()
+        else ApiClient.getApiInterface()
                     .removeAccConfirm(TokenStorage.getToken(context), password, requestId)
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override

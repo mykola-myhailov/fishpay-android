@@ -157,7 +157,7 @@ public class CardsActivity extends BaseActivity {
         if (Utils.isOnline(context)) {
             rvCards.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            ApiClient.getApiClient().getCards(TokenStorage.getToken(context))
+            ApiClient.getApiInterface().getCards(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<ArrayList<Card>>(context, false) {
                         @Override
                         protected void onResult(int code, ArrayList<Card> result) {
@@ -181,7 +181,7 @@ public class CardsActivity extends BaseActivity {
 
     private void addCard(String name, String number, String expiresAt) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().createCard(TokenStorage.getToken(context), name, number, expiresAt)
+            ApiClient.getApiInterface().createCard(TokenStorage.getToken(context), name, number, expiresAt)
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -197,7 +197,7 @@ public class CardsActivity extends BaseActivity {
 
     private void setPublicCard(String cardId) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().setPublicCard(TokenStorage.getToken(context), cardId)
+            ApiClient.getApiInterface().setPublicCard(TokenStorage.getToken(context), cardId)
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -211,7 +211,7 @@ public class CardsActivity extends BaseActivity {
 
     private void setWithoutCard() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().setWithoutCard(TokenStorage.getToken(context))
+            ApiClient.getApiInterface().setWithoutCard(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
@@ -223,7 +223,7 @@ public class CardsActivity extends BaseActivity {
 
     private void deleteCard(Card card) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().deleteCard(TokenStorage.getToken(context), card.getId())
+            ApiClient.getApiInterface().deleteCard(TokenStorage.getToken(context), card.getId())
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {

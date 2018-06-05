@@ -6,12 +6,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -226,7 +224,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     }
 
     private void closeCharity(String charityId) {
-        ApiClient.getApiClient().closeChatiry(TokenStorage.getToken(context), charityId)
+        ApiClient.getApiInterface().closeChatiry(TokenStorage.getToken(context), charityId)
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {

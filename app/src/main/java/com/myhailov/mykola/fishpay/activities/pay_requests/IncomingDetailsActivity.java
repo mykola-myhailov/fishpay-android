@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +33,7 @@ public class IncomingDetailsActivity extends BaseActivity {
             requesterPhone, requesterName, requesterPhoto, status;
     private String requesterId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
         if (Utils.isOnline(context)) {
 
-            ApiClient.getApiClient().getInvoiceDetails(TokenStorage.getToken(context), requestId)
+            ApiClient.getApiInterface().getInvoiceDetails(TokenStorage.getToken(context), requestId)
                     .enqueue(new BaseCallback<InvoiceDetailsResult>(context, true) {
                         @Override
                         protected void onResult(int code, InvoiceDetailsResult result) {
@@ -159,7 +159,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     private void blockUser(){
         if(Utils.isOnline(context)){
-         ApiClient.getApiClient().blockUserById(TokenStorage.getToken(context),
+         ApiClient.getApiInterface().blockUserById(TokenStorage.getToken(context),
                  "BLOCKED", requesterId)
                  .enqueue(new BaseCallback<Object>(context, true) {
                      @Override
@@ -173,15 +173,17 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     private void accept() {
         context.startActivity(new Intent(context, TransactionActivity.class)
+                .putExtra(Keys.FROM, TransactionActivity.INCOMING_PAY_REQUEST)
                 .putExtra(Keys.AMOUNT, amount)
                 .putExtra(Keys.NAME, requesterName)
                 .putExtra(Keys.USER_ID, requesterId)
+                .putExtra(Keys.REQUEST_ID, invoiceId)
         );
     }
 
     private void rejectRequest() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().rejectInvoice(TokenStorage.getToken(context), invoiceId)
+            ApiClient.getApiInterface().rejectInvoice(TokenStorage.getToken(context), invoiceId)
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {

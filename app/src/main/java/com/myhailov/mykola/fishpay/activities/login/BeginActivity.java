@@ -3,7 +3,6 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
@@ -73,7 +72,7 @@ public class BeginActivity extends BaseActivity {
         String devicetype = "android";
         int versionCode = BuildConfig.VERSION_CODE;
         String language = "ru";
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .checkMobile(devicetype, versionCode, language, phone)
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
@@ -119,7 +118,7 @@ public class BeginActivity extends BaseActivity {
             String devicetype = "android";
             int versionCode = BuildConfig.VERSION_CODE;
             String language = "ru";
-            ApiClient.getApiClient().login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
+            ApiClient.getApiInterface().login(phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<LoginResult>(context, true) {
                         @Override
                         protected void onResult(int code, @Nullable LoginResult result) {

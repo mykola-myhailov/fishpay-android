@@ -1,6 +1,5 @@
 package com.myhailov.mykola.fishpay.activities.profile;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -28,7 +27,7 @@ public class ChangeLanguageActivity extends BaseActivity {
         String touchIdLogin = "1";
         String lang = "ru";
         String token = TokenStorage.getToken(context);
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .setPreferences(token, allowMoneyRequests, touchIdLogin, lang )
                 .enqueue(new BaseCallback<Object>(context, false) {
                              @Override

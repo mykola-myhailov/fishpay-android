@@ -2,7 +2,7 @@ package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +15,9 @@ import android.widget.LinearLayout;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -24,10 +25,17 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import retrofit2.Call;
+
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.INCOMING_PAY_REQUEST;
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.TRANSFER;
+
 public class BankWebActivity extends AppCompatActivity {
 
-    private String termUrl, paReq, bankUrl, fpt, fptId;
+    private String termUrl, paReq, bankUrl, fpt, fptId, type;
     private Context context;
+    private Bundle extras;
+    private String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +43,9 @@ public class BankWebActivity extends AppCompatActivity {
 
         context = this;
 
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
+        type = extras.getString(Keys.TYPE);
         bankUrl = extras.getString(Keys.URL);
         termUrl =  extras.getString(Keys.TERM_URL);
         paReq = extras.getString(Keys.PA_REQ);
@@ -73,36 +82,54 @@ public class BankWebActivity extends AppCompatActivity {
 
     private void requestAuditpay() {
         if (Utils.isOnline(context)){
-            ApiClient.getApiClient()
-                    .auditpay(TokenStorage.getToken(context), fpt, fptId)
-                    .enqueue(new BaseCallback<Object>(context, true) {
-                        @Override
-                        protected void onResult(int code, Object result) {
-                            switch (result.toString()) {
+            ApiInterface apiInterface = ApiClient.getApiInterface();
+            Call<BaseResponse<Object>> call;
+            switch (type){
+                case TRANSFER:
+                    call = apiInterface.auditpay(TokenStorage.getToken(context), fpt, fptId);
+                    break;
+                case INCOMING_PAY_REQUEST:
+                    String requestId = extras.getString(Keys.REQUEST_ID);
+                    call = apiInterface.auditpayIncomging(TokenStorage.getToken(context), fpt, fptId, requestId);
+                    break;
+                default: return;
+            }
+            call.enqueue(new AuditpayCallback(context, true));
+        }
+    }
 
-                                case "SUCCESS":
-                                    Utils.toast(context, "success");
-                                    onBackPressed();
-                                    break;
-                                case "REJECTED":
-                                    Utils.toast(context, "rejected");
-                                    onBackPressed();
-                                    break;
-                                case "REVERSED":
-                                    Utils.toast(context, "reversed");
-                                    onBackPressed();
-                                    break;
-                                case "ERROR":
-                                    Utils.toast(context, "error");
-                                    onBackPressed();
-                                    break;
-                                default:
-                                    LinkedTreeMap resultMap = (LinkedTreeMap) result;
-                                    parseResultMap(resultMap);
-                                    break;
-                            }
-                        }
-                    });
+
+    private class AuditpayCallback extends BaseCallback<Object> {
+
+        protected AuditpayCallback(@NonNull Context context, boolean showProgress) {
+            super(context, showProgress);
+        }
+
+        @Override
+        protected void onResult(int code, Object result) {
+            switch (result.toString()) {
+
+                case "SUCCESS":
+                    Utils.toast(context, "success");
+                    onBackPressed();
+                    break;
+                case "REJECTED":
+                    Utils.toast(context, "rejected");
+                    onBackPressed();
+                    break;
+                case "REVERSED":
+                    Utils.toast(context, "reversed");
+                    onBackPressed();
+                    break;
+                case "ERROR":
+                    Utils.toast(context, "error");
+                    onBackPressed();
+                    break;
+                default:
+                    LinkedTreeMap resultMap = (LinkedTreeMap) result;
+                    parseResultMap(resultMap);
+                    break;
+            }
         }
     }
 
@@ -129,33 +156,56 @@ public class BankWebActivity extends AppCompatActivity {
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String code = input.getText().toString();
+                        code = input.getText().toString();
 
                         if (code.equals("")) Utils.toast(context, getString(R.string.enter_sms_code));
                         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                        else ApiClient.getApiClient()
-                                    .sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
-                                    .enqueue(new BaseCallback<String>(context, true) {
-                                        @Override
-                                        protected void onResult(int code, String result) {
-                                            switch (result.toLowerCase()){
-                                                case "error_code":
-                                                    Utils.toast(context, "Неверный код");
-                                                    requestLookup();
-                                                    break;
-                                                case "success":
-                                                    Utils.toast(context, "Успешно");
-                                                    onBackPressed();
-                                                    break;
-                                                default:
-                                                    Utils.toast(context, "Ошибка");
-                                                    onBackPressed();
-                                                    break;
-                                            }
-                                        }
-                                    });
+                        else lookupRequest();
                     }
                 })
                 .create().show();
+    }
+
+    private void lookupRequest() {
+        ApiInterface apiInterface = ApiClient.getApiInterface();
+        Call<BaseResponse<String>> call;
+        switch (type){
+            case TRANSFER:
+                call = apiInterface.sendLookup(TokenStorage.getToken(context),fpt, fptId, code);
+                break;
+            case INCOMING_PAY_REQUEST:
+                String requestId = extras.getString(Keys.REQUEST_ID);
+                call = apiInterface.sendLookupIncoming(TokenStorage.getToken(context), fpt, fptId, requestId, code);
+                break;
+            default: return;
+        }
+        call.enqueue(new LookupCallback(context, true));
+
+
+    }
+
+    private class LookupCallback extends BaseCallback<String> {
+
+        LookupCallback(@NonNull Context context, boolean showProgress) {
+            super(context, showProgress);
+        }
+
+        @Override
+        protected void onResult(int code, String result) {
+            switch (result.toLowerCase()){
+                case "error_code":
+                    Utils.toast(context, "Неверный код");
+                    requestLookup();
+                    break;
+                case "success":
+                    Utils.toast(context, "Успешно");
+                    onBackPressed();
+                    break;
+                default:
+                    Utils.toast(context, "Ошибка");
+                    onBackPressed();
+                    break;
+            }
+        }
     }
 }

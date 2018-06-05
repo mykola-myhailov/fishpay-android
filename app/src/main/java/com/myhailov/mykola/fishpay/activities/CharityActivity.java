@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CharityListActivity;
 import com.myhailov.mykola.fishpay.activities.charity.CreateCharityActivity;
@@ -196,7 +195,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
 
     private void getCharity() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().getCharity(TokenStorage.getToken(context))
+            ApiClient.getApiInterface().getCharity(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<CharityResult>(this, true) {
                         @Override
                         protected void onResult(int code, CharityResult result) {

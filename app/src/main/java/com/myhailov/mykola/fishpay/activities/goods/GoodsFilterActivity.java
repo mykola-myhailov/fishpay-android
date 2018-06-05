@@ -135,7 +135,7 @@ public class GoodsFilterActivity extends BaseActivity {
 
     private void getCategory() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().getCategory(TokenStorage.getToken(context))
+            ApiClient.getApiInterface().getCategory(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<ArrayList<CategoryResult>>(context, false) {
                         @Override
                         protected void onResult(int code, ArrayList<CategoryResult> result) {

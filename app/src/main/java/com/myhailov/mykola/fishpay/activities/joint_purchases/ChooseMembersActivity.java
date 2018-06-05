@@ -79,7 +79,7 @@ public class ChooseMembersActivity extends BaseActivity  {
     }
 
     private void getContacts() {
-        ApiClient.getApiClient().getContacts(TokenStorage.getToken(context), true, true)
+        ApiClient.getApiInterface().getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, false) {
                     @Override
                     protected void onResult(int code, ContactsResult result) {

@@ -208,7 +208,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                     String cardId = card.getId();
                     String memberId = null;
                     if (member != null) memberId = member.getId();
-                    ApiClient.getApiClient().createInvoice(TokenStorage.getToken(context),
+                    ApiClient.getApiInterface().createInvoice(TokenStorage.getToken(context),
                             receiverPhone, cardId, amount, comment, memberId, null)
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
                                 @Override
@@ -248,7 +248,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                         if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
                         else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
                         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                        else ApiClient.getApiClient().confirmInvoice(TokenStorage.getToken(context)
+                        else ApiClient.getApiInterface().confirmInvoice(TokenStorage.getToken(context)
                             , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
                                 @Override
                                 protected void onResult(int code, Object result) {

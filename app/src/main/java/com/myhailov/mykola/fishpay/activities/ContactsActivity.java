@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
@@ -141,7 +140,7 @@ public class ContactsActivity extends DrawerActivity {
 
     private void deleteContactRequest(long id) {
         if (Utils.isOnline(context)){
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .changeContactStatus(TokenStorage.getToken(context), id, "DELETED")
                     .enqueue(new Callback<BaseResponse<Object>>() {
                         @Override

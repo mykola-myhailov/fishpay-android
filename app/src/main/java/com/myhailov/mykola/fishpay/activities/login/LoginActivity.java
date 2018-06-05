@@ -22,12 +22,10 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
-import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
-import com.myhailov.mykola.fishpay.api.results.LoginResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
@@ -36,17 +34,13 @@ import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
     private String phone;
@@ -114,7 +108,7 @@ public class LoginActivity extends BaseActivity {
 
     private void restorePassword() {
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().initPassRecovery(phone)
+        else ApiClient.getApiInterface().initPassRecovery(phone)
         .enqueue(new BaseCallback<CheckMobileResult>(context, true) {
             @Override
             protected void onResult(int code, @Nullable CheckMobileResult result) {
@@ -147,7 +141,7 @@ public class LoginActivity extends BaseActivity {
             String devicetype = "android";
             int versionCode = BuildConfig.VERSION_CODE;
             String language = "ru";
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .login(devicetype, versionCode, language, phone, password, deviceId, deviceInfo, deviceType, firebaseToken)
                     .enqueue(new BaseCallback<JsonElement>(context, true) {
 
@@ -305,7 +299,7 @@ public class LoginActivity extends BaseActivity {
             preparedContacts.put("contacts_data", contactsArray);
         } catch (Exception ignored){}
 
-        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
+        ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
@@ -320,7 +314,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, true) {
                     @Override
@@ -335,7 +329,7 @@ public class LoginActivity extends BaseActivity {
     private void invalidateRequest(String jti) {
         Log.d("jti", jti);
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .invalidion(phone, jti).enqueue(new BaseCallback<Object>(context, true) {
                 @Override
                 protected void onResult(int code, Object result) {

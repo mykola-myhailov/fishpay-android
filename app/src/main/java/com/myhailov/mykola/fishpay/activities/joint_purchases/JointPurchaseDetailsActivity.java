@@ -39,7 +39,6 @@ import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
-import static com.myhailov.mykola.fishpay.utils.Utils.setInitialsImage;
 
 public class JointPurchaseDetailsActivity extends BaseActivity {
 
@@ -111,7 +110,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     }
 
     private void getJointPurchase(String id) {
-        ApiClient.getApiClient().getJointPurchaseDetails(TokenStorage.getToken(context), id)
+        ApiClient.getApiInterface().getJointPurchaseDetails(TokenStorage.getToken(context), id)
                 .enqueue(new BaseCallback<JointPurchaseDetailsResult>(context, false) {
                     @Override
                     protected void onResult(int code, JointPurchaseDetailsResult result) {
@@ -123,20 +122,20 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     private void acceptPurchase(final String id) {
         tvReject.setClickable(false);
         tvAccept.setClickable(false);
-        ApiClient.getApiClient().acceptJointPurchase(TokenStorage.getToken(context), id)
+        ApiClient.getApiInterface().acceptJointPurchase(TokenStorage.getToken(context), id)
                 .enqueue(getConfirmationCallback(id, true));
     }
 
     private void rejectPurchase(final String id) {
         tvReject.setClickable(false);
         tvAccept.setClickable(false);
-        ApiClient.getApiClient().rejectJointPurchase(TokenStorage.getToken(context), id)
+        ApiClient.getApiInterface().rejectJointPurchase(TokenStorage.getToken(context), id)
                 .enqueue(getConfirmationCallback(id, false));
     }
 
     private void closePurchase(final String id) {
         tvClose.setClickable(false);
-        ApiClient.getApiClient().closeJointPurchase(TokenStorage.getToken(context), id)
+        ApiClient.getApiInterface().closeJointPurchase(TokenStorage.getToken(context), id)
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {

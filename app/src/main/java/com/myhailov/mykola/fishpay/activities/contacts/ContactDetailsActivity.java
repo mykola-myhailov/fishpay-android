@@ -48,7 +48,7 @@ public class ContactDetailsActivity extends BaseActivity {
             contact = extras.getParcelable(Keys.CONTACT);
             userId = contact.getUserId();
             if (Utils.isOnline(context)){
-                ApiClient.getApiClient()
+                ApiClient.getApiInterface()
                         .getContactDetails(TokenStorage.getToken(context), userId)
                         .enqueue(new BaseCallback<ContactDetailResult>(context, false) {
                             @Override
@@ -106,7 +106,7 @@ public class ContactDetailsActivity extends BaseActivity {
             case R.id.tvInContactsList:
                 if (isAdded) break;
                 if (Utils.isOnline(context)){
-                    ApiClient.getApiClient().addContact(TokenStorage.getToken(context), userId )
+                    ApiClient.getApiInterface().addContact(TokenStorage.getToken(context), userId )
                             .enqueue(new BaseCallback<String>(context, true) {
                                 @Override
                                 protected void onResult(int code, String result) {
@@ -136,7 +136,7 @@ public class ContactDetailsActivity extends BaseActivity {
             return;
         }
 
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, true) {
                     @Override
