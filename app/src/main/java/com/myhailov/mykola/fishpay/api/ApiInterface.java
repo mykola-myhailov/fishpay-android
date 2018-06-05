@@ -367,6 +367,16 @@ public interface ApiInterface {
                                               @Part("pseudonym") RequestBody pseudonym,
                                               @Part  MultipartBody.Part img);   //main_photo
 
+
+    @Multipart @POST("api/charity/{charityId}/attemptpay")
+    Call<BaseResponse<Object>> attemptPayCharity (@Header("Authorization") String token,
+                                                  @Part("amount") RequestBody amount,
+                                                  @Part("returnUpdated") RequestBody returnUpdated,
+                                                  @Part("is_anonymous") RequestBody isAnonymous,
+                                                  @Path("charityId") String charityId,
+                                                  @Part("card_id") RequestBody cardId,
+                                                  @Part("securityCode") RequestBody securityCode);
+
     @Multipart @POST("api/charity/{id}/uploadPhoto")
     Call<BaseResponse<Object>> uploadCharityPhoto  (@Header("Authorization") String token,
                                                     @Path("id") String id,

@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
+import com.myhailov.mykola.fishpay.api.results.CharityResult;
+import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public class CharityListAdapter extends RecyclerView.Adapter<CharityListAdapter.
 
     private static final String TAG = CharityListAdapter.class.getSimpleName();
     private Context context;
-    private List<CharityProgram> list;
+    private List<CharityResult.Donation> list;
 
-    public CharityListAdapter(Context context, List<CharityProgram> list) {
+    public CharityListAdapter(Context context, List<CharityResult.Donation> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,11 +35,11 @@ public class CharityListAdapter extends RecyclerView.Adapter<CharityListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CharityProgram item = list.get(position);
+        CharityResult.Donation item = list.get(position);
 
         holder.tvDescription.setText(item.getTitle());
         holder.tvAuthor.setText(item.getAuthorName());
-        holder.tvAmount.setText(item.getTotalAmount().toString());
+        holder.tvAmount.setText(Utils.pennyToUah(item.getAmount()));
         holder.tvDate.setText(convertStringToDate(item.getCreatedAt()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +66,7 @@ public class CharityListAdapter extends RecyclerView.Adapter<CharityListAdapter.
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvAmount = itemView.findViewById(R.id.tv_amount);
             tvAuthor = itemView.findViewById(R.id.tv_author);
-            tvDate= itemView.findViewById(R.id.tv_date);
+            tvDate = itemView.findViewById(R.id.tv_date);
         }
     }
 }

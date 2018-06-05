@@ -9,10 +9,12 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.adapters.CharityListAdapter;
+import com.myhailov.mykola.fishpay.api.results.CharityResult;
 import com.myhailov.mykola.fishpay.api.results.CharityResult.CharityProgram;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_AMOUNT;
@@ -20,7 +22,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_LIST;
 
 public class CharityListActivity extends BaseActivity {
     TextView tvAmount;
-    private List<CharityProgram> charities;
+    private List<CharityResult.Donation> charities;
     private RecyclerView rvCharityList;
     private int amount;
 
@@ -43,6 +45,7 @@ public class CharityListActivity extends BaseActivity {
 
         rvCharityList = findViewById(R.id.rv_charity_list);
         rvCharityList.setLayoutManager(new LinearLayoutManager(context));
+        Collections.reverse(charities);
         rvCharityList.setAdapter(new CharityListAdapter(context, charities));
     }
 

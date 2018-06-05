@@ -27,6 +27,8 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
+import java.util.Collections;
+
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_MEMBERS_VISIBILITY;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
@@ -199,6 +201,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         View v = View.inflate(context, R.layout.item_charity_details_contact, container);
         RecyclerView rvCharityContact = v.findViewById(R.id.rv_charity_contact);
         rvCharityContact.setLayoutManager(new LinearLayoutManager(context));
+        Collections.reverse(charity.getDonation());
         rvCharityContact.setAdapter(new CharityDetailContactsAdapter(context, charity.getDonation()));
 
         ((TextView) v.findViewById(R.id.tv_amount)).setText(Utils.pennyToUah(charity.getInitCollectedAmount()));

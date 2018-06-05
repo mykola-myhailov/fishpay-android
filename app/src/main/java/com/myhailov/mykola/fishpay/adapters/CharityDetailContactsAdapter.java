@@ -13,6 +13,7 @@ import com.myhailov.mykola.fishpay.api.results.CharityResultById;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById.Donation;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.internal.Util;
