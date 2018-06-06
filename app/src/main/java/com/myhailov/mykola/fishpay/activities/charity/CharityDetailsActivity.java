@@ -157,7 +157,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
     private void getCharityById() {
         if (Utils.isOnline(context)) {
             if (charityId.equals("-1") || TextUtils.isEmpty(charityId)) return;
-            ApiClient.getApiClient().getCharityDetails(TokenStorage.getToken(context), charityId)
+            ApiClient.getApiInterface().getCharityDetails(TokenStorage.getToken(context), charityId)
                     .enqueue(new BaseCallback<CharityResultById>(this, true) {
                         @Override
                         protected void onResult(int code, CharityResultById result) {

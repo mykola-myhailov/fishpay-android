@@ -133,7 +133,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void editProfileRequest() {
-        ApiClient.getApiClient().editProfile(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().editProfile(TokenStorage.getToken(context),
                 Utils.makeRequestBody(name),
                 Utils.makeRequestBody(surname),
                 Utils.makeRequestBody(birthday),

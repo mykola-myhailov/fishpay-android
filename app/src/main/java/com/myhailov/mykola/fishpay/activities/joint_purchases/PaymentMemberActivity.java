@@ -118,7 +118,7 @@ public class PaymentMemberActivity extends BaseActivity {
 
     private void changeJointPurchaseStatus(final View view) {
         view.setClickable(false);
-        ApiClient.getApiClient().changeJointPurchase(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().changeJointPurchase(TokenStorage.getToken(context),
                 member.getId(),
                 metAmount.getCurrency(),
                 payMethod).enqueue(new BaseCallback<Object>(context, false) {

@@ -15,9 +15,10 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
 
-    public static ApiInterface getApiClient() {
+    public static ApiInterface getApiInterface() {
         return getRetrofit().create(ApiInterface.class);
     }
+
 
     public static Retrofit getRetrofit() {
         if (retrofit==null) {

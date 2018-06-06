@@ -1,8 +1,10 @@
 package com.myhailov.mykola.fishpay.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
@@ -14,17 +16,21 @@ import android.widget.TextView;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.BankWebActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import retrofit2.Call;
 
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -33,6 +39,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class TransactionActivity extends DrawerActivity {
+
 
     private TextView tvCard, tvName;
     private ImageView ivChoseContact;
@@ -45,6 +52,14 @@ public class TransactionActivity extends DrawerActivity {
     private int amount;
     private String fpt, fptId;
     private String amountUAH;
+    private String cvv;
+    private String type;
+
+    public final static String TRANSFER = "transfer";
+    public final static String INCOMING_PAY_REQUEST = "incoming_pay_request";
+    public static final String JOINT_PURCHASE = "joint_purchase";
+    private String requestId;
+    private String purchaseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +70,22 @@ public class TransactionActivity extends DrawerActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             if (extras.containsKey(Keys.NAME)) receiverName = extras.getString(Keys.NAME);
-            if (extras.containsKey(Keys.USER_ID)) receiverId = extras.getString(Keys.NAME);
-            if (extras.containsKey(Keys.AMOUNT)) amountUAH = (extras.getString(Keys.AMOUNT));
-        }
+            if (extras.containsKey(Keys.USER_ID)) receiverId = extras.getString(Keys.USER_ID);
+            if (extras.containsKey(Keys.AMOUNT)) amountUAH = extras.getString(Keys.AMOUNT);
+            if (extras.containsKey(Keys.REQUEST_ID)) requestId = extras.getString(Keys.REQUEST_ID);
+            if (extras.containsKey(Keys.TYPE)) type = extras.getString(Keys.TYPE);
+            if (type == null) type = TRANSFER;
+            switch (type){
+                case JOINT_PURCHASE:
+                    JointPurchaseDetailsResult jointPurchase = extras.getParcelable(Keys.PURCHASE);
+                    if (jointPurchase == null) return;
+                    receiverName = jointPurchase.getCreatorName();
+                    receiverId = jointPurchase.getCreatorId();
+                    amount = jointPurchase.getAmount();
+                    purchaseId = jointPurchase.getId();
+                    break;
+            }
+         }
         initDrawerToolbar(getString(R.string.outgoing_transaction));
         initViews();
     }
@@ -89,60 +117,77 @@ public class TransactionActivity extends DrawerActivity {
                         .putExtra(REQUEST, true), REQUEST_CONTACT);
                 break;
             case R.id.tv_send_request:
-                // preparing
-
-
-                amountUAH = etAmount.getText().toString();
-                amount = Utils.UAHtoPenny(amountUAH);
-             //   String comment = etComment.getText().toString();
-                final String cvv = etCvv.getText().toString();
-                if (receiverContact != null) receiverContact.getUserId();
-
-                //validation
-                if (card == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (receiverId == null) Utils.toast(context, "выберите контакт");
-                else if (amount == 0) Utils.toast(context, "Введите сумму");
-                else if (cvv.equals("")) Utils.toast(context,"Введите CVV");
-                else if (Utils.isOnline(context)){
-                   // String cardId = card.getId();
-                  //  String memberId = null;
-                  //  if (member != null) memberId = member.getId();
-                    ApiClient.getApiClient().transfer(
-                            token,
-                            receiverId + "",
-                            card.getId(),
-                            cvv,
-                            amount)
-                            .enqueue(new BaseCallback<Object>(context, true) {
-                                @Override
-                                protected void onResult(int code, Object result) {
-
-                                    switch (result.toString()) {
-
-                                        case "SUCCESS":
-                                            Utils.toast(context, "success");
-                                            break;
-                                        case "REJECTED":
-                                            Utils.toast(context, "rejected");
-                                            break;
-                                        case "REVERSED":
-                                            Utils.toast(context, "reversed");
-                                            break;
-                                        case "ERROR":
-                                            Utils.toast(context, "error");
-                                            break;
-                                        default:
-                                            LinkedTreeMap resultMap = (LinkedTreeMap) result;
-                                            parseResultMap(resultMap);
-                                            break;
-                                    }
-                                }
-                            });
-                }
-                else Utils.noInternetToast(context);
+                if (dataIsValid()) payRequest();
                 break;
         }
     }
+
+
+    private boolean dataIsValid() {
+        amountUAH = etAmount.getText().toString();
+        amount = Utils.UAHtoPenny(amountUAH);
+        //   String comment = etComment.getText().toString();
+        cvv = etCvv.getText().toString();
+        if (receiverContact != null) receiverContact.getUserId();
+
+        //validation
+        if (card == null) Utils.toast(context, getString(R.string.enter_card));
+        else if (receiverId == null) Utils.toast(context, "выберите контакт");
+        else if (amount == 0) Utils.toast(context, "Введите сумму");
+        else if (cvv.equals("")) Utils.toast(context,"Введите CVV");
+        else return true;
+        return false;
+    }
+
+    private void payRequest() {
+        ApiInterface anInterface = ApiClient.getApiInterface();
+        Call<BaseResponse<Object>> call;
+        switch (type){
+            case TRANSFER:
+                call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
+                break;
+            case INCOMING_PAY_REQUEST:
+                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
+                break;
+            case JOINT_PURCHASE:
+                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
+                break;
+            default: return;
+        }
+        call.enqueue(new PayCallback(context, true));
+    }
+
+    private class PayCallback extends BaseCallback<Object> {
+
+        PayCallback(@NonNull Context context, boolean showProgress) {
+            super(context, showProgress);
+        }
+
+        @Override
+        protected void onResult(int code, Object result) {
+
+            switch (result.toString()) {
+
+                case "SUCCESS":
+                    Utils.toast(context, "success");
+                    break;
+                case "REJECTED":
+                    Utils.toast(context, "rejected");
+                    break;
+                case "REVERSED":
+                    Utils.toast(context, "reversed");
+                    break;
+                case "ERROR":
+                    Utils.toast(context, "error");
+                    break;
+                default:
+                    LinkedTreeMap resultMap = (LinkedTreeMap) result;
+                    parseResultMap(resultMap);
+                    break;
+            }
+        }
+    }
+
 
     private void parseResultMap(LinkedTreeMap result) {
         String type = (String) result.get("type");
@@ -155,18 +200,22 @@ public class TransactionActivity extends DrawerActivity {
             String paReq = (String) form_params.get("PaReq");
 
             context.startActivity(new Intent(context, BankWebActivity.class)
+                    .putExtra(Keys.TYPE, type)
                     .putExtra(Keys.URL, url)
                     .putExtra(Keys.TERM_URL, termUrl)
                     .putExtra(Keys.PA_REQ, paReq)
                     .putExtra(Keys.FPT, fpt)
-                    .putExtra(Keys.FPT_ID, fptId));
+                    .putExtra(Keys.FPT_ID, fptId)
+
+                    .putExtra(Keys.REQUEST_ID, requestId)
+                    .putExtra(Keys.PURCHASE_ID, purchaseId)
+            );
         } else if (type.equals("lookup")){
             fpt = (String) result.get("fpt");
             fptId  = (String) result.get("id");
             requestLookup();
         }
     }
-
 
     private void requestLookup() {
             final EditText input = new EditText(context);
@@ -185,7 +234,7 @@ public class TransactionActivity extends DrawerActivity {
 
                             if (code.equals("")) Utils.toast(context, getString(R.string.enter_sms_code));
                             else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                            else ApiClient.getApiClient()
+                            else ApiClient.getApiInterface()
                                         .sendLookup(TokenStorage.getToken(context),fpt, fptId, code)
                                         .enqueue(new BaseCallback<String>(context, true) {
                                             @Override
@@ -234,4 +283,6 @@ public class TransactionActivity extends DrawerActivity {
             }
         }
     }
+
+
 }

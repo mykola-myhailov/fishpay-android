@@ -104,7 +104,7 @@ public class ReviewGoodsActivity extends BaseActivity {
     private void getUserInfo() {
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else
-            ApiClient.getApiClient().searchContact(TokenStorage.getToken(context), goods.getUser().getPhone())
+            ApiClient.getApiInterface().searchContact(TokenStorage.getToken(context), goods.getUser().getPhone())
                     .enqueue(new BaseCallback<SearchedContactsResult>(context, true) {
                         @Override
                         protected void onResult(int code, SearchedContactsResult result) {
@@ -123,7 +123,7 @@ public class ReviewGoodsActivity extends BaseActivity {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
         } else {
-            ApiClient.getApiClient().getGoodsDetails(TokenStorage.getToken(context), id)
+            ApiClient.getApiInterface().getGoodsDetails(TokenStorage.getToken(context), id)
                     .enqueue(new BaseCallback<GoodsByIdResult>(context, true) {
                         @Override
                         protected void onResult(int code, GoodsByIdResult result) {

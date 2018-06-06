@@ -261,7 +261,7 @@ public class CreateGoodsActivity extends BaseActivity {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
         } else {
-            ApiClient.getApiClient().getGoodsDetails(TokenStorage.getToken(context), id)
+            ApiClient.getApiInterface().getGoodsDetails(TokenStorage.getToken(context), id)
                     .enqueue(new BaseCallback<GoodsByIdResult>(context, true) {
                         @Override
                         protected void onResult(int code, GoodsByIdResult result) {
@@ -278,7 +278,7 @@ public class CreateGoodsActivity extends BaseActivity {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
         } else {
-            ApiClient.getApiClient().editGoods(TokenStorage.getToken(context),
+            ApiClient.getApiInterface().editGoods(TokenStorage.getToken(context),
                     goodsId + "", etDescription.getText().toString(),
                     Utils.UAHtoPenny(etPrice.getText().toString()) + "",
                     Integer.toString(categorySpinner.getSelectedItemPosition() + 1),
@@ -295,7 +295,7 @@ public class CreateGoodsActivity extends BaseActivity {
     }
 
     private void getCategory() {
-        ApiClient.getApiClient().getCategory(TokenStorage.getToken(context))
+        ApiClient.getApiInterface().getCategory(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<CategoryResult>>(context, false) {
                     @Override
                     protected void onResult(int code, ArrayList<CategoryResult> result) {

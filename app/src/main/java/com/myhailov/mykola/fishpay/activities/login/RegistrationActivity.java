@@ -161,7 +161,7 @@ public class RegistrationActivity extends BaseActivity {
             preparedContacts.put("contacts_data", contactsArray);
         } catch (Exception ignored){}
 
-        ApiClient.getApiClient().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
+        ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
@@ -175,7 +175,7 @@ public class RegistrationActivity extends BaseActivity {
             Utils.noInternetToast(context);
             return;
         }
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getContacts(TokenStorage.getToken(context), true, true)
                 .enqueue(new BaseCallback<ContactsResult>(context, true) {
                     @Override

@@ -114,7 +114,7 @@ public class CharityPreviewActivity extends BaseActivity {
     }
 
     private void createCharityRequest() {
-        ApiClient.getApiClient().createCharity(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().createCharity(TokenStorage.getToken(context),
                 Utils.makeRequestBody(charity.getTitle()),
                 Utils.makeRequestBody(charity.getRequiredAmount()),
                 Utils.makeRequestBody(charity.getInitCollectedAmount()),
@@ -146,7 +146,7 @@ public class CharityPreviewActivity extends BaseActivity {
     }
 
     private void uploadCharityPhoto(String photo, String id) {
-        ApiClient.getApiClient().uploadCharityPhoto(TokenStorage.getToken(context),
+        ApiClient.getApiInterface().uploadCharityPhoto(TokenStorage.getToken(context),
                 id,
                 Utils.makeRequestBodyFile(Uri.parse(photo)))
                 .enqueue(new BaseCallback<Object>(this, true) {

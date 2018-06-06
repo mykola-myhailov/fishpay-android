@@ -21,7 +21,6 @@ import com.myhailov.mykola.fishpay.activities.joint_purchases.JointPurchaseDetai
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -79,7 +78,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     private void getJointPurchasesRequest() {
         allPurchases = new ArrayList<>();
         myPurchases = new ArrayList<>();
-        ApiClient.getApiClient().getJointPurchases(token)
+        ApiClient.getApiInterface().getJointPurchases(token)
                 .enqueue(new BaseCallback<ArrayList<JointPurchase>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<JointPurchase> result) {
@@ -116,7 +115,7 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     }
 
     private void deletePurchaseRequest(String purchaseId) {
-        ApiClient.getApiClient().deleteJointPurchase(token, purchaseId)
+        ApiClient.getApiInterface().deleteJointPurchase(token, purchaseId)
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {

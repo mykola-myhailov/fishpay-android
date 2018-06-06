@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.contacts;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,9 +9,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
-import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -49,7 +46,7 @@ public class SearchContactActivity extends BaseActivity {
         if (phone.length() < 12) Utils.toast(context, getString(R.string.short_number));
         else if (phone.length() > 13) Utils.toast(context, getString(R.string.long_number));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiClient().searchContact(TokenStorage.getToken(context), phone)
+        else ApiClient.getApiInterface().searchContact(TokenStorage.getToken(context), phone)
             .enqueue(new BaseCallback<SearchedContactsResult>(context, true) {
                 @Override
                 protected void onResult(int code, SearchedContactsResult result) {

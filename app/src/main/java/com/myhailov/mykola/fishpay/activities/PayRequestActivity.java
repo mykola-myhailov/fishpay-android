@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.activities.DrawerActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.IncomingDetailsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
@@ -26,7 +25,6 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import retrofit2.Call;
@@ -92,14 +90,14 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
     private void getIncomingRequests() {
         if (callOutcoming != null) callOutcoming.cancel();
         stateIs(State.LOADING);
-        callIncoming = ApiClient.getApiClient().getIncomingPayRequests(TokenStorage.getToken(context));
+        callIncoming = ApiClient.getApiInterface().getIncomingPayRequests(TokenStorage.getToken(context));
         callIncoming.enqueue(createPayRequestCallback());
     }
 
     private void getOutcomingRequests() {
         if (callIncoming != null) callIncoming.cancel();
         stateIs(State.LOADING);
-        callOutcoming = ApiClient.getApiClient().getOutcomingPayRequests(TokenStorage.getToken(context));
+        callOutcoming = ApiClient.getApiInterface().getOutcomingPayRequests(TokenStorage.getToken(context));
         callOutcoming.enqueue(createPayRequestCallback());
     }
 
@@ -165,7 +163,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
     private void deletePayRequest(PayRequest request) {
         String id = preferences.getString(PrefKeys.ID, "");
         if (String.valueOf(request.getRequesterId()).equals(id)) {
-            ApiClient.getApiClient().deleteInvoice(TokenStorage.getToken(context),
+            ApiClient.getApiInterface().deleteInvoice(TokenStorage.getToken(context),
                     request.getId()).enqueue(new Callback<BaseResponse<Object>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
@@ -178,7 +176,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 }
             });
         } else {
-            ApiClient.getApiClient().removeInvoice(TokenStorage.getToken(context),
+            ApiClient.getApiInterface().removeInvoice(TokenStorage.getToken(context),
                     request.getId()).enqueue(new Callback<BaseResponse<Object>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {

@@ -58,7 +58,7 @@ public class SpendDetailActivity extends BaseActivity{
 
     private void spendDetailRequest() {
         if (Utils.isOnline(context))
-            ApiClient.getApiClient().getSpendingDetails(TokenStorage.getToken(context), spendId)
+            ApiClient.getApiInterface().getSpendingDetails(TokenStorage.getToken(context), spendId)
             .enqueue(new BaseCallback<SpendDetailResult>(context, true) {
                 @Override
                 protected void onResult(int code, SpendDetailResult result) {

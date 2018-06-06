@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -212,7 +211,7 @@ public class MyGoodsActivity extends DrawerActivity {
 
 
     private void getGoods(List<String> categories, Map<String, String> parameters) {
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getGoods(TokenStorage.getToken(context), categories, parameters)
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
@@ -240,7 +239,7 @@ public class MyGoodsActivity extends DrawerActivity {
 
 
     private void getGoods(String visibility) {
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getGoods(TokenStorage.getToken(context), visibility)
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
@@ -266,7 +265,7 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
     private void getUserGoods() {
-        ApiClient.getApiClient()
+        ApiClient.getApiInterface()
                 .getUserGoods(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
@@ -292,7 +291,7 @@ public class MyGoodsActivity extends DrawerActivity {
     }
 
     private void deleteGoods(final long id) {
-        ApiClient.getApiClient().deleteGoods(TokenStorage.getToken(context), id + "")
+        ApiClient.getApiInterface().deleteGoods(TokenStorage.getToken(context), id + "")
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {

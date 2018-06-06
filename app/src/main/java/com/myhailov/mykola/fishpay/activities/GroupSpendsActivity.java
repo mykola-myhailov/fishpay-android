@@ -65,7 +65,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
     }
 
     private void groupSpendsRequest() {
-        ApiClient.getApiClient().getSpending(TokenStorage.getToken(context))
+        ApiClient.getApiInterface().getSpending(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {

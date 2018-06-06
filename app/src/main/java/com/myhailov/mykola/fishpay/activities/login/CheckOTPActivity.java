@@ -84,7 +84,7 @@ public class CheckOTPActivity extends BaseActivity {
         String otp_code = etPassword.getText().toString();
         if (otp_code.equals("")) Utils.toast(context, getString(R.string.enter_otp_code));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else if (isPassRecovering) ApiClient.getApiClient()
+        else if (isPassRecovering) ApiClient.getApiInterface()
                 .checkRecoveryOTP(phone, otp_code, recoveryId)
         .enqueue(new BaseCallback<CheckRecoveryResult>(context, true) {
             @Override
@@ -115,7 +115,7 @@ public class CheckOTPActivity extends BaseActivity {
             }
         });
 
-        else ApiClient.getApiClient()
+        else ApiClient.getApiInterface()
                     .checkOTP(phone, otp_code)
                     .enqueue(new BaseCallback<String>(context, true) {
                         @Override

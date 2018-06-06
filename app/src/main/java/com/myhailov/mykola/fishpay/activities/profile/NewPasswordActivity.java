@@ -80,33 +80,21 @@ public class NewPasswordActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) passChangeId = extras.getString(Keys.PASS_CHANGE_ID);
 
-        ApiClient.getApiClient().changePass(token, newPassword, passChangeId).enqueue(
+        ApiClient.getApiInterface().changePass(token, newPassword, passChangeId).enqueue(
                 new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-                        showAlert();
+                        new AlertDialog.Builder(context)
+                                .setMessage("Пароль успешно изменён. Для входа в систему воспользуйтесь новым паролем")
+                                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        context.startActivity(new Intent(context, BeginActivity.class));
+                                    }
+                                })
+                                .create().show();
                     }
                 }
         );
-    }
-
-    private void showAlert() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_with_one_action, null);
-        dialogBuilder.setView(dialogView);
-        tvOk = dialogView.findViewById(R.id.tv_action_1);
-
-        tvOk.setOnClickListener(this);
-
-        alertDialog = dialogBuilder.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                startActivity(new Intent(context, BeginActivity.class));
-            }
-        });
-        alertDialog.show();
     }
 }

@@ -1,13 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.profile;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,7 +21,6 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveReason;
 import com.myhailov.mykola.fishpay.utils.Keys;
-import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -52,7 +47,7 @@ public class DeleteAccountActivity extends BaseActivity {
 
     private void getReasonsRequest() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .removeAccReasons(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<ArrayList<RemoveReason>>(context, true) {
                         @Override
@@ -194,7 +189,7 @@ public class DeleteAccountActivity extends BaseActivity {
 
     private void deleteRequest(RemoveBody removeBody) {
         if (Utils.isOnline(context)){
-            ApiClient.getApiClient()
+            ApiClient.getApiInterface()
                     .removeAccount(TokenStorage.getToken(context), removeBody)
                     .enqueue(new BaseCallback<RemoveAccResult>(context, true) {
                         @Override
