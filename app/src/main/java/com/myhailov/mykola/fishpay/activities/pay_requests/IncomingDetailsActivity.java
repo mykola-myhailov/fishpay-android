@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +27,7 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 public class IncomingDetailsActivity extends BaseActivity {
 
-    private AlertDialog alertDialog;
+    private AlertDialog alertDialog, alertBlockUser;
 
 
     private String invoiceId, panMasked, amount, comment,
@@ -85,7 +86,14 @@ public class IncomingDetailsActivity extends BaseActivity {
                 rejectRequest();
                 break;
             case R.id.tv_block_user:
+                showBlockUserAlert();
+                alertDialog.cancel();
+                break;
+            case R.id.tv_first_action:
                 blockUser();
+                break;
+            case R.id.tv_second_action:
+                alertBlockUser.cancel();
                 break;
             case R.id.tv_send_complaint:
                 alertDialog.cancel();
@@ -138,6 +146,30 @@ public class IncomingDetailsActivity extends BaseActivity {
         alertDialog.show();
     }
 
+    private void showBlockUserAlert(){
+        TextView tvBlockUser, tvClose, tvDescription;
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_two_action, null);
+        dialogBuilder.setView(dialogView);
+        tvBlockUser = dialogView.findViewById(R.id.tv_first_action);
+        tvClose = dialogView.findViewById(R.id.tv_second_action);
+        tvDescription = dialogView.findViewById(R.id.tv_description);
+        dialogView.findViewById(R.id.tv_title).setVisibility(View.GONE);
+
+        tvClose.setText(getString(R.string.close));
+        tvBlockUser.setText(getString(R.string.block));
+        tvDescription.setText(getString(R.string.alert_block_user, requesterName));
+        tvBlockUser.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
+
+        alertBlockUser = dialogBuilder.create();
+        alertBlockUser.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertBlockUser.show();
+    }
+
+
 
     private void initViews() {
 
@@ -172,7 +204,10 @@ public class IncomingDetailsActivity extends BaseActivity {
                  .enqueue(new BaseCallback<Object>(context, true) {
                      @Override
                      protected void onResult(int code, Object result) {
-                         alertDialog.cancel();
+                         alertBlockUser.cancel();
+                         toast("Користувача заблокировано");
+                         Log.d("sss", "onResult: code " + code);
+                         Log.d("sss", "onResult: result  " + result);
                      }
                  });
         }
