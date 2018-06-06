@@ -218,7 +218,7 @@ public class CharityResultById implements Serializable{
         @SerializedName("user_id")
         private Integer userId;
         @SerializedName("is_anonymous")
-        private String isAnonymous;
+        private boolean anonymous;
         @SerializedName("amount")
         private Integer amount;
         @SerializedName("created_at")
@@ -243,12 +243,13 @@ public class CharityResultById implements Serializable{
         public void setUserId(Integer userId) {
             this.userId = userId;
         }
-        public String getIsAnonymous() {
-            return isAnonymous;
+
+        public boolean isAnonymous() {
+            return anonymous;
         }
 
-        public void setIsAnonymous(String isAnonymous) {
-            this.isAnonymous = isAnonymous;
+        public void setAnonymous(boolean anonymous) {
+            this.anonymous = anonymous;
         }
 
         public Integer getAmount() {

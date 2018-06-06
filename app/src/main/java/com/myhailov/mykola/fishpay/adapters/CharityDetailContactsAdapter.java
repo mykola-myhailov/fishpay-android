@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.api.results.CharityResultById;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById.Donation;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
-import java.util.Collections;
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 public class CharityDetailContactsAdapter extends RecyclerView.Adapter<CharityDetailContactsAdapter.ViewHolder> {
 
@@ -40,10 +37,26 @@ public class CharityDetailContactsAdapter extends RecyclerView.Adapter<CharityDe
     public void onBindViewHolder(ViewHolder holder, int position) {
         Donation item = list.get(position);
 
-        holder.tvName.setText(item.getFirstName() + " " + item.getSecondName());
+        if (item.isAnonymous()) {
+            holder.tvName.setText(context.getString(R.string.anonymous));
+            String initials = Utils.extractInitials(context.getString(R.string.anonymous), "");
+            Utils.displayAvatar(context, holder.ivAvatar, "", initials);
+        } else {
+            String name = "";
+            String secondName = "";
+            if (!TextUtils.isEmpty(item.getFirstName()) && !item.getFirstName().equals("null")) {
+                name = item.getFirstName();
+            }
+            if (!TextUtils.isEmpty(item.getSecondName()) && !item.getSecondName().equals("null")) {
+                secondName = item.getSecondName();
+            }
+
+            holder.tvName.setText(name + " " + secondName);
+            String initials = Utils.extractInitials(name, secondName);
+            Utils.displayAvatar(context, holder.ivAvatar, "", initials);
+        }
+
         holder.tvAmount.setText(Utils.pennyToUah(item.getAmount()));
-        String initials = Utils.extractInitials(item.getFirstName(), item.getSecondName());
-        Utils.displayAvatar(context, holder.ivAvatar, "", initials);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +72,9 @@ public class CharityDetailContactsAdapter extends RecyclerView.Adapter<CharityDe
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-    private TextView tvName;
-    private TextView tvAmount;
-    private ImageView ivAvatar;
+        private TextView tvName;
+        private TextView tvAmount;
+        private ImageView ivAvatar;
 
 
         public ViewHolder(View itemView) {

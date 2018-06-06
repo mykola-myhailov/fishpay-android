@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -233,14 +234,27 @@ public class Utils {
     }
 
     public static String convertStringToDate(String date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM y");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return dateFormat.format(convertedDate);
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
+        return newDateFormat.format(convertedDate);
+    }
+
+    public static String convertStringToDateWithCustomFormat(String date, String format){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat newDateFormat = new SimpleDateFormat(format);
+        return newDateFormat.format(convertedDate);
     }
 
     public static void setText(TextView textView, String text){

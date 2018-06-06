@@ -21,12 +21,58 @@ public class InvoiceDetailsResult {
     @SerializedName("amount")
     private int amount;
 
+    @SerializedName("created_at")
+    private String createdAt;
+
+    @SerializedName("status_changed_at")
+    private String statusChangedAt;
+
     @SerializedName("comment")
     private String comment;
 
     @SerializedName("status")
     private String status;
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPan_masked(String pan_masked) {
+        this.pan_masked = pan_masked;
+    }
+
+    public void setRequester(Contact requester) {
+        this.requester = requester;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getStatusChangedAt() {
+        return statusChangedAt;
+    }
+
+    public void setStatusChangedAt(String statusChangedAt) {
+        this.statusChangedAt = statusChangedAt;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getId() {
         return id;

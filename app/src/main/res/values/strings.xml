@@ -141,9 +141,10 @@
     <string name="send_complaint">Отправить жалобу</string>
     <string name="block_user">Заблокировать пользователя</string>
     <string name="across_fishpay">Через FISHPAY</string>
-    <string name="send_across_fishpay">Запрос отправлен через систему FISHPAY</string>
+    <string name="send_across_fishpay">Запрос отправлен %s в %s через систему FISHPAY</string>
     <string name="password_incorrect">Пароль введен не правильно</string>
     <string name="password_changed">Пароль успешно изменён.</string>
     <string name="use_new_password">Для входа в систему воспользуйтесь новым паролем</string>
     <string name="publish_name">Публиковать имя</string>
+    <string name="anonymous">Аноним</string>
 </resources>

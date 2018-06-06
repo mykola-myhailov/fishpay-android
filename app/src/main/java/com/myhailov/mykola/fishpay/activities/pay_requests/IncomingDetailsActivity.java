@@ -28,10 +28,10 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 public class IncomingDetailsActivity extends BaseActivity {
 
     private AlertDialog alertDialog;
-    private TextView tvBlockUser, tvSendComplaint, tvClose;
+
 
     private String invoiceId, panMasked, amount, comment,
-            requesterPhone, requesterName, requesterPhoto, status;
+            requesterPhone, requesterName, requesterPhoto, status, createAt;
     private String requesterId;
 
     @Override
@@ -56,6 +56,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                                 amount = Utils.pennyToUah(result.getAmount());
                                 comment = result.getComment();
                                 status = result.getStatus();
+                                createAt = result.getCreatedAt();
                                 InvoiceDetailsResult.Contact requester = result.getRequester();
                                 if (requester != null) {
                                     requesterName = requester.getName();
@@ -113,6 +114,8 @@ public class IncomingDetailsActivity extends BaseActivity {
     }
 
     private void showAlert() {
+        TextView tvBlockUser, tvSendComplaint, tvClose, tvDescription;
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.info_request_for_payment, null);
@@ -120,6 +123,11 @@ public class IncomingDetailsActivity extends BaseActivity {
         tvBlockUser = dialogView.findViewById(R.id.tv_block_user);
         tvSendComplaint = dialogView.findViewById(R.id.tv_send_complaint);
         tvClose = dialogView.findViewById(R.id.tv_close);
+        tvDescription = dialogView.findViewById(R.id.tv_description);
+
+        tvDescription.setText(getString(R.string.send_across_fishpay,
+                Utils.convertStringToDateWithCustomFormat(createAt, "d MMMM"),
+                Utils.convertStringToDateWithCustomFormat(createAt, "H:mm")));
 
         tvBlockUser.setOnClickListener(this);
         tvSendComplaint.setOnClickListener(this);
