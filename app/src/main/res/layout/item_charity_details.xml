@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/avatar_size"
                 android:id="@+id/iv_avatar"/>
         <View
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="#fafafa"
                 android:id="@+id/vBackground"
                 android:background="@drawable/awatar_profile"
                 android:layout_width="50dp"
