@@ -123,7 +123,7 @@ public class CharityDonationActivity extends BaseActivity {
 
     private void attemptPayCharity() {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiClient().attemptPayCharity(
+            ApiClient.getApiInterface().attemptPayCharity(
                     TokenStorage.getToken(context),
                     Utils.makeRequestBody(Utils.UAHtoPenny(etTotal.getText().toString()) + ""),
                     Utils.makeRequestBody("true"),

@@ -80,7 +80,7 @@ public class NewPasswordActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) passChangeId = extras.getString(Keys.PASS_CHANGE_ID);
 
-        ApiClient.getApiClient().changePass(token, newPassword, passChangeId).enqueue(
+        ApiClient.getApiInterface().changePass(token, newPassword, passChangeId).enqueue(
                 new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
