@@ -176,6 +176,7 @@
             android:layout_marginEnd="10dp"
             android:textColor="@color/blue1"
             android:hint="(обязательное поле)"
+            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

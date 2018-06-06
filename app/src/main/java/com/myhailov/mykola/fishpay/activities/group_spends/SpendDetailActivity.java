@@ -15,7 +15,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
-import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.MemberDetails;
+import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
@@ -90,6 +90,10 @@ public class SpendDetailActivity extends BaseActivity{
             case R.id.iv_plus:
                 context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
                 .putExtra(Keys.SPEND, spend));
+                break;
+            case R.id.rlMemberItem:
+                context.startActivity(new Intent(context, MemberDetailsActivity.class)
+                        .putExtra(Keys.MEMBER, (MemberDetails) view.getTag()));
                 break;
         }
     }

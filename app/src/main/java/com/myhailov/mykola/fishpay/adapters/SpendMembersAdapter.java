@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.MemberDetails;
+import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
@@ -30,11 +30,13 @@ public class SpendMembersAdapter extends RecyclerView.Adapter<SpendMembersAdapte
 
     class MemberHolder extends RecyclerView.ViewHolder{
 
+        private View rlMemberItem;
         private ImageView ivAvatar;
         private TextView tvName, tvRole, tvShare, tvTotalCost, tvAmount;
 
         MemberHolder(View itemView) {
             super(itemView);
+            rlMemberItem = itemView;
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             tvName = itemView.findViewById(R.id.tvName);
             tvRole = itemView.findViewById(R.id.tvRole);
@@ -74,7 +76,8 @@ public class SpendMembersAdapter extends RecyclerView.Adapter<SpendMembersAdapte
                 holder.tvRole.setText(R.string.no_account);
                 break;
         }
-
+        holder.rlMemberItem.setTag(member);
+        holder.rlMemberItem.setOnClickListener((View.OnClickListener) context);
     }
 
     @Override

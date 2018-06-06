@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.pay_requests.BankWebActivity;
@@ -27,6 +29,7 @@ import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -102,6 +105,21 @@ public class TransactionActivity extends DrawerActivity {
         etCvv = findViewById(R.id.et_cvv);
         if (receiverName != null && !receiverName.equals("")) tvName.setText(receiverName);
         etAmount.setText(amountUAH);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.contains(PrefKeys.CARD)){
+            String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
+            Log.e("cardJson", cardJson);
+            card = cardJson  == null ? null : new Gson().fromJson(cardJson, Card.class);
+        }
+        if (card != null) {
+            cardNumber = card.getLastFourNumbers();
+            cardName = card.getName();
+            if (cardName.equals("")) tvCard.setText(cardNumber);
+            else tvCard.setText(String.format("%s | %s", cardName, cardNumber));
+            Log.d("card", cardNumber);
+        }
+
     }
 
     @Override
