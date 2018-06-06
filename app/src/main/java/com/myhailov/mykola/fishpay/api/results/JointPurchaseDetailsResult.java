@@ -116,4 +116,14 @@ public class JointPurchaseDetailsResult implements Parcelable {
     public String getLastFourNumbers() {
         return "**** " + cardNumber.substring(12, 16);
     }
+
+    public String getCreatorName (){
+        if (members != null && members.size() > 0)
+        for (Member member : members) {
+            if (member != null){
+               if(member.getId().equals(creatorId)) return member.getFullUserName();
+            }
+        }
+        return "";
+    }
 }

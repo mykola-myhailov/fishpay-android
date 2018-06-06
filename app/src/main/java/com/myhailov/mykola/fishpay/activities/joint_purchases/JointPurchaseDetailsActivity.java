@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.TransactionActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
@@ -44,7 +45,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private final String STATE_PURCHASE = "state_purchase";
 
-    private JointPurchaseDetailsResult purchase;
+    private JointPurchaseDetailsResult purchaseDetails;
     private String id;
     private boolean isOwner;
     private boolean isClosed;
@@ -190,26 +191,26 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     }
 
     private void hasResponse(JointPurchaseDetailsResult response) {
-        purchase = response;
-        if (purchase.getDescription() != null) {
+        purchaseDetails = response;
+        if (purchaseDetails.getDescription() != null) {
             llDescription.setVisibility(VISIBLE);
-            tvDescription.setText(purchase.getDescription());
+            tvDescription.setText(purchaseDetails.getDescription());
         } else llDescription.setVisibility(View.GONE);
-        if (purchase.getCardNumber() != null) {
+        if (purchaseDetails.getCardNumber() != null) {
             llCard.setVisibility(VISIBLE);
-            tvCardNumber.setText(purchase.getLastFourNumbers());
+            tvCardNumber.setText(purchaseDetails.getLastFourNumbers());
         } else llCard.setVisibility(View.GONE);
 
-        tvAmount.setText(pennyToUah((purchase.getAmount())));
+        tvAmount.setText(pennyToUah((purchaseDetails.getAmount())));
 
-        if (purchase.getMembers() != null && purchase.getMembers().size() != 0) {
-            MembersAdapter membersAdapter = new MembersAdapter(context, purchase.getMembers());
+        if (purchaseDetails.getMembers() != null && purchaseDetails.getMembers().size() != 0) {
+            MembersAdapter membersAdapter = new MembersAdapter(context, purchaseDetails.getMembers());
             RecyclerView rvMembers = findViewById(R.id.rv_members);
             rvMembers.setLayoutManager(new LinearLayoutManager(context));
             rvMembers.setHasFixedSize(true);
             rvMembers.setAdapter(membersAdapter);
 
-            isClosed = purchase.getMembers().get(0)._getMemberStatus().equals("CLOSED");
+            isClosed = purchaseDetails.getMembers().get(0)._getMemberStatus().equals("CLOSED");
             if (!isClosed) {
                 llClosed.setVisibility(GONE);
                 if (isOwner) {
@@ -218,10 +219,10 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                     llConfirmation.setVisibility(View.GONE);
 
                     tvClose.setOnClickListener(this);
-                    tvClose.setTag(purchase.getId());
+                    tvClose.setTag(purchaseDetails.getId());
                 } else {
                     llClose.setVisibility(View.GONE);
-                    Member memberI = getMemberById(purchase.getMembers(), id);
+                    Member memberI = getMemberById(purchaseDetails.getMembers(), id);
                     if (memberI != null) {
                         switch (memberI._getMemberStatus()) {
                             case "VIEWED":
@@ -231,8 +232,8 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
                                 tvAccept.setOnClickListener(this);
                                 tvReject.setOnClickListener(this);
-                                tvAccept.setTag(purchase.getId());
-                                tvReject.setTag(purchase.getId());
+                                tvAccept.setTag(purchaseDetails.getId());
+                                tvReject.setTag(purchaseDetails.getId());
                                 break;
                             case "ACCEPTED":
                                 llPay.setVisibility(VISIBLE);
@@ -285,12 +286,11 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 acceptPurchase((String) view.getTag());
                 break;
             case R.id.tv_pay:
-                android.support.v7.app.AlertDialog.Builder builder =
-                        new android.support.v7.app.AlertDialog.Builder(context);
-                builder.setTitle("Информация")
-                        .setMessage("В данной версии приложения эта функция не поддерживается.")
-                        .setPositiveButton("Понятно", null);
-                builder.create().show();
+
+                context.startActivity(new Intent(context, TransactionActivity.class)
+                        .putExtra(Keys.TYPE, TransactionActivity.JOINT_PURCHASE)
+                        .putExtra(Keys.PURCHASE, purchaseDetails)
+                );
                 break;
         }
 

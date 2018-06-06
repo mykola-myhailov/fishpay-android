@@ -173,7 +173,7 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     private void accept() {
         context.startActivity(new Intent(context, TransactionActivity.class)
-                .putExtra(Keys.FROM, TransactionActivity.INCOMING_PAY_REQUEST)
+                .putExtra(Keys.TYPE, TransactionActivity.INCOMING_PAY_REQUEST)
                 .putExtra(Keys.AMOUNT, amount)
                 .putExtra(Keys.NAME, requesterName)
                 .putExtra(Keys.USER_ID, requesterId)

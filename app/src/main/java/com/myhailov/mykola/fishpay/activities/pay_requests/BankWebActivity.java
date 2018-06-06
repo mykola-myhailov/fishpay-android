@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import retrofit2.Call;
 
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.INCOMING_PAY_REQUEST;
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.JOINT_PURCHASE;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.TRANSFER;
 
 public class BankWebActivity extends AppCompatActivity {
@@ -91,6 +92,10 @@ public class BankWebActivity extends AppCompatActivity {
                 case INCOMING_PAY_REQUEST:
                     String requestId = extras.getString(Keys.REQUEST_ID);
                     call = apiInterface.auditpayIncomging(TokenStorage.getToken(context), fpt, fptId, requestId);
+                    break;
+                case JOINT_PURCHASE:
+                    String purchaseId = extras.getString(Keys.PURCHASE_ID);
+                    call = apiInterface.auditpayPurchase(TokenStorage.getToken(context), fpt, fptId, purchaseId);
                     break;
                 default: return;
             }
@@ -176,6 +181,10 @@ public class BankWebActivity extends AppCompatActivity {
             case INCOMING_PAY_REQUEST:
                 String requestId = extras.getString(Keys.REQUEST_ID);
                 call = apiInterface.sendLookupIncoming(TokenStorage.getToken(context), fpt, fptId, requestId, code);
+                break;
+            case JOINT_PURCHASE:
+                String purchaseId = extras.getString(Keys.PURCHASE_ID);
+                call = apiInterface.sendLookupIncoming(TokenStorage.getToken(context), fpt, fptId, purchaseId, code);
                 break;
             default: return;
         }

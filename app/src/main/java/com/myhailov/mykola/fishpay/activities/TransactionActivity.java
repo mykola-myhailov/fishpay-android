@@ -24,6 +24,7 @@ import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -39,6 +40,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 
 public class TransactionActivity extends DrawerActivity {
 
+
     private TextView tvCard, tvName;
     private ImageView ivChoseContact;
     private EditText etComment, etAmount, etCvv;
@@ -51,11 +53,13 @@ public class TransactionActivity extends DrawerActivity {
     private String fpt, fptId;
     private String amountUAH;
     private String cvv;
-    private String type = TRANSFER;
+    private String type;
 
     public final static String TRANSFER = "transfer";
     public final static String INCOMING_PAY_REQUEST = "incoming_pay_request";
+    public static final String JOINT_PURCHASE = "joint_purchase";
     private String requestId;
+    private String purchaseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +70,22 @@ public class TransactionActivity extends DrawerActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             if (extras.containsKey(Keys.NAME)) receiverName = extras.getString(Keys.NAME);
-            if (extras.containsKey(Keys.USER_ID)) receiverId = extras.getString(Keys.NAME);
-            if (extras.containsKey(Keys.AMOUNT)) amountUAH = (extras.getString(Keys.AMOUNT));
-            if (extras.containsKey(Keys.REQUEST_ID)) requestId = (extras.getString(Keys.REQUEST_ID));
-        }
+            if (extras.containsKey(Keys.USER_ID)) receiverId = extras.getString(Keys.USER_ID);
+            if (extras.containsKey(Keys.AMOUNT)) amountUAH = extras.getString(Keys.AMOUNT);
+            if (extras.containsKey(Keys.REQUEST_ID)) requestId = extras.getString(Keys.REQUEST_ID);
+            if (extras.containsKey(Keys.TYPE)) type = extras.getString(Keys.TYPE);
+            if (type == null) type = TRANSFER;
+            switch (type){
+                case JOINT_PURCHASE:
+                    JointPurchaseDetailsResult jointPurchase = extras.getParcelable(Keys.PURCHASE);
+                    if (jointPurchase == null) return;
+                    receiverName = jointPurchase.getCreatorName();
+                    receiverId = jointPurchase.getCreatorId();
+                    amount = jointPurchase.getAmount();
+                    purchaseId = jointPurchase.getId();
+                    break;
+            }
+         }
         initDrawerToolbar(getString(R.string.outgoing_transaction));
         initViews();
     }
@@ -102,26 +118,6 @@ public class TransactionActivity extends DrawerActivity {
                 break;
             case R.id.tv_send_request:
                 if (dataIsValid()) payRequest();
-
-
-                amountUAH = etAmount.getText().toString();
-                amount = Utils.UAHtoPenny(amountUAH);
-             //   String comment = etComment.getText().toString();
-                final String cvv = etCvv.getText().toString();
-                if (receiverContact != null) receiverContact.getUserId();
-
-                //validation
-                if (card == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (receiverId == null) Utils.toast(context, "выберите контакт");
-                else if (amount == 0) Utils.toast(context, "Введите сумму");
-                else if (cvv.equals("")) Utils.toast(context,"Введите CVV");
-                else if (Utils.isOnline(context)){
-                   // String cardId = card.getId();
-                  //  String memberId = null;
-                  //  if (member != null) memberId = member.getId();
-
-                }
-                else Utils.noInternetToast(context);
                 break;
         }
     }
@@ -131,7 +127,7 @@ public class TransactionActivity extends DrawerActivity {
         amountUAH = etAmount.getText().toString();
         amount = Utils.UAHtoPenny(amountUAH);
         //   String comment = etComment.getText().toString();
-        final String cvv = etCvv.getText().toString();
+        cvv = etCvv.getText().toString();
         if (receiverContact != null) receiverContact.getUserId();
 
         //validation
@@ -152,6 +148,9 @@ public class TransactionActivity extends DrawerActivity {
                 break;
             case INCOMING_PAY_REQUEST:
                 call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
+                break;
+            case JOINT_PURCHASE:
+                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
                 break;
             default: return;
         }
@@ -202,12 +201,15 @@ public class TransactionActivity extends DrawerActivity {
 
             context.startActivity(new Intent(context, BankWebActivity.class)
                     .putExtra(Keys.TYPE, type)
-                    .putExtra(Keys.REQUEST_ID, requestId)
                     .putExtra(Keys.URL, url)
                     .putExtra(Keys.TERM_URL, termUrl)
                     .putExtra(Keys.PA_REQ, paReq)
                     .putExtra(Keys.FPT, fpt)
-                    .putExtra(Keys.FPT_ID, fptId));
+                    .putExtra(Keys.FPT_ID, fptId)
+
+                    .putExtra(Keys.REQUEST_ID, requestId)
+                    .putExtra(Keys.PURCHASE_ID, purchaseId)
+            );
         } else if (type.equals("lookup")){
             fpt = (String) result.get("fpt");
             fptId  = (String) result.get("id");
