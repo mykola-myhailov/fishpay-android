@@ -207,6 +207,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"/>
 
         <com.myhailov.mykola.fishpay.views.MoneyEditText
+                android:background="@null"
                 android:textCursorDrawable="@drawable/grey_cursor"
                 android:theme="@style/editTextWhiteTheme"
                 android:textColor="#929292"
@@ -225,6 +226,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView41"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:id="@+id/view7"
+                app:layout_constraintEnd_toEndOf="@+id/et_total"
+                app:layout_constraintStart_toStartOf="@+id/et_total"
+                app:layout_constraintHorizontal_bias="0.51"
+                app:layout_constraintTop_toBottomOf="@+id/et_total"
+                />
 
         <android.support.constraint.Guideline
                 android:layout_width="wrap_content"
@@ -248,6 +260,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView41"/>
 
         <EditText
+                android:background="@null"
                 android:theme="@style/editTextWhiteTheme"
                 android:textColor="#929292"
                 android:textCursorDrawable="@drawable/grey_cursor"
@@ -259,10 +272,20 @@
                 android:ems="10"
                 android:id="@+id/et_cvv"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toStartOf="@+id/textView42"
+                app:layout_constraintBaseline_toBaselineOf="@+id/et_total"
                 android:layout_marginStart="8dp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/et_total"/>
+                android:layout_marginEnd="16dp"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:id="@+id/view6"
+                app:layout_constraintEnd_toEndOf="@+id/et_cvv"
+                app:layout_constraintStart_toStartOf="@+id/et_cvv"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintTop_toBottomOf="@+id/et_cvv"/>
 
 
 
