@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class CharityResult {
+public class CharityResult implements Serializable{
     @SerializedName("charity_program")
     private List<CharityProgram> charityProgram = null;
     @SerializedName("donation")
@@ -47,22 +47,31 @@ public class CharityResult {
         this.totalDonation = totalDonation;
     }
 
-    public class Donation {
+    public class Donation implements Serializable{
 
         @SerializedName("id")
         private Integer id;
+        @SerializedName("charity_item_id")
+        private Integer charityItemId;
         @SerializedName("user_id")
         private Integer userId;
-        @SerializedName("is_anonymous")
-        private String isAnonymous;
         @SerializedName("amount")
         private Integer amount;
+        @SerializedName("is_anonymous")
+        private String isAnonymous;
         @SerializedName("created_at")
         private String createdAt;
-        @SerializedName("first_name")
-        private String firstName;
-        @SerializedName("second_name")
-        private String secondName;
+        @SerializedName("updated_at")
+        private String updatedAt;
+        @SerializedName("transfer_id")
+        private Integer transferId;
+        @SerializedName("author_name")
+        private String authorName;
+        @SerializedName("pseudonym")
+        private String pseudonym;
+        @SerializedName("title")
+        private String title;
+
 
         public Integer getId() {
             return id;
@@ -72,9 +81,12 @@ public class CharityResult {
             this.id = id;
         }
 
-        public Donation withId(Integer id) {
-            this.id = id;
-            return this;
+        public Integer getCharityItemId() {
+            return charityItemId;
+        }
+
+        public void setCharityItemId(Integer charityItemId) {
+            this.charityItemId = charityItemId;
         }
 
         public Integer getUserId() {
@@ -85,9 +97,12 @@ public class CharityResult {
             this.userId = userId;
         }
 
-        public Donation withUserId(Integer userId) {
-            this.userId = userId;
-            return this;
+        public Integer getAmount() {
+            return amount;
+        }
+
+        public void setAmount(Integer amount) {
+            this.amount = amount;
         }
 
         public String getIsAnonymous() {
@@ -98,24 +113,6 @@ public class CharityResult {
             this.isAnonymous = isAnonymous;
         }
 
-        public Donation withIsAnonymous(String isAnonymous) {
-            this.isAnonymous = isAnonymous;
-            return this;
-        }
-
-        public Integer getAmount() {
-            return amount;
-        }
-
-        public void setAmount(Integer amount) {
-            this.amount = amount;
-        }
-
-        public Donation withAmount(Integer amount) {
-            this.amount = amount;
-            return this;
-        }
-
         public String getCreatedAt() {
             return createdAt;
         }
@@ -124,37 +121,45 @@ public class CharityResult {
             this.createdAt = createdAt;
         }
 
-        public Donation withCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-            return this;
+        public String getUpdatedAt() {
+            return updatedAt;
         }
 
-        public String getFirstName() {
-            return firstName;
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
         }
 
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
+        public Integer getTransferId() {
+            return transferId;
         }
 
-        public Donation withFirstName(String firstName) {
-            this.firstName = firstName;
-            return this;
+        public void setTransferId(Integer transferId) {
+            this.transferId = transferId;
         }
 
-        public String getSecondName() {
-            return secondName;
+        public String getAuthorName() {
+            return authorName;
         }
 
-        public void setSecondName(String secondName) {
-            this.secondName = secondName;
+        public void setAuthorName(String authorName) {
+            this.authorName = authorName;
         }
 
-        public Donation withSecondName(String secondName) {
-            this.secondName = secondName;
-            return this;
+        public String getPseudonym() {
+            return pseudonym;
         }
 
+        public void setPseudonym(String pseudonym) {
+            this.pseudonym = pseudonym;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
     }
 
 

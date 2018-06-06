@@ -197,10 +197,10 @@ public interface ApiInterface {
     @PUT ("api/user/contacts/syncData")
     Call<BaseResponse<Object>> exportContacts(@Header("Authorization") String token,
                                               @Field("contacts") String contacts);
-
+    @FormUrlEncoded
     @PUT("api/user/contacts/{userId}/block")
     Call<BaseResponse<Object>> blockUserById(@Header("Authorization") String token,
-                                             @Part("status") String status,
+                                             @Field("status") String status,
                                              @Path("userId") String id);
 
     @GET("api/user/contacts")
@@ -366,6 +366,16 @@ public interface ApiInterface {
                                               @Part("members_visibility") RequestBody membersVisibility,
                                               @Part("pseudonym") RequestBody pseudonym,
                                               @Part  MultipartBody.Part img);   //main_photo
+
+
+    @Multipart @POST("api/charity/{charityId}/attemptpay")
+    Call<BaseResponse<Object>> attemptPayCharity (@Header("Authorization") String token,
+                                                  @Part("amount") RequestBody amount,
+                                                  @Part("returnUpdated") RequestBody returnUpdated,
+                                                  @Part("is_anonymous") RequestBody isAnonymous,
+                                                  @Path("charityId") String charityId,
+                                                  @Part("card_id") RequestBody cardId,
+                                                  @Part("securityCode") RequestBody securityCode);
 
     @Multipart @POST("api/charity/{id}/uploadPhoto")
     Call<BaseResponse<Object>> uploadCharityPhoto  (@Header("Authorization") String token,

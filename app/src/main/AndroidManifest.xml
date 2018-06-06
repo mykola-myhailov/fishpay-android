@@ -76,7 +76,8 @@
 
         <service android:name=".services.ContactsIntentService"/>
 
-        <activity android:name=".activities.goods.CreateGoodsActivity"
+        <activity
+                android:name=".activities.goods.CreateGoodsActivity"
                 android:windowSoftInputMode="stateHidden"/>
         <activity
                 android:name=".activities.joint_purchases.CreateMemberActivity"
@@ -131,7 +132,9 @@
         </activity>
         <activity android:name=".activities.goods.ReviewGoodsActivity">
         </activity>
-        <activity android:name=".activities.group_spends.AddMoreSpendsActivity" />
+        <activity android:name=".activities.group_spends.AddMoreSpendsActivity"/>
+        <activity android:name=".activities.charity.CharityDonationActivity">
+        </activity>
     </application>
 
 </manifest>

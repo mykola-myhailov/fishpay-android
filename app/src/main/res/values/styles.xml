@@ -50,6 +50,12 @@
         <item name="colorControlHighlight">#30000000</item>
     </style>
 
+    <style name="editTextWhiteTheme" parent="AppTheme">
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="colorControlActivated">#ffffff</item>
+        <item name="colorControlHighlight">#ffffff</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
     </style>
 
