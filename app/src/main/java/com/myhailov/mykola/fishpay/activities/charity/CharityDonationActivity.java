@@ -1,6 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
+import com.google.gson.Gson;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
@@ -22,6 +25,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -35,7 +39,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 public class CharityDonationActivity extends BaseActivity {
     private TextView tvTitle, tvAuthor, tvCardNumber, tvCardName;
     private Switch anonymousSwitch;
-    private ImageView ivCard, ivInfo;
+    private ImageView ivCard;
     private EditText etTotal, etCvv;
 
     private Card card;
@@ -80,13 +84,7 @@ public class CharityDonationActivity extends BaseActivity {
         if (requestCode == REQUEST_CARD && resultCode == RESULT_OK) {
             card = data.getParcelableExtra(CARD);
             if (card != null) {
-                tvCardName.setText("| " + card.getName());
-                SpannableString spanCardNumber = new SpannableString(card.getCardNumber());
-                spanCardNumber.setSpan(new UnderlineSpan(), 0, 4, 0);
-                spanCardNumber.setSpan(new UnderlineSpan(), 5, 9, 0);
-                spanCardNumber.setSpan(new UnderlineSpan(), 10, 14, 0);
-                spanCardNumber.setSpan(new UnderlineSpan(), 15, 19, 0);
-                tvCardNumber.setText(spanCardNumber);
+                setCardValue();
 
             } else {
 
@@ -100,13 +98,11 @@ public class CharityDonationActivity extends BaseActivity {
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvCardName = findViewById(R.id.tv_card_name);
         ivCard = findViewById(R.id.iv_card);
-        ivInfo = findViewById(R.id.iv_info);
         etTotal = findViewById(R.id.et_total);
         anonymousSwitch = findViewById(R.id.switch_indefinitely);
         etCvv = findViewById(R.id.et_cvv);
 
         ivCard.setOnClickListener(this);
-        ivInfo.setOnClickListener(this);
         findViewById(R.id.tv_to_transfer).setOnClickListener(this);
         findViewById(R.id.ivBack).setOnClickListener(this);
     }
@@ -119,6 +115,7 @@ public class CharityDonationActivity extends BaseActivity {
         } else {
             tvAuthor.setText(charity.getName());
         }
+        getCard();
     }
 
     private void attemptPayCharity() {
@@ -147,6 +144,28 @@ public class CharityDonationActivity extends BaseActivity {
                         }
                     });
         }
+    }
+
+    private void getCard() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.contains(PrefKeys.CARD)) {
+            String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
+            Log.e("cardJson", cardJson);
+            card = cardJson == null ? null : new Gson().fromJson(cardJson, Card.class);
+            if (card != null) {
+                setCardValue();
+            }
+        }
+    }
+
+    private void setCardValue() {
+        tvCardName.setText("| " + card.getName());
+        SpannableString spanCardNumber = new SpannableString(card.getCardNumber());
+        spanCardNumber.setSpan(new UnderlineSpan(), 0, 4, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 5, 9, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 10, 14, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 15, 19, 0);
+        tvCardNumber.setText(spanCardNumber);
     }
 
     private boolean checkValue() {
