@@ -56,6 +56,8 @@ public class Keys {
     public static final String MIN_PRICE = "min_price";
     public static final String MAX_PRICE = "max_price";
 
+    public static final String LOAD_CONTACTS = "load_contacts";
+
     public static final String SPEND = "spend";
     public static final String TYPE = "type";
     public static final String PURCHASE_ID = "purchase_id";

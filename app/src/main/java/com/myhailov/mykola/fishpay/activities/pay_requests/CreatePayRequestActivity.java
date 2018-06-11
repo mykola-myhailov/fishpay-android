@@ -1,5 +1,7 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
+import com.google.gson.Gson;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
@@ -44,7 +45,9 @@ import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContacts
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
+import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 
 
 public class CreatePayRequestActivity extends BaseActivity {
@@ -59,9 +62,11 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Member member;
     private Card card;
     private int amount;
-    private boolean fromJointPurchase;
+    private boolean fromJointPurchase, loadContacts;
     private View rlRequestAmount;
     private ArrayList<Contact> appContacts;
+
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,44 +74,53 @@ public class CreatePayRequestActivity extends BaseActivity {
         setContentView(R.layout.activity_create_pay_request);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null){
-            if (extras.containsKey(Keys.CONTACT)){
+        if (extras != null) {
+            if (extras.containsKey(Keys.CONTACT)) {
                 receiverContact = extras.getParcelable(Keys.CONTACT);
-                if (receiverContact != null){
+                if (receiverContact != null) {
                     receiverPhone = receiverContact.getPhone();
                     receiverName = receiverContact.getFullName();
                 }
-            }
-            else if (extras.containsKey(Keys.MEMBER)) {
+            } else if (extras.containsKey(Keys.MEMBER)) {
                 member = extras.getParcelable(Keys.MEMBER);
-                if (member != null){
+                if (member != null) {
                     receiverPhone = member.getPhone();
-                    receiverName = member.getFirstName() + member.getLastName();
+                    receiverName = member.getFirstName() + " " + member.getSecondName();
                     amount = member.getAmountToPay();
                     fromJointPurchase = true;
                 }
+                loadContacts = extras.getBoolean(LOAD_CONTACTS, true);
+                title = extras.getString(TITLE, "");
             }
 
-            if (extras.containsKey(Keys.CARD)){
+            if (extras.containsKey(Keys.CARD)) {
                 card = extras.getParcelable(Keys.CARD);
             }
 
         }
-        if (card == null){
+        if (card == null) {
             SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
-            if (sharedPreferences.contains(PrefKeys.CARD)){
+            if (sharedPreferences.contains(PrefKeys.CARD)) {
                 String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
                 Log.e("cardJson", cardJson);
-                card = cardJson  == null ? null : new Gson().fromJson(cardJson, Card.class);
+                card = cardJson == null ? null : new Gson().fromJson(cardJson, Card.class);
             }
         }
-        if (card != null){
+        if (card != null) {
             receiverCardNumber = card.getLastFourNumbers();
             cardName = card.getName();
         }
-        loadContacts();
+        if (loadContacts) {
+            loadContacts();
+        }
         initCustomToolbar("запрос на оплату");
         initViews();
+        // set information group purchase
+        if (!loadContacts) {
+            rvContacts.setVisibility(View.GONE);
+            rlRequestAmount.setVisibility(View.VISIBLE);
+            etComment.setText("Взнос в рамках общей покупки " + title);
+        }
     }
 
     private void loadContacts() {
@@ -137,9 +151,12 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
         etGoods = findViewById(R.id.et_goods);
         if (receiverPhone.equals("")) receiverPhone = "+380";
-        if (receiverName.equals(""))etPhone.setText(receiverPhone);
-        else etPhone.setText(String.format("%s | %s", receiverPhone, receiverName));
-        if (fromJointPurchase){
+        if (receiverName.equals("")) {
+            etPhone.setText(receiverPhone);
+        } else {
+            etPhone.setText(String.format("%s | %s", receiverPhone, receiverName));
+        }
+        if (fromJointPurchase) {
             etPhone.setClickable(false);
             etPhone.setLongClickable(false);
             etPhone.setTextIsSelectable(false);
@@ -161,13 +178,13 @@ public class CreatePayRequestActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case  R.id.ivBack:
+        switch (view.getId()) {
+            case R.id.ivBack:
                 onBackPressed();
                 break;
             case R.id.container:   // click on app user's contact, to see details
                 Contact contact = (Contact) view.getTag();
-                if (contact != null){
+                if (contact != null) {
                     receiverContact = contact;
                     rvContacts.setVisibility(View.GONE);
                     rlRequestAmount.setVisibility(View.VISIBLE);
@@ -175,8 +192,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                     receiverName = receiverContact.getName();
                     if (receiverPhone != null) etPhone.setText(receiverPhone);
 
-                }
-                else Utils.toast(context, getString(R.string.error));
+                } else Utils.toast(context, getString(R.string.error));
 
 
                 break;
@@ -186,25 +202,28 @@ public class CreatePayRequestActivity extends BaseActivity {
                 break;
             case R.id.iv_choose_contact:
                 startActivityForResult(new Intent(context, SelectContactsActivity.class)
-                .putExtra(REQUEST, true), REQUEST_CONTACT);
+                        .putExtra(REQUEST, true), REQUEST_CONTACT);
                 break;
             case R.id.tv_send_request:
                 // preparing
                 receiverPhone = etPhone.getText().toString();
-                if (receiverPhone.substring(0, 1).equals("+")) receiverPhone = receiverPhone.substring(1);
+                if (receiverPhone.substring(0, 1).equals("+"))
+                    receiverPhone = receiverPhone.substring(1);
                 final String amountUAH = etAmount.getText().toString();
                 if (!fromJointPurchase) amount = Utils.UAHtoPenny(amountUAH);
                 String comment = etComment.getText().toString();
 
 
-
                 //validation
-                if (receiverPhone.equals("")) Utils.toast(context, getString(R.string.enter_phone_number));
-                else if (receiverPhone.length() < 12) Utils.toast(context, getString(R.string.short_number));
-                else if (receiverPhone.length() > 13) Utils.toast(context, getString(R.string.long_number));
+                if (receiverPhone.equals(""))
+                    Utils.toast(context, getString(R.string.enter_phone_number));
+                else if (receiverPhone.length() < 12)
+                    Utils.toast(context, getString(R.string.short_number));
+                else if (receiverPhone.length() > 13)
+                    Utils.toast(context, getString(R.string.long_number));
                 else if (card == null) Utils.toast(context, getString(R.string.enter_card));
                 else if (amount == 0) Utils.toast(context, "Введите сумму");
-                else if (Utils.isOnline(context)){
+                else if (Utils.isOnline(context)) {
                     String cardId = card.getId();
                     String memberId = null;
                     if (member != null) memberId = member.getId();
@@ -224,8 +243,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                                     }
                                 }
                             });
-                }
-                else Utils.noInternetToast(context);
+                } else Utils.noInternetToast(context);
                 break;
         }
     }
@@ -245,11 +263,14 @@ public class CreatePayRequestActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String password = input.getText().toString();
-                        if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
-                        else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
+                        if (password.equals(""))
+                            Utils.toast(context, getString(R.string.enter_password));
+                        else if (password.length() < 8)
+                            Utils.toast(context, getString(R.string.password8));
                         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-                        else ApiClient.getApiInterface().confirmInvoice(TokenStorage.getToken(context)
-                            , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
+                        else
+                            ApiClient.getApiInterface().confirmInvoice(TokenStorage.getToken(context)
+                                    , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
                                 @Override
                                 protected void onResult(int code, Object result) {
                                     context.startActivity(new Intent(context, PayRequestActivity.class));
@@ -266,7 +287,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode != RESULT_OK) return;
-        if (requestCode == REQUEST_CARD){
+        if (requestCode == REQUEST_CARD) {
             card = data.getParcelableExtra(CARD);
             if (card != null) {
                 receiverCardNumber = card.getLastFourNumbers();
@@ -275,8 +296,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 else tvCard.setText(String.format("%s | %s", cardName, receiverCardNumber));
                 Log.d("card", receiverCardNumber);
             }
-        }
-        else if (requestCode == REQUEST_CONTACT){
+        } else if (requestCode == REQUEST_CONTACT) {
             rvContacts.setVisibility(View.GONE);
             rlRequestAmount.setVisibility(View.VISIBLE);
             receiverContact = data.getParcelableExtra(CONTACT);
@@ -288,16 +308,17 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
     }
 
-    private  String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
+    private String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
         JSONArray goodsArray = new JSONArray();
         try {
-            for (SelectedGoods goods: selectedGoods) {
-                JSONObject goodsJsonObject= new JSONObject();
-                goodsJsonObject.put("count",  goods.getCount());
+            for (SelectedGoods goods : selectedGoods) {
+                JSONObject goodsJsonObject = new JSONObject();
+                goodsJsonObject.put("count", goods.getCount());
                 goodsJsonObject.put("goods_id", goods.getGoods().getId());
                 goodsArray.put(goodsJsonObject);
             }
-        } catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         return goodsArray.toString();
     }
 

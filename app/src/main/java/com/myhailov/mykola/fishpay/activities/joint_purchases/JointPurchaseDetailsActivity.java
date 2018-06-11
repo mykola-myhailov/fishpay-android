@@ -1,15 +1,19 @@
 package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +68,8 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
 
     private View llClosed;
     private JointPurchase extraPurchase;
+
+    private AlertDialog alertClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,9 +202,13 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
             llDescription.setVisibility(VISIBLE);
             tvDescription.setText(purchaseDetails.getDescription());
         } else llDescription.setVisibility(View.GONE);
-        if (purchaseDetails.getCardNumber() != null) {
+
+        // card
+
+        if (purchaseDetails.getPanMasked() != null) {
             llCard.setVisibility(VISIBLE);
-            tvCardNumber.setText(purchaseDetails.getLastFourNumbers());
+            String cardNumber = "**** " + purchaseDetails.getPanMasked().substring(purchaseDetails.getPanMasked().length() - 4, purchaseDetails.getPanMasked().length());
+            tvCardNumber.setText(cardNumber);
         } else llCard.setVisibility(View.GONE);
 
         tvAmount.setText(pennyToUah((purchaseDetails.getAmount())));
@@ -270,7 +280,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case  R.id.ivBack:
+            case R.id.ivBack:
                 onBackPressed();
                 break;
             case R.id.ll_member:
@@ -286,29 +296,45 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 acceptPurchase((String) view.getTag());
                 break;
             case R.id.tv_pay:
-
                 context.startActivity(new Intent(context, TransactionActivity.class)
                         .putExtra(Keys.TYPE, TransactionActivity.JOINT_PURCHASE)
                         .putExtra(Keys.PURCHASE, purchaseDetails)
                 );
+                break;
+            case R.id.tv_first_action:
+                alertClose.cancel();
+                break;
+            case R.id.tv_second_action:
+                closePurchase(id);
+                alertClose.cancel();
                 break;
         }
 
     }
 
     private void showConfirmation(final String id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно хотите закрыть эту покупку?");
-        builder.setMessage("Вы не сможете вернуться к редактированию, а участники получат уведомление о закрытии");
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                closePurchase(id);
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Отмена", null);
-        builder.create().show();
+
+        TextView tvCancel, tvClose, tvDescription, tvTitle;
+
+        android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_two_action, null);
+        dialogBuilder.setView(dialogView);
+        tvCancel = dialogView.findViewById(R.id.tv_first_action);
+        tvClose = dialogView.findViewById(R.id.tv_second_action);
+        tvDescription = dialogView.findViewById(R.id.tv_description);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+
+        tvClose.setText(getString(R.string.ok));
+        tvCancel.setText(getString(R.string.cancel));
+        tvTitle.setText(getString(R.string.alert_close_purchase_title));
+        tvDescription.setText(getString(R.string.alert_close_purchase_description));
+        tvCancel.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
+
+        alertClose = dialogBuilder.create();
+        alertClose.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertClose.show();
     }
 
     private void startMemberActivity(Member member) {
@@ -316,7 +342,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
             startActivityForResult(new Intent(context, MembersPartActivity.class)
                     .putExtra(Keys.MEMBER, member)
                     .putExtra(Keys.TITLE, title)
-                    .putExtra(Keys.OWNER, isOwner),100);
+                    .putExtra(Keys.OWNER, isOwner), 100);
         }
     }
 

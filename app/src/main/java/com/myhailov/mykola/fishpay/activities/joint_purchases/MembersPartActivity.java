@@ -16,6 +16,7 @@ import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.OWNER;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
@@ -116,6 +117,8 @@ public class MembersPartActivity extends BaseActivity {
                 break;
             case R.id.tv_request:
                 context.startActivity(new Intent(context, CreatePayRequestActivity.class)
+                        .putExtra(LOAD_CONTACTS, false)
+                        .putExtra(TITLE, title)
                         .putExtra(Keys.MEMBER, member)
                 );
                 break;

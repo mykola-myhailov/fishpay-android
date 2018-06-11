@@ -36,6 +36,7 @@ public class JointPurchaseDetailsResult implements Parcelable {
     private int amount;
     @SerializedName("date_to") private String to;
     @SerializedName("card_number") private String cardNumber;
+    @SerializedName("pan_masked") private String panMasked;
     private ArrayList<Member> members;
 
     protected JointPurchaseDetailsResult(Parcel in) {
@@ -45,6 +46,7 @@ public class JointPurchaseDetailsResult implements Parcelable {
         amount = in.readInt();
         to = in.readString();
         cardNumber = in.readString();
+        panMasked = in.readString();
         members = in.createTypedArrayList(Member.CREATOR);
     }
 
@@ -56,6 +58,7 @@ public class JointPurchaseDetailsResult implements Parcelable {
         dest.writeInt(amount);
         dest.writeString(to);
         dest.writeString(cardNumber);
+        dest.writeString(panMasked);
         dest.writeTypedList(members);
     }
 
@@ -75,6 +78,14 @@ public class JointPurchaseDetailsResult implements Parcelable {
             return new JointPurchaseDetailsResult[size];
         }
     };
+
+    public String getPanMasked() {
+        return panMasked;
+    }
+
+    public void setPanMasked(String panMasked) {
+        this.panMasked = panMasked;
+    }
 
     public String getId() {
         return id;

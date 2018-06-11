@@ -150,7 +150,7 @@ public class CharityDonationActivity extends BaseActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
         if (sharedPreferences.contains(PrefKeys.CARD)) {
             String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
-            Log.e("cardJson", cardJson);
+            Log.d("cardJson", cardJson);
             card = cardJson == null ? null : new Gson().fromJson(cardJson, Card.class);
             if (card != null) {
                 setCardValue();

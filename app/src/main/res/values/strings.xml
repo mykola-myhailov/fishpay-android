@@ -151,4 +151,6 @@
     <string name="use_new_password">Для входа в систему воспользуйтесь новым паролем</string>
     <string name="publish_name">Публиковать имя</string>
     <string name="anonymous">Аноним</string>
+    <string name="alert_close_purchase_title">Вы действительно хотите закрыть эту покупку?</string>
+    <string name="alert_close_purchase_description">Вы не сможете вернуться к редактированию, а участники получат уведомление о закрытии</string>
 </resources>
