@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -115,10 +119,14 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
         initCustomToolbar("запрос на оплату");
         initViews();
-        // set information group purchase
+        // set information if group purchase
         if (!loadContacts) {
             rvContacts.setVisibility(View.GONE);
             rlRequestAmount.setVisibility(View.VISIBLE);
+            etPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
+            Spannable spannable = new SpannableString(String.format("%s | %s", receiverPhone, receiverName));
+            spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)), receiverPhone.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            etPhone.setText(spannable);
             etComment.setText("Взнос в рамках общей покупки " + title);
         }
     }

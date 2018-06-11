@@ -70,6 +70,7 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
     private JointPurchase extraPurchase;
 
     private AlertDialog alertClose;
+    private String closeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -287,7 +288,8 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 startMemberActivity(((Member) view.getTag()));
                 break;
             case R.id.tv_close:
-                showConfirmation(((String) view.getTag()));
+                closeId = (String) view.getTag();
+                showConfirmation();
                 break;
             case R.id.tv_reject:
                 rejectPurchase((String) view.getTag());
@@ -305,14 +307,14 @@ public class JointPurchaseDetailsActivity extends BaseActivity {
                 alertClose.cancel();
                 break;
             case R.id.tv_second_action:
-                closePurchase(id);
+                closePurchase(closeId);
                 alertClose.cancel();
                 break;
         }
 
     }
 
-    private void showConfirmation(final String id) {
+    private void showConfirmation() {
 
         TextView tvCancel, tvClose, tvDescription, tvTitle;
 
