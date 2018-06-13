@@ -153,4 +153,7 @@
     <string name="anonymous">Аноним</string>
     <string name="alert_close_purchase_title">Вы действительно хотите закрыть эту покупку?</string>
     <string name="alert_close_purchase_description">Вы не сможете вернуться к редактированию, а участники получат уведомление о закрытии</string>
+    <string name="all_spends">Всего потрачено</string>
+    <string name="summary_ballance">Общий балланс</string>
+    <string name="for_you">По отношению к вам</string>
 </resources>
