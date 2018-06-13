@@ -271,8 +271,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
                 tvStatus.setText("через: FISHPAY");
-                // TODO: 12.03.18 format date
-                tvTime.setText(Utils.convertStringToDateWithCustomFormat(request.getCreatingTime(), "H:mm d MMMM y "));
+                tvTime.setText(Utils.checkDateIsToday(context, request.getCreatingTime()));
                 if (request.getStatus().equals("REJECTED")) {
 
                 }
