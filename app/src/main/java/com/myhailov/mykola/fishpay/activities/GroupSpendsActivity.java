@@ -27,6 +27,8 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnTabChangedListener  {
 
@@ -72,6 +74,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
                         if (code < 204){
                             allSpends = result;
+                            Collections.reverse(allSpends);
                             for (GroupSpend spend : allSpends)
                                 if (spend.getCreatorId() == myUserId)
                                     myCreationSpends.add(spend);

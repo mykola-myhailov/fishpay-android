@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.Transaction;
+import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
@@ -60,12 +60,13 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
     public void onBindViewHolder(TransactionHolder holder, int position) {
         Transaction transaction = transactions.get(position);
         if (transaction == null) return;
-        Utils.setText(holder.tvAmount, transaction.getAmount() );
+        Utils.setText(holder.tvAmount, Utils.pennyToUah(transaction.getAmount()));
         Utils.setText(holder.tvDescription, transaction.getComment());
         Utils.setText(holder.tvFrom, transaction.getMemberFromName() + " " + transaction.getMemberFromSurname());
+        String memberToName = transaction.getMemberToName() + " " + transaction.getMemberToSurname();
+        if (memberToName.length() < 1) holder.tvTo.setVisibility(View.GONE);
+        else holder.tvTo.setText(memberToName);
         Utils.setText(holder.tvDate, transaction.getDate());
-
-        ;
       //  transaction.getM
     }
 
@@ -74,8 +75,4 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
     public int getItemCount() {
         return transactions.size();
     }
-
-
-
-
 }
