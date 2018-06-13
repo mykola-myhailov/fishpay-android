@@ -1,4 +1,5 @@
 package com.myhailov.mykola.fishpay.activities;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,11 +22,13 @@ import com.myhailov.mykola.fishpay.api.results.PayRequest;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
+import com.myhailov.mykola.fishpay.utils.Utils;
 import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -109,16 +112,24 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                                    Response<BaseResponse<ArrayList<PayRequest>>> response) {
                 if (response.code() == 200) {
                     BaseResponse<ArrayList<PayRequest>> body = response.body();
-                    if (body == null)return;
+                    if (body == null) return;
                     currentList = new ArrayList<>();
                     ArrayList<PayRequest> result = response.body().getResult();
-                    if (result != null){
-                        for (PayRequest request:result ) {
-                            if (!request.getStatus().equals("DELETED")){
+                    if (result != null) {
+                        for (PayRequest request : result) {
+                            if (!request.getStatus().equals("DELETED")) {
                                 currentList.add(request);
                             }
                         }
-                        Collections.reverse(currentList);
+
+                        Collections.sort(currentList, new Comparator<PayRequest>() {
+                            @Override
+                            public int compare(PayRequest o1, PayRequest o2) {
+                                if (o1.getCreatingTime() == null || o2.getCreatingTime() == null)
+                                    return 0;
+                                return o2.getCreatingTime().compareTo(o1.getCreatingTime());
+                            }
+                        });
                     }
 
                     rvRequests.getAdapter().notifyDataSetChanged();
@@ -150,7 +161,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 deletePayRequest((PayRequest) view.getTag());
                 break;
             case R.id.rl_pay_request:
-                if (tabPosition == TAB_INCOMING){
+                if (tabPosition == TAB_INCOMING) {
                     PayRequest payRequest = (PayRequest) view.getTag();
                     long payRequestId = payRequest.getId();
                     context.startActivity((new Intent(context, IncomingDetailsActivity.class))
@@ -167,7 +178,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                     request.getId()).enqueue(new Callback<BaseResponse<Object>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
-                        if (response.code() == 202) getOutcomingRequests();
+                    if (response.code() == 202) getOutcomingRequests();
                 }
 
                 @Override
@@ -256,14 +267,14 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
             }
 
             void bind(PayRequest request) {
-                viewed.setVisibility(request._getStatus().equals("ACTIVE")  ? VISIBLE : View.INVISIBLE);
+                viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
                 tvStatus.setText("через: FISHPAY");
                 // TODO: 12.03.18 format date
-                tvTime.setText(request.getCreatingTime());
-                if (request.getStatus().equals("REJECTED")){
-                    
+                tvTime.setText(Utils.convertStringToDateWithCustomFormat(request.getCreatingTime(), "H:mm d MMMM y "));
+                if (request.getStatus().equals("REJECTED")) {
+
                 }
                 tvDelete.setTag(request);
                 rlPayRequest.setTag(request);
