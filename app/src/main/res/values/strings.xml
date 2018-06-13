@@ -156,4 +156,6 @@
     <string name="all_spends">Всего потрачено</string>
     <string name="summary_ballance">Общий балланс</string>
     <string name="for_you">По отношению к вам</string>
+    <string name="today">сегодня в %s</string>
+    <string name="yesterday">вчера</string>
 </resources>

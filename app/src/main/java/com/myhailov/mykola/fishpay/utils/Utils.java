@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -243,6 +244,25 @@ public class Utils {
         }
         SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
         return newDateFormat.format(convertedDate);
+    }
+
+    public static String checkDateIsToday(Context context, String date){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
+
+        Date convertedDate = new Date();
+        String today = newDateFormat.format(convertedDate);
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String convertDate = newDateFormat.format(convertedDate);
+        if (convertDate.equals(today)){
+            return context.getString(R.string.today, new SimpleDateFormat("H:mm").format(convertedDate));
+        }
+        return new SimpleDateFormat("H:mm d MMMM y ").format(convertedDate);
     }
 
     public static String convertStringToDateWithCustomFormat(String date, String format){

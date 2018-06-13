@@ -66,7 +66,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Member member;
     private Card card;
     private int amount;
-    private boolean fromJointPurchase, loadContacts;
+    private boolean fromJointPurchase, loadContacts = true;
     private View rlRequestAmount;
     private ArrayList<Contact> appContacts;
 
