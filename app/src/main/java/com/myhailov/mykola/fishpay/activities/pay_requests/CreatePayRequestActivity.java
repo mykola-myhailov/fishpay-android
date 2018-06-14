@@ -123,10 +123,10 @@ public class CreatePayRequestActivity extends BaseActivity {
         if (!loadContacts) {
             rvContacts.setVisibility(View.GONE);
             rlRequestAmount.setVisibility(View.VISIBLE);
-            etPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
-            Spannable spannable = new SpannableString(String.format("%s | %s", receiverPhone, receiverName));
-            spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)), receiverPhone.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            etPhone.setText(spannable);
+//            etPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
+//            Spannable spannable = new SpannableString(String.format("%s | %s", receiverPhone, receiverName));
+//            spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)), receiverPhone.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            etPhone.setText(spannable);
             etComment.setText("Взнос в рамках общей покупки " + title);
         }
     }

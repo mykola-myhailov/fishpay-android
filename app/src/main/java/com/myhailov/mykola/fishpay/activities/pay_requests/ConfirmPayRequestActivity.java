@@ -97,7 +97,7 @@ public class ConfirmPayRequestActivity extends BaseActivity {
                     , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
                 @Override
                 protected void onResult(int code, Object result) {
-                    context.startActivity(new Intent(context, PayRequestActivity.class));
+                    context.startActivity(new Intent(context, SuccessPayRequestActivity.class));
                 }
             });
     }

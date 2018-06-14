@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.IncomingDetailsActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.OutComingPayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.PayRequest;
@@ -161,10 +162,13 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 deletePayRequest((PayRequest) view.getTag());
                 break;
             case R.id.rl_pay_request:
+                PayRequest payRequest = (PayRequest) view.getTag();
+                long payRequestId = payRequest.getId();
                 if (tabPosition == TAB_INCOMING) {
-                    PayRequest payRequest = (PayRequest) view.getTag();
-                    long payRequestId = payRequest.getId();
                     context.startActivity((new Intent(context, IncomingDetailsActivity.class))
+                            .putExtra(Keys.REQUEST_ID, payRequestId));
+                }else {
+                    context.startActivity((new Intent(context, OutComingPayRequestActivity.class))
                             .putExtra(Keys.REQUEST_ID, payRequestId));
                 }
 

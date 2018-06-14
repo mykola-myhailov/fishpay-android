@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -247,8 +248,8 @@ public class Utils {
     }
 
     public static String checkDateIsToday(Context context, String date){
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
 
         Date convertedDate = new Date();
@@ -260,7 +261,7 @@ public class Utils {
         }
         String convertDate = newDateFormat.format(convertedDate);
         if (convertDate.equals(today)){
-            return context.getString(R.string.today, new SimpleDateFormat("H:mm").format(convertedDate));
+            return context.getString(R.string.today,  new SimpleDateFormat("H:mm").format(convertedDate));
         }
         return new SimpleDateFormat("H:mm d MMMM y ").format(convertedDate);
     }

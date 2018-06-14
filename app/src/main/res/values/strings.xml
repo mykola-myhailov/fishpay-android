@@ -65,7 +65,7 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
-    <string name="null_string" />
+    <string name="null_string"/>
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="total_amount">Общяя сумма</string>
@@ -158,4 +158,10 @@
     <string name="for_you">По отношению к вам</string>
     <string name="today">сегодня в %s</string>
     <string name="yesterday">вчера</string>
+    <string name="thank">Спасибо!</string>
+    <string name="to_work">Вернутся к роботе</string>
+    <string name="pay_request_success">Ваш запрос успешно отправлен. Вы всегда можете его посмотреть в разделе \"Исходящие\"!</string>
+    <string name="out_coming_pay_request">Исходящий запрос</string>
+    <string name="status_request">Статус запроса</string>
+    <string name="status">%s %s</string>
 </resources>
