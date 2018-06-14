@@ -65,6 +65,7 @@
 
         <TextView
             android:id="@+id/tv_currency"
+            android:text="@string/uah2"
             android:layout_alignParentEnd="true"
             android:layout_alignBaseline="@+id/tv_description"
 

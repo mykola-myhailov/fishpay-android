@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.group_spends;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,11 +13,14 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import retrofit2.Call;
 
 public class AddMoreSpendsActivity extends BaseActivity {
 
@@ -97,6 +101,12 @@ public class AddMoreSpendsActivity extends BaseActivity {
                     @Override
                     protected void onResult(int code, JsonElement result) {
 
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
+                        super.onFailure(call, t);
+                        onBackPressed();
                     }
                 });
     }

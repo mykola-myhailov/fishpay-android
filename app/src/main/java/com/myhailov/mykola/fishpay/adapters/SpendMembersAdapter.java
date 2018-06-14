@@ -61,7 +61,7 @@ public class SpendMembersAdapter extends RecyclerView.Adapter<SpendMembersAdapte
         holder.tvName.setText(name);
         holder.tvAmount.setText(Utils.pennyToUah(member.getOverpaiment()));
         holder.tvTotalCost.setText(Utils.pennyToUah(member.getSum()));
-        holder.tvShare.setText(Utils.toPercentage(member.getPart()));
+        holder.tvShare.setText(member.getPart() + " %");
         String initials = Utils.extractInitials(member.getName(), member.getSurname());
         Utils.displayAvatar(context, holder.ivAvatar, member.getPhoto(), initials);
         String role = member.getRole();
@@ -85,6 +85,4 @@ public class SpendMembersAdapter extends RecyclerView.Adapter<SpendMembersAdapte
         if (members == null) return 0;
         return members.size();
     }
-
-
 }

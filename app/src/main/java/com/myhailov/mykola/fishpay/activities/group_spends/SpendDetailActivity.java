@@ -16,7 +16,7 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 import com.myhailov.mykola.fishpay.api.results.MemberDetails;
-import com.myhailov.mykola.fishpay.api.results.SpendDetailResult.Transaction;
+import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -63,7 +63,7 @@ public class SpendDetailActivity extends BaseActivity{
                 @Override
                 protected void onResult(int code, SpendDetailResult result) {
                     if (result == null) return;
-                    tvAmount.setText(String.valueOf(result.getSum()));
+                    tvAmount.setText(Utils.pennyToUah(result.getSum()));
                     members = result.getMembers();
                     transactions = result.getTransactions();
                     initCustomToolbar(result.getTitle());
