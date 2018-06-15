@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class ContactDetailsActivity extends BaseActivity {
     private TextView tvIsAdded;
     private ContactDetailResult contactDetails;
     private Contact contact;
+    private boolean isContact;
 
 
     @Override
@@ -47,6 +49,7 @@ public class ContactDetailsActivity extends BaseActivity {
         if (extras == null) return;
         tvIsAdded = findViewById(R.id.tvInContactsList);
         if (extras.containsKey(Keys.CONTACT)) {
+            isContact = true;
             contact = extras.getParcelable(Keys.CONTACT);
             userId = contact.getUserId();
             if (Utils.isOnline(context)){
@@ -73,6 +76,7 @@ public class ContactDetailsActivity extends BaseActivity {
                         });
             }
         } else {
+            isContact = false;
             SearchedContactsResult.SearchedContact searchedContact =
                     extras.getParcelable(Keys.SEARCHED_CONTACT);
             if (searchedContact == null) return;
@@ -92,7 +96,11 @@ public class ContactDetailsActivity extends BaseActivity {
 
             String importedName = searchedContact.getName();
             ((TextView) findViewById(R.id.tvName2)).setText(importedName);
-            ((TextView) findViewById(R.id.tvCardNumber)).setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(searchedContact.getPanMaskedCard())){
+                ((TextView) findViewById(R.id.tvCardNumber)).setText(formatCard(searchedContact.getPanMaskedCard()));
+            }else {
+                findViewById(R.id.tvCardNumber).setVisibility(View.GONE);
+            }
         }
         (findViewById(R.id.tvGet)).setOnClickListener(this);
         (findViewById(R.id.tvGive)).setOnClickListener(this);
@@ -125,8 +133,19 @@ public class ContactDetailsActivity extends BaseActivity {
                 break;
 
             case R.id.tvGive:
+                String contactName = "";
+                if (isContact) {
+                    if (!TextUtils.isEmpty(contactDetails.getName())) {
+                        contactName = contactDetails.getName() + " ";
+                    }
+                    if (!TextUtils.isEmpty(contactDetails.getSuname())) {
+                        contactName = contactName + contactDetails.getSuname();
+                    }
+                }else {
+                    contactName = name + " " + surname;
+                }
                 context.startActivity((new Intent(context, TransactionActivity.class))
-                        .putExtra(NAME, contactDetails.getName() + " " + contactDetails.getSuname())
+                        .putExtra(NAME, contactName)
                         .putExtra(Keys.CONTACT, contact ));
 
 
@@ -151,6 +170,12 @@ public class ContactDetailsActivity extends BaseActivity {
                         tvIsAdded.setText("В списке контактов");
                     }
                 });
+    }
+
+    private String formatCard(String card){
+        return card.substring(0, 4) + " " +
+                card.substring(4, 6) + "** **** " +
+                card.substring(6, card.length());
     }
 
     @Override

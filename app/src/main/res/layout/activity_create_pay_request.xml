@@ -72,18 +72,30 @@
             android:layout_alignParentEnd="true" />
 
         <EditText
-            android:textSize="22sp"
-            android:id="@+id/et_phone"
-            android:layout_toStartOf="@id/iv_choose_contact"
-            android:text="+380"
-            android:inputType="phone"
-            android:maxLength="13"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_below="@id/tv_number"/>
+                android:textSize="22sp"
+                android:id="@+id/et_phone"
+                android:layout_toStartOf="@id/tv_name"
+                android:text="+380"
+                android:inputType="phone"
+                android:maxLength="13"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_below="@id/tv_number"/>
+
+        <TextView
+                android:textSize="22sp"
+                android:id="@+id/tv_name"
+                android:layout_toStartOf="@id/iv_choose_contact"
+                android:maxLines="1"
+                android:textColor="@color/grey2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_below="@id/tv_number"
+                android:visibility="gone"/>
 
         <View
             android:layout_marginTop="2dp"

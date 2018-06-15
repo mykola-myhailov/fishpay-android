@@ -58,7 +58,7 @@ public class CreatePayRequestActivity extends BaseActivity {
 
     private EditText etPhone, etComment, etGoods;
     private MoneyEditText etAmount;
-    private TextView tvCard;
+    private TextView tvCard, tvName;
     private RecyclerView rvContacts;
     private String receiverPhone = "", receiverName = "",
             receiverCardNumber = "", cardName = "";
@@ -111,7 +111,7 @@ public class CreatePayRequestActivity extends BaseActivity {
             }
         }
         if (card != null) {
-            receiverCardNumber = card.getLastFourNumbers();
+            receiverCardNumber = card.getCardNumber();
             cardName = card.getName();
         }
         if (loadContacts) {
@@ -123,10 +123,8 @@ public class CreatePayRequestActivity extends BaseActivity {
         if (!loadContacts) {
             rvContacts.setVisibility(View.GONE);
             rlRequestAmount.setVisibility(View.VISIBLE);
-//            etPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
-//            Spannable spannable = new SpannableString(String.format("%s | %s", receiverPhone, receiverName));
-//            spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)), receiverPhone.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            etPhone.setText(spannable);
+//            tvName.setText("|" + receiverName);
+//            tvName.setVisibility(View.VISIBLE);
             etComment.setText("Взнос в рамках общей покупки " + title);
         }
     }
@@ -144,6 +142,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         findViewById(R.id.iv_choose_contact).setOnClickListener(this);
         findViewById(R.id.tv_send_request).setOnClickListener(this);
         findViewById(R.id.rl_card).setOnClickListener(this);
+        tvName = findViewById(R.id.tv_name);
 
         etPhone = findViewById(R.id.et_phone);
         tvCard = findViewById(R.id.tv_card_number);
@@ -172,7 +171,14 @@ public class CreatePayRequestActivity extends BaseActivity {
             etPhone.setFocusableInTouchMode(false);
         }
         if (cardName.equals("")) tvCard.setText(receiverCardNumber);
-        else tvCard.setText(String.format("%s | %s", receiverCardNumber, cardName));
+        else {
+            Spannable spannable = new SpannableString(String.format("%s | %s", receiverCardNumber, cardName));
+            spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)),
+                    receiverCardNumber.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvCard.setText(spannable);
+        }
+
+
 
         rlRequestAmount = findViewById(R.id.rl_request_amount);
 
@@ -301,7 +307,12 @@ public class CreatePayRequestActivity extends BaseActivity {
                 receiverCardNumber = card.getLastFourNumbers();
                 cardName = card.getName();
                 if (cardName.equals("")) tvCard.setText(receiverCardNumber);
-                else tvCard.setText(String.format("%s | %s", cardName, receiverCardNumber));
+                else {
+                    Spannable spannable = new SpannableString(String.format("%s | %s", receiverCardNumber, cardName));
+                    spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)),
+                            receiverCardNumber.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tvCard.setText(spannable);
+                }
                 Log.d("card", receiverCardNumber);
             }
         } else if (requestCode == REQUEST_CONTACT) {
