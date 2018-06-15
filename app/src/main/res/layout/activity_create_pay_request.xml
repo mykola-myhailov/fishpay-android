@@ -160,6 +160,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:theme="@style/editTextTheme"
             android:id="@+id/et_comment"
             android:layout_toEndOf="@id/iv_comment"
             android:layout_below="@id/tv_comment"
@@ -203,6 +204,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:theme="@style/editTextTheme"
             android:id="@+id/et_goods"
             android:layout_below="@id/tv_invoice"
             android:layout_marginTop="12dp"
@@ -237,6 +239,7 @@
                 android:layout_height="wrap_content">
 
                 <com.myhailov.mykola.fishpay.views.MoneyEditText
+                    android:theme="@style/editTextTheme"
                     android:id="@+id/met_amount"
                     android:hint="Введите сумму"
                     android:textColorHint="@color/blue1"

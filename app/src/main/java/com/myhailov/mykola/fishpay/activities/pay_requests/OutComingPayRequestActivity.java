@@ -111,6 +111,5 @@ public class OutComingPayRequestActivity extends BaseActivity {
         DELETED_BY_RECIPIENT,
         REJECTED,
         ACCEPTED;
-
     }
 }

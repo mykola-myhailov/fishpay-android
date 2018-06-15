@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -35,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
+
+import retrofit2.Call;
 
 
 public class CardsActivity extends BaseActivity {
@@ -159,6 +163,13 @@ public class CardsActivity extends BaseActivity {
             progressBar.setVisibility(View.VISIBLE);
             ApiClient.getApiInterface().getCards(TokenStorage.getToken(context))
                     .enqueue(new BaseCallback<ArrayList<Card>>(context, false) {
+
+                        @Override
+                        public void onFailure(@NonNull Call<BaseResponse<ArrayList<Card>>> call, @NonNull Throwable t) {
+                            super.onFailure(call, t);
+                            progressBar.setVisibility(View.GONE);
+                        }
+
                         @Override
                         protected void onResult(int code, ArrayList<Card> result) {
                             if (code == 200) {

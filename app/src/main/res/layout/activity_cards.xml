@@ -73,6 +73,7 @@
         </LinearLayout>
 
         <EditText
+            android:theme="@style/editTextTheme"
             android:id="@+id/et_card_name"
             android:singleLine="true"
             android:imeOptions="actionNext"
@@ -136,6 +137,7 @@
 
 
             <EditText
+                android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_1"
                 android:singleLine="true"
                 android:textSize="22sp"
@@ -149,6 +151,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_2"
                 android:singleLine="true"
                 android:textSize="22sp"
@@ -162,6 +165,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_3"
                 android:singleLine="true"
                 android:textSize="22sp"
@@ -175,6 +179,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_4"
                 android:singleLine="true"
                 android:textSize="22sp"

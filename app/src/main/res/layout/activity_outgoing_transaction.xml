@@ -160,6 +160,7 @@
                     android:textColor="@color/grey2"/>
 
                 <EditText
+                    android:theme="@style/editTextTheme"
                     android:textSize="22sp"
                     android:id="@+id/et_sum"
                     android:text=""
@@ -200,6 +201,9 @@
                     android:textColor="@color/grey2"/>
 
                 <EditText
+                    android:theme="@style/editTextTheme"
+                    android:maxLength="3"
+                    android:inputType="numberPassword"
                     android:textSize="22sp"
                     android:id="@+id/et_cvv"
                     android:text=""

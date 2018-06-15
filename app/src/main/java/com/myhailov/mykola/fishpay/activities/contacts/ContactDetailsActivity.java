@@ -24,6 +24,8 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
+
 public class ContactDetailsActivity extends BaseActivity {
 
     private long userId;
@@ -124,6 +126,7 @@ public class ContactDetailsActivity extends BaseActivity {
 
             case R.id.tvGive:
                 context.startActivity((new Intent(context, TransactionActivity.class))
+                        .putExtra(NAME, contactDetails.getName() + " " + contactDetails.getSuname())
                         .putExtra(Keys.CONTACT, contact ));
 
 
