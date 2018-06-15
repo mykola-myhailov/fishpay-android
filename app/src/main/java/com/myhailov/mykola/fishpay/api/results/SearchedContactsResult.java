@@ -34,10 +34,13 @@ public class SearchedContactsResult {
         @SerializedName("second_name")
         private String surname;
 
+        @SerializedName("public_pan_masked")
+        private String panMaskedCard;
+
         @SerializedName("imported_contacts_first_name")
         private String importedName;
 
-        @SerializedName("photo_link")
+        @SerializedName("photo")
         private String photo;
 
         protected SearchedContact(Parcel in) {
@@ -45,6 +48,7 @@ public class SearchedContactsResult {
             phone = in.readString();
             name = in.readString();
             surname = in.readString();
+            panMaskedCard = in.readString();
             importedName = in.readString();
             photo = in.readString();
         }
@@ -60,6 +64,14 @@ public class SearchedContactsResult {
                 return new SearchedContact[size];
             }
         };
+
+        public String getPanMaskedCard() {
+            return panMaskedCard;
+        }
+
+        public void setPanMaskedCard(String panMaskedCard) {
+            this.panMaskedCard = panMaskedCard;
+        }
 
         public long getId() {
             return id;
@@ -96,6 +108,7 @@ public class SearchedContactsResult {
             parcel.writeString(phone);
             parcel.writeString(name);
             parcel.writeString(surname);
+            parcel.writeString(panMaskedCard);
             parcel.writeString(importedName);
             parcel.writeString(photo);
         }
