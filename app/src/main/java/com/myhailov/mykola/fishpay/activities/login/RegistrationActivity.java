@@ -154,6 +154,7 @@ public class RegistrationActivity extends BaseActivity {
             for (Contact contactInfo: contacts) {
                 JSONObject contactObject = new JSONObject();
                 contactObject.put("first_name",  contactInfo.getName());
+                contactObject.put("last_name",  contactInfo.getSurname());
                 contactObject.put("phone_number",contactInfo.getPhone());
                 contactsArray.put(contactObject);
             }
