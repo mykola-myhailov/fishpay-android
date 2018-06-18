@@ -36,7 +36,7 @@ public class ContactDetailsActivity extends BaseActivity {
     private ContactDetailResult contactDetails;
     private Contact contact;
     private boolean isContact;
-
+    private SearchedContactsResult.SearchedContact searchedContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,7 @@ public class ContactDetailsActivity extends BaseActivity {
             }
         } else {
             isContact = false;
-            SearchedContactsResult.SearchedContact searchedContact =
-                    extras.getParcelable(Keys.SEARCHED_CONTACT);
+            searchedContact = extras.getParcelable(Keys.SEARCHED_CONTACT);
             if (searchedContact == null) return;
             phone = searchedContact.getPhone();
             userId = searchedContact.getId();
@@ -126,9 +125,15 @@ public class ContactDetailsActivity extends BaseActivity {
                 } else Utils.noInternetToast(context);
                 break;
             case R.id.tvGet:
-                if (contactDetails != null)
-                context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-                        .putExtra(Keys.CONTACT, contact ));
+                if (contactDetails != null) {
+                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                            .putExtra(Keys.CONTACT, contact));
+                }else {
+                    if (!isContact) {
+                        context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                                .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
+                    }
+                }
 
                 break;
 

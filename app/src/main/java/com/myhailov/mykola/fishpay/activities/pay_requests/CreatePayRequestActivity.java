@@ -14,6 +14,7 @@ import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -51,6 +53,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
+import static com.myhailov.mykola.fishpay.utils.Keys.SEARCHED_CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 
 
@@ -93,8 +96,18 @@ public class CreatePayRequestActivity extends BaseActivity {
                     amount = member.getAmountToPay();
                     fromJointPurchase = true;
                 }
-                loadContacts = extras.getBoolean(LOAD_CONTACTS, true);
                 title = extras.getString(TITLE, "");
+            }
+            if (extras.containsKey(LOAD_CONTACTS)){
+                loadContacts = extras.getBoolean(LOAD_CONTACTS, true);
+            }
+            if (extras.containsKey(SEARCHED_CONTACT)){
+                SearchedContactsResult.SearchedContact searchedContact = extras.getParcelable(Keys.SEARCHED_CONTACT);
+                if (searchedContact != null) {
+                    receiverContact = new Contact();
+                    receiverPhone = searchedContact.getPhone();
+                    receiverName = searchedContact.getName() + " " + searchedContact.getSurname();
+                }
             }
 
             if (extras.containsKey(Keys.CARD)) {
@@ -175,7 +188,7 @@ public class CreatePayRequestActivity extends BaseActivity {
             Spannable spannable = new SpannableString(String.format("%s | %s", receiverCardNumber, cardName));
             spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)),
                     receiverCardNumber.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            tvCard.setText(spannable);
+            tvCard.setText(formatCardNumber(spannable));
         }
 
 
@@ -304,14 +317,14 @@ public class CreatePayRequestActivity extends BaseActivity {
         if (requestCode == REQUEST_CARD) {
             card = data.getParcelableExtra(CARD);
             if (card != null) {
-                receiverCardNumber = card.getLastFourNumbers();
+                receiverCardNumber = card.getCardNumber();
                 cardName = card.getName();
                 if (cardName.equals("")) tvCard.setText(receiverCardNumber);
                 else {
                     Spannable spannable = new SpannableString(String.format("%s | %s", receiverCardNumber, cardName));
                     spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.grey2)),
                             receiverCardNumber.length(), spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    tvCard.setText(spannable);
+                    tvCard.setText(formatCardNumber(spannable));
                 }
                 Log.d("card", receiverCardNumber);
             }
@@ -339,6 +352,15 @@ public class CreatePayRequestActivity extends BaseActivity {
         } catch (Exception ignored) {
         }
         return goodsArray.toString();
+    }
+
+    private SpannableString formatCardNumber(Spannable cardNumber) {
+        SpannableString spanCardNumber = new SpannableString(cardNumber);
+        spanCardNumber.setSpan(new UnderlineSpan(), 0, 4, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 5, 9, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 10, 14, 0);
+        spanCardNumber.setSpan(new UnderlineSpan(), 15, 19, 0);
+        return spanCardNumber;
     }
 
 /*    private class MemberHolder extends RecyclerView.ViewHolder{
