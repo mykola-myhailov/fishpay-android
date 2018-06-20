@@ -201,8 +201,9 @@ public class Utils {
 
     public static String pennyToUah(int penny) {
         String amount;
-        if (penny != 0)
-            amount = String.format(Locale.ENGLISH,"%.2f", (float) (penny / (float) 100));
+        if (penny != 0) {
+            amount = String.format(Locale.ENGLISH, "%.2f", (double) (penny / (double) 100));
+        }
         else amount = "0";
         return amount;
     }

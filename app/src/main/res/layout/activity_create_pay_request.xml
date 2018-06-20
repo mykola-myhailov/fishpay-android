@@ -257,7 +257,6 @@
                     android:textColorHint="@color/blue1"
                     android:textColor="@color/blue1"
                     android:textSize="28sp"
-                    android:maxLength="8"
                     android:inputType="numberDecimal"
                     android:background="@null"
                     android:gravity="end"

@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -74,6 +76,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private ArrayList<Contact> appContacts;
 
     private String title;
+    private String beforeChangeAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +164,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         tvCard = findViewById(R.id.tv_card_number);
         etComment = findViewById(R.id.et_comment);
         etAmount = findViewById(R.id.met_amount);
+        etAmount.addTextChangedListener(amountTextWatcher);
         if (fromJointPurchase) {
             etAmount.setClickable(false);
             etAmount.setLongClickable(false);
@@ -202,6 +206,38 @@ public class CreatePayRequestActivity extends BaseActivity {
         if (receiverContact == null) rlRequestAmount.setVisibility(View.GONE);
         else rvContacts.setVisibility(View.GONE);
     }
+
+    private TextWatcher amountTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            beforeChangeAmount = s.toString();
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String grn = "", cent = "";
+
+            if (s.toString().contains(".")){
+                grn = s.toString().split("\\.", 2)[0];
+                cent = s.toString().split("\\.", 2)[1];
+
+                if (grn.length() > 6){
+                    etAmount.setText(beforeChangeAmount);
+                    etAmount.setSelection(etAmount.getText().length());
+                }
+
+            }else {
+                if (s.toString().length() > 6){
+                    etAmount.setText(beforeChangeAmount);
+                    etAmount.setSelection(etAmount.getText().length());
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     @Override
     public void onClick(View view) {
