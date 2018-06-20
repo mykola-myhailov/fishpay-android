@@ -50,9 +50,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
+import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectGoodsActivity.REQUEST_GOODS;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_TOTAL_PRICE;
 import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static com.myhailov.mykola.fishpay.utils.Keys.SEARCHED_CONTACT;
@@ -158,6 +160,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         findViewById(R.id.iv_choose_contact).setOnClickListener(this);
         findViewById(R.id.tv_send_request).setOnClickListener(this);
         findViewById(R.id.rl_card).setOnClickListener(this);
+        findViewById(R.id.tv_invoice).setOnClickListener(this);
         tvName = findViewById(R.id.tv_name);
 
         etPhone = findViewById(R.id.et_phone);
@@ -244,6 +247,9 @@ public class CreatePayRequestActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ivBack:
                 onBackPressed();
+                break;
+            case R.id.tv_invoice:
+                startActivityForResult(new Intent(context, SelectGoodsActivity.class), REQUEST_GOODS);
                 break;
             case R.id.container:   // click on app user's contact, to see details
                 Contact contact = (Contact) view.getTag();
@@ -373,6 +379,12 @@ public class CreatePayRequestActivity extends BaseActivity {
                 receiverName = receiverContact.getName();
                 if (receiverPhone != null) etPhone.setText(receiverPhone);
             }
+        }
+
+        if (requestCode == REQUEST_GOODS){
+            long amount = data.getLongExtra(GOODS_TOTAL_PRICE, 0);
+            etAmount.setText(Utils.pennyToUah(amount));
+            etAmount.setEnabled(false);
         }
     }
 

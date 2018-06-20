@@ -137,6 +137,8 @@
     <string name="enter_amount">Введите сумму</string>
     <string name="role">роль: </string>
     <string name="total_cost">всего расходов:</string>
+    <string name="total">Всего</string>
+    <string name="discount">Скидка</string>
     <string name="share">доля: </string>
     <string name="creator">создатель</string>
     <string name="member">участник</string>
@@ -164,4 +166,8 @@
     <string name="out_coming_pay_request">Исходящий запрос</string>
     <string name="status_request">Статус запроса</string>
     <string name="status">%s %s</string>
+    <string name="form_account">Сформировать счет</string>
+    <string name="goods_empty_title">Сделаете продажу удобную для Вас и Вашых клиентов</string>
+    <string name="goods_empty_button">Использовать \n\"Мои товары\"</string>
+    <string name="goods_empty_description">Просто заполните раздел «Товары» продукцией или услугами которые Вы предоставляете своим клиентам. Вы получете точность и удобство, клиенты быстроту оплаты. </string>
 </resources>

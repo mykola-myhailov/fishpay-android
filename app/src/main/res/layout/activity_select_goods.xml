@@ -1,9 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.myhailov.mykola.fishpay.activities.pay_requests.SelectGoodsActivity">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="com.myhailov.mykola.fishpay.activities.pay_requests.SelectGoodsActivity">
+
+    <LinearLayout
+            android:id="@+id/liner"
+            android:background="@color/black_light"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:tint="@color/white"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+
+        <RelativeLayout
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/constraint_goods"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintTop_toBottomOf="@+id/liner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible">
+
+        <android.support.constraint.ConstraintLayout
+                android:background="@color/black_light"
+                android:id="@+id/constraint_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+            <TextView
+                    android:text="@string/total"
+                    android:textSize="17sp"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
+                    />
+
+            <TextView
+                    android:text="@string/discount"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_2"
+                    app:layout_constraintStart_toStartOf="@+id/tv_1"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp"/>
+
+            <TextView
+                    android:text="0.00"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/total_price"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_1"
+                    app:layout_constraintEnd_toStartOf="@+id/textView49"
+                    android:layout_marginEnd="8dp"/>
+
+            <TextView
+                    android:text="0.00"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_discount_price"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_2"
+                    app:layout_constraintEnd_toStartOf="@+id/textView50"
+                    android:layout_marginEnd="8dp"/>
+
+            <TextView
+                    android:text="@string/uah2"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:textColor="#737171"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView49"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/total_price"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                    android:text="@string/uah2"
+                    android:maxLines="1"
+                    android:textSize="17sp"
+                    android:textColor="#737171"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView50"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_discount_price"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/rv_goods"
+                app:layout_constraintBottom_toTopOf="@+id/tv_form_account"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_1"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/grey_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/view"
+                app:layout_constraintBottom_toTopOf="@+id/tv_form_account"/>
+
+        <TextView
+                android:text="@string/form_account"
+                android:textColor="@color/blue1"
+                android:textSize="17sp"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_form_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/constriant_goods_empty"
+            app:layout_constraintTop_toBottomOf="@+id/liner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/bag"
+                android:id="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/textView53"
+                android:layout_marginTop="16dp"/>
+
+        <TextView
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:text="@string/goods_empty_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView53"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/textView54"/>
+
+        <TextView
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:text="@string/goods_empty_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView54"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView53"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/tv_my_goods"/>
+
+        <TextView
+                android:lines="2"
+                android:textAlignment="center"
+                android:textColor="@color/blue1"
+                android:textSize="36sp"
+                android:text="@string/goods_empty_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_my_goods"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView54"
+                app:layout_constraintHorizontal_bias="0.5"
+                android:layout_marginBottom="16dp"/>
+    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>

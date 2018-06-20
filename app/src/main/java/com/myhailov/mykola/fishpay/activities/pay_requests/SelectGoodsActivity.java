@@ -1,104 +1,138 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.adapters.GoodsSelectAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SelectGoodsActivity extends BaseActivity{
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_TOTAL_PRICE;
 
-    private ArrayList<SelectedGoods> selectedGoods = new ArrayList<>();
+public class SelectGoodsActivity extends BaseActivity {
+    public static final int REQUEST_GOODS = 189;
+
+    private ArrayList<GoodsResults> goods = new ArrayList<>();
+    private List<GoodsResults> selectedGoods = new ArrayList<>();
     private RecyclerView recyclerView;
-    private GoodsAdapter goodsAdapter;
+    private TextView tvTotalPrice;
+    private long totalPrice = 0;
+    private GoodsSelectAdapter.OnItemClickListener rvListener = new GoodsSelectAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(boolean isPlus, int position, TextView textView) {
+            if (isPlus) {
+                plusGoods(position, textView);
+            } else {
+                minusGoods(position, textView);
+            }
+        }
+    };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_goods);
 
-        setContentView(R.layout.activity_drawer_my_goods);
-        initToolBar("Выберите товары");
+        initCustomToolbar("Выберите товары");
+        initViews();
+        getGoods();
 
-        findViewById(R.id.ivPlus).setOnClickListener(this);
-        recyclerView = findViewById(R.id.recyclerView);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+            case R.id.tv_form_account:
+                selectedGoods.clear();
+                addGoods();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(GOODS, (ArrayList) selectedGoods);
+                resultIntent.putExtra(GOODS_TOTAL_PRICE, totalPrice);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+                break;
+        }
+    }
+
+    private void initViews() {
+        recyclerView = findViewById(R.id.rv_goods);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        tvTotalPrice = findViewById(R.id.total_price);
 
+        findViewById(R.id.ivBack).setOnClickListener(this);
+        findViewById(R.id.tv_form_account).setOnClickListener(this);
+    }
+
+
+    private void getGoods() {
         ApiClient.getApiInterface()
                 .getUserGoods(TokenStorage.getToken(context))
                 .enqueue(new BaseCallback<ArrayList<GoodsResults>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GoodsResults> result) {
-
-                        for (GoodsResults product: result) {
+                        if (result != null && result.size() != 0) {
+                            goods = result;
+                            recyclerView.setAdapter(new GoodsSelectAdapter(context, goods, rvListener));
 
                         }
-                        goodsAdapter = new GoodsAdapter(selectedGoods);
-                        recyclerView.setAdapter(goodsAdapter);
                     }
                 });
-    }
-
-    @Override
-    public void onClick(View view) {
 
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvPrice, tvTitle;
-        private ImageView ivPhoto;
+    private void plusGoods(int position, TextView textView) {
+        GoodsResults item = goods.get(position);
+        if (item.getCount() == 0) {
+            textView.setVisibility(View.VISIBLE);
+        }
+        totalPrice += item.getPrice();
+        item.setCount(item.getCount() + 1);
+        textView.setText(item.getCount() + "");
+        tvTotalPrice.setText(Utils.pennyToUah(totalPrice));
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            ivPhoto = itemView.findViewById(R.id.ivPhoto);
+    }
+
+    private void minusGoods(int position, TextView textView) {
+        GoodsResults item = goods.get(position);
+        if (item.getCount() == 1) {
+            textView.setVisibility(View.INVISIBLE);
+        }
+        if (item.getCount() != 0) {
+            totalPrice -= item.getPrice();
+            item.setCount(item.getCount() - 1);
+            textView.setText(item.getCount() + "");
+            tvTotalPrice.setText(Utils.pennyToUah(totalPrice));
+        }
+    }
+
+    private void addGoods(){
+        for (GoodsResults item : goods) {
+            if (item.getCount() != 0){
+                selectedGoods.add(item);
+            }
         }
     }
 
 
-    class GoodsAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private ArrayList<SelectedGoods> goods;
-
-
-        GoodsAdapter(ArrayList<SelectedGoods> goods) {
-            this.goods = goods;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.goods_item, parent, false);
-            return new ViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            SelectedGoods item = goods.get(position);
-            holder.tvTitle.setText(item.getGoods().getTitle());
-            holder.tvPrice.setText(item.getGoods().getPrice());
-            Utils.displayGoods(context, holder.ivPhoto, item.getGoods().getMainPhoto(), item.getGoods().getId());
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return goods.size();
-        }
-    }
 }

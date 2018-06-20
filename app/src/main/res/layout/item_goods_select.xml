@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:id="@+id/flAvatarContainer"
+            android:layout_gravity="center_vertical"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp">
+
+        <ImageView
+                tools:ignore="ContentDescription"
+                android:id="@+id/ivPhoto"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"/>
+
+        <View
+                android:id="@+id/vBackground"
+                android:background="@drawable/awatar_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+    </FrameLayout>
+
+
+    <TextView
+            android:layout_toEndOf="@+id/flAvatarContainer"
+            android:id="@+id/tvTitle"
+            android:maxLines="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_text_secondary"
+            android:textSize="15sp"
+            tools:text="Джинсовая юбка с бахромой, синяя. Размер XS. Очень красивая стильная юбка с новой колекции"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"/>
+
+    <TextView
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/tvGrn"
+            android:textSize="17sp"
+            android:textColor="#737171"
+            android:text=" | грн"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"/>
+
+    <TextView
+            android:id="@+id/tvPrice"
+            android:textSize="17sp"
+            android:textColor="@color/blue1"
+            android:textAlignment="textEnd"
+            android:layout_toLeftOf="@+id/tvGrn"
+            android:layout_alignParentBottom="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="10000"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toStartOf="@+id/tvGrn"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+            android:layout_marginStart="8dp"
+            />
+
+    <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="#929292"
+            android:id="@+id/view"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrice"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/flAvatarContainer"
+            android:layout_marginStart="24dp"/>
+
+    <android.support.constraint.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline8"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.87"/>
+
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/minus"
+            android:id="@+id/iv_minus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_count_goods"/>
+
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/add_contact"
+            android:id="@+id/iv_plus"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            />
+
+    <TextView
+            tools:text="0"
+            app:layout_constraintDimensionRatio="1:1"
+            android:background="@drawable/red_circle"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            android:textColor="@color/black_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_count_goods"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_plus"
+            android:layout_marginTop="8dp"/>
+
+
+</android.support.constraint.ConstraintLayout>

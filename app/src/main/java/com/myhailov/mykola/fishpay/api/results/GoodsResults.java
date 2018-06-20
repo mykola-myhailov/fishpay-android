@@ -2,11 +2,13 @@ package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by wwaw on 29.01.18.
  */
 
-public class GoodsResults {
+public class GoodsResults implements Serializable{
 
     @SerializedName("id")
     private long id;
@@ -30,6 +32,16 @@ public class GoodsResults {
     private String status;
     @SerializedName("visibility")
     private String visibility;
+
+    private int count = 0;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
