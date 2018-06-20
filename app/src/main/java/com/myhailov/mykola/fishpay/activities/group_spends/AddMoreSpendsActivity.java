@@ -80,6 +80,7 @@ public class AddMoreSpendsActivity extends BaseActivity {
         tvSpendTitle = findViewById(R.id.tvSpendName);
         tvSpendTitle.setText(spendTitle);
 
+        findViewById(R.id.ivBack).setOnClickListener(this);
         findViewById(R.id.tv_add).setOnClickListener(this);
     }
 
@@ -89,6 +90,8 @@ public class AddMoreSpendsActivity extends BaseActivity {
             case R.id.tv_add:
                 addSpendRequest();
                 break;
+            case R.id.ivBack:
+                onBackPressed();
         }
     }
 

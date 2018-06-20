@@ -168,6 +168,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:theme="@style/editTextTheme"
             android:id="@+id/etComment"
             android:layout_toEndOf="@+id/ivComment"
             android:layout_below="@+id/tvComment"
@@ -200,6 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:theme="@style/editTextTheme"
             android:id="@+id/etAmount"
             android:layout_toStartOf="@+id/tvCurrency"
             android:inputType="numberDecimal"

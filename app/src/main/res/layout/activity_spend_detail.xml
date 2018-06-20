@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/ivBack"
             android:padding="16dp"
-            android:src="@drawable/plus"
+            android:src="@drawable/arrow_back"
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize" />
