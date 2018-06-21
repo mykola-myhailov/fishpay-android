@@ -115,6 +115,7 @@
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="preview_charity">Предпросмотр</string>
+    <string name="preview_goods">Просмотр товара</string>
     <string name="error_fill_information">Заполните информацию</string>
     <string name="error_county">Минимальное количество знаков %d</string>
     <string name="public_charity">Для всех</string>
@@ -169,5 +170,9 @@
     <string name="form_account">Сформировать счет</string>
     <string name="goods_empty_title">Сделаете продажу удобную для Вас и Вашых клиентов</string>
     <string name="goods_empty_button">Использовать \n\"Мои товары\"</string>
+    <string name="goods_select_count">| %dx</string>
+    <string name="goods_send_bill">Отправить счет</string>
+    <string name="bill_for_the_goods">Счет за товар</string>
+    <string name="goods_count">%d штуки</string>
     <string name="goods_empty_description">Просто заполните раздел «Товары» продукцией или услугами которые Вы предоставляете своим клиентам. Вы получете точность и удобство, клиенты быстроту оплаты. </string>
 </resources>

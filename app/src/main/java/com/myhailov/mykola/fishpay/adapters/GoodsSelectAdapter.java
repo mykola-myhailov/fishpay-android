@@ -41,6 +41,12 @@ public class GoodsSelectAdapter extends RecyclerView.Adapter<GoodsSelectAdapter.
         GoodsResults item = list.get(position);
         holder.tvTitle.setText(item.getTitle());
         holder.tvPrice.setText(Utils.pennyToUah(item.getPrice()));
+        if (item.getCount() != 0) {
+            holder.tvCount.setVisibility(View.VISIBLE);
+            holder.tvCount.setText(item.getCount() + "");
+        }else {
+            holder.tvCount.setVisibility(View.INVISIBLE);
+        }
         Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
 
         holder.ivMinus.setOnClickListener(new View.OnClickListener() {

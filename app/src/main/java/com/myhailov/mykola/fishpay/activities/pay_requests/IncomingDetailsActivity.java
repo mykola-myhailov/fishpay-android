@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +20,18 @@ import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.TransactionActivity;
+import com.myhailov.mykola.fishpay.adapters.GoodsOutIncomAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 
 public class IncomingDetailsActivity extends BaseActivity {
 
@@ -33,6 +41,9 @@ public class IncomingDetailsActivity extends BaseActivity {
     private String invoiceId, panMasked, amount, comment,
             requesterPhone, requesterName, requesterPhoto, status, createAt;
     private String requesterId;
+
+    private RecyclerView rvGoods;
+    private List<InvoiceDetailsResult.GoodsRequest> goods = new ArrayList<>();
 
 
     @Override
@@ -64,6 +75,9 @@ public class IncomingDetailsActivity extends BaseActivity {
                                     requesterPhoto = requester.getPhoto();
                                     requesterPhone = requester.getPhone();
                                     requesterId = requester.getId();
+                                }
+                                if (result.getGoods() != null) {
+                                    goods = result.getGoods();
                                 }
                                 initViews();
                             }
@@ -146,7 +160,7 @@ public class IncomingDetailsActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private void showBlockUserAlert(){
+    private void showBlockUserAlert() {
         TextView tvBlockUser, tvClose, tvDescription;
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -170,7 +184,6 @@ public class IncomingDetailsActivity extends BaseActivity {
     }
 
 
-
     private void initViews() {
 
         ImageView ivAvatar = findViewById(R.id.ivAvatar);
@@ -190,6 +203,13 @@ public class IncomingDetailsActivity extends BaseActivity {
         ((TextView) findViewById(R.id.tvAmount)).setText(amount);
         ((TextView) findViewById(R.id.tvComment)).setText(comment);
 
+        if (goods != null && goods.size() > 0) {
+            findViewById(R.id.constr_goods).setVisibility(View.VISIBLE);
+            findViewById(R.id.linear_coment).setVisibility(View.GONE);
+            rvGoods = findViewById(R.id.rv_goods);
+            rvGoods.setLayoutManager(new LinearLayoutManager(context));
+            rvGoods.setAdapter(new GoodsOutIncomAdapter(context, goods, rvListener));
+        }
 
 
         findViewById(R.id.tvAccept).setOnClickListener(this);
@@ -197,19 +217,28 @@ public class IncomingDetailsActivity extends BaseActivity {
 
     }
 
-    private void blockUser(){
-        if(Utils.isOnline(context)){
-         ApiClient.getApiInterface().blockUserById(TokenStorage.getToken(context),
-                 "BLOCKED", requesterId)
-                 .enqueue(new BaseCallback<Object>(context, true) {
-                     @Override
-                     protected void onResult(int code, Object result) {
-                         alertBlockUser.cancel();
-                         toast("Користувача заблокировано");
-                         Log.d("sss", "onResult: code " + code);
-                         Log.d("sss", "onResult: result  " + result);
-                     }
-                 });
+    private GoodsOutIncomAdapter.OnItemClickListener rvListener = new GoodsOutIncomAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(long id) {
+            Intent intent = new Intent(context, GoodsDetailOutInRequestActivity.class);
+            intent.putExtra(GOODS_ID, id);
+            startActivity(intent);
+        }
+    };
+
+    private void blockUser() {
+        if (Utils.isOnline(context)) {
+            ApiClient.getApiInterface().blockUserById(TokenStorage.getToken(context),
+                    "BLOCKED", requesterId)
+                    .enqueue(new BaseCallback<Object>(context, true) {
+                        @Override
+                        protected void onResult(int code, Object result) {
+                            alertBlockUser.cancel();
+                            toast("Користувача заблокировано");
+                            Log.d("sss", "onResult: code " + code);
+                            Log.d("sss", "onResult: result  " + result);
+                        }
+                    });
         }
     }
 

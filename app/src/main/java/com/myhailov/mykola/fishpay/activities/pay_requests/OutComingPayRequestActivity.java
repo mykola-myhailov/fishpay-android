@@ -1,6 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.adapters.GoodsOutIncomAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.InvoiceDetailsResult;
@@ -16,9 +20,13 @@ import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
+
 public class OutComingPayRequestActivity extends BaseActivity {
     private InvoiceDetailsResult detailsResult;
     private long requestId;
+
+    private RecyclerView rvGoods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,14 @@ public class OutComingPayRequestActivity extends BaseActivity {
 
         ((TextView) findViewById(R.id.tv_status)).setText(getStatus(detailsResult.getStatus(), detailsResult.getStatusChangedAt()));
 
+        Log.d("TAG", "initViews: " + detailsResult.getGoods());
+        if (detailsResult.getGoods() != null && detailsResult.getGoods().size() > 0){
+            rvGoods = findViewById(R.id.rv_goods);
+            rvGoods.setLayoutManager(new LinearLayoutManager(context));
+            rvGoods.setAdapter(new GoodsOutIncomAdapter(context, detailsResult.getGoods(), rvListener));
+            findViewById(R.id.constraint_goods).setVisibility(View.VISIBLE);
+        }
+
         if (!TextUtils.isEmpty(detailsResult.getComment())) {
             ((TextView) findViewById(R.id.tv_comment)).setText(detailsResult.getComment());
             findViewById(R.id.constraint_comment).setVisibility(View.VISIBLE);
@@ -81,6 +97,14 @@ public class OutComingPayRequestActivity extends BaseActivity {
 
 
     }
+    private GoodsOutIncomAdapter.OnItemClickListener rvListener = new GoodsOutIncomAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(long id) {
+            Intent intent = new Intent(context, GoodsDetailOutInRequestActivity.class);
+            intent.putExtra(GOODS_ID, id);
+            startActivity(intent);
+        }
+    };
 
     private String getStatus(String st, String date) {
         String msg = "";

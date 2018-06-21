@@ -130,6 +130,10 @@
         </activity>
         <activity android:name=".activities.pay_requests.OutComingPayRequestActivity">
         </activity>
+        <activity android:name=".activities.pay_requests.GoodsDetailPayRequestActivity">
+        </activity>
+        <activity android:name=".activities.pay_requests.GoodsDetailOutInRequestActivity">
+        </activity>
     </application>
 
 </manifest>

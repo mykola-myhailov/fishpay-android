@@ -28,12 +28,14 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
+import com.myhailov.mykola.fishpay.adapters.GoodsSelectPayRequest;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
+import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
@@ -54,6 +56,8 @@ import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectGoodsAct
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
+import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_TOTAL_PRICE;
 import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
@@ -63,10 +67,10 @@ import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 
 public class CreatePayRequestActivity extends BaseActivity {
 
-    private EditText etPhone, etComment, etGoods;
+    private EditText etPhone, etComment;
     private MoneyEditText etAmount;
     private TextView tvCard, tvName;
-    private RecyclerView rvContacts;
+    private RecyclerView rvContacts, rvGoods;
     private String receiverPhone = "", receiverName = "",
             receiverCardNumber = "", cardName = "";
     private Contact receiverContact;
@@ -76,6 +80,7 @@ public class CreatePayRequestActivity extends BaseActivity {
     private boolean fromJointPurchase, loadContacts = true;
     private View rlRequestAmount;
     private ArrayList<Contact> appContacts;
+    private ArrayList<GoodsResults> selectedGoods;
 
     private String title;
     private String beforeChangeAmount;
@@ -176,7 +181,6 @@ public class CreatePayRequestActivity extends BaseActivity {
             etAmount.setFocusableInTouchMode(false);
             etAmount.setText(Utils.pennyToUah(amount));
         }
-        etGoods = findViewById(R.id.et_goods);
         if (receiverPhone.equals("")) receiverPhone = "+380";
         if (receiverName.equals("")) {
             etPhone.setText(receiverPhone);
@@ -198,6 +202,8 @@ public class CreatePayRequestActivity extends BaseActivity {
             tvCard.setText(formatCardNumber(spannable));
         }
 
+        rvGoods = findViewById(R.id.rv_goods);
+        rvGoods.setLayoutManager(new LinearLayoutManager(context));
 
 
         rlRequestAmount = findViewById(R.id.rl_request_amount);
@@ -297,7 +303,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                     String memberId = null;
                     if (member != null) memberId = member.getId();
                     ApiClient.getApiInterface().createInvoice(TokenStorage.getToken(context),
-                            receiverPhone, cardId, amount, comment, memberId, null)
+                            receiverPhone, cardId, amount, comment, memberId, prepareGoods(selectedGoods))
                             .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, CreateInvoiceResult result) {
@@ -382,19 +388,42 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
 
         if (requestCode == REQUEST_GOODS){
-            long amount = data.getLongExtra(GOODS_TOTAL_PRICE, 0);
+            amount = (int) data.getLongExtra(GOODS_TOTAL_PRICE, 0);
+            selectedGoods = (ArrayList) data.getSerializableExtra(GOODS);
             etAmount.setText(Utils.pennyToUah(amount));
-            etAmount.setEnabled(false);
+            if (amount != 0) {
+                etAmount.setEnabled(false);
+            }else {
+                etAmount.setEnabled(true);
+            }
+            if (selectedGoods.size() != 0){
+                rvGoods.setVisibility(View.VISIBLE);
+                rvGoods.setAdapter(new GoodsSelectPayRequest(context, selectedGoods, rvListener));
+
+            }else {
+                rvGoods.setVisibility(View.GONE);
+            }
+
         }
     }
 
-    private String prepareGoods(ArrayList<SelectedGoods> selectedGoods) {
+    private GoodsSelectPayRequest.OnItemClickListener rvListener = new GoodsSelectPayRequest.OnItemClickListener() {
+        @Override
+        public void onItemClick(long id) {
+            Intent intent = new Intent(context, GoodsDetailPayRequestActivity.class);
+            intent.putExtra(GOODS_ID, id);
+            startActivity(intent);
+        }
+    };
+
+    private String prepareGoods(ArrayList<GoodsResults> selectedGoods) {
+        if (selectedGoods == null) return null;
         JSONArray goodsArray = new JSONArray();
         try {
-            for (SelectedGoods goods : selectedGoods) {
+            for (GoodsResults goods : selectedGoods) {
                 JSONObject goodsJsonObject = new JSONObject();
                 goodsJsonObject.put("count", goods.getCount());
-                goodsJsonObject.put("goods_id", goods.getGoods().getId());
+                goodsJsonObject.put("goods_id", goods.getId());
                 goodsArray.put(goodsJsonObject);
             }
         } catch (Exception ignored) {

@@ -8,6 +8,7 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:id="@+id/linear"
 
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -110,73 +111,132 @@
         </LinearLayout>
 
         <LinearLayout
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linear_coment">
 
             <ImageView
-                android:src="@drawable/comments"
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:src="@drawable/comments"
+                    android:padding="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <TextView
-                    android:textSize="12sp"
-                    android:textColor="@color/gray"
-                    android:text="@string/comment_to_request"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                        android:textSize="12sp"
+                        android:textColor="@color/gray"
+                        android:text="@string/comment_to_request"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/tvComment"
-                    android:layout_marginTop="10dp"
-                    android:text="|"
-                    android:maxLines="3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                        android:id="@+id/tvComment"
+                        android:layout_marginTop="10dp"
+                        android:text="|"
+                        android:maxLines="3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 <View
-                    android:layout_marginTop="10dp"
-                    android:background="@color/gray"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
+                        android:layout_marginTop="10dp"
+                        android:background="@color/gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
             </LinearLayout>
 
         </LinearLayout>
+            </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_below="@+id/linear"
+            android:layout_above="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+                app:layout_constraintBottom_toTopOf="@+id/linear3"
+                android:layout_width="match_parent"
+                android:layout_height="205dp"
+                android:id="@+id/constr_goods"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
+            <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/comments"
+                    android:id="@+id/imageView6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            <TextView
+                    android:text="@string/bill_for_the_goods"
+                    android:textSize="17sp"
+                    android:textColor="@color/grey_text_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView45"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintStart_toEndOf="@+id/imageView6"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView6"
+
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/rv_goods"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"/>
+
+        </android.support.constraint.ConstraintLayout>
         <LinearLayout
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/linear3"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp">
 
             <TextView
-                android:id="@+id/tvAmount"
-                android:text="0.00"
-                android:textSize="30dp"
-                android:layout_marginEnd="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvAmount"
+                    android:text="0.00"
+                    android:textSize="36sp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:text=" | грн"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:text="@string/uah2"
+                    android:textSize="24sp"
+                    android:textColor="@color/grey_text_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <LinearLayout
+        android:id="@+id/linear2"
         android:layout_alignParentBottom="true"
         android:weightSum="2"
         android:layout_width="match_parent"
