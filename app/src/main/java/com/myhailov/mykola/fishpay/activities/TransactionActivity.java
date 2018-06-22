@@ -25,6 +25,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.ApiInterface;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
+import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
@@ -70,6 +71,8 @@ public class TransactionActivity extends DrawerActivity {
         setContentView(R.layout.activity_outgoing_transaction);
 
         createDrawer();
+        preferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+        String userId = preferences.getString(PrefKeys.ID, "");
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             if (extras.containsKey(Keys.NAME)) receiverName = extras.getString(Keys.NAME);
@@ -84,7 +87,12 @@ public class TransactionActivity extends DrawerActivity {
                     if (jointPurchase == null) return;
                     receiverName = jointPurchase.getCreatorName();
                     receiverId = jointPurchase.getCreatorId();
-                    amount = jointPurchase.getAmount();
+                    for (Member member : jointPurchase.getMembers()) {
+                        if (member.getUserId().equals(userId)){
+                            amount = member.getAmountToPay();
+                            amountUAH = Utils.pennyToUah(amount);
+                        }
+                    }
                     purchaseId = jointPurchase.getId();
                     break;
             }

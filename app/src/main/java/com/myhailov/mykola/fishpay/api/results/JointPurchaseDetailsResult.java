@@ -132,9 +132,10 @@ public class JointPurchaseDetailsResult implements Parcelable {
         if (members != null && members.size() > 0)
         for (Member member : members) {
             if (member != null){
-               if(member.getId().equals(creatorId)) return member.getFullUserName();
+               if(member.getUserId().equals(creatorId)) return member.getFullUserName();
             }
         }
         return "";
     }
+
 }
