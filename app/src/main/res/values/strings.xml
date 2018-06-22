@@ -91,7 +91,7 @@
     <string name="you_have_no_incoming_requests">У Вас еще нет входящих запросов</string>
     <string name="you_have_no_outcoming_requests">У Вас еще нет исходящих запросов</string>
     <string name="comment">Коментарий</string>
-    <string name="invoice_for_goods">Счет за товар</string>
+    <string name="invoice_for_goods">Счет за товар: %s</string>
     <string name="enter_card">Выберите кредитную карту</string>
     <string name="card_for_pays">Карта для приема платежа</string>
     <string name="comment_to_request">Комментарий к запросу</string>

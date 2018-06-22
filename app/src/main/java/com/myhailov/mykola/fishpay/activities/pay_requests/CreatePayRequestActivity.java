@@ -397,6 +397,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 etAmount.setEnabled(true);
             }
             if (selectedGoods.size() != 0){
+                etComment.setText(getString(R.string.invoice_for_goods, selectedGoods.get(0).getTitle()));
                 rvGoods.setVisibility(View.VISIBLE);
                 rvGoods.setAdapter(new GoodsSelectPayRequest(context, selectedGoods, rvListener));
 

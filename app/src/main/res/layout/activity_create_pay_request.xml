@@ -232,7 +232,7 @@
                 android:id="@+id/tv_invoice"
                 android:layout_below="@id/view_divider"
                 android:layout_toEndOf="@id/iv_payment"
-                android:text="@string/invoice_for_goods"
+                android:text="@string/bill_for_the_goods"
                 android:textColorHint="@color/blue1"
                 android:textColor="@color/blue1"
                 android:textSize="14sp"
