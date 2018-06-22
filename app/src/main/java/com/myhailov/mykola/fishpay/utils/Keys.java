@@ -63,4 +63,6 @@ public class Keys {
     public static final String TYPE = "type";
     public static final String PURCHASE_ID = "purchase_id";
     public static final String TRANSACTIONS = "transactions";
+
+    public static final String LANG = "lang";
 }

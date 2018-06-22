@@ -210,7 +210,7 @@
                             android:layout_marginTop="5dp"
                             android:id="@+id/switchRequests"
                             android:checked="true"
-                            android:text="Разрешить запросы"
+                            android:text="@string/allow_requests"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -242,7 +242,7 @@
                         <TextView
                             android:id="@+id/tvTouchId"
                             android:layout_marginTop="5dp"
-                            android:text="TouchID для входа"
+                            android:text="@string/touch_id_for_login"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -274,11 +274,13 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tvLanguage"
-                            android:text="Язык интерфейса"
-                            android:textSize="12sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                                android:id="@+id/tvLanguage"
+                                android:text="@string/lang_ui"
+                                android:textSize="12sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true"/>
 
 
                         <ImageView
@@ -308,7 +310,7 @@
 
                         <TextView
                             android:id="@+id/tvChangePass"
-                            android:text="Изменить пароль для входа"
+                            android:text="@string/change_password"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -341,7 +343,7 @@
 
                         <TextView
                             android:id="@+id/tvExit"
-                            android:text="Выйти из аккаунта"
+                            android:text="@string/log_out"
                             android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -375,7 +377,7 @@
 
                         <TextView
                             android:id="@+id/tvDelete"
-                            android:text="Заявка на удаление аккаунта"
+                            android:text="@string/request_to_delete_account"
                             android:textSize="12sp"
                             android:textColor="@android:color/holo_red_dark"
                             android:layout_width="match_parent"

@@ -93,13 +93,13 @@ public class LoginActivity extends BaseActivity {
                 if (showPass){
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     etPassword.setSelection(etPassword.getText().length());
-                    tvShowPassword.setText("Показать пароль");
+                    tvShowPassword.setText(getString(R.string.show_password));
 
                     showPass = false;
                 } else {
                     etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     etPassword.setSelection(etPassword.getText().length());
-                    tvShowPassword.setText("Спрятать пароль");
+                    tvShowPassword.setText(getString(R.string.hide_password));
                     showPass = true;
                 }
                 break;

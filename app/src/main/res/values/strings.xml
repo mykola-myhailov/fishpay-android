@@ -1,7 +1,7 @@
 <resources>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="app_name">Fishpay</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="app_name" translatable="false">Fishpay</string>
     <string name="your_phone_number">Ваш номер телефона</string>
     <string name="next">Далее</string>
     <string name="enter_phone_number">Введите номер телефона</string>
@@ -10,9 +10,9 @@
     <string name="incorrect_number">Номер некорректен</string>
     <string name="long_number">Номер слишком длинный</string>
     <string name="sms_password">СМС-пароль</string>
-    <string name="version">version</string>
+    <string name="version" translatable="false">version</string>
     <string name="enter_otp_code">Введите код из смс</string>
-    <string name="plus">+</string>
+    <string name="plus" translatable="false">+</string>
     <string name="enter_password">Введите пароль</string>
     <string name="short_password">Пароль должен состоять не менее чем из 8 символов</string>
     <string name="show_password">Показать пароль</string>
@@ -32,8 +32,7 @@
     <string name="email">Электронная почта</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="no_come_password">Не приходит пароль?</string>
-    <string name="ok">OK</string>
-    <string name="otp">OTP:</string>
+    <string name="otp" translatable="false">OTP:</string>
     <string name="registration_sms_alert">Код для регистрации отправлен в виде СМС-сообщения на номер</string>
     <string name="restore_pass_sms_alert">Код для восстановления пароля отправлен в виде СМС-сообщения на номер</string>
     <string name="create_new_password">Создайте новый пароль для входа в аккаунт</string>
@@ -65,7 +64,7 @@
     <string name="minimum_4_char">Минимум 4 знака</string>
     <string name="incomplete_card_number">Неполный номер карты</string>
     <string name="delete">Удалить</string>
-    <string name="null_string"/>
+    <string name="null_string" translatable="false"/>
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="total_amount">Общяя сумма</string>
@@ -125,8 +124,8 @@
     <string name="charity_close">Закрыто</string>
     <string name="charity_donation">Взаимопомощь взнос</string>
     <string name="session_end">Время сессии истекло</string>
-    <string name="charity_link">https://www.fishpay.com/request/id%s</string>
-    <string name="charity_create_success">Ваша програма взаимопомощи успешно создана. Тепер он открыт для других участников</string>
+    <string name="charity_link" translatable="false">https://www.fishpay.com/request/id%s</string>
+    <string name="charity_create_success">Ваша програма взаимопомощи успешно создана. Тепер он открыт для другихa участников</string>
     <string name="price">Цена</string>
     <string name="price_goods">Цена товара</string>
     <string name="from">от</string>
@@ -167,13 +166,23 @@
     <string name="pay_request_success">Ваш запрос успешно отправлен. Вы всегда можете его посмотреть в разделе \"Исходящие\"!</string>
     <string name="out_coming_pay_request">Исходящий запрос</string>
     <string name="status_request">Статус запроса</string>
-    <string name="status">%s %s</string>
+    <string name="status" translatable="false">%s %s</string>
     <string name="form_account">Сформировать счет</string>
     <string name="goods_empty_title">Сделаете продажу удобную для Вас и Вашых клиентов</string>
-    <string name="goods_empty_button">Использовать \n\"Мои товары\"</string>
-    <string name="goods_select_count">| %dx</string>
+    <string name="goods_empty_button">Использовать  Мои товары</string>
+    <string name="goods_select_count" translatable="false">| %dx</string>
     <string name="goods_send_bill">Отправить счет</string>
     <string name="bill_for_the_goods">Счет за товар</string>
     <string name="goods_count">%d штуки</string>
     <string name="goods_empty_description">Просто заполните раздел «Товары» продукцией или услугами которые Вы предоставляете своим клиентам. Вы получете точность и удобство, клиенты быстроту оплаты. </string>
+    <string name="change_password">Изменить пароль для входа</string>
+    <string name="allow_requests">Разрешить запросы</string>
+    <string name="touch_id_for_login">Touch ID для входа</string>
+    <string name="log_out">Выйти из аккаунта</string>
+    <string name="ok" translatable="false">Ок</string>
+    <string name="request_to_delete_account">Заявка на удаление аккаунта</string>
+    <string name="lang_ui">Язык интерфейса </string>
+    <string name="lang_ua" translatable="false">Українська</string>
+    <string name="lang_ru" translatable="false">Русский</string>
+    <string name="lang_en" translatable="false">English</string>
 </resources>

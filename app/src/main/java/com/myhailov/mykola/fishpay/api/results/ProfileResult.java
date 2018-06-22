@@ -41,6 +41,8 @@ public class ProfileResult {
 
         @SerializedName("publicCard") private Card card;
 
+        @SerializedName("properties")
+        private ProfileProperties profileProperties;
 
 
         public Card getCard() {
@@ -81,8 +83,7 @@ public class ProfileResult {
             return photo;
         }
 
-        @SerializedName("profileProperties")
-        private ProfileProperties profileProperties;
+
 
         public ProfileProperties getProfileProperties() {
             return profileProperties;
@@ -96,7 +97,7 @@ public class ProfileResult {
             private int touch;
 
             @SerializedName("UI_LANG")
-            private int lang;
+            private String lang;
 
             public int getAllow() {
                 return allow;
@@ -106,7 +107,7 @@ public class ProfileResult {
                 return touch;
             }
 
-            public int getLang() {
+            public String getLang() {
                 return lang;
             }
         }

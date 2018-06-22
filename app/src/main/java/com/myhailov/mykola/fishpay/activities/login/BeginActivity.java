@@ -1,15 +1,18 @@
 package com.myhailov.mykola.fishpay.activities.login;
 
 
+import com.google.gson.internal.LinkedTreeMap;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.internal.LinkedTreeMap;
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
@@ -20,9 +23,12 @@ import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.util.Locale;
+
 
 public class BeginActivity extends BaseActivity {
 
+    private TextView tvUa, tvRu, tvEn;
     EditText etPhone;
     String phone;
 
@@ -32,25 +38,35 @@ public class BeginActivity extends BaseActivity {
         setContentView(R.layout.activity_begin);
 
         startService(new Intent(this, ContactsIntentService.class));
-     //   quicklogin();
+        //   quicklogin();
         etPhone = findViewById(R.id.etPhone);
         SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
-        if (sharedPreferences.contains(PrefKeys.PHONE)){
+        if (sharedPreferences.contains(PrefKeys.PHONE)) {
             etPhone.setText(sharedPreferences.getString(PrefKeys.PHONE, ""));
         }
 
 
-        String versionText = getString(R.string.version)+ ": " +BuildConfig.VERSION_NAME;
+        String versionText = getString(R.string.version) + ": " + BuildConfig.VERSION_NAME;
         ((TextView) findViewById(R.id.tvVersion)).setText(versionText);
         (findViewById(R.id.tvNext)).setOnClickListener(this);
         (findViewById(R.id.ivNext)).setOnClickListener(this);
+
+        tvEn = findViewById(R.id.tv_en);
+        tvRu = findViewById(R.id.tv_ru);
+        tvUa = findViewById(R.id.tv_ua);
+
+        checkLang();
+
+        tvEn.setOnClickListener(this);
+        tvRu.setOnClickListener(this);
+        tvUa.setOnClickListener(this);
 
 
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tvNext:
             case R.id.ivNext:
                 phone = etPhone.getText().toString();
@@ -64,11 +80,53 @@ public class BeginActivity extends BaseActivity {
                 else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
                 else checkMobileRequest();
                 break;
+            case R.id.tv_ru:
+                setLang("ru");
+                break;
+            case R.id.tv_en:
+                setLang("en");
+                break;
+            case R.id.tv_ua:
+                setLang("uk");
+                break;
+        }
+    }
+
+    private void checkLang() {
+        Locale current = getResources().getConfiguration().locale;
+        Log.d("sss", "checkLang: " + current);
+        switch (current.toString()) {
+            case "ru":
+                tvRu.setTextColor(getResources().getColor(R.color.blue1));
+                break;
+            case "en":
+                tvEn.setTextColor(getResources().getColor(R.color.blue1));
+                break;
+            case "uk":
+                tvUa.setTextColor(getResources().getColor(R.color.blue1));
+                break;
+            default:
+                tvRu.setTextColor(getResources().getColor(R.color.blue1));
+                setLang("ru");
+                break;
         }
     }
 
 
-  private void checkMobileRequest() {
+    private void setLang(String language) {
+        Locale current = getResources().getConfiguration().locale;
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        if (!current.toString().equals(language)) {
+            recreate();
+        }
+    }
+
+    private void checkMobileRequest() {
         String devicetype = "android";
         int versionCode = BuildConfig.VERSION_CODE;
         String language = "ru";
@@ -79,7 +137,7 @@ public class BeginActivity extends BaseActivity {
                     protected void onResult(int code, @Nullable Object result) {
                         Intent intent;
 
-                        switch (code){
+                        switch (code) {
                             case 200:
                                 //there is user with this phone number in DB.
                                 // json contains:  "result": ""
@@ -87,12 +145,12 @@ public class BeginActivity extends BaseActivity {
                                 intent.putExtra(Keys.PHONE, phone);
                                 startActivity(intent); // go to LoginActivity;
                                 break;
-                            case  201:
+                            case 201:
                                 //there is no user without this phone number in DB.
                                 // json contains: "result": { "codeOTP": XXXX}
                                 if (result == null) return;
                                 LinkedTreeMap linkedTreeMap = (LinkedTreeMap) result;
-                                String codeOTP = (linkedTreeMap.get("codeOTP")).toString().substring(0,4);
+                                String codeOTP = (linkedTreeMap.get("codeOTP")).toString().substring(0, 4);
                                 intent = new Intent(context, CheckOTPActivity.class);
                                 intent.putExtra(Keys.PHONE, phone);
                                 intent.putExtra(Keys.CODE_OTP, codeOTP);

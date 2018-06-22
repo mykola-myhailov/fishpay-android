@@ -146,7 +146,7 @@ public interface ApiInterface {
                                            @Part("email") RequestBody email,
                                            @Part   MultipartBody.Part img);
 
-    @PUT("rest/api/user/preferences")
+    @PUT("api/user/preferences")
     Call<BaseResponse<Object>> setPreferences(@Header("Authorization") String token,
                                               @Query("ALLOW_MONEY_REQUESTS") String allowMoneyRequests,
                                               @Query("TOUCH_ID_LOGIN") String touchIdLogin,

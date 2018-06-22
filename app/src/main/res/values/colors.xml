@@ -30,4 +30,5 @@
     <color name="checked_checkbox">#FF392E</color>
     <color name="bar_disabled">#CECED2</color>
 
+    <color name="grey_disabled">#929292</color>
 </resources>

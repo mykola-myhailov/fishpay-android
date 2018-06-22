@@ -2,8 +2,10 @@ package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,14 +27,20 @@ import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.io.File;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
+import static com.myhailov.mykola.fishpay.activities.profile.ChangeLanguageActivity.CHANGE_LANG;
+import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
+import static com.myhailov.mykola.fishpay.utils.Keys.LANG;
+
 public class ProfileSettingsActivity extends DrawerActivity {
 
-    private String name, surname, phone, avatar, email, birthday, id;
+    private String name, surname, phone, avatar, email, birthday, id, lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +67,9 @@ public class ProfileSettingsActivity extends DrawerActivity {
                 context.startActivity(userInfoIntent);
                 break;
             case R.id.vLanguage:
-                context.startActivity(new Intent(context, ChangeLanguageActivity.class));
+                Intent intent = new Intent(context, ChangeLanguageActivity.class);
+                intent.putExtra(LANG, lang);
+                startActivityForResult(intent, CHANGE_LANG);
                 break;
             case R.id.vChangePass:
                 context.startActivity(new Intent(context, ChangePasswordActivity.class));
@@ -78,6 +88,16 @@ public class ProfileSettingsActivity extends DrawerActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHANGE_LANG && resultCode == RESULT_OK) {
+            String language = data.getStringExtra(LANG);
+            setLang(language);
+            recreate();
+        }
+    }
+
     private void getProfileRequest(){
 
         ApiClient.getApiInterface().getProfile(token)
@@ -85,6 +105,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                     @Override
                     protected void onResult(int code, ProfileResult result) {
                         if (code == 200){
+                            Log.d("sss", "onResult: call ");
                             ProfileResult.Profile profile = result.getProfile();
                             if (profile != null) {
                                 id = result.getUserId();
@@ -94,6 +115,10 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 avatar = profile.getPhoto();
                                 email = profile.getEmail();
                                 birthday = profile.getBirthday();
+                                lang = profile.getProfileProperties().getLang();
+
+                                Log.d("sss", "onResult: " + lang);
+                                setLang(lang);
                                 Card card = profile.getCard();
                                 String cardJson = card == null ? null : new Gson().toJson(card);
                          //       Log.e("cardJson1", cardJson);
@@ -126,6 +151,23 @@ public class ProfileSettingsActivity extends DrawerActivity {
                     }
                 });
     }
+
+
+    private void setLang(String language) {
+        if (language.equals("ua")) language = "uk";
+        Locale current = getResources().getConfiguration().locale;
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        if (!current.toString().equals(language)) {
+            recreate();
+        }
+    }
+
+
 
     private void initViews() {
 
