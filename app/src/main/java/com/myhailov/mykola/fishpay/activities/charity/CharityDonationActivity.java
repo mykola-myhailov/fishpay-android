@@ -49,7 +49,7 @@ public class CharityDonationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_donation);
-        initCustomToolbar("Взаимопомощь взнос");
+        initCustomToolbar(getString(R.string.charity_donation));
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

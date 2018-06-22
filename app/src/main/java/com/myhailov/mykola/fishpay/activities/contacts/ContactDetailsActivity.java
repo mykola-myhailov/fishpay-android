@@ -26,6 +26,7 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 import java.util.ArrayList;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
+import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
 
 public class ContactDetailsActivity extends BaseActivity {
 
@@ -139,6 +140,7 @@ public class ContactDetailsActivity extends BaseActivity {
 
             case R.id.tvGive:
                 String contactName = "";
+                String idUser = "";
                 if (isContact) {
                     if (!TextUtils.isEmpty(contactDetails.getName())) {
                         contactName = contactDetails.getName() + " ";
@@ -146,12 +148,15 @@ public class ContactDetailsActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(contactDetails.getSuname())) {
                         contactName = contactName + contactDetails.getSuname();
                     }
+                    idUser = contactDetails.getUserId();
                 }else {
                     contactName = name + " " + surname;
+                    idUser = userId + "";
                 }
                 context.startActivity((new Intent(context, TransactionActivity.class))
                         .putExtra(NAME, contactName)
-                        .putExtra(Keys.CONTACT, contact ));
+                        .putExtra(USER_ID, idUser)
+                        .putExtra(Keys.CONTACT, contact));
 
 
         }

@@ -74,6 +74,7 @@
 
         <EditText
             android:theme="@style/editTextTheme"
+            android:textCursorDrawable="@drawable/grey_cursor"
             android:id="@+id/et_card_name"
             android:singleLine="true"
             android:imeOptions="actionNext"
@@ -137,6 +138,7 @@
 
 
             <EditText
+                android:textCursorDrawable="@drawable/grey_cursor"
                 android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_1"
                 android:singleLine="true"
@@ -151,6 +153,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:textCursorDrawable="@drawable/grey_cursor"
                 android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_2"
                 android:singleLine="true"
@@ -165,6 +168,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:textCursorDrawable="@drawable/grey_cursor"
                 android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_3"
                 android:singleLine="true"
@@ -179,6 +183,7 @@
                 android:maxLength="4"/>
 
             <EditText
+                android:textCursorDrawable="@drawable/grey_cursor"
                 android:theme="@style/editTextTheme"
                 android:id="@+id/et_card_number_4"
                 android:singleLine="true"

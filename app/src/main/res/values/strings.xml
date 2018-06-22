@@ -123,6 +123,7 @@
     <string name="author_charity">Только я</string>
     <string name="charity_open">Открыто</string>
     <string name="charity_close">Закрыто</string>
+    <string name="charity_donation">Взаимопомощь взнос</string>
     <string name="session_end">Время сессии истекло</string>
     <string name="charity_link">https://www.fishpay.com/request/id%s</string>
     <string name="charity_create_success">Ваша програма взаимопомощи успешно создана. Тепер он открыт для других участников</string>
