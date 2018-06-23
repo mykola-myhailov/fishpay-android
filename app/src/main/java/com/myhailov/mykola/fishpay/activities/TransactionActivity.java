@@ -158,9 +158,9 @@ public class TransactionActivity extends DrawerActivity {
 
         //validation
         if (card == null) Utils.toast(context, getString(R.string.enter_card));
-        else if (receiverId == null) Utils.toast(context, "выберите контакт");
-        else if (amount == 0) Utils.toast(context, "Введите сумму");
-        else if (cvv.equals("")) Utils.toast(context,"Введите CVV");
+        else if (receiverId == null) Utils.toast(context, getString(R.string.select_contact));
+        else if (amount == 0) Utils.toast(context, getString(R.string.enter_amount));
+        else if (cvv.equals("")) Utils.toast(context,getString(R.string.enter_cvv_code));
         else return true;
         return false;
     }
@@ -251,7 +251,7 @@ public class TransactionActivity extends DrawerActivity {
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             new AlertDialog.Builder(context)
-                    .setMessage("Введите SMS-код")
+                    .setMessage(getString(R.string.enter_sms_code))
                     .setView(input)
                     .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
@@ -267,14 +267,14 @@ public class TransactionActivity extends DrawerActivity {
                                             protected void onResult(int code, String result) {
                                                 switch (result.toLowerCase()){
                                                     case "error_code":
-                                                        Utils.toast(context, "Неверный код");
+                                                        Utils.toast(context, getString(R.string.incorrect_code));
                                                         requestLookup();
                                                         break;
                                                     case "success":
-                                                        Utils.toast(context, "Успешно");
+                                                        Utils.toast(context, getString(R.string.successfully));
                                                         break;
                                                     default:
-                                                        Utils.toast(context, "Ошибка");
+                                                        Utils.toast(context, getString(R.string.error));
                                                         break;
                                                 }
                                             }

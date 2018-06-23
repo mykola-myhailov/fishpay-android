@@ -70,8 +70,8 @@ public class ContactsActivity extends DrawerActivity {
     private void initToggleButtons() {
         final ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
-        labels.add("Активные");
-        labels.add("Все");;
+        labels.add(getString(R.string.active));
+        labels.add(getString(R.string.all));
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
         toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
@@ -127,14 +127,14 @@ public class ContactsActivity extends DrawerActivity {
 
     private void showDeleteConfirmation(final long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно хотите удалить контакт  из списка?");
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.alert_delete_contact));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteContactRequest(id);
             }
         });
-        builder.setNegativeButton("Отмена", null);
+        builder.setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 
@@ -174,7 +174,7 @@ public class ContactsActivity extends DrawerActivity {
                 return true;
             }
         });
-        searchView.setQueryHint("введите имя");
+        searchView.setQueryHint(getString(R.string.enter_name));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         //searchEditText.setTextColor(getResources().getColor(R.color.blue1));
         searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));

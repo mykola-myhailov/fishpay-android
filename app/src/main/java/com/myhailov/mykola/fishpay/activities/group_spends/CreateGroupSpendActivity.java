@@ -33,7 +33,7 @@ public class CreateGroupSpendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group_spend);
 
-        initCustomToolbar("Создание общих расходов");
+        initCustomToolbar(getString(R.string.create_joint_spending));
         initViews();
     }
 
@@ -70,9 +70,9 @@ public class CreateGroupSpendActivity extends BaseActivity {
         boolean isNameValid = etGroupName.getText().toString().length() > 0;
         boolean isAmountValid = etAmount.getText().toString().length() > 0;
         if (isNameValid && isAmountValid) return true;
-        else if (!isNameValid && !isAmountValid)  toast("Введите название группы и сумму!");
-        else if (!isNameValid) toast("Введите название группы!");
-        else toast("Введите сумму!");
+        else if (!isNameValid && !isAmountValid)  toast(getString(R.string.enter_name_group_and_amount));
+        else if (!isNameValid) toast(getString(R.string.enter_name_group));
+        else toast(getString(R.string.enter_amount));
         return false;
     }
 }

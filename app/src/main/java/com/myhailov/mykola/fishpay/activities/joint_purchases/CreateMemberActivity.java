@@ -22,7 +22,7 @@ public class CreateMemberActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_member);
 
-        initCustomToolbar("добавление участника");
+        initCustomToolbar(getString(R.string.add_participant));
         initViews();
     }
 
@@ -52,7 +52,7 @@ public class CreateMemberActivity extends BaseActivity {
 
     private boolean isDataValid() {
         if (etName.getText().toString().length() > 0) return true;
-        toast("Введите имя участника!");
+        toast(getString(R.string.enter_participant_name));
         return false;
     }
 }

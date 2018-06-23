@@ -87,7 +87,7 @@ public class UserInfoActivity extends BaseActivity {
                     //  else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
                 else if (surname.length() < 2 || surname.length() > 20 )
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
+                else if (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, getString(R.string.incorrect_email));
                 else editProfileRequest();
                 break;
         }
@@ -98,6 +98,8 @@ public class UserInfoActivity extends BaseActivity {
         return new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Locale locale = getResources().getConfiguration().locale;
+                Locale.setDefault(locale);
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat monthFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("ru"));
@@ -144,7 +146,7 @@ public class UserInfoActivity extends BaseActivity {
                       protected void onResult(int code, Object result) {
                           if (code == 200)
                               context.startActivity(new Intent(context, ProfileSettingsActivity.class));
-                          else Utils.toast(context, "Произошла ошибка");
+                          else Utils.toast(context, getString(R.string.error));
                       }
                   }
         );

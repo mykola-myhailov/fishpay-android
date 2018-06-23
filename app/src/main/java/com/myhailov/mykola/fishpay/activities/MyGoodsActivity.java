@@ -157,7 +157,7 @@ public class MyGoodsActivity extends DrawerActivity {
                 return true;
             }
         });
-        searchView.setQueryHint("Поиск по названию");
+        searchView.setQueryHint(getString(R.string.search_by_name));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -309,7 +309,7 @@ public class MyGoodsActivity extends DrawerActivity {
                         }
                         privateGoods.remove(deleteGoods);
                         goodsAdapter.notifyDataSetChanged();
-                        toast("Успешно удалено");
+                        toast(getString(R.string.deleted));
 
                     }
                 });
@@ -323,8 +323,8 @@ public class MyGoodsActivity extends DrawerActivity {
     private void initToggleButtons() {
         toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
-        labels.add("Все");
-        labels.add("Мои");
+        labels.add(getString(R.string.all));
+        labels.add(getString(R.string.my));
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
         toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener() {

@@ -57,7 +57,7 @@
                 android:id="@+id/tv_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Номер получателя:"
+                android:text="@string/recipient_number"
                 android:textColor="@color/grey2"/>
 
         <ImageView
@@ -118,7 +118,7 @@
                 android:id="@+id/tv_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Карта для приема платежа:"
+                android:text="@string/card_for_pays"
                 android:textColor="@color/grey2"/>
 
         <ImageView
@@ -295,7 +295,7 @@
                 <com.myhailov.mykola.fishpay.views.MoneyEditText
                         android:theme="@style/editTextTheme"
                         android:id="@+id/met_amount"
-                        android:hint="Введите сумму"
+                        android:hint="@string/enter_amount"
                         android:textColorHint="@color/blue1"
                         android:textColor="@color/blue1"
                         android:textSize="28sp"
@@ -343,7 +343,7 @@
                     android:id="@+id/tv_send_request"
                     android:textColor="@color/blue1"
                     android:textSize="18sp"
-                    android:text="Отправить запрос"
+                    android:text="@string/send_request"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"

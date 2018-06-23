@@ -94,7 +94,6 @@ public class BeginActivity extends BaseActivity {
 
     private void checkLang() {
         Locale current = getResources().getConfiguration().locale;
-        Log.d("sss", "checkLang: " + current);
         switch (current.toString()) {
             case "ru":
                 tvRu.setTextColor(getResources().getColor(R.color.blue1));

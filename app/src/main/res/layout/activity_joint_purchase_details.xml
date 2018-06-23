@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grey2"
             android:background="@android:color/transparent"
-            android:text="Описание общей покупки"/>
+            android:text="@string/description_of_joint_purchase"/>
         <TextView
             android:id="@+id/tv_description"
             android:layout_marginStart="16dp"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grey2"
             android:background="@android:color/transparent"
-            android:text="Карта для приема платежа"/>
+            android:text="@string/card_for_pays"/>
         <LinearLayout
             android:layout_marginStart="16dp"
             android:layout_gravity="end"
@@ -154,7 +154,7 @@
                         android:padding="4dp"
                         android:background="@color/light_grey"
                         android:textColor="@color/grey2"
-                        android:text="Группа закрыта"
+                        android:text="@string/group_is_closed"
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -243,7 +243,7 @@
                     android:id="@+id/tv_pay"
                     android:textColor="@color/blue1"
                     android:textSize="18sp"
-                    android:text="Оплатить"
+                    android:text="@string/accept"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
@@ -270,7 +270,7 @@
                         android:id="@+id/tv_reject"
                         android:textColor="@color/blue1"
                         android:textSize="18sp"
-                        android:text="Отклонить"
+                        android:text="@string/reject"
                         android:gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:layout_width="match_parent"
@@ -293,7 +293,7 @@
                         android:id="@+id/tv_accept"
                         android:textColor="@color/blue1"
                         android:textSize="18sp"
-                        android:text="Принять"
+                        android:text="@string/to_accept"
                         android:gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:layout_width="match_parent"

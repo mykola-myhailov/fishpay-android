@@ -140,7 +140,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         if (loadContacts) {
             loadContacts();
         }
-        initCustomToolbar("запрос на оплату");
+        initCustomToolbar(getString(R.string.payment_request));
         initViews();
         // set information if group purchase
         if (!loadContacts) {
@@ -148,7 +148,7 @@ public class CreatePayRequestActivity extends BaseActivity {
             rlRequestAmount.setVisibility(View.VISIBLE);
 //            tvName.setText("|" + receiverName);
 //            tvName.setVisibility(View.VISIBLE);
-            etComment.setText("Взнос в рамках общей покупки " + title);
+            etComment.setText(getString(R.string.contribution_of_joint_purchase, title));
         }
     }
 
@@ -297,7 +297,7 @@ public class CreatePayRequestActivity extends BaseActivity {
                 else if (receiverPhone.length() > 13)
                     Utils.toast(context, getString(R.string.long_number));
                 else if (card == null) Utils.toast(context, getString(R.string.enter_card));
-                else if (amount == 0) Utils.toast(context, "Введите сумму");
+                else if (amount == 0) Utils.toast(context, getString(R.string.input_amount));
                 else if (Utils.isOnline(context)) {
                     String cardId = card.getId();
                     String memberId = null;

@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_title"
 
-                    android:text="Ваши взносы"
+                    android:text="@string/your_contributions"
                     android:textSize="17sp"
                     android:textColor="@color/grey_text"
 

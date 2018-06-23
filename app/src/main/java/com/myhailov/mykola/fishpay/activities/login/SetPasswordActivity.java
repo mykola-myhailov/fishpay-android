@@ -54,9 +54,9 @@ public class SetPasswordActivity extends BaseActivity {
 
         String visiblePhone = "+" + phone;
         ((TextView) findViewById(R.id.tvPhone)).setText(visiblePhone);
-        String greetings = "Здравствуйте"  + ", "+ name + " " + surname + ".";
+        String greetings = getString(R.string.hi_user, name, surname);
         ((TextView) findViewById(R.id.tvGreetings)).setText(greetings);
-        String welcome = getString(R.string.welcome) + " " + "в" + " " + getString(R.string.app_name);
+        String welcome = getString(R.string.welcome_user);
         ((TextView) findViewById(R.id.tvWelcome)).setText(welcome);
         if (imageUri != null){
             ((ImageView) findViewById(R.id.ivAvatar)).setImageURI(imageUri);
@@ -100,6 +100,7 @@ public class SetPasswordActivity extends BaseActivity {
                             .enqueue(new BaseCallback<RegistrationResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable RegistrationResult result) {
+                                    // TODO: 23.06.2018 localization
                                     Utils.toast(context, "регистрация успешна!");
                                     Intent intent = new Intent(context, LoginActivity.class);
                                     intent.putExtra(Keys.PHONE, phone);
@@ -112,13 +113,13 @@ public class SetPasswordActivity extends BaseActivity {
                 if (showPass){
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     etPassword.setSelection(etPassword.getText().length());
-                    tvShowPassword.setText("Показать пароль");
+                    tvShowPassword.setText(getString(R.string.show_password));
 
                     showPass = false;
                 } else {
                     etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     etPassword.setSelection(etPassword.getText().length());
-                    tvShowPassword.setText("Спрятать пароль");
+                    tvShowPassword.setText(getString(R.string.hide_password));
                     showPass = true;
                 }
                 break;

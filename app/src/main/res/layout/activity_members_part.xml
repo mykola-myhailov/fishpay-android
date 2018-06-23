@@ -108,7 +108,7 @@
             android:padding="4dp"
             android:background="@color/light_grey"
             android:textColor="@color/grey2"
-            android:text="Группа закрыта"
+            android:text="@string/group_is_closed"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -139,7 +139,7 @@
                     <TextView
                         android:textColor="@color/grey2"
                         android:layout_marginTop="12dp"
-                        android:text="Статус"
+                        android:text="@string/status_goods"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:layout_marginTop="12dp"
-                        android:text="Общая сумма"
+                        android:text="@string/total_amount"
                         android:textColor="@color/grey2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -232,7 +232,7 @@
                     <TextView
                         android:textColor="@color/grey2"
                         android:layout_marginTop="12dp"
-                        android:text="Внесено"
+                        android:text="@string/added"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                     <LinearLayout
@@ -297,7 +297,7 @@
                     android:id="@+id/tv_pay"
                     android:textColor="@color/blue1"
                     android:textSize="18sp"
-                    android:text="Внести"
+                    android:text="@string/deposit"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
@@ -323,7 +323,7 @@
                     android:id="@+id/tv_request"
                     android:textColor="@color/blue1"
                     android:textSize="18sp"
-                    android:text="Запросить"
+                    android:text="@string/request"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"

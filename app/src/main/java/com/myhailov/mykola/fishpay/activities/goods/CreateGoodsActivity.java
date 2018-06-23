@@ -72,11 +72,11 @@ public class CreateGoodsActivity extends BaseActivity {
             createNewGoods = false;
             goodsId = extras.getLong(GOODS_ID, 0);
             getGoodsById(goodsId + "");
-            initCustomToolbar("Редактировать товар");
+            initCustomToolbar(getString(R.string.edit_goods));
             ((TextView) findViewById(R.id.tvCreate)).setText(getString(R.string.save));
         } else {
             createNewGoods = true;
-            initCustomToolbar("Создать товар");
+            initCustomToolbar(getString(R.string.create_goods));
         }
     }
 
@@ -97,7 +97,7 @@ public class CreateGoodsActivity extends BaseActivity {
                     mainPhotoPick = false;
                     ImagePicker.pickImage(this, "Select your image:");
                 } else {
-                    toast("Больше выбрать нельзя");
+                    toast(getString(R.string.you_cant_choose_more));
                 }
                 break;
             case R.id.tv_add_secondary_photo:
@@ -172,8 +172,8 @@ public class CreateGoodsActivity extends BaseActivity {
         switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) tvStatus.setText("Приватный");
-                else tvStatus.setText("Публичный");
+                if (b) tvStatus.setText(getString(R.string.private_item));
+                else tvStatus.setText(getString(R.string.public_item));
             }
         });
         etGoodsName = findViewById(R.id.etGoodsName);
@@ -206,7 +206,7 @@ public class CreateGoodsActivity extends BaseActivity {
 
     private boolean checkGoods() {
         if (TextUtils.isEmpty(etGoodsName.getText().toString()) || etGoodsName.getText().toString().length() < 5) {
-            Utils.toast(context, "Имя товара должно состоять не менее чем из 5 символов");
+            Utils.toast(context, getString(R.string.name_goods_5_size));
             scrollToView(etGoodsName);
             return false;
         }
@@ -216,13 +216,13 @@ public class CreateGoodsActivity extends BaseActivity {
             return false;
         }
         if (TextUtils.isEmpty(etDescription.getText().toString()) || etDescription.getText().toString().length() < 8) {
-            Utils.toast(context, "Описание товара должно состоять не менее чем из 8 символов");
+            Utils.toast(context, getString(R.string.description_goods_8_size));
             scrollToView(etDescription);
             return false;
         }
 
         if (createNewGoods && TextUtils.isEmpty(goods.getMainPhoto())) {
-            Utils.toast(context, "Выберите фото");
+            Utils.toast(context, getString(R.string.select_a_photo));
             return false;
         }
         return true;
@@ -286,7 +286,7 @@ public class CreateGoodsActivity extends BaseActivity {
                     .enqueue(new BaseCallback<Object>(context, true) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            toast("Товар изменен");
+                            toast(getString(R.string.goods_is_edit));
                             startActivity(new Intent(context, MyGoodsActivity.class));
                             finish();
                         }

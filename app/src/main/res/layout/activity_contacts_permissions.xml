@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Работайте с знакомыми вам именами вместо номеров"
+                    android:text="@string/work_with_names_you_know"
                     android:textSize="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="40dp"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Больше не нужно запоминать длинные номера счетов. Просто выбирайте нужного адресата из контактной кники."
+                    android:text="@string/You_dont_need_to_remember"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="50dp"
@@ -95,7 +95,7 @@
 
             <TextView
                 android:id="@+id/tvPermisson1"
-                android:text="Разрешить"
+                android:text="@string/allow"
                 android:textSize="26sp"
                 android:layout_above="@+id/tvPermisson2"
                 android:gravity="center_horizontal"
@@ -106,7 +106,7 @@
 
 
             <TextView
-                android:text="доступ к контактам"
+                android:text="@string/access_to_contacts"
                 android:id="@+id/tvPermisson2"
                 android:textSize="18sp"
                 android:layout_marginBottom="55dp"

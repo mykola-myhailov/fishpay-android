@@ -78,7 +78,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_report:
-                toast("Вы пожаловались");
+                toast(getString(R.string.you_complained));
                 break;
             case R.id.charity_item:
                 break;
@@ -123,9 +123,9 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     }
 
     private void initTabLayout() {
-        tabLayout.addTab(new Tab("Глобальный", TAB_GLOBAL));
-        tabLayout.addTab(new Tab("Контакты", TAB_CONTACT));
-        tabLayout.addTab(new Tab("Мои", TAB_MY));
+        tabLayout.addTab(new Tab(getString(R.string.global), TAB_GLOBAL));
+        tabLayout.addTab(new Tab(getString(R.string.contacts), TAB_CONTACT));
+        tabLayout.addTab(new Tab(getString(R.string.my), TAB_MY));
         tabLayout.setTabChangedListener(this);
         tabLayout.setTabSelectedAt(TAB_GLOBAL);
     }
@@ -166,7 +166,7 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                 return true;
             }
         });
-        searchView.setQueryHint("Введите имя или название");
+        searchView.setQueryHint(getString(R.string.enter_name_or));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

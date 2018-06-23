@@ -85,8 +85,8 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
     }
 
     private void initTabLayout() {
-        tabLayout.addTab(new Tab("Входящие", TAB_INCOMING));
-        tabLayout.addTab(new Tab("Исходящие", TAB_OUTCOMING));
+        tabLayout.addTab(new Tab(getString(R.string.inbox), TAB_INCOMING));
+        tabLayout.addTab(new Tab(getString(R.string.sent), TAB_OUTCOMING));
         tabLayout.setTabChangedListener(this);
         tabLayout.setTabSelectedAt(TAB_INCOMING);
     }
@@ -274,7 +274,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
-                tvStatus.setText("через: FISHPAY");
+                tvStatus.setText(getString(R.string.across_fishpay));
                 tvTime.setText(Utils.checkDateIsToday(context, request.getCreatingTime()));
                 if (request.getStatus().equals("REJECTED")) {
 

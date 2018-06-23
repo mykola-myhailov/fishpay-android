@@ -50,7 +50,7 @@
         android:layout_marginStart="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Имя участника"/>
+        android:text="@string/participant_name"/>
     <EditText
         android:id="@+id/et_member_name"
         android:maxLines="1"
@@ -61,7 +61,7 @@
         android:textSize="22sp"
         android:textColorHint="@color/grey2"
         android:textColor="@color/black1"
-        android:hint="Введите имя участника"
+        android:hint="@string/enter_participant_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"/>
@@ -79,7 +79,7 @@
         android:layout_marginStart="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Номер телефона"/>
+        android:text="@string/phone_number"/>
     <EditText
         android:id="@+id/et_member_phone"
         android:maxLines="1"
@@ -92,7 +92,7 @@
         android:textSize="22sp"
         android:textColorHint="@color/grey2"
         android:textColor="@color/black1"
-        android:hint="Введите номер телефона"
+        android:hint="@string/enter_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"/>
@@ -114,7 +114,7 @@
         android:layout_gravity="end"
         android:padding="4dp"
         android:textColor="@color/blue1"
-        android:text="Добавить"
+        android:text="@string/add"
         android:layout_marginTop="12dp"
         android:textSize="32sp"
         android:layout_width="wrap_content"

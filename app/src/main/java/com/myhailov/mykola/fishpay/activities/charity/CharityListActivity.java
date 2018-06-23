@@ -30,7 +30,7 @@ public class CharityListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_list);
-        initCustomToolbar("Список взносов");
+        initCustomToolbar(getString(R.string.list_of_contributions));
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             charities = (ArrayList) extras.getSerializable(CHARITY_LIST);

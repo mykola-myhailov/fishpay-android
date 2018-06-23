@@ -71,8 +71,8 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     private void initTabLayout() {
         tabLayout = findViewById(R.id.tab_l);
         tabLayout.setTabChangedListener(this);
-        tabLayout.addTab(new Tab("Все", TAB_ALL));
-        tabLayout.addTab(new Tab("Созданные мною", TAB_MY));
+        tabLayout.addTab(new Tab(getString(R.string.all), TAB_ALL));
+        tabLayout.addTab(new Tab(getString(R.string.created_by_me), TAB_MY));
     }
 
     private void getJointPurchasesRequest() {

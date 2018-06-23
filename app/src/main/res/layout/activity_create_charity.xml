@@ -82,7 +82,7 @@
             <TextView
                     android:textSize="36sp"
                     android:textColor="@color/blue_text"
-                    android:text="Создать"
+                    android:text="@string/create"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_create"
@@ -94,7 +94,7 @@
                     android:layout_marginEnd="16dp"/>
 
             <TextView
-                    android:text="Заголовок"
+                    android:text="@string/title"
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:hint="Введите название"
+                    android:hint="@string/input_name"
                     android:background="@null"
                     android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
@@ -139,7 +139,7 @@
                     android:layout_marginTop="8dp"/>
 
             <TextView
-                    android:text="Необходимая сумма"
+                    android:text="@string/required_amount"
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                     android:ems="10"
                     android:background="@null"
                     android:textCursorDrawable="@color/grey"
-                    android:hint="Введите сумму"
+                    android:hint="@string/input_amount"
                     android:textColorHint="@color/grey_text_hint"
                     android:id="@+id/et_total_amount"
                     android:layout_marginTop="8dp"
@@ -195,7 +195,7 @@
             <TextView
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
-                    android:text="Неограниченая сумма"
+                    android:text="@string/unlimited_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView16"
@@ -227,7 +227,7 @@
                     android:layout_marginTop="8dp"/>
 
             <TextView
-                    android:text="Уже собрано"
+                    android:text="@string/already_collected"
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
                     android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="10"
-                    android:hint="Введите сумму"
+                    android:hint="@string/enter_amount"
                     android:background="@null"
                     android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
@@ -283,7 +283,7 @@
             <TextView
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
-                    android:text="Подробное описание "
+                    android:text="@string/detailed_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView19"
@@ -299,7 +299,7 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/et_description"
-                    android:hint="Сообщения для пользователей"
+                    android:hint="@string/messages_for_users"
                     android:background="@null"
                     android:textCursorDrawable="@color/grey"
                     android:textColorHint="@color/grey_text_hint"
@@ -323,7 +323,7 @@
             <TextView
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
-                    android:text="Заглавное фото"
+                    android:text="@string/main_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView20"
@@ -355,7 +355,7 @@
                     android:visibility="gone"/>
 
             <TextView
-                    android:text="Добавить фото"
+                    android:text="@string/add_photo"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text_hint"
                     android:layout_width="wrap_content"
@@ -368,7 +368,7 @@
                     android:layout_marginBottom="8dp"/>
 
             <TextView
-                    android:text="Изменить фото"
+                    android:text="@string/edit_photo"
                     android:textSize="24sp"
                     android:textColor="@color/blue_text"
                     android:layout_width="wrap_content"
@@ -395,7 +395,7 @@
             <TextView
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
-                    android:text="Галерея"
+                    android:text="@string/gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView22"
@@ -406,7 +406,7 @@
 
 
             <TextView
-                    android:text="Добавить фото"
+                    android:text="@string/add_photo"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text_hint"
                     android:layout_width="wrap_content"
@@ -432,7 +432,7 @@
             <TextView
                     android:textSize="24sp"
                     android:textColor="@color/blue_text"
-                    android:text=" Добавить еще"
+                    android:text="@string/add_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_add_photo"
@@ -456,7 +456,7 @@
             <TextView
                     android:textSize="17sp"
                     android:textColor="@color/grey_text_title"
-                    android:text="Карта для приема"
+                    android:text="@string/card_for_reception"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView24"
@@ -517,7 +517,7 @@
 
 
             <TextView
-                    android:text="Виберете карту"
+                    android:text="@string/choose_card"
                     android:textSize="24sp"
                     android:textColor="@color/grey_text_hint"
                     android:layout_width="wrap_content"

@@ -40,7 +40,7 @@ public class CharityListAdapter extends RecyclerView.Adapter<CharityListAdapter.
         holder.tvDescription.setText(item.getTitle());
         holder.tvAuthor.setText(item.getAuthorName());
         holder.tvAmount.setText(Utils.pennyToUah(item.getAmount()));
-        holder.tvDate.setText(convertStringToDate(item.getCreatedAt()));
+        holder.tvDate.setText(convertStringToDate(context, item.getCreatedAt()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

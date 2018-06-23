@@ -156,7 +156,7 @@ public class BankWebActivity extends AppCompatActivity {
         input.setLayoutParams(lp);
         input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         new AlertDialog.Builder(context)
-                .setMessage("Введите SMS-код")
+                .setMessage(getString(R.string.enter_sms_code))
                 .setView(input)
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -203,15 +203,15 @@ public class BankWebActivity extends AppCompatActivity {
         protected void onResult(int code, String result) {
             switch (result.toLowerCase()){
                 case "error_code":
-                    Utils.toast(context, "Неверный код");
+                    Utils.toast(context, getString(R.string.incorrect_code));
                     requestLookup();
                     break;
                 case "success":
-                    Utils.toast(context, "Успешно");
+                    Utils.toast(context, getString(R.string.successfully));
                     onBackPressed();
                     break;
                 default:
-                    Utils.toast(context, "Ошибка");
+                    Utils.toast(context, getString(R.string.error));
                     onBackPressed();
                     break;
             }

@@ -39,7 +39,7 @@ public class DeleteAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_account);
-        initToolBar("Удаление аккаунта");
+        initToolBar(getString(R.string.delete_account));
         findViewById(R.id.vDelete).setOnClickListener(this);
 
         getReasonsRequest();
@@ -177,7 +177,7 @@ public class DeleteAccountActivity extends BaseActivity {
                     if (removeReason.isChecked())
                         selectedReasonInRequestBodies.add(new ReasonInRequestBody(removeReason.getKey(), removeReason.getId()));
                 }
-                if (selectedReasonInRequestBodies.size() == 0) Utils.toast(context, "Укажите хотя бы одну причину");
+                if (selectedReasonInRequestBodies.size() == 0) Utils.toast(context, getString(R.string.select_1_reason));
                 else {
                     RemoveBody removeBody = new RemoveBody(comment, selectedReasonInRequestBodies);
                     deleteRequest(removeBody);

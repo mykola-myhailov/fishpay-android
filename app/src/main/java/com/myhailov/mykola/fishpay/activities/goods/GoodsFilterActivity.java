@@ -58,7 +58,7 @@ public class GoodsFilterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_filter);
         getCategory();
-        initCustomToolbar("Фильтр");
+        initCustomToolbar(getString(R.string.goods_filter));
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

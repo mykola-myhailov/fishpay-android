@@ -128,37 +128,41 @@ public class AddJoinPurchaseActivity extends BaseActivity {
         boolean isAmountValid = etAmount.getText().toString().length() > 0;
         if (isNameValid && isAmountValid) return true;
         else if (!isNameValid && !isAmountValid) {
-            toast("Введите название группы и сумму!");
+            toast(getString(R.string.enter_name_group_and_amount));
         } else if (!isNameValid) {
-            toast("Введите название группы!");
+            toast(getString(R.string.enter_name_group));
         } else {
-            toast("Введите сумму!");
+            toast(getString(R.string.input_amount));
         }
         return false;
     }
 
     private void showDateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
+        Locale locale = getResources().getConfiguration().locale;
+        Locale.setDefault(locale);
         final DatePicker datePicker = new DatePicker(context);
-        Calendar minDate = Calendar.getInstance(Locale.getDefault());
+        Calendar minDate = Calendar.getInstance(context.getResources().getConfiguration().locale);
         minDate.add(DATE, 1);
         datePicker.setMinDate(minDate.getTimeInMillis());
         minDate.add(DATE, 2);
         datePicker.updateDate(minDate.get(YEAR), minDate.get(MONTH), minDate.get(DAY_OF_MONTH));
 
+
+
         builder.setView(datePicker);
-        builder.setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.select), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Calendar calendar = Calendar.getInstance(Locale.getDefault());
+                Calendar calendar = Calendar.getInstance(context.getResources().getConfiguration().locale);
                 calendar.set(
                         datePicker.getYear(),
                         datePicker.getMonth(),
                         datePicker.getDayOfMonth()
                 );
-                dateTo = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-                tvPayTo.setText(new SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                dateTo = new SimpleDateFormat("yyyy-MM-dd",
+                        context.getResources().getConfiguration().locale).format(calendar.getTime());
+                tvPayTo.setText(new SimpleDateFormat("dd MMM yyyy", context.getResources().getConfiguration().locale)
                         .format(calendar.getTime()));
                 dialog.dismiss();
             }

@@ -170,15 +170,15 @@ public class CharityDonationActivity extends BaseActivity {
 
     private boolean checkValue() {
         if (TextUtils.isEmpty(etTotal.getText().toString()) || etTotal.getText().toString().equals("0")) {
-            toast("Введите суму");
+            toast(getString(R.string.input_amount));
             return false;
         }
         if (card == null) {
-            toast("Выберите карту");
+            toast(getString(R.string.choose_card));
             return false;
         }
         if (TextUtils.isEmpty(etCvv.getText().toString()) || etCvv.getText().length() != 3) {
-            toast("Введите CVV");
+            toast(getString(R.string.enter_cvv_code));
             return false;
         }
 

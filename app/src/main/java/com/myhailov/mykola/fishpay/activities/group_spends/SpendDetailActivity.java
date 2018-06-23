@@ -101,8 +101,8 @@ public class SpendDetailActivity extends BaseActivity{
     private void initToggleButtons() {
         final ToggleSwitch toggleSwitch = findViewById(R.id.toggleSwitch);
         ArrayList<String> labels = new ArrayList<>();
-        labels.add("Список");
-        labels.add("Участники");
+        labels.add(getString(R.string.list));
+        labels.add(getString(R.string.participants));
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
         recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));

@@ -243,7 +243,7 @@
             android:id="@+id/tvNoTransactions"
             android:layout_centerInParent="true"
             android:visibility="gone"
-            android:text="У пользователя ещё нет совершёных операций"
+            android:text="@string/user_no_have_operations_yet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

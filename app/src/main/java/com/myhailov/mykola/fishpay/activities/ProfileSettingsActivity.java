@@ -105,7 +105,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
                     @Override
                     protected void onResult(int code, ProfileResult result) {
                         if (code == 200){
-                            Log.d("sss", "onResult: call ");
                             ProfileResult.Profile profile = result.getProfile();
                             if (profile != null) {
                                 id = result.getUserId();

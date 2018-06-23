@@ -42,7 +42,7 @@ public class AddMoreSpendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_spend);
 
-        initCustomToolbar("Добавить расход");
+        initCustomToolbar(getString(R.string.add_expenses));
         preferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();

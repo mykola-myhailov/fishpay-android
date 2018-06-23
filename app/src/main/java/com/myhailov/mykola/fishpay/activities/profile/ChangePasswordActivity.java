@@ -30,7 +30,7 @@ public class ChangePasswordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        initCustomToolbar("Изменить пароль");
+        initCustomToolbar(getString(R.string.change_password_));
 
         tvPasswordIncorrect = findViewById(R.id.tv_password_incorrect);
         findViewById(R.id.tvNext).setOnClickListener(this);

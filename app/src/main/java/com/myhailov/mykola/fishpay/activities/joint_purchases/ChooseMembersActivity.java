@@ -63,7 +63,7 @@ public class ChooseMembersActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_members);
-        initCustomToolbar("Выберите участников");
+        initCustomToolbar(getString(R.string.select_participants));
 
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Keys.PURCHASE))
@@ -158,8 +158,8 @@ public class ChooseMembersActivity extends BaseActivity  {
 
     private void initTabs() {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(new Tab("Активные", 0));
-        tabLayout.addTab(new Tab("Все", 1));
+        tabLayout.addTab(new Tab(getString(R.string.active), 0));
+        tabLayout.addTab(new Tab(getString(R.string.all), 1));
         tabLayout.setTabChangedListener(getTabChangedListener());
     }
 
@@ -209,9 +209,11 @@ public class ChooseMembersActivity extends BaseActivity  {
         }
     }
 
+
+    // TODO: 23.06.2018 localization
     private void showErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Внимание")
+        builder.setTitle(getString(R.string.attention))
                 .setMessage("Нужно как минимум два участника.")
                 .setPositiveButton("Ок", null)
                 .create().show();

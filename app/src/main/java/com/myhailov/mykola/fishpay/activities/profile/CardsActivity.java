@@ -151,7 +151,7 @@ public class CardsActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        if (isForRequest) ((TextView) findViewById(R.id.tvToolBarTitle)).setText("Выберите карту");
+        if (isForRequest) ((TextView) findViewById(R.id.tvToolBarTitle)).setText(getString(R.string.choose_card));
         ((TextView) findViewById(R.id.tvToolBarTitle)).setText(getResources().getString(R.string.public_card));
         findViewById(R.id.ivBack).setOnClickListener(this);
     }
@@ -257,6 +257,8 @@ public class CardsActivity extends BaseActivity {
         return new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Locale locale = getResources().getConfiguration().locale;
+                Locale.setDefault(locale);
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat visibleFormat = new SimpleDateFormat("MM / yy", new Locale("ru"));
                 etDateEnd.setText(visibleFormat.format(calendar.getTimeInMillis()));
@@ -282,14 +284,14 @@ public class CardsActivity extends BaseActivity {
 
     private void showConfirmation(final Card card) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно хотите удалить эту карту?");
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.alert_delete_card));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteCard(card);
             }
         });
-        builder.setNegativeButton("Отмена", null);
+        builder.setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 

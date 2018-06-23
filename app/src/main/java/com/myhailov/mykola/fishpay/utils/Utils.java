@@ -236,7 +236,7 @@ public class Utils {
         }
     }
 
-    public static String convertStringToDate(String date){
+    public static String convertStringToDate(Context context, String date){
         SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
         Date convertedDate = new Date();
         try {
@@ -244,7 +244,8 @@ public class Utils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y",
+                context.getResources().getConfiguration().locale);
         return newDateFormat.format(convertedDate);
     }
 
@@ -264,10 +265,11 @@ public class Utils {
         if (convertDate.equals(today)){
             return context.getString(R.string.today,  new SimpleDateFormat("H:mm").format(convertedDate));
         }
-        return new SimpleDateFormat("H:mm d MMMM y ").format(convertedDate);
+        return new SimpleDateFormat("H:mm d MMMM y ",
+                context.getResources().getConfiguration().locale).format(convertedDate);
     }
 
-    public static String convertStringToDateWithCustomFormat(String date, String format){
+    public static String convertStringToDateWithCustomFormat(Context context, String date, String format){
         SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
         Date convertedDate = new Date();
         try {
@@ -275,7 +277,7 @@ public class Utils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat newDateFormat = new SimpleDateFormat(format);
+        SimpleDateFormat newDateFormat = new SimpleDateFormat(format, context.getResources().getConfiguration().locale);
         return newDateFormat.format(convertedDate);
     }
 

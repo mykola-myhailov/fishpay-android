@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +35,6 @@ public class OutComingPayRequestActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             requestId = extras.getLong(Keys.REQUEST_ID, 0);
-            Log.d("sss", "onCreate: " + requestId);
         }
         getDetails();
 
@@ -82,8 +80,7 @@ public class OutComingPayRequestActivity extends BaseActivity {
 
         ((TextView) findViewById(R.id.tv_status)).setText(getStatus(detailsResult.getStatus(), detailsResult.getStatusChangedAt()));
 
-        Log.d("TAG", "initViews: " + detailsResult.getGoods());
-        if (detailsResult.getGoods() != null && detailsResult.getGoods().size() > 0){
+        if (detailsResult.getGoods() != null && detailsResult.getGoods().size() > 0) {
             rvGoods = findViewById(R.id.rv_goods);
             rvGoods.setLayoutManager(new LinearLayoutManager(context));
             rvGoods.setAdapter(new GoodsOutIncomAdapter(context, detailsResult.getGoods(), rvListener));
@@ -97,6 +94,7 @@ public class OutComingPayRequestActivity extends BaseActivity {
 
 
     }
+
     private GoodsOutIncomAdapter.OnItemClickListener rvListener = new GoodsOutIncomAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(long id) {
@@ -110,19 +108,19 @@ public class OutComingPayRequestActivity extends BaseActivity {
         String msg = "";
         switch (Status.valueOf(st)) {
             case ACTIVE:
-                msg = "Доставлено";
+                msg = getString(R.string.delivered);
                 break;
             case VIEWED:
-                msg =  "Прочитано";
+                msg = getString(R.string.read);
                 break;
             case DELETED_BY_RECIPIENT:
-                msg =  "Прочитано";
+                msg = getString(R.string.read);
                 break;
             case REJECTED:
-                msg =  "Отклонено";
+                msg = getString(R.string.rejected);
                 break;
             case ACCEPTED:
-                msg =  "Одобрено";
+                msg = getString(R.string.approved);
                 break;
         }
 

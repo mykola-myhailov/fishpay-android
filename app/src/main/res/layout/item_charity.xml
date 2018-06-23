@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="Допомога постраждалим від вибуху на шахті Степова"
+                tools:text="Допомога постраждалим від вибуху на шахті Степова"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_title"
@@ -43,7 +43,7 @@
                 android:layout_marginEnd="8dp"/>
 
         <TextView
-                android:text="Фонд «Допомога»"
+                tools:text="Фонд «Допомога»"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_author_name"
@@ -59,7 +59,7 @@
                 app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
-                android:text="67"
+                tools:text="67"
                 android:layout_width="58dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
@@ -76,7 +76,7 @@
                 android:layout_marginBottom="8dp"/>
 
         <TextView
-                android:text="13000.00"
+                tools:text="13000.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"

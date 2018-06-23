@@ -49,7 +49,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_settings);
-        initCustomToolbar("Настройки");
+        initCustomToolbar(getString(R.string.settings));
         assignViews();
         extras = getIntent().getExtras();
         if (extras != null) {
@@ -100,7 +100,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                     if (charity.getStatus().equals("ACTIVE")) {
                         showAlert();
                     } else {
-                        toast("Закрыто");
+                        toast(getString(R.string.charity_close));
                     }
                 }
                 break;
@@ -228,7 +228,7 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
-                        toast("Закрито");
+                        toast(getString(R.string.charity_close));
                     }
                 });
     }

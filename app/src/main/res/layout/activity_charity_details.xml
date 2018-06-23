@@ -162,7 +162,7 @@
                 android:visibility="gone"/>
 
         <TextView
-                android:text="Взнос"
+                android:text="@string/contribution"
                 android:textSize="17sp"
                 android:textColor="@color/blue_text"
                 android:textAlignment="center"

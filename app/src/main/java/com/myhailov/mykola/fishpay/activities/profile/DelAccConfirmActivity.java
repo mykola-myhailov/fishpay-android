@@ -28,7 +28,7 @@ public class DelAccConfirmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_acc_confirm);
         Intent intent = getIntent();
-        initToolBar("Удаление аккаунта");
+        initToolBar(getString(R.string.delete_account));
         Bundle extras = intent.getExtras();
         requestId = extras.getString(Keys.REQUEST_ID, "0");
 
@@ -52,7 +52,7 @@ public class DelAccConfirmActivity extends BaseActivity {
                                     = context.getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
                             String phone = sharedPreferences.getString(PrefKeys.PHONE, "");
                             new AlertDialog.Builder(context)
-                                    .setMessage("Подтверждение удаления аккаунта придёт в виде СМС-сообщения на номер "
+                                    .setMessage(getString(R.string.delete_account_confirm)
                                             + phone)
                                     .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                         @Override

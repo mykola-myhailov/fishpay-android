@@ -65,6 +65,7 @@ public class RegistrationActivity extends BaseActivity {
         tvSave.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -83,7 +84,7 @@ public class RegistrationActivity extends BaseActivity {
                 else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
                 else if (surname.length() < 2 || surname.length() > 20 )
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if  (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, "Некорректная електронная почта");
+                else if  (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, getString(R.string.incorrect_email));
                 else {
                     Intent intent = new Intent(context, SetPasswordActivity.class);
                     intent.putExtra(Keys.PHONE, phone);
@@ -106,9 +107,12 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     private DatePickerDialog.OnDateSetListener createDateSetListener() {
+
         return new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Locale locale = getResources().getConfiguration().locale;
+                Locale.setDefault(locale);
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat monthFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("ru"));

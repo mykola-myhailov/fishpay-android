@@ -11,7 +11,8 @@
 
     <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="85dp">
+
         <TextView
                 android:id="@+id/tv_delete"
                 android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
                 android:id="@+id/tvGrn"
                 android:textSize="17sp"
                 android:textColor="#737171"
-                android:text=" | грн"
+                android:text="@string/uah2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"

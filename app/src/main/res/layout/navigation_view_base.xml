@@ -335,6 +335,7 @@
                     android:layout_height="60dp" />
 
                 <TextView
+                        android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:text="@string/to_pay"
                     android:layout_width="wrap_content"
@@ -356,6 +357,7 @@
                     android:layout_height="60dp" />
 
                 <TextView
+                        android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:text="@string/to_transfer"
                     android:layout_width="wrap_content"
@@ -378,7 +380,7 @@
                     android:layout_height="60dp" />
 
                 <TextView
-                    android:layout_gravity="center_horizontal"
+                        android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:text="@string/about_us"
                     android:layout_width="wrap_content"

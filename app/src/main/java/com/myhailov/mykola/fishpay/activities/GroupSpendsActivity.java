@@ -62,8 +62,8 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
     private void initTabLayout() {
         tabLayout = findViewById(R.id.tab_l);
         tabLayout.setTabChangedListener(this);
-        tabLayout.addTab(new Tab("Все", TAB_ALL));
-        tabLayout.addTab(new Tab("Созданные мною", TAB_MY));
+        tabLayout.addTab(new Tab(getString(R.string.all), TAB_ALL));
+        tabLayout.addTab(new Tab(getString(R.string.created_by_me), TAB_MY));
     }
 
     private void groupSpendsRequest() {
@@ -166,7 +166,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
             holder.tvTitle.setText(spend.getTitle());
             holder.tvCreator.setText(spend.getCreatorName());
             holder.tvPart.setText(spend.getMemberPart() + "%");
-            holder.tvAmount.setText(Utils.pennyToUah(spend.getStartAmount()) + " | грн");
+            holder.tvAmount.setText(Utils.pennyToUah(spend.getStartAmount()) + context.getString(R.string.uah2));
             holder.llMainItem.setTag(spend);
             holder.tvDelete.setTag(spend);
         }

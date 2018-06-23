@@ -64,7 +64,7 @@ public class CreateCharityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_charity);
-        initCustomToolbar("Создать новую");
+        initCustomToolbar(getString(R.string.create_new));
         assignViews();
     }
 
@@ -86,7 +86,7 @@ public class CreateCharityActivity extends BaseActivity {
                     mainPhotoPick = false;
                     ImagePicker.pickImage(this, "Select your image:");
                 } else {
-                    toast("Больше выбрать нельзя");
+                    toast(getString(R.string.you_cant_choose_more));
                 }
                 break;
             case R.id.tv_add_secondary_photo:
@@ -213,7 +213,7 @@ public class CreateCharityActivity extends BaseActivity {
         }
         if (!switchIndefinitely.isChecked()) {
             if (etRequiredAmount.getText().toString().equals("0") || TextUtils.isEmpty(etRequiredAmount.getText())) {
-                toast("Введите необходимую сумму");
+                toast(getString(R.string.enter_amount));
                 etRequiredAmount.setError(getString(R.string.error_fill_information));
                 scrollToView(etRequiredAmount);
                 return false;
@@ -221,7 +221,7 @@ public class CreateCharityActivity extends BaseActivity {
         }
         if (etDescription.getText().length() < 15) {
             etDescription.setError(getString(R.string.error_county, 15));
-            toast("Введите подробное описание");
+            toast(getString(R.string.enter_description));
             scrollToView(etDescription);
             return false;
         }
@@ -230,12 +230,12 @@ public class CreateCharityActivity extends BaseActivity {
         }
         if (card == null) {
             scrollToView(ivCard);
-            toast("Виберете карту");
+            toast(getString(R.string.choose_card));
             return false;
         }
         if (TextUtils.isEmpty(charity.getMainPhoto())) {
             scrollToView(ivMainPhoto);
-            toast("Виберете фото");
+            toast(getString(R.string.select_a_photo));
             return false;
         }
 

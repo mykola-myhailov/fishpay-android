@@ -50,7 +50,7 @@ public class IncomingDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incoming_details);
-        initToolBar("Запрос на оплату", R.color.black2);
+        initToolBar(getString(R.string.pay_request), R.color.black2);
 
 
         Bundle extras = getIntent().getExtras();
@@ -148,8 +148,8 @@ public class IncomingDetailsActivity extends BaseActivity {
         tvDescription = dialogView.findViewById(R.id.tv_description);
 
         tvDescription.setText(getString(R.string.send_across_fishpay,
-                Utils.convertStringToDateWithCustomFormat(createAt, "d MMMM"),
-                Utils.convertStringToDateWithCustomFormat(createAt, "H:mm")));
+                Utils.convertStringToDateWithCustomFormat(context, createAt, "d MMMM"),
+                Utils.convertStringToDateWithCustomFormat(context, createAt, "H:mm")));
 
         tvBlockUser.setOnClickListener(this);
         tvSendComplaint.setOnClickListener(this);
@@ -234,7 +234,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                         @Override
                         protected void onResult(int code, Object result) {
                             alertBlockUser.cancel();
-                            toast("Користувача заблокировано");
+                            toast(getString(R.string.user_is_block));
                             Log.d("sss", "onResult: code " + code);
                             Log.d("sss", "onResult: result  " + result);
                         }

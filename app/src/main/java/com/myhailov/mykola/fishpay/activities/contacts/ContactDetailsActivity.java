@@ -44,7 +44,7 @@ public class ContactDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
 
-        initCustomToolbar("просмотр профайла");
+        initCustomToolbar(getString(R.string.profile_view));
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
@@ -66,7 +66,7 @@ public class ContactDetailsActivity extends BaseActivity {
                                 String surname = result.getSuname();
                                 String photo = result.getPhoto();
                                 String phone = result.getPhone();
-                                tvIsAdded.setText("B списке контактов");
+                                tvIsAdded.setText(getString(R.string.in_contacts));
                                 if (phone != null) ((TextView) findViewById(R.id.tvPhone)).setText("+"+phone);
                                 ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
                                 String initials = Utils.extractInitials(name, surname);
@@ -86,7 +86,7 @@ public class ContactDetailsActivity extends BaseActivity {
             name = searchedContact.getName();
             surname = searchedContact.getSurname();
             userId = searchedContact.getId();
-            tvIsAdded.setText("Добавить контакт");
+            tvIsAdded.setText(getString(R.string.add_contact));
             tvIsAdded.setOnClickListener(this);
             String initials = Utils.extractInitials(name, surname);
             Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
@@ -177,7 +177,7 @@ public class ContactDetailsActivity extends BaseActivity {
                         ArrayList<Contact> appContacts = result.getContacts();
                         DBUtils.saveAppContacts(context, appContacts);
                         isAdded = true;
-                        tvIsAdded.setText("В списке контактов");
+                        tvIsAdded.setText(getString(R.string.in_contacts));
                     }
                 });
     }

@@ -65,11 +65,11 @@ public class DistributionActivity extends BaseActivity {
                 groupSpendAmount =  extras.getInt(Keys.AMOUNT);
                 groupSpendDescription = extras.getString(Keys.DESCRIPTION);
                 groupName = extras.getString(Keys.GROUP);
-                initCustomToolbar("распределение долей");
+                initCustomToolbar(getString(R.string.distribution_of_parts));
                 break;
             case ChooseMembersActivity.FROM_JOINT_PURCHASES:
                 commonPurchaseBody = extras.getParcelable(PURCHASE2);
-                initCustomToolbar("распределение взносов");
+                initCustomToolbar(getString(R.string.distribution_of_donation));
                 break;
         }
 
@@ -113,8 +113,8 @@ public class DistributionActivity extends BaseActivity {
 
     private void initTabLayout() {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(new Tab("Пропорционально", 0));
-        tabLayout.addTab(new Tab("Вручную", 1));
+        tabLayout.addTab(new Tab(getString(R.string.proportionately), 0));
+        tabLayout.addTab(new Tab(getString(R.string.manually), 1));
     }
 
 

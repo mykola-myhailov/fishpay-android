@@ -67,7 +67,7 @@
             app:layout_constraintHorizontal_bias="0.0"/>
 
     <TextView
-            android:text="Публикация"
+            android:text="@string/publication"
             android:textSize="17sp"
             android:textColor="@color/grey_text"
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             />
 
     <TextView
-            android:text="Для всех"
+            android:text="@string/public_charity"
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
     <TextView
             android:textSize="17sp"
             android:textColor="@color/grey_text"
-            android:text="Списки благотворителей"
+            android:text="@string/lists_of_contributors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView12"
@@ -100,7 +100,7 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_list_donation"/>
 
     <TextView
-            android:text="Открыто"
+            android:text="@string/charity_open"
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
     <TextView
             android:textSize="17sp"
             android:textColor="@color/grey_text"
-            android:text="Использовать псевдоним автора"
+            android:text="@string/use_creator_pseudonym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView14"
@@ -173,7 +173,7 @@
     <TextView
             android:textSize="17sp"
             android:textColor="@color/grey_text"
-            android:text="Псевдоним автора"
+            android:text="@string/creator_pseudonym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView15"
@@ -190,7 +190,7 @@
             android:textColor="@color/black"
             android:enabled="false"
             android:background="@null"
-            android:hint="Введите название"
+            android:hint="@string/input_name"
             android:textColorHint="@color/grey_text_hint"
             android:textCursorDrawable="@color/grey"
             tools:text="фонд «Яблочко»"

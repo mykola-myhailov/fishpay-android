@@ -193,7 +193,7 @@
                     android:layout_marginBottom="16dp"/>
 
             <TextView
-                    android:text="@string/category"
+                    android:text="@string/categories"
                     android:textSize="17sp"
                     android:textColor="@color/grey"
                     android:layout_width="wrap_content"

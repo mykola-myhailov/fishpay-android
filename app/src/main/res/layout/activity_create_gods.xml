@@ -73,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-                android:text="Категорія"
+                android:text="@string/categories"
                 android:textSize="17sp"
                 android:textColor="@color/grey_text_title"
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                 android:layout_marginTop="8dp"/>
 
         <TextView
-                android:text="Статус"
+                android:text="@string/status_goods"
                 android:textSize="17sp"
                 android:textColor="@color/grey_text_title"
                 android:layout_width="wrap_content"
@@ -123,7 +123,7 @@
 
         <TextView
                 android:id="@+id/tvStatus"
-                android:text="Публичный"
+                android:text="@string/public_item"
                 android:textSize="22sp"
                 android:textColor="@color/blue1"
                 android:layout_width="wrap_content"
@@ -136,7 +136,7 @@
 
 
         <TextView
-                android:text="Название товара"
+                android:text="@string/name_goods"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
@@ -157,7 +157,7 @@
                 android:textColor="@color/black"
                 android:background="@null"
                 android:textCursorDrawable="@color/grey"
-                android:hint="Введите название"
+                android:hint="@string/input_name"
                 android:textColorHint="@color/grey_text_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                 android:layout_marginTop="8dp"/>
 
         <TextView
-                android:text="Цена товара"
+                android:text="@string/price_goods"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_3"
@@ -200,7 +200,7 @@
                 android:textSize="24sp"
                 android:background="@null"
                 android:textCursorDrawable="@color/grey"
-                android:hint="Введите сумму"
+                android:hint="@string/enter_amount"
                 android:textColorHint="@color/grey_text_hint"
                 app:layout_constraintStart_toStartOf="@+id/tv_3"
                 android:layout_marginTop="8dp"
@@ -231,7 +231,7 @@
 
 
         <TextView
-                android:text="Подробное описание"
+                android:text="@string/detailed_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_4"
@@ -251,7 +251,7 @@
                 android:textSize="24sp"
                 android:background="@null"
                 android:textCursorDrawable="@color/grey"
-                android:hint="Опишите свойства товара"
+                android:hint="@string/describe_product_properties"
                 android:textColorHint="@color/grey_text_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -275,7 +275,7 @@
         <TextView
                 android:textSize="17sp"
                 android:textColor="@color/grey_text_title"
-                android:text="Заглавное фото"
+                android:text="@string/main_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView20"
@@ -307,7 +307,7 @@
                 android:visibility="gone"/>
 
         <TextView
-                android:text="Добавить фото"
+                android:text="@string/add_photo"
                 android:textSize="24sp"
                 android:textColor="@color/grey_text_hint"
                 android:layout_width="wrap_content"
@@ -333,7 +333,7 @@
         <TextView
                 android:textSize="17sp"
                 android:textColor="@color/grey_text_title"
-                android:text="Галерея"
+                android:text="@string/gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView22"
@@ -344,7 +344,7 @@
 
 
         <TextView
-                android:text="Добавить фото"
+                android:text="@string/add_photo"
                 android:textSize="24sp"
                 android:textColor="@color/grey_text_hint"
                 android:layout_width="wrap_content"
@@ -370,7 +370,7 @@
         <TextView
                 android:textSize="24sp"
                 android:textColor="@color/blue_text"
-                android:text=" Добавить еще"
+                android:text="@string/add_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_add_photo"
@@ -393,7 +393,7 @@
 
         <TextView
                 android:id="@+id/tvChangePhoto"
-                android:text="Изменить фото"
+                android:text="@string/edit_photo"
                 android:gravity="center"
                 android:textSize="24sp"
                 android:textColor="@color/blue1"
@@ -416,7 +416,7 @@
                 android:textColor="@color/blue1"
                 android:layout_gravity="end"
                 android:id="@+id/tvCreate"
-                android:text="Создать"
+                android:text="@string/create"
                 android:textSize="36sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

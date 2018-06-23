@@ -143,7 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvNext" />
 
     <TextView
-            android:text="Отправить повторно"
+            android:text="@string/re_send"
             android:textSize="17sp"
             android:textColor="@color/blue1"
             android:layout_width="wrap_content"

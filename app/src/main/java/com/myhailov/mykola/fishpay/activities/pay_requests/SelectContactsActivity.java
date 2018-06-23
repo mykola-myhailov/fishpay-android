@@ -91,7 +91,7 @@ public class SelectContactsActivity extends BaseActivity {
                 return true;
             }
         });
-        searchView.setQueryHint("введите имя");
+        searchView.setQueryHint(getString(R.string.enter_name));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         //searchEditText.setTextColor(getResources().getColor(R.color.blue1));
         searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));

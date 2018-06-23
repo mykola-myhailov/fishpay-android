@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        xmlns:tools="http://schemas.android.com/tools"
-                                        android:id="@+id/drawer_layout"
-                                        android:layout_width="match_parent"
-                                        android:background="@android:color/white"
-                                        android:layout_height="match_parent"
-                                        android:fitsSystemWindows="true"
-                                        tools:openDrawer="end">
+<android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="end">
 
     <LinearLayout
             android:orientation="vertical"
@@ -71,7 +72,7 @@
                         android:id="@+id/tv_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Карта для перевода платежа:"
+                        android:text="@string/payment_transfer_card"
                         android:textColor="@color/grey2"/>
 
                 <ImageView
@@ -113,7 +114,7 @@
                         android:id="@+id/tv_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Получатель:"
+                        android:text="@string/recipient"
                         android:textColor="@color/grey2"/>
 
                 <ImageView
@@ -159,7 +160,7 @@
                         android:id="@+id/tv_sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Сумма:"
+                        android:text="@string/amount"
                         android:textColor="@color/grey2"/>
 
                 <com.myhailov.mykola.fishpay.views.MoneyEditText
@@ -179,7 +180,7 @@
 
                 <TextView
                         android:id="@+id/tv_currency"
-                        android:text="UАН"
+                        android:text="@string/uah"
                         android:layout_marginEnd="40dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
@@ -203,7 +204,7 @@
                         android:textSize="18sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="СVV-код:"
+                        android:text="@string/cvv_code"
                         android:textColor="@color/grey2"/>
 
                 <EditText
@@ -297,7 +298,7 @@
                             android:id="@+id/tv_send_request"
                             android:textColor="@color/blue1"
                             android:textSize="18sp"
-                            android:text="Отправить запрос"
+                            android:text="@string/send_request"
                             android:gravity="center"
                             android:background="?android:attr/selectableItemBackground"
                             android:layout_width="match_parent"

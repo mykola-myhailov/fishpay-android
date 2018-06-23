@@ -50,7 +50,7 @@ public class SelectGoodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_goods);
 
-        initCustomToolbar("Выберите товары");
+        initCustomToolbar(getString(R.string.select_goods));
         initViews();
         getGoods();
 

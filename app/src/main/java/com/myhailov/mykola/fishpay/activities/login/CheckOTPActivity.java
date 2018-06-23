@@ -79,6 +79,7 @@ public class CheckOTPActivity extends BaseActivity {
             case R.id.ivNext:
                 if (attempt < 3) checkOTP();
                 else
+                    // TODO: 23.06.2018 localization
                     Utils.toast(context, "15-минутная блокировка ввода sms-кода ещё не закончилась");
                 break;
             case R.id.tv_repeat:
@@ -109,6 +110,7 @@ public class CheckOTPActivity extends BaseActivity {
                     @Override
                     protected void onError(int code, String errorDescription) {
                         //super.onError(code, errorDescription);
+                        // TODO: 23.06.2018 localization
                         attempt++;
                         if (attempt < 3) Utils.alert(context, "Неверный SMS-код");
                         else {
@@ -154,6 +156,7 @@ public class CheckOTPActivity extends BaseActivity {
                                 showIncorrectSmsAlert();
                             } else {
                                 showIncorrectSmsAlert();
+                                // TODO: 23.06.2018 localization
                                 Utils.alert(context, "Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут");
                                 Handler handler = new Handler();
                                 Runnable runnable = new Runnable() {
@@ -176,7 +179,7 @@ public class CheckOTPActivity extends BaseActivity {
         View dialogView = inflater.inflate(R.layout.alert_with_one_action, null);
         dialogBuilder.setView(dialogView);
         tvTitle = dialogView.findViewById(R.id.tv_title);
-        tvTitle.setText("Неправильынй SMS-код");
+        tvTitle.setText(getString(R.string.password_sms_entered_incorrect));
 
         dialogView.findViewById(R.id.tv_action_1).setOnClickListener(this);
         dialogView.findViewById(R.id.tv_description).setVisibility(View.GONE);

@@ -44,7 +44,7 @@ public class CharityPreviewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity_preview);
-        initCustomToolbar("Предпросмотр");
+        initCustomToolbar(getString(R.string.preview));
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             charity = (CharityRequestBody) extras.getSerializable(CHARITY_RESULT);

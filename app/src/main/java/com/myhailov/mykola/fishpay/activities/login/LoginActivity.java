@@ -84,6 +84,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.tvNext:
             case R.id.ivNext:
                 if (attempt < 3) login();
+                    // TODO: 23.06.2018 localization
                 else Utils.toast(context, "15-минутная блокировка ввода пароля ещё не закончилась");
                 break;
             case R.id.tvForgot:
@@ -162,6 +163,7 @@ public class LoginActivity extends BaseActivity {
                                 } catch (Exception e) {e.printStackTrace();}
                             }
                             else if(response.code() == 240) {
+                                // TODO: 23.06.2018 localization
                                 attempt++;
                                 if (attempt < 3) Utils.alert(context, "Неверный пароль");
                                 else {

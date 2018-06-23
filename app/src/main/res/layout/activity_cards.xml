@@ -255,7 +255,7 @@
             <TextView
                 android:layout_weight="1"
                 android:textColor="@color/gray_light"
-                android:text="Доступна до:"
+                android:text="@string/available_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
@@ -265,7 +265,7 @@
                 android:layout_weight="1"
                 android:textColor="@android:color/holo_red_light"
                 android:gravity="end"
-                android:text="Не выбран срок действия"
+                android:text="@string/no_expiration_date_selected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -276,7 +276,7 @@
             android:inputType="phone"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:text="Введите срок действия карты"
+            android:text="@string/enter_expiration_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="false"

@@ -8,7 +8,7 @@
         tools:context="com.myhailov.mykola.fishpay.activities.charity.CharitySuccessActivity">
 
     <TextView
-            android:text="Спасибо !"
+            android:text="@string/thank"
             android:textSize="36sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -55,7 +55,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
     <TextView
             tools:text="https://www.fishpay.com/request/id762736_23"
@@ -69,10 +70,11 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
     <TextView
-            android:text="Вернутся к роботе"
+            android:text="@string/back_to_work"
             android:textColor="@color/blue_text"
             android:textSize="36sp"
             android:layout_width="wrap_content"

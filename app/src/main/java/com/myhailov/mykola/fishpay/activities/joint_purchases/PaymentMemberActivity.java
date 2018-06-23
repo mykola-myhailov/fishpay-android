@@ -39,6 +39,7 @@ public class PaymentMemberActivity extends BaseActivity {
 
     private String title;
     private Member member;
+    // TODO: 23.06.2018 localization
     private final CharSequence[] items = {"Наличные", "Перевод", "Другое"};
     private TextView tvPayMethod;
     private MoneyEditText metAmount;
@@ -52,7 +53,7 @@ public class PaymentMemberActivity extends BaseActivity {
         title = getIntent().getStringExtra(TITLE);
         member = getIntent().getParcelableExtra(MEMBER);
 
-        initCustomToolbar("внести взнос");
+        initCustomToolbar(getString(R.string.make_contribution));
         initViews();
     }
 
@@ -84,6 +85,8 @@ public class PaymentMemberActivity extends BaseActivity {
         metAmount.setText(toPay);
     }
 
+
+    // TODO: 23.06.2018 localization
     private void showChoosePayMethod() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 

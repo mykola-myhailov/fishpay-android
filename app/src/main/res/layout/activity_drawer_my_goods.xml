@@ -122,7 +122,7 @@
                     android:visibility="visible"/>
 
             <TextView
-                    android:text="Сделаете продажу удобную для Вас и Вашых клиентов"
+                    android:text="@string/goods_empty_title"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -142,7 +142,7 @@
                     android:visibility="gone"/>
 
             <TextView
-                    android:text="Просто заполните раздел «Товары» продукцией или услугами которые Вы предоставляете своим клиентам. Вы получете точность и удобство, клиенты быстроту оплаты. "
+                    android:text="@string/goods_empty_description"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="17sp"
@@ -160,7 +160,7 @@
                     android:visibility="gone"/>
 
             <TextView
-                    android:text="Фильтр"
+                    android:text="@string/goods_filter"
                     android:textSize="15sp"
                     android:textColor="#315C87"
                     android:layout_width="wrap_content"

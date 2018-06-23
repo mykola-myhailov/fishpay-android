@@ -118,7 +118,7 @@
         android:layout_marginStart="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="На сумму"/>
+        android:text="@string/amount_of"/>
 
     <LinearLayout
         android:layout_marginStart="12dp"
@@ -168,7 +168,7 @@
         android:layout_marginStart="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Форма взноса"/>
+        android:text="@string/contribution_form"/>
     <TextView
         tools:text="Наличные"
         android:gravity="end"
@@ -195,7 +195,7 @@
         android:layout_marginStart="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Общая покупка"/>
+        android:text="@string/joint_purchase"/>
     <TextView
         tools:text="Наличные"
         android:gravity="end"
@@ -225,7 +225,7 @@
         android:layout_gravity="end"
         android:padding="4dp"
         android:textColor="@color/blue1"
-        android:text="Подтвердить"
+        android:text="@string/confirm"
         android:layout_marginTop="12dp"
         android:textSize="32sp"
         android:layout_width="wrap_content"
