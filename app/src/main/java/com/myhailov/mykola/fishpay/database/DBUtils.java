@@ -59,15 +59,19 @@ public class DBUtils {
     private static Contact makeContactWithUniqueId(Contact appContact) {
         String phone = appContact.getPhone();
         long userId = appContact.getUserId();
+        long contactId = appContact.getContactId();
         String name =  appContact.getName();
         String surname = appContact.getSurname();
         String photo = appContact.getPhoto();
+        boolean activeUser = appContact.isActiveUser();
         Contact newContact = new Contact();
         newContact.setPhone(phone);
         newContact.setUserId(userId);
+        newContact.setContactId(contactId);
         newContact.setName(name);
         newContact.setSurname(surname);
         newContact.setPhoto(photo);
+        newContact.setActiveUser(activeUser);
         return newContact;
     }
 }

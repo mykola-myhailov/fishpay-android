@@ -221,10 +221,16 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
-    @PUT ("/api/user/contacts/{contactId}/block")
+    @PUT ("/api/user/contacts/{contactId}")
     Call<BaseResponse<Object>> changeContactStatus (@Header("Authorization") String token,
                                                     @Path("contactId") String id,
                                                     @Field("status") String status);
+
+    @FormUrlEncoded
+    @PUT ("api/user/contacts/{userId}/block")
+    Call<BaseResponse<Object>> deleteContact (@Header("Authorization") String token,
+                                              @Field("status") String status,
+                                              @Path("userId") String id);
 
     //7) invoices
     @FormUrlEncoded @POST("api/moneyRequest/init")

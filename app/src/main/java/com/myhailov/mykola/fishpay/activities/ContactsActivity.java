@@ -18,7 +18,8 @@ import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
 import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
-import com.myhailov.mykola.fishpay.api.BaseResponse;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -29,14 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ContactsActivity extends DrawerActivity {
 
     private List<Contact> allContacts, appContacts, displayedContacts, filteredContacts;
-    private RecyclerView rvContacts;
+private RecyclerView rvContacts;
     private String filterQuery = "";
 
     @Override
@@ -53,7 +51,7 @@ public class ContactsActivity extends DrawerActivity {
         for (Contact contact : allContacts) {
             long userId = contact.getUserId();
             if (userId != 0) {
-//                contact.setActiveUser(true);
+                Log.d("sss", "onCreate: " + contact.getContactId());
                 appContacts.add(contact);
             }
         }
@@ -65,8 +63,8 @@ public class ContactsActivity extends DrawerActivity {
         initSearchView();
         displayedContacts = appContacts;
         filter();
-        Log.d("log", allContacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " "+
-        filteredContacts.size());
+        Log.d("log", allContacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " " +
+                filteredContacts.size());
 
 
     }
@@ -78,7 +76,7 @@ public class ContactsActivity extends DrawerActivity {
         labels.add(getString(R.string.all));
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
-        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
+        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener() {
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
@@ -116,12 +114,12 @@ public class ContactsActivity extends DrawerActivity {
                 break;
 
             case R.id.tv_delete:
-                long contactId = ((Contact) view.getTag()).getContactId();
-                showDeleteConfirmation(contactId);
+               // long contactId = ((Contact) view.getTag()).getContactId();
+               // showDeleteConfirmation(contactId);
                 break;
 
             case R.id.ivInvite:  // click on contact from device to invite
-                if (!Utils.isOnline(context)){
+                if (!Utils.isOnline(context)) {
                     Utils.noInternetToast(context);
                     return;
                 }
@@ -135,32 +133,56 @@ public class ContactsActivity extends DrawerActivity {
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteContactRequest(id + "");
+                deleteContactRequest(id);
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 
-    private void deleteContactRequest(String id) {
-        if (Utils.isOnline(context)){
+    private void deleteContactRequest(final long id) {
+        if (Utils.isOnline(context)) {
             ApiClient.getApiInterface()
-                    .changeContactStatus(TokenStorage.getToken(context), id, "DELETED")
-                    .enqueue(new Callback<BaseResponse<Object>>() {
+                    .blockUserById(TokenStorage.getToken(context), "DELETED", id + "")
+                    .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
-                        public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
-                           // TODO:
+                        protected void onResult(int code, Object result) {
+                            getContactsRequest();
                             toast("deleted");
-                        }
-
-                        @Override
-                        public void onFailure(Call<BaseResponse<Object>> call, Throwable t) {
-
+                            Contact con = new Contact();
+                            for (Contact appContact : appContacts) {
+                                if (appContact.getContactId() == id) {
+                                    con = appContact;
+                                    break;
+                                }
+                            }
+                            appContacts.remove(con);
+                            displayedContacts = appContacts;
+                            filter();
                         }
                     });
         } else Utils.noInternetToast(context);
     }
 
+
+    private void getContactsRequest() {
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+
+        ApiClient.getApiInterface()
+                .getContacts(TokenStorage.getToken(context), true, true)
+                .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                    @Override
+                    protected void onResult(int code, ContactsResult result) {
+                        if (result == null) return;
+                        Log.d("sss", "onResult: ");
+                        ArrayList<Contact> appContacts = result.getContacts();
+                        DBUtils.saveAppContacts(context, appContacts);
+                    }
+                });
+    }
 
     private void initSearchView() {
         SearchView searchView = findViewById(R.id.search);
@@ -188,14 +210,14 @@ public class ContactsActivity extends DrawerActivity {
 
     private void filter() {
         filteredContacts.clear();
-        if (filterQuery == null || filterQuery.equals("")){
+        if (filterQuery == null || filterQuery.equals("")) {
             rvContacts.setAdapter(new ContactsAdapter(context, displayedContacts));
             return;
         }
         String search = filterQuery.toLowerCase();
-        for (Contact contact: displayedContacts) {
+        for (Contact contact : displayedContacts) {
             String name = contact.getName().toLowerCase();
-            if (name.contains(search)){
+            if (name.contains(search)) {
                 filteredContacts.add(contact);
             }
         }
