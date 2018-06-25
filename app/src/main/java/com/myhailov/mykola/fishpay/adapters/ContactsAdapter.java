@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +35,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     private List<Contact> contacts;
 
-     class ContactsViewHolder extends RecyclerView.ViewHolder{
+    class ContactsViewHolder extends RecyclerView.ViewHolder {
 
-         private SwipeRevealLayout swipeRevealLayout;
-         private ImageView ivAvatar, ivInvite;
-         private TextView tvName, tvInitials, tvDelete;
-         private View container;
+        private SwipeRevealLayout swipeRevealLayout;
+        private ImageView ivAvatar, ivInvite;
+        private TextView tvName, tvInitials, tvDelete;
+        private View container;
 
         ContactsViewHolder(View itemView) {
             super(itemView);
@@ -65,7 +66,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public void onBindViewHolder(final ContactsViewHolder holder, int position) {
         Contact contact = contacts.get(position);
         if (contact == null) return;
-        final String name = contact.getName() + " "+ contact.getSurname();
+        final String name = contact.getName() + " " + contact.getSurname();
         long userId = contact.getUserId();
 
         if (name != null) holder.tvName.setText(name.toUpperCase());
@@ -73,6 +74,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         String phone = contact.getPhone();
         final String initials = Utils.extractInitials(name, "");
         if (userId == 0) {
+            holder.container.setOnClickListener(null);
             //this contact is not app user
         /*    Picasso picasso = new Picasso.Builder(context)
                     .listener(new Picasso.Listener() {
@@ -83,12 +85,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     })
                     .build();*/
             if (photo != null && !photo.equals("")) {
+                holder.tvInitials.setText("");
                 Uri photoUri = Uri.parse(contact.getPhoto());
-                Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
+
+                holder.ivAvatar.setImageURI(photoUri);
+                if (holder.ivAvatar.getDrawable() != null) {
+//                    Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
+                } else holder.tvInitials.setText(initials);
             } else holder.tvInitials.setText(initials);
 
 
         } else {  //this contact is app user
+            holder.ivAvatar.setImageDrawable(null);
             if (photo != null && !photo.equals("")) {
                 Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
             } else holder.tvInitials.setText(initials);
@@ -97,6 +105,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
             if (contact.isActiveUser()) {
+                holder.tvDelete.setTag(contact);
                 holder.tvDelete.setOnClickListener((View.OnClickListener) context);
                 viewBinderHelper.bind(holder.swipeRevealLayout,
                         String.valueOf(contacts.get(position).getId()));

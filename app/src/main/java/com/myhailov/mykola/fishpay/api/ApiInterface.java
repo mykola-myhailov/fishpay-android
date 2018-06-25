@@ -221,9 +221,9 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
-    @PUT ("/rest/api/user/contacts/{contactId}")
+    @PUT ("/api/user/contacts/{contactId}/block")
     Call<BaseResponse<Object>> changeContactStatus (@Header("Authorization") String token,
-                                                    @Path("userId") long id,
+                                                    @Path("contactId") String id,
                                                     @Field("status") String status);
 
     //7) invoices

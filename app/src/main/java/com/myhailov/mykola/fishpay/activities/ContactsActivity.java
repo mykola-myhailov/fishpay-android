@@ -52,7 +52,10 @@ public class ContactsActivity extends DrawerActivity {
         filteredContacts = new ArrayList<>();
         for (Contact contact : allContacts) {
             long userId = contact.getUserId();
-            if (userId != 0) appContacts.add(contact);
+            if (userId != 0) {
+//                contact.setActiveUser(true);
+                appContacts.add(contact);
+            }
         }
 
         initToggleButtons();
@@ -64,6 +67,7 @@ public class ContactsActivity extends DrawerActivity {
         filter();
         Log.d("log", allContacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " "+
         filteredContacts.size());
+
 
     }
 
@@ -112,8 +116,8 @@ public class ContactsActivity extends DrawerActivity {
                 break;
 
             case R.id.tv_delete:
-                long id = ((Contact) view.getTag()).getUserId();
-                showDeleteConfirmation(id);
+                long contactId = ((Contact) view.getTag()).getContactId();
+                showDeleteConfirmation(contactId);
                 break;
 
             case R.id.ivInvite:  // click on contact from device to invite
@@ -131,14 +135,14 @@ public class ContactsActivity extends DrawerActivity {
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteContactRequest(id);
+                deleteContactRequest(id + "");
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 
-    private void deleteContactRequest(long id) {
+    private void deleteContactRequest(String id) {
         if (Utils.isOnline(context)){
             ApiClient.getApiInterface()
                     .changeContactStatus(TokenStorage.getToken(context), id, "DELETED")
@@ -146,6 +150,7 @@ public class ContactsActivity extends DrawerActivity {
                         @Override
                         public void onResponse(Call<BaseResponse<Object>> call, Response<BaseResponse<Object>> response) {
                            // TODO:
+                            toast("deleted");
                         }
 
                         @Override
