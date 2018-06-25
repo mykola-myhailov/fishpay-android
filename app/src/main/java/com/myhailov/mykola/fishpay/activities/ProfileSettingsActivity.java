@@ -115,8 +115,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 email = profile.getEmail();
                                 birthday = profile.getBirthday();
                                 lang = profile.getProfileProperties().getLang();
-
-                                Log.d("sss", "onResult: " + lang);
                                 setLang(lang);
                                 Card card = profile.getCard();
                                 String cardJson = card == null ? null : new Gson().toJson(card);

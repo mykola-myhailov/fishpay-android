@@ -43,7 +43,7 @@
     <string name="pay_request">Payment request</string>
     <string name="joint_purchase">Joint purchase</string>
     <string name="my_purchases">My goods</string>
-    <string name="joint_costs">Joint purchases</string>
+    <string name="joint_costs">Total expenses</string>
     <string name="to_pay">Pay</string>
     <string name="to_transfer">Transfer</string>
     <string name="enter_price">Enter amount</string>
@@ -304,4 +304,17 @@
     <string name="allow">Allow</string>
     <string name="amount_of_joint_purchase">Amount of jont purchase</string>
     <string name="add_comment">Add comment</string>
+    <string name="cash">Cash</string>
+    <string name="another">Another</string>
+    <string name="transfer">Transfer</string>
+    <string name="select_min_2">Select 2 participants (minimum)</string>
+    <string name="choose_payment_method">Choose your payment method</string>
+    <string name="alert_delete_joint_purchases">Are you sure you want to delete the shared purchase from the list?</string>
+    <string name="incorrect_sms_code">Invalid SMS code</string>
+    <string name="incorrect_sms_code_block">Invalid SMS code. The number of attempts is exhausted, try after 15 minutes</string>
+    <string name="registration_successfully">registration is successful</string>
+    <string name="password_recovery_successful">Password recovery was successful!</string>
+    <string name="incorrect_password_block_15">The number of attempts is exhausted, try after 15 minutes</string>
+    <string name="block_15">15-minute blocking of sms-code input is not over yet</string>
+    <string name="password_block_15">15-minute password lock is not over yet</string>
 </resources>

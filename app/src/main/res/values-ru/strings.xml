@@ -304,4 +304,19 @@
     <string name="allow">Разрешить</string>
     <string name="amount_of_joint_purchase">Сумма общей покупки</string>
     <string name="add_comment">Добавить коментарий</string>
+    <string name="cash">Наличные</string>
+    <string name="transfer">Перевод</string>
+    <string name="another">Другой</string>
+    <string name="select_min_2">Выберете минимум двоих участников</string>
+    <string name="charity_empty_contacts">Ваши контакты пока не создавали программ взаимопомощи</string>
+    <string name="charity_empty_global">Еще не создавали програм взаимопомощи</string>
+    <string name="choose_payment_method">Выберите метод оплаты</string>
+    <string name="alert_delete_joint_purchases">Вы действительно хотите удалить общую покупку из списка?</string>
+    <string name="incorrect_sms_code">Неверный SMS-код</string>
+    <string name="incorrect_sms_code_block">Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут</string>
+    <string name="registration_successfully">регистрация успешна</string>
+    <string name="password_recovery_successful">Восстановление пароля прошло успешно!</string>
+    <string name="incorrect_password_block_15">Количество попыток исчерпано, попробуйте через 15 минут</string>
+    <string name="block_15">15-минутная блокировка ввода sms-кода ещё не закончилась</string>
+    <string name="password_block_15">15-минутная блокировка ввода пароля ещё не закончилась</string>
 </resources>

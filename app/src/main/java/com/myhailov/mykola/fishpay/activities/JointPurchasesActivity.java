@@ -156,17 +156,16 @@ public class JointPurchasesActivity extends DrawerActivity implements TabLayout.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100 && resultCode == RESULT_OK) getJointPurchasesRequest();
     }
-
     private void showConfirmation(final String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вы действительно хотите общую покупку из списка?");
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.alert_delete_joint_purchases));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deletePurchaseRequest(id);
             }
         });
-        builder.setNegativeButton("Отмена", null);
+        builder.setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 

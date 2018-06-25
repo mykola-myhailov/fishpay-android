@@ -26,10 +26,6 @@ import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 import static com.myhailov.mykola.fishpay.utils.Utils.pennyToUah;
 import static com.myhailov.mykola.fishpay.utils.Utils.setPhoto;
 
-/**
- * Created by nicholas on 02.03.18.
- */
-
 public class PaymentMemberActivity extends BaseActivity {
 
     private final int CASH = 1;
@@ -39,8 +35,8 @@ public class PaymentMemberActivity extends BaseActivity {
 
     private String title;
     private Member member;
-    // TODO: 23.06.2018 localization
-    private final CharSequence[] items = {"Наличные", "Перевод", "Другое"};
+    private CharSequence[] items;
+
     private TextView tvPayMethod;
     private MoneyEditText metAmount;
 
@@ -49,6 +45,7 @@ public class PaymentMemberActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_member);
+        items = context.getResources().getStringArray(R.array.pay_method);
 
         title = getIntent().getStringExtra(TITLE);
         member = getIntent().getParcelableExtra(MEMBER);
@@ -86,11 +83,10 @@ public class PaymentMemberActivity extends BaseActivity {
     }
 
 
-    // TODO: 23.06.2018 localization
     private void showChoosePayMethod() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle("Выберите метод оплаты:")
+        builder.setTitle(getString(R.string.choose_payment_method))
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -100,7 +96,7 @@ public class PaymentMemberActivity extends BaseActivity {
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Отмена", null);
+                .setNegativeButton(getString(R.string.cancel), null);
         builder.create().show();
     }
 

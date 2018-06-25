@@ -50,8 +50,7 @@ public class RestorePassActivity extends BaseActivity {
                             .enqueue(new BaseCallback<String>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable String result) {
-                                    // TODO: 23.06.2018 localization
-                                    Utils.toast(context, "Возобновление пароля произошло успешно!");
+                                    Utils.toast(context, getString(R.string.password_recovery_successful));
                                     Intent intent = new Intent(context, LoginActivity.class);
                                     intent.putExtra(Keys.PHONE, phone);
                                     context.startActivity(intent);

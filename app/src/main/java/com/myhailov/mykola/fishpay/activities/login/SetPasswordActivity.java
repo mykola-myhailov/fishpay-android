@@ -100,8 +100,7 @@ public class SetPasswordActivity extends BaseActivity {
                             .enqueue(new BaseCallback<RegistrationResult>(context, true) {
                                 @Override
                                 protected void onResult(int code, @Nullable RegistrationResult result) {
-                                    // TODO: 23.06.2018 localization
-                                    Utils.toast(context, "регистрация успешна!");
+                                    Utils.toast(context, getString(R.string.registration_successfully));
                                     Intent intent = new Intent(context, LoginActivity.class);
                                     intent.putExtra(Keys.PHONE, phone);
                                     context.startActivity(intent);

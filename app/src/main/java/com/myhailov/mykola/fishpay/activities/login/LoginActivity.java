@@ -84,8 +84,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.tvNext:
             case R.id.ivNext:
                 if (attempt < 3) login();
-                    // TODO: 23.06.2018 localization
-                else Utils.toast(context, "15-минутная блокировка ввода пароля ещё не закончилась");
+                else Utils.toast(context, getString(R.string.password_block_15));
                 break;
             case R.id.tvForgot:
                 restorePassword();
@@ -163,12 +162,11 @@ public class LoginActivity extends BaseActivity {
                                 } catch (Exception e) {e.printStackTrace();}
                             }
                             else if(response.code() == 240) {
-                                // TODO: 23.06.2018 localization
                                 attempt++;
-                                if (attempt < 3) Utils.alert(context, "Неверный пароль");
+                                if (attempt < 3) Utils.alert(context, getString(R.string.password_incorrect));
                                 else {
-                                    Utils.alert(context, "Неверный пароль." +
-                                            " Количество попыток исчерпано, попробуйте через 15 минут");
+                                    Utils.alert(context, getString(R.string.password_incorrect) + " " +
+                                            getString(R.string.incorrect_password_block_15));
                                     Handler handler = new Handler();
                                     Runnable runnable = new Runnable() {
                                         @Override

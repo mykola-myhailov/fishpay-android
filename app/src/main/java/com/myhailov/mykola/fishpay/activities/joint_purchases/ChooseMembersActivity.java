@@ -210,12 +210,11 @@ public class ChooseMembersActivity extends BaseActivity  {
     }
 
 
-    // TODO: 23.06.2018 localization
     private void showErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(getString(R.string.attention))
-                .setMessage("Нужно как минимум два участника.")
-                .setPositiveButton("Ок", null)
+                .setMessage(getString(R.string.select_min_2))
+                .setPositiveButton(getString(R.string.ok), null)
                 .create().show();
     }
 

@@ -42,7 +42,7 @@
     <string name="pay_request">Запит на оплату</string>
     <string name="joint_purchase">Спільна покупка</string>
     <string name="my_purchases">Мої товари</string>
-    <string name="joint_costs">Спільні витрати</string>
+    <string name="joint_costs">Загальні витрати</string>
     <string name="to_transfer">Переказати</string>
     <string name="enter_price">Введіть суму</string>
     <string name="card_name">"Назва картки "</string>
@@ -304,4 +304,17 @@
     <string name="allow">Дозволити</string>
     <string name="amount_of_joint_purchase">Сума спільної покупки</string>
     <string name="add_comment">Додати коментар</string>
+    <string name="another">Інший</string>
+    <string name="transfer">Переказ</string>
+    <string name="cash">Готівка</string>
+    <string name="select_min_2">Оберіть мінімум два учасника</string>
+    <string name="choose_payment_method">Виберіть метод оплати</string>
+    <string name="alert_delete_joint_purchases">Ви дійсно хочете видалити загальну покупку зі списку?</string>
+    <string name="incorrect_sms_code">Невірний SMS-код</string>
+    <string name="incorrect_sms_code_block">Неправильний SMS-код. Кількість спроб вичерпано, спробуйте через 15 хвилин</string>
+    <string name="registration_successfully">реєстрація успішна</string>
+    <string name="password_recovery_successful">Відновлення пароля пройшло успішно!</string>
+    <string name="incorrect_password_block_15">Кількість спроб вичерпано, спробуйте через 15 хвилин</string>
+    <string name="block_15">15-хвилинна блокування введення sms-коду ще не закінчилася</string>
+    <string name="password_block_15">15-хвилинна блокування введення пароля ще не закінчилася</string>
 </resources>

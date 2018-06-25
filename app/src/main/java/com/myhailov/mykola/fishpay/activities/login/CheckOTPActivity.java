@@ -79,8 +79,7 @@ public class CheckOTPActivity extends BaseActivity {
             case R.id.ivNext:
                 if (attempt < 3) checkOTP();
                 else
-                    // TODO: 23.06.2018 localization
-                    Utils.toast(context, "15-минутная блокировка ввода sms-кода ещё не закончилась");
+                    Utils.toast(context, getString(R.string.block_15));
                 break;
             case R.id.tv_repeat:
                 showSmsCodeAlert();
@@ -110,11 +109,10 @@ public class CheckOTPActivity extends BaseActivity {
                     @Override
                     protected void onError(int code, String errorDescription) {
                         //super.onError(code, errorDescription);
-                        // TODO: 23.06.2018 localization
                         attempt++;
-                        if (attempt < 3) Utils.alert(context, "Неверный SMS-код");
+                        if (attempt < 3) Utils.alert(context, getString(R.string.incorrect_sms_code));
                         else {
-                            Utils.alert(context, "Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут");
+                            Utils.alert(context, getString(R.string.incorrect_sms_code_block));
                             Handler handler = new Handler();
                             Runnable runnable = new Runnable() {
                                 @Override
@@ -156,8 +154,7 @@ public class CheckOTPActivity extends BaseActivity {
                                 showIncorrectSmsAlert();
                             } else {
                                 showIncorrectSmsAlert();
-                                // TODO: 23.06.2018 localization
-                                Utils.alert(context, "Неправильный SMS-код. Количество попыток исчерпано, попробуйте через 15 минут");
+                                Utils.alert(context, getString(R.string.incorrect_sms_code_block));
                                 Handler handler = new Handler();
                                 Runnable runnable = new Runnable() {
                                     @Override
