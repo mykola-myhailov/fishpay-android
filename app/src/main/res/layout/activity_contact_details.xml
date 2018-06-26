@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/tvInContactsList"
-        android:text="В списке контактов"
+        android:text="@string/in_contacts"
         android:textColor="@color/blue1"
         android:gravity="center"
         android:layout_marginTop="10dp"

@@ -42,7 +42,7 @@
     <string name="pay_request">Запит на оплату</string>
     <string name="joint_purchase">Спільна покупка</string>
     <string name="my_purchases">Мої товари</string>
-    <string name="joint_costs">Загальні витрати</string>
+    <string name="joint_costs">Спільні витрати</string>
     <string name="to_transfer">Переказати</string>
     <string name="enter_price">Введіть суму</string>
     <string name="card_name">"Назва картки "</string>

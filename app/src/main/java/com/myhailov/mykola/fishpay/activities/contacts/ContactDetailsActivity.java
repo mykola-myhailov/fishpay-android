@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.activities.contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
 import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
@@ -38,6 +40,7 @@ public class ContactDetailsActivity extends BaseActivity {
     private Contact contact;
     private boolean isContact;
     private SearchedContactsResult.SearchedContact searchedContact;
+    private List<Contact> allContacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class ContactDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_contact_details);
 
         initCustomToolbar(getString(R.string.profile_view));
+        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
@@ -87,6 +91,12 @@ public class ContactDetailsActivity extends BaseActivity {
             surname = searchedContact.getSurname();
             userId = searchedContact.getId();
             tvIsAdded.setText(getString(R.string.add_contact));
+            for (Contact allContact : allContacts) {
+                if(allContact.getUserId() == userId){
+                    tvIsAdded.setText(getString(R.string.in_contacts));
+                    break;
+                }
+            }
             tvIsAdded.setOnClickListener(this);
             String initials = Utils.extractInitials(name, surname);
             Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);

@@ -110,6 +110,7 @@ public class Utils {
         if (photo != null && !photo.equals("")) {
             Picasso picasso = new Picasso.Builder(context).build();
             picasso.load(ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo)
+                    .fit()
                     .into(imageView);
         }
     }
