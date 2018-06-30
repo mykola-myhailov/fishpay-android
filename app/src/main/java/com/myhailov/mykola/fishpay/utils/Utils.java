@@ -115,6 +115,14 @@ public class Utils {
         }
     }
 
+    public static void displayGoods(Picasso picasso, final Context context, final ImageView imageView, String photo, long id){
+        if (photo != null && !photo.equals("")) {
+            picasso.load(ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo)
+                    .fit()
+                    .into(imageView);
+        }
+    }
+
     public static String buildPhotoUrl(String photo, int id){
         return ApiClient.BASE_API_URL + "api/resources/charity/" + id + "/" + photo;
     }

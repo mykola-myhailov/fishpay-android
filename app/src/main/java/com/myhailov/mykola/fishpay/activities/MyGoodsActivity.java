@@ -25,6 +25,7 @@ import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -377,6 +378,8 @@ public class MyGoodsActivity extends DrawerActivity {
     private class GoodsAdapter extends RecyclerView.Adapter<ViewHolder> {
         private ArrayList<GoodsResults> goods;
         private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+        private Picasso picasso = new Picasso.Builder(context).build();
+
 
 
         public GoodsAdapter(ArrayList<GoodsResults> goods) {
@@ -397,8 +400,7 @@ public class MyGoodsActivity extends DrawerActivity {
 
             holder.tvTitle.setText(item.getTitle());
             holder.tvPrice.setText(Utils.pennyToUah(item.getPrice()));
-            Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
-
+            Utils.displayGoods(picasso, context, holder.ivPhoto, item.getMainPhoto(), item.getId());
             viewBinderHelper.bind(holder.swipe_layout, item.getId() + "");
             if (item.getUserId() != id) {
                 holder.swipe_layout.setLockDrag(true);
@@ -431,5 +433,7 @@ public class MyGoodsActivity extends DrawerActivity {
         public int getItemCount() {
             return goods.size();
         }
+
+
     }
 }

@@ -3,7 +3,6 @@ package com.myhailov.mykola.fishpay.activities.contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +32,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
 public class ContactDetailsActivity extends BaseActivity {
 
     private long userId;
-    private  String phone, photo, name, surname;
+    private String phone, photo, name, surname;
     private boolean isAdded = false;
     private TextView tvIsAdded;
     private ContactDetailResult contactDetails;
@@ -57,7 +56,7 @@ public class ContactDetailsActivity extends BaseActivity {
             isContact = true;
             contact = extras.getParcelable(Keys.CONTACT);
             userId = contact.getUserId();
-            if (Utils.isOnline(context)){
+            if (Utils.isOnline(context)) {
                 ApiClient.getApiInterface()
                         .getContactDetails(TokenStorage.getToken(context), userId)
                         .enqueue(new BaseCallback<ContactDetailResult>(context, false) {
@@ -71,12 +70,14 @@ public class ContactDetailsActivity extends BaseActivity {
                                 String photo = result.getPhoto();
                                 String phone = result.getPhone();
                                 tvIsAdded.setText(getString(R.string.in_contacts));
-                                if (phone != null) ((TextView) findViewById(R.id.tvPhone)).setText("+"+phone);
+                                if (phone != null)
+                                    ((TextView) findViewById(R.id.tvPhone)).setText("+" + phone);
                                 ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
                                 String initials = Utils.extractInitials(name, surname);
                                 Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
-                            //    ((TextView) findViewById(R.id.tvName2)).setText(String.format("%s %s", name, surname));
-                                if (publicCard != null) ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
+                                //    ((TextView) findViewById(R.id.tvName2)).setText(String.format("%s %s", name, surname));
+                                if (publicCard != null)
+                                    ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
                             }
                         });
             }
@@ -91,13 +92,15 @@ public class ContactDetailsActivity extends BaseActivity {
             surname = searchedContact.getSurname();
             userId = searchedContact.getId();
             tvIsAdded.setText(getString(R.string.add_contact));
-            for (Contact allContact : allContacts) {
-                if(allContact.getUserId() == userId){
+            tvIsAdded.setOnClickListener(this);
+            for (Contact contactItem : allContacts) {
+                long id = contactItem.getContactId();
+                if (id == userId) {
                     tvIsAdded.setText(getString(R.string.in_contacts));
+                    tvIsAdded.setOnClickListener(null);
                     break;
                 }
             }
-            tvIsAdded.setOnClickListener(this);
             String initials = Utils.extractInitials(name, surname);
             Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
 
@@ -106,9 +109,9 @@ public class ContactDetailsActivity extends BaseActivity {
 
             String importedName = searchedContact.getName();
             ((TextView) findViewById(R.id.tvName2)).setText(importedName);
-            if (!TextUtils.isEmpty(searchedContact.getPanMaskedCard())){
+            if (!TextUtils.isEmpty(searchedContact.getPanMaskedCard())) {
                 ((TextView) findViewById(R.id.tvCardNumber)).setText(formatCard(searchedContact.getPanMaskedCard()));
-            }else {
+            } else {
                 findViewById(R.id.tvCardNumber).setVisibility(View.GONE);
             }
         }
@@ -119,14 +122,14 @@ public class ContactDetailsActivity extends BaseActivity {
 
     @Override
     public void onClick(final View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ivBack:
                 onBackPressed();
                 break;
             case R.id.tvInContactsList:
                 if (isAdded) break;
-                if (Utils.isOnline(context)){
-                    ApiClient.getApiInterface().addContact(TokenStorage.getToken(context), userId )
+                if (Utils.isOnline(context)) {
+                    ApiClient.getApiInterface().addContact(TokenStorage.getToken(context), userId)
                             .enqueue(new BaseCallback<String>(context, true) {
                                 @Override
                                 protected void onResult(int code, String result) {
@@ -139,7 +142,7 @@ public class ContactDetailsActivity extends BaseActivity {
                 if (contactDetails != null) {
                     context.startActivity((new Intent(context, CreatePayRequestActivity.class))
                             .putExtra(Keys.CONTACT, contact));
-                }else {
+                } else {
                     if (!isContact) {
                         context.startActivity((new Intent(context, CreatePayRequestActivity.class))
                                 .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
@@ -159,7 +162,7 @@ public class ContactDetailsActivity extends BaseActivity {
                         contactName = contactName + contactDetails.getSuname();
                     }
                     idUser = contactDetails.getUserId();
-                }else {
+                } else {
                     contactName = name + " " + surname;
                     idUser = userId + "";
                 }
@@ -172,7 +175,7 @@ public class ContactDetailsActivity extends BaseActivity {
         }
     }
 
-    private void getContactsRequest(){
+    private void getContactsRequest() {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
             return;
@@ -192,7 +195,7 @@ public class ContactDetailsActivity extends BaseActivity {
                 });
     }
 
-    private String formatCard(String card){
+    private String formatCard(String card) {
         return card.substring(0, 4) + " " +
                 card.substring(4, 6) + "** **** " +
                 card.substring(6, card.length());
