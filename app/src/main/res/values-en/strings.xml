@@ -43,7 +43,7 @@
     <string name="pay_request">Payment request</string>
     <string name="joint_purchase">Joint purchase</string>
     <string name="my_purchases">My goods</string>
-    <string name="joint_costs">Joint purchases</string>
+    <string name="joint_costs">Joint spending</string>
     <string name="to_pay">Pay</string>
     <string name="to_transfer">Transfer</string>
     <string name="enter_price">Enter amount</string>
