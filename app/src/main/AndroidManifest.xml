@@ -134,6 +134,8 @@
         </activity>
         <activity android:name=".activities.pay_requests.GoodsDetailOutInRequestActivity">
         </activity>
+        <activity android:name=".activities.group_spends.DetailGroupSpendsActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -1,12 +1,14 @@
 package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Mykola Myhailov  on 02.05.18.
  */
-public class SpendDetailResult {
+public class SpendDetailResult implements Serializable{
 
     @SerializedName("id")
     private long id;
@@ -21,7 +23,7 @@ public class SpendDetailResult {
     private String description;
 
     @SerializedName("start_amount")
-    private double startAmount;
+    private long startAmount;
 
     @SerializedName("status")
     private String status;
@@ -37,6 +39,46 @@ public class SpendDetailResult {
 
     @SerializedName("transactions")
     private ArrayList<Transaction> transactions;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStartAmount(long startAmount) {
+        this.startAmount = startAmount;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setSum(long sum) {
+        this.sum = sum;
+    }
+
+    public void setMembers(ArrayList<MemberDetails> members) {
+        this.members = members;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 
     public long getId() {
         return id;
@@ -55,7 +97,7 @@ public class SpendDetailResult {
         return description;
     }
 
-    public double getStartAmount() {
+    public long getStartAmount() {
         return startAmount;
     }
 

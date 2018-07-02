@@ -93,7 +93,7 @@
     <string name="permissinons_contacts">Разрешая приложению доступ к контактной книге я принимаю
         <a href="http://www.google.com">правила приложения</a> и
         <a href="http://www.google.com">политику безопасности</a> </string>
-<string name="enter_price">Введите цену</string>
+    <string name="enter_price">Введите цену</string>
     <string name="card_name">Название карты:</string>
     <string name="private_item">Приватный</string>
     <string name="public_item">Публичный</string>
@@ -337,6 +337,8 @@
     <string name="incorrect_password_block_15">Количество попыток исчерпано, попробуйте через 15 минут</string>
     <string name="alert_delete_joint_purchases">Вы действительно хотите удалить общую покупку из списка?</string>
     <string name="choose_payment_method">Выберите метод оплаты</string>
+    <string name="delete_joint_spends">Вы уверены, что хотите удалить расход из списка общих расходов? Общая сумма будет изменена</string>
+    <string name="joint_spends_empty_list">Здесь будет отображатся список затрат в группе</string>
 
 
 </resources>

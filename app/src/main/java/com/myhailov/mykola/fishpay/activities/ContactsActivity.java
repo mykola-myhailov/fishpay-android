@@ -176,7 +176,6 @@ private RecyclerView rvContacts;
                     @Override
                     protected void onResult(int code, ContactsResult result) {
                         if (result == null) return;
-                        Log.d("sss", "onResult: ");
                         ArrayList<Contact> appContacts = result.getContacts();
                         DBUtils.saveAppContacts(context, appContacts);
                     }

@@ -38,7 +38,11 @@ public class MemberDetailsActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+        }
     }
 
     private void initViews() {
@@ -52,6 +56,8 @@ public class MemberDetailsActivity extends BaseActivity {
         Utils.setText((TextView) findViewById(R.id.tvSum), Utils.pennyToUah(member.getSum()));
         Utils.setText((TextView) findViewById(R.id.tvBalance), Utils.pennyToUah(member.getOverpaiment()));
         Utils.setText((TextView) findViewById(R.id.tvForYou), member.getRelativeBallance());
+
+        findViewById(R.id.ivBack).setOnClickListener(this);
     }
 
 

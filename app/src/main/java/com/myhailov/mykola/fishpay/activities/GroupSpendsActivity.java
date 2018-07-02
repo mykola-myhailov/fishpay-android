@@ -1,7 +1,10 @@
 package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +44,8 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
     private SpendsAdapter spendsAdapter = new SpendsAdapter();
     private long myUserId;
     private TabLayout tabLayout;
+    private AlertDialog alertDeleteSpend;
+    private long idDeletedSpend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +120,52 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 .putExtra(Keys.SPEND, spend));
                 break;
             case R.id.tv_delete:
+                idDeletedSpend = ((GroupSpend)view.getTag()).getId();
+                showDeleteAlert();
+                break;
+            case R.id.tv_first_action:
                 deleteGroupSpendRequest();
+                alertDeleteSpend.cancel();
+                break;
+            case R.id.tv_second_action:
+                alertDeleteSpend.cancel();
                 break;
         }
     }
 
     private void deleteGroupSpendRequest() {
-        //TODO:
+        ApiClient.getApiInterface().deleteSpending(TokenStorage.getToken(context), idDeletedSpend + "")
+                .enqueue(new BaseCallback<Object>(context, true) {
+                    @Override
+                    protected void onResult(int code, Object result) {
+                        groupSpendsRequest();
+                        toast(getString(R.string.deleted));
+                    }
+                });
+    }
+
+    private void showDeleteAlert(){
+        TextView tvDeleteSpend, tvClose, tvDescription, tvTitle;
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_two_action, null);
+        dialogBuilder.setView(dialogView);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+        tvDeleteSpend = dialogView.findViewById(R.id.tv_first_action);
+        tvClose = dialogView.findViewById(R.id.tv_second_action);
+        tvDescription = dialogView.findViewById(R.id.tv_description);
+
+        tvClose.setText(getString(R.string.cancel));
+        tvDeleteSpend.setText(getString(R.string.ok));
+        tvTitle.setText(getString(R.string.delete));
+        tvDescription.setText(getString(R.string.delete_joint_spends));
+        tvDeleteSpend.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
+
+        alertDeleteSpend = dialogBuilder.create();
+        alertDeleteSpend.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDeleteSpend.show();
     }
 
     private class SpendsViewHolder extends RecyclerView.ViewHolder {

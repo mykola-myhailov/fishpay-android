@@ -14,8 +14,8 @@ import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
-import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 import com.myhailov.mykola.fishpay.api.results.MemberDetails;
+import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
 import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
@@ -26,11 +26,14 @@ import java.util.ArrayList;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
-public class SpendDetailActivity extends BaseActivity{
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
+
+public class SpendDetailActivity extends BaseActivity {
 
     private TextView tvAmount;
     private RecyclerView recyclerView;
 
+    private SpendDetailResult spendDetail;
     private ArrayList<MemberDetails> members;
     private ArrayList<Transaction> transactions;
     private GroupSpend spend;
@@ -43,7 +46,7 @@ public class SpendDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spend_detail);
         Bundle extras = getIntent().getExtras();
-        spend= extras.getParcelable(Keys.SPEND);
+        spend = extras.getParcelable(Keys.SPEND);
         spendId = spend.getId();
         tvAmount = findViewById(R.id.tv_amount);
 
@@ -59,37 +62,44 @@ public class SpendDetailActivity extends BaseActivity{
     private void spendDetailRequest() {
         if (Utils.isOnline(context))
             ApiClient.getApiInterface().getSpendingDetails(TokenStorage.getToken(context), spendId)
-            .enqueue(new BaseCallback<SpendDetailResult>(context, true) {
-                @Override
-                protected void onResult(int code, SpendDetailResult result) {
-                    if (result == null) return;
-                    tvAmount.setText(Utils.pennyToUah(result.getSum()));
-                    members = result.getMembers();
-                    transactions = result.getTransactions();
-                    initCustomToolbar(result.getTitle());
-                    iAmCreator = (result.getCreatorId() == myUserId);
-                    initToggleButtons();
-                    initViews();
+                    .enqueue(new BaseCallback<SpendDetailResult>(context, true) {
+                        @Override
+                        protected void onResult(int code, SpendDetailResult result) {
+                            if (result == null) return;
+                            spendDetail = result;
+                            tvAmount.setText(Utils.pennyToUah(result.getSum()));
+                            members = result.getMembers();
+                            transactions = result.getTransactions();
+                            initCustomToolbar(result.getTitle());
+                            iAmCreator = (result.getCreatorId() == myUserId);
+                            initToggleButtons();
+                            initViews();
 
-                }
-            });
+                        }
+                    });
     }
 
     private void initViews() {
         if (iAmCreator) (findViewById(R.id.iv_plus)).setOnClickListener(this);
+        findViewById(R.id.iv_settings).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
-
+        switch (view.getId()) {
             case R.id.ivBack:
                 onBackPressed();
                 break;
+            case R.id.iv_settings:
+                spendDetail.setMembers(null);
+                spendDetail.setTransactions(null);
+                startActivity(new Intent(context, DetailGroupSpendsActivity.class)
+                        .putExtra(SPEND, spendDetail));
+                break;
             case R.id.iv_plus:
                 context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
-                .putExtra(Keys.SPEND, spend));
+                        .putExtra(Keys.SPEND, spend));
                 break;
             case R.id.rlMemberItem:
                 context.startActivity(new Intent(context, MemberDetailsActivity.class)
@@ -105,16 +115,39 @@ public class SpendDetailActivity extends BaseActivity{
         labels.add(getString(R.string.participants));
         toggleSwitch.setLabels(labels);
         toggleSwitch.setCheckedTogglePosition(0);
-        recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
-        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener(){
+        if (transactions.size() != 0) {
+            hideEmptyList();
+        } else {
+            showEmptyList();
+        }
+        toggleSwitch.setOnToggleSwitchChangeListener(new ToggleSwitch.OnToggleSwitchChangeListener() {
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-               if (position == 0)
-                    recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
-                else recyclerView.setAdapter(new SpendMembersAdapter(context, members));
+                if (position == 0) {
+                    if (transactions.size() != 0) {
+                        hideEmptyList();
+                    } else {
+                        showEmptyList();
+                    }
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_empty_list).setVisibility(View.GONE);
+                    recyclerView.setAdapter(new SpendMembersAdapter(context, members));
+                }
             }
         });
+    }
+
+    private void showEmptyList() {
+        recyclerView.setVisibility(View.GONE);
+        findViewById(R.id.tv_empty_list).setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyList() {
+        recyclerView.setAdapter(new SpendTransactionsAdapter(context, transactions));
+        recyclerView.setVisibility(View.VISIBLE);
+        findViewById(R.id.tv_empty_list).setVisibility(View.GONE);
     }
 }
 

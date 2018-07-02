@@ -79,7 +79,7 @@
     <string name="send_request">ВІДПРАВИТИ ЗАПИТ</string>
     <string name="start_sum">ПОЧАТКОВА СУМА</string>
     <string name="about_spends">Опис витрат</string>
-    <string name="start_amount">ПОЧАТКОВА СУМА</string>
+    <string name="start_amount">Початкова сума</string>
     <string name="no_group_spends">У вас ще немає спільних витрат</string>
     <string name="close_charity">Закрити збір</string>
     <string name="close_charity_alert">Закрити програму взяємодопомоги?</string>
@@ -317,4 +317,8 @@
     <string name="incorrect_password_block_15">Кількість спроб вичерпано, спробуйте через 15 хвилин</string>
     <string name="block_15">15-хвилинна блокування введення sms-коду ще не закінчилася</string>
     <string name="password_block_15">15-хвилинна блокування введення пароля ще не закінчилася</string>
+    <string name="joint_spends_empty_list">Тут буде відображатися список витрат в групі</string>
+    <string name="charity_empty_contacts">Ваші контакти поки не створили програм взаємодопомоги</string>
+    <string name="charity_empty_global">Ще не створили програм взаємодопомоги</string>
+    <string name="delete_joint_spends">Ви впевнені, що хочете видалити витрату зі списку спільних витрат? Загальна сума буде змінена</string>
 </resources>

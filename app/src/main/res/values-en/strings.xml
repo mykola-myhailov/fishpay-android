@@ -80,7 +80,7 @@
     <string name="send_request">SEND REQUEST</string>
     <string name="start_sum">INITIAL AMOUNT</string>
     <string name="about_spends">Description of expenses</string>
-    <string name="start_amount">INITIAL AMOUNT</string>
+    <string name="start_amount">Initial amount</string>
     <string name="no_group_spends">You do not have any joint spendings yet</string>
     <string name="close_charity">Close charity</string>
     <string name="close_charity_alert">Close charity?</string>
@@ -317,4 +317,8 @@
     <string name="incorrect_password_block_15">The number of attempts is exhausted, try after 15 minutes</string>
     <string name="block_15">15-minute blocking of sms-code input is not over yet</string>
     <string name="password_block_15">15-minute password lock is not over yet</string>
+    <string name="joint_spends_empty_list">Here you will see a list of expenses in the group</string>
+    <string name="charity_empty_contacts">Your contacts did not make donations yet</string>
+    <string name="charity_empty_global">Nobody did not make donations yet</string>
+    <string name="delete_joint_spends">Are you sure you want to delete the expense from the list? The total amount will be changed.</string>
 </resources>
