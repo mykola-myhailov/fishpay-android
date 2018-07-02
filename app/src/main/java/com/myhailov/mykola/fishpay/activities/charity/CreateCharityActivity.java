@@ -1,6 +1,9 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
+import com.google.gson.Gson;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +23,7 @@ import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.adapters.PhotoAdapter;
 import com.myhailov.mykola.fishpay.api.requestBodies.CharityRequestBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.io.File;
@@ -187,6 +191,7 @@ public class CreateCharityActivity extends BaseActivity {
         tvAddPhoto = findViewById(R.id.tv_add_photo);
         tvAddCard = findViewById(R.id.tv_add_card);
         initRvPhoto();
+        setCard();
 
         tvAddCard.setOnClickListener(this);
         tvAddSecondaryPhoto.setOnClickListener(this);
@@ -242,6 +247,23 @@ public class CreateCharityActivity extends BaseActivity {
         return true;
     }
 
+    private void setCard() {
+        if (card == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+            if (sharedPreferences.contains(PrefKeys.CARD)) {
+                String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
+                Log.e("cardJson", cardJson);
+                card = cardJson == null ? null : new Gson().fromJson(cardJson, Card.class);
+            }
+        }
+        if (card != null) {
+            tvCardName.setText(card.getName());
+            tvCardNumber.setText("|" + card.getLastFourNumbers());
+            tvCardName.setVisibility(View.VISIBLE);
+            tvCardNumber.setVisibility(View.VISIBLE);
+            tvAddCard.setVisibility(View.GONE);
+        }
+    }
 
     private File createFile(Bitmap bitmap, String name) {
         File imageFile = null;

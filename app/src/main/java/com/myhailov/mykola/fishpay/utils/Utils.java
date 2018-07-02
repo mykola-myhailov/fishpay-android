@@ -111,14 +111,16 @@ public class Utils {
             Picasso picasso = new Picasso.Builder(context).build();
             picasso.load(ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo)
                     .fit()
+                    .centerInside()
                     .into(imageView);
         }
     }
 
-    public static void displayGoods(Picasso picasso, final Context context, final ImageView imageView, String photo, long id){
+    public static void displayGoods(Picasso picasso, final ImageView imageView, String photo, long id){
         if (photo != null && !photo.equals("")) {
             picasso.load(ApiClient.BASE_API_URL + "api/resources/goods/" + id + "/" + photo)
                     .fit()
+                    .centerInside()
                     .into(imageView);
         }
     }

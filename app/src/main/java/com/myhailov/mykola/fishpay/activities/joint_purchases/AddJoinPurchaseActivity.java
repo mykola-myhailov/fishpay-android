@@ -1,9 +1,13 @@
 package com.myhailov.mykola.fishpay.activities.joint_purchases;
 
+import com.google.gson.Gson;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,6 +19,7 @@ import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.views.MoneyEditText;
 
 import java.text.SimpleDateFormat;
@@ -50,6 +55,7 @@ public class AddJoinPurchaseActivity extends BaseActivity {
         initCustomToolbar(getString(R.string.creating_joint_purchase));
 
         initViews();
+        setCard();
     }
 
     private void initViews() {
@@ -105,6 +111,26 @@ public class AddJoinPurchaseActivity extends BaseActivity {
                     nextActivity();
                 }
                 break;
+        }
+    }
+
+    private void setCard() {
+        if (card == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
+            if (sharedPreferences.contains(PrefKeys.CARD)) {
+                String cardJson = sharedPreferences.getString(PrefKeys.CARD, null);
+                Log.e("cardJson", cardJson);
+                card = cardJson == null ? null : new Gson().fromJson(cardJson, Card.class);
+            }
+        }
+        if (card != null) {
+            llPublicCard.setVisibility(View.VISIBLE);
+            tvChooseCard.setVisibility(View.GONE);
+            tvCardName.setText(card.getName());
+            tvCardNumber.setText(String.valueOf(card.getLastFourNumbers()));
+        }else {
+            llPublicCard.setVisibility(View.GONE);
+            tvChooseCard.setVisibility(View.VISIBLE);
         }
     }
 

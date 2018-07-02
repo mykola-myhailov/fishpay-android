@@ -51,7 +51,6 @@ private RecyclerView rvContacts;
         for (Contact contact : allContacts) {
             long userId = contact.getUserId();
             if (userId != 0) {
-                Log.d("sss", "onCreate: " + contact.getContactId());
                 appContacts.add(contact);
             }
         }

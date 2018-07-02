@@ -136,7 +136,7 @@
     <string name="today">сьогодні в %s</string>
     <string name="about_us">Про нас</string>
     <string name="no_internet">Немає з\'єднання з інтернетом</string>
-    <string name="enter_name">Введіть ім/\'я</string>
+    <string name="enter_name">Введіть ім\'я</string>
     <string name="long_number">Номер телефону введений не вірно</string>
     <string name="enter_otp_code">Введіть код з смс</string>
     <string name="enter_number">Введіть номер</string>
@@ -206,8 +206,8 @@
     <string name="share_in_costs">частка в витратах</string>
     <string name="balance">баланс</string>
     <string name="to_pay">Оплатити</string>
-    <string name="enter_participant_name">Введіть ім/\'я учасника</string>
-    <string name="participant_name">Ім/\'я учасника</string>
+    <string name="enter_participant_name">Введіть ім\'я учасника</string>
+    <string name="participant_name">Ім\'я учасника</string>
     <string name="phone_number">Номер телефона</string>
     <string name="alert_delete_card">Ви дійсно хочете видалити картку зі списку?</string>
     <string name="select_goods">Виберіть товари</string>
@@ -277,7 +277,7 @@
     <string name="contribution">Внесок</string>
     <string name="global">Глобальний</string>
     <string name="contacts">Контакти</string>
-    <string name="enter_name_or">Введіть ім/\'я або назву</string>
+    <string name="enter_name_or">Введіть ім\'я або назву</string>
     <string name="you_complained">Ви поскаржилися</string>
     <string name="your_contributions">Ваші внески</string>
     <string name="list_of_contributions">Список внесків</string>
@@ -299,7 +299,7 @@
     <string name="messages_for_users">Повідомлення для користувачів</string>
     <string name="choose_minimum_two">Виберіть мінімум двох учасників для створення спільної покупки</string>
     <string name="access_to_contacts">доступ до \"Контактів\"</string>
-    <string name="You_dont_need_to_remember">Більше не потрібно запам/\'ятовувати довгі номери рахунків, просто вибирайте потрібного адресата з контактної книги</string>
+    <string name="You_dont_need_to_remember">Більше не потрібно запам\'ятовувати довгі номери рахунків, просто вибирайте потрібного адресата з контактної книги</string>
     <string name="work_with_names_you_know">Працюйте із знайомими Вам іменами замість номерів</string>
     <string name="allow">Дозволити</string>
     <string name="amount_of_joint_purchase">Сума спільної покупки</string>

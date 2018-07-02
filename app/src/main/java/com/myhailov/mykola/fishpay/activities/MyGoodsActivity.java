@@ -381,7 +381,6 @@ public class MyGoodsActivity extends DrawerActivity {
         private Picasso picasso = new Picasso.Builder(context).build();
 
 
-
         public GoodsAdapter(ArrayList<GoodsResults> goods) {
             this.goods = goods;
             viewBinderHelper.setOpenOnlyOne(true);
@@ -400,7 +399,7 @@ public class MyGoodsActivity extends DrawerActivity {
 
             holder.tvTitle.setText(item.getTitle());
             holder.tvPrice.setText(Utils.pennyToUah(item.getPrice()));
-            Utils.displayGoods(picasso, context, holder.ivPhoto, item.getMainPhoto(), item.getId());
+            Utils.displayGoods(picasso, holder.ivPhoto, item.getMainPhoto(), item.getId());
             viewBinderHelper.bind(holder.swipe_layout, item.getId() + "");
             if (item.getUserId() != id) {
                 holder.swipe_layout.setLockDrag(true);

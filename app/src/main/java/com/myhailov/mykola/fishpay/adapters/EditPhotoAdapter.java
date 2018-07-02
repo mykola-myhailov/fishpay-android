@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.results.GoodsByIdResult;
 import com.myhailov.mykola.fishpay.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class EditPhotoAdapter extends RecyclerView.Adapter<EditPhotoAdapter.View
     private Context context;
     private List<GoodsByIdResult.Photo> list;
     private OnItemClickListener listener;
+    private Picasso picasso;
 
     public EditPhotoAdapter(Context context, List<GoodsByIdResult.Photo> list, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.list = list;
         this.listener = onItemClickListener;
+        picasso = new Picasso.Builder(context).build();
     }
 
     @Override
@@ -37,7 +40,7 @@ public class EditPhotoAdapter extends RecyclerView.Adapter<EditPhotoAdapter.View
     public void onBindViewHolder(ViewHolder holder, final int position) {
         GoodsByIdResult.Photo item = list.get(position);
         holder.delete.setVisibility(View.GONE);
-        Utils.displayGoods(context, holder.photo, item.getPhotoUrl(), item.getId());
+        Utils.displayGoods(picasso, holder.photo, item.getPhotoUrl(), item.getId());
     }
 
     @Override

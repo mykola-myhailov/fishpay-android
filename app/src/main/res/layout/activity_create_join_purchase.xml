@@ -1,227 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.AddJoinPurchaseActivity">
 
     <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
         <ImageView
-            android:id="@+id/ivBack"
-            android:padding="16dp"
-            android:src="@drawable/arrow_back"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize" />
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
 
         <RelativeLayout
-            android:layout_toEndOf="@id/ivBack"
-            android:layout_marginEnd="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:layout_toEndOf="@id/ivBack"
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <TextView
-                android:textSize="18sp"
-                android:id="@+id/tvToolBarTitle"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/blue"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:background="@android:color/transparent"
-                tools:text="@string/app_name"/>
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
         </RelativeLayout>
+
         <View
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="00.5dp"
-            android:background="@color/grey2"/>
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="00.5dp"
+                android:background="@color/grey2"/>
     </RelativeLayout>
 
 
-
-
     <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/group_name"/>
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_name"/>
+
     <EditText
-        android:id="@+id/et_group_name"
-        android:maxLines="1"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:singleLine="true"
-        android:imeOptions="actionNext"
-        android:textSize="22sp"
-        android:textColorHint="@color/grey2"
-        android:textColor="@color/black1"
-        android:hint="@string/input_group_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"/>
-    <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="12dp"
-        android:text="@string/total_amount" />
-
-    <LinearLayout
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.myhailov.mykola.fishpay.views.MoneyEditText
-            android:id="@+id/met_amount"
-            android:maxLength="13"
-            android:layout_weight="1"
-            android:inputType="numberDecimal"
+            android:theme="@style/editTextTheme"
+            android:id="@+id/et_group_name"
+            android:maxLines="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:textSize="22sp"
             android:textColorHint="@color/grey2"
             android:textColor="@color/black1"
-            android:hint="@string/input_amount"
-            android:gravity="end"
-            android:ellipsize="end"
-            android:layout_width="0dp"
+            android:hint="@string/input_group_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/black1"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"/>
-        <TextView
-            android:singleLine="true"
-            android:textSize="18sp"
-            android:textColor="@color/gray"
-            android:text="@string/uah"
+
+    <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
+
+
+    <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"/>
+            android:layout_height="19dp"
+            android:layout_marginStart="12dp"
+            android:text="@string/total_amount"/>
 
-    </LinearLayout>
-    <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
-
-
-    <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/purchase_description"/>
-    <EditText
-        android:id="@+id/et_description"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:maxLines="4"
-        android:imeOptions="actionNext"
-        android:textSize="22sp"
-        android:textColorHint="@color/grey2"
-        android:textColor="@color/black1"
-        android:hint="@string/message_for_members"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"/>
-    <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
-
-
-    <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pay_to"/>
-    <TextView
-        android:id="@+id/tv_pay_to"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:singleLine="true"
-        android:textSize="22sp"
-        android:textColorHint="@color/grey2"
-        android:textColor="@color/black1"
-        android:hint="@string/input_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"/>
-    <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
-
-
-    <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/card_for_reception"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_card"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_public_card"
-            android:layout_toStartOf="@+id/iv_card"
+    <LinearLayout
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
+
+        <com.myhailov.mykola.fishpay.views.MoneyEditText
+                android:theme="@style/editTextTheme"
+                android:id="@+id/met_amount"
+                android:maxLength="13"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:fadingEdge="horizontal"
-                android:ellipsize="end"
-                android:maxEms="7"
-                android:id="@+id/tv_card_name"
+                android:imeOptions="actionNext"
                 android:textSize="22sp"
+                android:textColorHint="@color/grey2"
                 android:textColor="@color/black1"
-                tools:text="депозитная ьььььььбьбьбкарта"
-                android:layout_width="wrap_content"
+                android:hint="@string/input_amount"
+                android:gravity="end"
+                android:ellipsize="end"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"/>
-            <View
+                android:background="@null"/>
+
+        <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/black1"
@@ -229,58 +121,185 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"/>
-            <TextView
+
+        <TextView
                 android:singleLine="true"
-                android:id="@+id/tv_card_number"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/gray"
-                tools:text="**** 7755"
-                android:layout_width="72sp"
+                android:text="@string/uah"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"/>
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_choose_card"
-            android:layout_toStartOf="@+id/iv_card"
-            android:singleLine="true"
-            android:fadingEdge="horizontal"
-            android:ellipsize="end"
+
+    </LinearLayout>
+
+    <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
+
+
+    <TextView
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/purchase_description"/>
+
+    <EditText
+            android:theme="@style/editTextTheme"
+            android:id="@+id/et_description"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
+            android:maxLines="4"
+            android:imeOptions="actionNext"
             android:textSize="22sp"
             android:textColorHint="@color/grey2"
             android:textColor="@color/black1"
-            android:hint="@string/choose_card"
+            android:hint="@string/message_for_members"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"/>
 
-        <ImageView
-            android:id="@id/iv_card"
-            android:layout_marginEnd="12dp"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/card"/>
-    </RelativeLayout>
     <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
+
 
     <TextView
-        android:background="?android:attr/selectableItemBackground"
-        android:id="@+id/tv_create"
-        android:layout_marginEnd="22dp"
-        android:layout_gravity="end"
-        android:padding="4dp"
-        android:textColor="@color/blue1"
-        android:text="@string/create"
-        android:layout_marginTop="12dp"
-        android:textSize="32sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pay_to"/>
+
+    <TextView
+            android:id="@+id/tv_pay_to"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
+            android:singleLine="true"
+            android:textSize="22sp"
+            android:textColorHint="@color/grey2"
+            android:textColor="@color/black1"
+            android:hint="@string/input_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+
+    <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
+
+
+    <TextView
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_for_reception"/>
+
+    <RelativeLayout
+            android:id="@+id/rl_card"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_public_card"
+                android:layout_toStartOf="@+id/iv_card"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:singleLine="true"
+                    android:fadingEdge="horizontal"
+                    android:ellipsize="end"
+                    android:maxEms="7"
+                    android:id="@+id/tv_card_name"
+                    android:textSize="22sp"
+                    android:textColor="@color/black1"
+                    tools:text="депозитная ьььььььбьбьбкарта"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"/>
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"/>
+
+            <TextView
+                    android:singleLine="true"
+                    android:id="@+id/tv_card_number"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray"
+                    tools:text="**** 7755"
+                    android:layout_width="72sp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"/>
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/tv_choose_card"
+                android:layout_toStartOf="@+id/iv_card"
+                android:singleLine="true"
+                android:fadingEdge="horizontal"
+                android:ellipsize="end"
+                android:textSize="22sp"
+                android:textColorHint="@color/grey2"
+                android:textColor="@color/black1"
+                android:hint="@string/choose_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"/>
+
+        <ImageView
+                android:id="@id/iv_card"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/card"/>
+    </RelativeLayout>
+
+    <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
+
+    <TextView
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/tv_create"
+            android:layout_marginEnd="22dp"
+            android:layout_gravity="end"
+            android:padding="4dp"
+            android:textColor="@color/blue1"
+            android:text="@string/create"
+            android:layout_marginTop="12dp"
+            android:textSize="32sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

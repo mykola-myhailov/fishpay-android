@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
 import com.myhailov.mykola.fishpay.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -22,11 +23,13 @@ public class GoodsSelectAdapter extends RecyclerView.Adapter<GoodsSelectAdapter.
     private Context context;
     private List<GoodsResults> list;
     private OnItemClickListener listener;
+    private Picasso picasso;
 
     public GoodsSelectAdapter(Context context, List<GoodsResults> list, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.list = list;
         this.listener = onItemClickListener;
+        picasso = new Picasso.Builder(context).build();
     }
 
     @Override
@@ -47,7 +50,7 @@ public class GoodsSelectAdapter extends RecyclerView.Adapter<GoodsSelectAdapter.
         }else {
             holder.tvCount.setVisibility(View.INVISIBLE);
         }
-        Utils.displayGoods(context, holder.ivPhoto, item.getMainPhoto(), item.getId());
+        Utils.displayGoods(picasso, holder.ivPhoto, item.getMainPhoto(), item.getId());
 
         holder.ivMinus.setOnClickListener(new View.OnClickListener() {
             @Override

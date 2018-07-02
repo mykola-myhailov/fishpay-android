@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         <string name="permissinons_contacts">By giving an access to the Contact Book, I accept
-        <a href="http://www.google.com">the program/'s rules</a> and
+        <a href="http://www.google.com">the program\'s rules</a> and
         <a href="http://www.google.com">security policies</a> </string>
     <string name="save">SAVE</string>
     <string name="lang_ui">Language</string>
@@ -71,7 +71,7 @@
     <string name="finish">FINISH</string>
     <string name="you_have_no_common_purchases">You have no joint purchases yet</string>
     <string name="close_purchase">CLOSE PURCHASE</string>
-    <string name="you_have_no_incoming_requests">You have no incoming requests yetmessages for users</string>
+    <string name="you_have_no_incoming_requests">You have no incoming requests yet messages for users</string>
     <string name="you_have_no_outcoming_requests">You have no outgoing requests yet</string>
     <string name="comment">Comment</string>
     <string name="comment_to_request">Comment</string>
@@ -131,7 +131,7 @@
     <string name="goods_send_bill">SEND BILL</string>
     <string name="bill_for_the_goods">bill the goods</string>
     <string name="goods_count">%d items</string>
-    <string name="goods_empty_description">\"Fill out the \"\"Products\"\" section with the products or services you provide.  You will get accuracy and convenience, customers - prompt payment.\"</string>
+    <string name="goods_empty_description">\"Fill out the \"Products\" section with the products or services you provide.  You will get accuracy and convenience, customers - prompt payment.\"</string>
     <string name="card_for_pays">Debit card</string>
     <string name="anonymous">Anonymous</string>
     <string name="today">today at %s</string>
@@ -150,7 +150,7 @@
     <string name="search_by_name">Search by name</string>
     <string name="profile_view">PROFILE VIEW</string>
     <string name="in_contacts">In Contacts</string>
-    <string name="receive">RECIEVE</string>
+    <string name="receive">RECEIVE</string>
     <string name="add_contact">Add contact</string>
     <string name="private_item">Private</string>
     <string name="public_item">Public</string>
@@ -178,12 +178,12 @@
     <string name="status_goods">Status</string>
     <string name="name_goods">Product name</string>
     <string name="create_goods">CREATE PRODUCT</string>
-    <string name="goods_empty_title">Make a convinient market for you and your customers</string>
+    <string name="goods_empty_title">Make a convenient market for you and your customers</string>
     <string name="goods_empty_button">Use: \"My Goods\"</string>
     <string name="goods_filter">Filter</string>
     <string name="edit_goods">Edit goods</string>
     <string name="alert_delete_contact">Are you sure you want to delete from the contact list?</string>
-    <string name="select_a_photo">ВЫБЕРИТЕ ФОТО</string>
+    <string name="select_a_photo">SELECT A PHOTO</string>
     <string name="you_cant_choose_more">You can not choose more</string>
     <string name="name_goods_5_size">To create a product, the name should be minimum 5 characters</string>
     <string name="description_goods_8_size">To create a product description must be minimum 8 characters long</string>
@@ -232,7 +232,7 @@
     <string name="select_participants">SELECT PARTICIPANTS</string>
     <string name="available_to">Available to:</string>
     <string name="your_password">Your password</string>
-    <string name="delete_account">"Account deleting "</string>
+    <string name="delete_account">Account deleting </string>
     <string name="delete_account_confirm">SMS confirmation of account removal will come to your mobile phone</string>
     <string name="to_accept">ACCEPT</string>
     <string name="group_is_closed">Group is closed</string>
@@ -270,7 +270,7 @@
     <string name="date_unknown">date unknown</string>
     <string name="description_is_not_available">description is not available</string>
     <string name="charity">Help others</string>
-    <string name="charity_empty_my">You haven/\'t created any items yet</string>
+    <string name="charity_empty_my">You haven\'t created any items yet</string>
     <string name="charity_create_success">Your item has been successfully created</string>
     <string name="charity_donation">contribution</string>
     <string name="about">Description</string>
@@ -287,8 +287,8 @@
     <string name="settings">SETTINGS</string>
     <string name="publication">Publication</string>
     <string name="lists_of_contributors">Lists of contributors</string>
-    <string name="use_creator_pseudonym">Use creator/\'s pseudonym</string>
-    <string name="creator_pseudonym">Creator/\'s pseudonym</string>
+    <string name="use_creator_pseudonym">Use creator\'s pseudonym</string>
+    <string name="creator_pseudonym">Creator\'s pseudonym</string>
     <string name="back_to_work">"Back to work "</string>
     <string name="create_new">Create new</string>
     <string name="enter_description">Enter description</string>
@@ -302,7 +302,7 @@
     <string name="You_dont_need_to_remember">You don\'t need to remember long account numbers, just choose the desired  addressee from the contact book.</string>
     <string name="work_with_names_you_know">Work with names you know instead of numbers</string>
     <string name="allow">Allow</string>
-    <string name="amount_of_joint_purchase">Amount of jont purchase</string>
+    <string name="amount_of_joint_purchase">Amount of joint purchase</string>
     <string name="add_comment">Add comment</string>
     <string name="cash">Cash</string>
     <string name="another">Another</string>

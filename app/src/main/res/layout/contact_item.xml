@@ -59,13 +59,13 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tvName"
-            android:maxLength="20"
-            android:layout_marginStart="5dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/flAvatarContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                android:id="@+id/tvName"
+                android:maxLength="20"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/flAvatarContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/ivInvite"

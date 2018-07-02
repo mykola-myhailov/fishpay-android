@@ -111,7 +111,7 @@ public class GoodsPreviewActivity extends BaseActivity {
                                 uploadGoodsPhoto(photo, id);
                             }
                             Intent intent = new Intent(context, MyGoodsActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             context.startActivity(intent);
                         }
                     });

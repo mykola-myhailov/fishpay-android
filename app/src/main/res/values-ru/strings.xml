@@ -123,7 +123,7 @@
     <string name="summary_ballance">Общий баланс</string>
     <string name="for_you">По отношению к Вам</string>
     <string name="yesterday">вчера</string>
-    <string name="thank">Спасибо!                            Знак оклику без пробіла!!!!!!</string>
+    <string name="thank">Спасибо!</string>
     <string name="to_work">Вернутся к роботе</string>
     <string name="pay_request_success">Ваш запрос успешно отправлен. Вы всегда можете его посмотреть в разделе \"Исходящие\"</string>
     <string name="out_coming_pay_request">ИСХОДЯЩИЙ ЗАПРОС</string>
