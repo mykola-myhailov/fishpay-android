@@ -65,7 +65,9 @@ public class ContactDetailsActivity extends BaseActivity {
             isContact = true;
             isInContact = true;
             contact = extras.getParcelable(Keys.CONTACT);
-            userId = contact.getUserId();
+            if (contact != null) {
+                userId = contact.getUserId();
+            }
             if (Utils.isOnline(context)) {
                 ApiClient.getApiInterface()
                         .getContactDetails(TokenStorage.getToken(context), userId)
@@ -88,7 +90,7 @@ public class ContactDetailsActivity extends BaseActivity {
                                 //    ((TextView) findViewById(R.id.tvName2)).setText(String.format("%s %s", name, surname));
                                 if (publicCard != null)
                                     ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
-                                if (result.getStatus().equals("BLOCKED")) {
+                                if (!TextUtils.isEmpty(result.getStatus()) && result.getStatus().equals("BLOCKED")) {
                                     setBlockUser();
                                 }
                             }
