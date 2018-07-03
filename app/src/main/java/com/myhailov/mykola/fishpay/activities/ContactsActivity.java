@@ -2,6 +2,8 @@ package com.myhailov.mykola.fishpay.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -10,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.contacts.ContactDetailsActivity;
@@ -34,8 +38,10 @@ import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 public class ContactsActivity extends DrawerActivity {
 
     private List<Contact> allContacts, appContacts, displayedContacts, filteredContacts;
-private RecyclerView rvContacts;
+    private RecyclerView rvContacts;
     private String filterQuery = "";
+    private AlertDialog alertDeleteContact;
+    private long contactIdDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +119,15 @@ private RecyclerView rvContacts;
                 break;
 
             case R.id.tv_delete:
-               // long contactId = ((Contact) view.getTag()).getContactId();
-               // showDeleteConfirmation(contactId);
+                showDeleteAlert();
+                contactIdDelete = ((Contact) view.getTag()).getContactId();
+                break;
+            case R.id.tv_first_action:
+                alertDeleteContact.cancel();
+                break;
+            case R.id.tv_second_action:
+                deleteContactRequest(contactIdDelete);
+                alertDeleteContact.cancel();
                 break;
 
             case R.id.ivInvite:  // click on contact from device to invite
@@ -126,19 +139,6 @@ private RecyclerView rvContacts;
         }
     }
 
-    private void showDeleteConfirmation(final long id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(getString(R.string.alert_delete_contact));
-        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteContactRequest(id);
-            }
-        });
-        builder.setNegativeButton(getString(R.string.cancel), null);
-        builder.create().show();
-    }
-
     private void deleteContactRequest(final long id) {
         if (Utils.isOnline(context)) {
             ApiClient.getApiInterface()
@@ -146,40 +146,43 @@ private RecyclerView rvContacts;
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            getContactsRequest();
-                            toast("deleted");
+                            toast(getString(R.string.deleted));
                             Contact con = new Contact();
-                            for (Contact appContact : appContacts) {
+                            for (Contact appContact : allContacts) {
                                 if (appContact.getContactId() == id) {
                                     con = appContact;
                                     break;
                                 }
                             }
-                            appContacts.remove(con);
-                            displayedContacts = appContacts;
-                            filter();
+                            DBUtils.getDaoSession(context).delete(con);
+                            recreate();
                         }
                     });
         } else Utils.noInternetToast(context);
     }
 
+    private void showDeleteAlert(){
+        TextView tvDelete, tvClose, tvDescription, tvTitle;
 
-    private void getContactsRequest() {
-        if (!Utils.isOnline(context)) {
-            Utils.noInternetToast(context);
-            return;
-        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_two_action, null);
+        dialogBuilder.setView(dialogView);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+        tvClose = dialogView.findViewById(R.id.tv_first_action);
+        tvDelete = dialogView.findViewById(R.id.tv_second_action);
+        tvDescription = dialogView.findViewById(R.id.tv_description);
 
-        ApiClient.getApiInterface()
-                .getContacts(TokenStorage.getToken(context), true, true)
-                .enqueue(new BaseCallback<ContactsResult>(context, true) {
-                    @Override
-                    protected void onResult(int code, ContactsResult result) {
-                        if (result == null) return;
-                        ArrayList<Contact> appContacts = result.getContacts();
-                        DBUtils.saveAppContacts(context, appContacts);
-                    }
-                });
+        tvClose.setText(getString(R.string.cancel));
+        tvDelete.setText(getString(R.string.ok));
+        tvTitle.setText(getString(R.string.alert_delete_contact));
+        tvDescription.setText(getString(R.string.alert_delete_contact_description));
+        tvDelete.setOnClickListener(this);
+        tvClose.setOnClickListener(this);
+
+        alertDeleteContact = dialogBuilder.create();
+        alertDeleteContact.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDeleteContact.show();
     }
 
     private void initSearchView() {

@@ -43,6 +43,14 @@ public class SearchedContactsResult {
         @SerializedName("photo")
         private String photo;
 
+        @SerializedName("status")
+        private String status;
+
+        @SerializedName("is_blocked")
+        private boolean isBlocked;
+
+
+
         protected SearchedContact(Parcel in) {
             id = in.readLong();
             phone = in.readString();
@@ -51,6 +59,8 @@ public class SearchedContactsResult {
             panMaskedCard = in.readString();
             importedName = in.readString();
             photo = in.readString();
+            status = in.readString();
+            isBlocked = in.readByte() != 0;
         }
 
         public static final Creator<SearchedContact> CREATOR = new Creator<SearchedContact>() {
@@ -64,6 +74,22 @@ public class SearchedContactsResult {
                 return new SearchedContact[size];
             }
         };
+
+        public boolean isBlocked() {
+            return isBlocked;
+        }
+
+        public void setBlocked(boolean blocked) {
+            isBlocked = blocked;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         public String getPanMaskedCard() {
             return panMaskedCard;
@@ -111,6 +137,8 @@ public class SearchedContactsResult {
             parcel.writeString(panMaskedCard);
             parcel.writeString(importedName);
             parcel.writeString(photo);
+            parcel.writeString(status);
+            parcel.writeByte((byte) (isBlocked ? 1 : 0));
         }
     }
 

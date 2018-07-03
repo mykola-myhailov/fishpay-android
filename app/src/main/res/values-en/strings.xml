@@ -321,4 +321,6 @@
     <string name="charity_empty_contacts">Your contacts did not make donations yet</string>
     <string name="charity_empty_global">Nobody did not make donations yet</string>
     <string name="delete_joint_spends">Are you sure you want to delete the expense from the list? The total amount will be changed.</string>
+    <string name="unblock">Unblock</string>
+    <string name="alert_delete_contact_description">The contact will be deleted from the transaction history</string>
 </resources>

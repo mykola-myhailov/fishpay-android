@@ -221,7 +221,7 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
-    @PUT ("/api/user/contacts/{contactId}")
+    @PUT ("api/user/contacts/{contactId}")
     Call<BaseResponse<Object>> changeContactStatus (@Header("Authorization") String token,
                                                     @Path("contactId") String id,
                                                     @Field("status") String status);

@@ -29,6 +29,28 @@ public class ContactDetailResult {
     @SerializedName("user_id")
     private String userId;
 
+    @SerializedName("status")
+    private String status;
+
+    @SerializedName("is_blocked")
+    private boolean isBlocked;
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getPublicCard() {
         if (panMasked == null) return "-";
         return panMasked.substring(0, 4)

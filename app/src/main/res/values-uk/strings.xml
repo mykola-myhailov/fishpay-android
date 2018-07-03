@@ -129,7 +129,7 @@
     <string name="form_account">СФОРМУВАТІ РАХУНОК</string>
     <string name="goods_send_bill">ВІДПРАВИТИ РАХУНОК</string>
     <string name="bill_for_the_goods">Рахунок за товар</string>
-    <string name="goods_count">%d 0 штук</string>
+    <string name="goods_count">%d штук</string>
     <string name="goods_empty_description">Просто заповніть розділ «Товари» продукцією або послугами, які Ви надаєте своїм клієнтам. Ви отримате точність і зручність, клієнти швидку оплату.</string>
     <string name="profile">МІЙ ПРОФАЙЛ</string>
     <string name="anonymous">Анонім</string>
@@ -321,4 +321,6 @@
     <string name="charity_empty_contacts">Ваші контакти поки не створили програм взаємодопомоги</string>
     <string name="charity_empty_global">Ще не створили програм взаємодопомоги</string>
     <string name="delete_joint_spends">Ви впевнені, що хочете видалити витрату зі списку спільних витрат? Загальна сума буде змінена</string>
+    <string name="unblock">Розблокувати</string>
+    <string name="alert_delete_contact_description">Контакт буде вилучений і з історії операцій</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.ContactsActivity;
@@ -34,10 +35,13 @@ public class ContactDetailsActivity extends BaseActivity {
     private long userId;
     private String phone, photo, name, surname;
     private boolean isAdded = false;
-    private TextView tvIsAdded;
+    private TextView tvIsAdded, tvBlock, tvNumber;
+    private ImageView ivTelephone;
+    private SwipeRevealLayout swipeRevealLayout;
+
     private ContactDetailResult contactDetails;
     private Contact contact;
-    private boolean isContact;
+    private boolean isContact, isBlock, isInContact;
     private SearchedContactsResult.SearchedContact searchedContact;
     private List<Contact> allContacts;
 
@@ -52,8 +56,14 @@ public class ContactDetailsActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
         tvIsAdded = findViewById(R.id.tvInContactsList);
+        tvBlock = findViewById(R.id.tv_block);
+        ivTelephone = findViewById(R.id.iv_telephone);
+        tvNumber = findViewById(R.id.tvPhone);
+        tvBlock.setOnClickListener(this);
+        swipeRevealLayout = findViewById(R.id.swipe_layout);
         if (extras.containsKey(Keys.CONTACT)) {
             isContact = true;
+            isInContact = true;
             contact = extras.getParcelable(Keys.CONTACT);
             userId = contact.getUserId();
             if (Utils.isOnline(context)) {
@@ -78,6 +88,9 @@ public class ContactDetailsActivity extends BaseActivity {
                                 //    ((TextView) findViewById(R.id.tvName2)).setText(String.format("%s %s", name, surname));
                                 if (publicCard != null)
                                     ((TextView) findViewById(R.id.tvCardNumber)).setText(publicCard);
+                                if (result.getStatus().equals("BLOCKED")) {
+                                    setBlockUser();
+                                }
                             }
                         });
             }
@@ -96,6 +109,7 @@ public class ContactDetailsActivity extends BaseActivity {
             for (Contact contactItem : allContacts) {
                 long id = contactItem.getContactId();
                 if (id == userId) {
+                    isInContact = true;
                     tvIsAdded.setText(getString(R.string.in_contacts));
                     tvIsAdded.setOnClickListener(null);
                     break;
@@ -104,7 +118,7 @@ public class ContactDetailsActivity extends BaseActivity {
             String initials = Utils.extractInitials(name, surname);
             Utils.displayAvatar(context, ((ImageView) findViewById(R.id.ivAvatar)), photo, initials);
 
-            ((TextView) findViewById(R.id.tvPhone)).setText(phone);
+            ((TextView) findViewById(R.id.tvPhone)).setText("+" + phone);
             ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
 
             String importedName = searchedContact.getName();
@@ -114,6 +128,21 @@ public class ContactDetailsActivity extends BaseActivity {
             } else {
                 findViewById(R.id.tvCardNumber).setVisibility(View.GONE);
             }
+
+            if (!TextUtils.isEmpty(searchedContact.getStatus()) && searchedContact.getStatus().equals("BLOCKED")) {
+                setBlockUser();
+            }
+
+            if (searchedContact.isBlocked()) {
+                swipeRevealLayout.close(false);
+                swipeRevealLayout.setLockDrag(true);
+                tvIsAdded.setVisibility(View.INVISIBLE);
+                tvNumber.setTextColor(getResources().getColor(R.color.grey_text_secondary));
+                findViewById(R.id.linear_card).setVisibility(View.INVISIBLE);
+                findViewById(R.id.view_card).setVisibility(View.INVISIBLE);
+                findViewById(R.id.ll_buttons).setVisibility(View.INVISIBLE);
+            }
+
         }
         (findViewById(R.id.tvGet)).setOnClickListener(this);
         (findViewById(R.id.tvGive)).setOnClickListener(this);
@@ -126,17 +155,24 @@ public class ContactDetailsActivity extends BaseActivity {
             case R.id.ivBack:
                 onBackPressed();
                 break;
+            case R.id.tv_block:
+                changeContactStatus("BLOCKED", userId);
+                break;
             case R.id.tvInContactsList:
-                if (isAdded) break;
-                if (Utils.isOnline(context)) {
-                    ApiClient.getApiInterface().addContact(TokenStorage.getToken(context), userId)
-                            .enqueue(new BaseCallback<String>(context, true) {
-                                @Override
-                                protected void onResult(int code, String result) {
-                                    getContactsRequest();
-                                }
-                            });
-                } else Utils.noInternetToast(context);
+                if (!isBlock) {
+                    if (isAdded) break;
+                    if (Utils.isOnline(context)) {
+                        ApiClient.getApiInterface().addContact(TokenStorage.getToken(context), userId)
+                                .enqueue(new BaseCallback<String>(context, true) {
+                                    @Override
+                                    protected void onResult(int code, String result) {
+                                        getContactsRequest();
+                                    }
+                                });
+                    } else Utils.noInternetToast(context);
+                } else {
+                    changeContactStatus("ACTIVE", userId);
+                }
                 break;
             case R.id.tvGet:
                 if (contactDetails != null) {
@@ -173,6 +209,51 @@ public class ContactDetailsActivity extends BaseActivity {
 
 
         }
+    }
+
+    private void setBlockUser() {
+        isBlock = true;
+        tvIsAdded.setOnClickListener(this);
+        swipeRevealLayout.close(false);
+        swipeRevealLayout.setLockDrag(true);
+        tvIsAdded.setText(getString(R.string.unblock));
+        tvNumber.setTextColor(getResources().getColor(R.color.checked_checkbox));
+        ivTelephone.setImageDrawable(getResources().getDrawable(R.drawable.phone_number_red));
+    }
+
+    private void unblockUser() {
+        isBlock = false;
+        swipeRevealLayout.setLockDrag(false);
+        if (isInContact) {
+            tvIsAdded.setText(getString(R.string.in_contacts));
+            tvIsAdded.setOnClickListener(null);
+        } else {
+            tvIsAdded.setText(getString(R.string.add_contact));
+        }
+        tvNumber.setTextColor(getResources().getColor(R.color.black1));
+        ivTelephone.setImageDrawable(getResources().getDrawable(R.drawable.phone_number));
+    }
+
+    private void blockUser() {
+        setBlockUser();
+    }
+
+
+    private void changeContactStatus(final String status, final long id) {
+        if (Utils.isOnline(context)) {
+            ApiClient.getApiInterface()
+                    .changeContactStatus(TokenStorage.getToken(context), id + "", status)
+                    .enqueue(new BaseCallback<Object>(context, false) {
+                        @Override
+                        protected void onResult(int code, Object result) {
+                            if (status.equals("BLOCKED")) {
+                                blockUser();
+                            } else {
+                                unblockUser();
+                            }
+                        }
+                    });
+        } else Utils.noInternetToast(context);
     }
 
     private void getContactsRequest() {

@@ -321,4 +321,6 @@
     <string name="password_block_15">15-минутная блокировка ввода пароля ещё не закончилась</string>
     <string name="joint_spends_empty_list">Здесь будет отображатся список затрат в группе</string>
     <string name="delete_joint_spends">Вы уверены, что хотите удалить расход из списка общих расходов? Общая сумма будет изменена</string>
+    <string name="unblock">Разблокировать</string>
+    <string name="alert_delete_contact_description">Контакт будет удален и из истории операций</string>
 </resources>

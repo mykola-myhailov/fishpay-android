@@ -263,6 +263,7 @@
     <string name="no_account">без аккаунта</string>
     <string name="send_complaint">Отправить жалобу</string>
     <string name="block">Заблокировать</string>
+    <string name="unblock">Разблокировать</string>
     <string name="block_user">Заблокировать пользователя</string>
     <string name="across_fishpay">Через FISHPAY</string>
     <string name="send_across_fishpay">Запрос отправлен %s в %s через систему FISHPAY</string>
@@ -318,6 +319,7 @@
     <string name="lang_ru" translatable="false">Русский</string>
     <string name="lang_en" translatable="false">English</string>
     <string name="alert_delete_contact">Вы действительно хотите удалить из списка контактов?</string>
+    <string name="alert_delete_contact_description">Контакт будет удален и из истории операций</string>
     <string name="select_a_photo">Выберите фото</string>
     <string name="You_dont_need_to_remember">Больше не нужно запоминать длинные номера счетов просто выбирайте нужного адресата из контактной книги</string>
     <string name="work_with_names_you_know">Работайте с знакомыми Вам именами вместо номеров</string>
