@@ -25,14 +25,22 @@ public class SearchContactActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_contact);
 
-        initToolBar(getString(R.string.enter_number));
+//        initToolBar(getString(R.string.enter_number));
+        initCustomToolbar(getString(R.string.enter_number));
         etPhone = findViewById(R.id.etPhone);
         (findViewById(R.id.tvSearch)).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        searchPhoneRequest();
+        switch (view.getId()){
+            case R.id.ivBack:
+                onBackPressed();
+                break;
+            case R.id.tvSearch:
+                searchPhoneRequest();
+                break;
+        }
     }
 
     private void searchPhoneRequest() {

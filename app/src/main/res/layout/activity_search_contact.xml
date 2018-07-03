@@ -6,7 +6,44 @@
     android:layout_height="match_parent"
     tools:context="com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity">
 
-    <include layout="@layout/app_bar"/>
+    <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+        <ImageView
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize" />
+
+        <RelativeLayout
+                android:layout_toEndOf="@id/ivBack"
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
+        </RelativeLayout>
+
+        <View
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="00.5dp"
+                android:background="@color/grey2"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
