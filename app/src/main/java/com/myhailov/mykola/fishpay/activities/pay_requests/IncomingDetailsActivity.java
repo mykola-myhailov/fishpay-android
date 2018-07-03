@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,8 +99,8 @@ public class IncomingDetailsActivity extends BaseActivity {
                 rejectRequest();
                 break;
             case R.id.tv_block_user:
-                showBlockUserAlert();
                 alertDialog.cancel();
+                showBlockUserAlert();
                 break;
             case R.id.tv_first_action:
                 blockUser();
@@ -169,8 +168,8 @@ public class IncomingDetailsActivity extends BaseActivity {
         dialogBuilder.setView(dialogView);
         tvBlockUser = dialogView.findViewById(R.id.tv_first_action);
         tvClose = dialogView.findViewById(R.id.tv_second_action);
-        tvDescription = dialogView.findViewById(R.id.tv_description);
-        dialogView.findViewById(R.id.tv_title).setVisibility(View.GONE);
+        tvDescription = dialogView.findViewById(R.id.tv_title);
+        dialogView.findViewById(R.id.tv_description).setVisibility(View.GONE);
 
         tvClose.setText(getString(R.string.close));
         tvBlockUser.setText(getString(R.string.block));
@@ -235,8 +234,6 @@ public class IncomingDetailsActivity extends BaseActivity {
                         protected void onResult(int code, Object result) {
                             alertBlockUser.cancel();
                             toast(getString(R.string.user_is_block));
-                            Log.d("sss", "onResult: code " + code);
-                            Log.d("sss", "onResult: result  " + result);
                         }
                     });
         }

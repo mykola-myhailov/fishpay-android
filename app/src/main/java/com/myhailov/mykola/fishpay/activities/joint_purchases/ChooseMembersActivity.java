@@ -32,14 +32,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.CONTACTS;
 import static com.myhailov.mykola.fishpay.utils.Keys.PURCHASE2;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST_MEMBER;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.PHONE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
 
-public class ChooseMembersActivity extends BaseActivity  {
+public class ChooseMembersActivity extends BaseActivity {
 
     private CommonPurchaseBody commonPurchaseBody;
 
@@ -67,10 +67,10 @@ public class ChooseMembersActivity extends BaseActivity  {
 
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Keys.PURCHASE))
-        commonPurchaseBody = getIntent().getParcelableExtra(Keys.PURCHASE);
+            commonPurchaseBody = getIntent().getParcelableExtra(Keys.PURCHASE);
         else {
             from = FROM_GROUP_SPENDS;
-            groupSpendAmount =  extras.getInt(Keys.AMOUNT);
+            groupSpendAmount = extras.getInt(Keys.AMOUNT);
             groupSpendDescription = extras.getString(Keys.DESCRIPTION);
             groupName = extras.getString(Keys.GROUP);
         }
@@ -97,7 +97,7 @@ public class ChooseMembersActivity extends BaseActivity  {
                             long myId = -1;
                             for (Contact contact : allContacts) {
                                 if (contact.isActiveUser()) activeContacts.add(contact);
-                                if (contact.getPhone().equals(phone)){
+                                if (contact.getPhone().equals(phone)) {
                                     myId = contact.getUserId();
                                     int index = allContacts.indexOf(contact);
                                     allContacts.remove(index);
@@ -118,6 +118,16 @@ public class ChooseMembersActivity extends BaseActivity  {
                                 allContacts.add(0, contactMe);
                                 activeContacts.add(0, contactMe);
                             }
+
+                            for (Contact activeContact : activeContacts) {
+                                if (myId == activeContact.getUserId()) {
+                                    int index = activeContacts.indexOf(activeContact);
+                                    activeContacts.remove(index);
+                                    activeContacts.add(0, activeContact);
+                                    break;
+                                }
+                            }
+
                             selectableContactsAdapter = new SelectableContactsAdapter(context, activeContacts);
                             selectedClientsAdapter = new SelectedClientsAdapter(context, selectedUsers);
                             rvContacts.setAdapter(selectableContactsAdapter);
@@ -184,7 +194,7 @@ public class ChooseMembersActivity extends BaseActivity  {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case  R.id.ivBack:
+            case R.id.ivBack:
                 onBackPressed();
                 break;
             case R.id.ll_contact:
@@ -198,7 +208,8 @@ public class ChooseMembersActivity extends BaseActivity  {
                 Contact contact = ((Contact) view.getTag());
                 selectedUsers.remove(contact);
                 selectedClientsAdapter.notifyDataSetChanged();
-                if (contact.getUserId() != -1) selectableContactsAdapter.setSelectedId(contact.getUserId());
+                if (contact.getUserId() != -1)
+                    selectableContactsAdapter.setSelectedId(contact.getUserId());
                 break;
             case R.id.ivPlus:
                 startActivityForResult(new Intent(context, CreateMemberActivity.class), REQUEST_MEMBER);
@@ -232,7 +243,7 @@ public class ChooseMembersActivity extends BaseActivity  {
 
             Intent intent = new Intent(context, DistributionActivity.class);
             intent.putExtra(CONTACTS, selectedUsers);
-            switch (from){
+            switch (from) {
                 case FROM_JOINT_PURCHASES:
                     intent.putExtra(PURCHASE2, commonPurchaseBody);
                     break;
