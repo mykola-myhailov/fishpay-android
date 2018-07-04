@@ -2,16 +2,14 @@ package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
@@ -38,10 +36,9 @@ public class ConfirmPayRequestActivity extends BaseActivity {
         contact = extras.getParcelable(Keys.CONTACT);
         card = extras.getString(Keys.CARD);
         amount = extras.getString(Keys.AMOUNT);
-
         initCustomToolbar(getString(R.string.send_request));
 
-        if (contact != null){
+        if (contact != null) {
             name = contact.getName();
             suname = contact.getSurname();
             contactName = contact.getFullName();
@@ -59,24 +56,24 @@ public class ConfirmPayRequestActivity extends BaseActivity {
         ((TextView) findViewById(R.id.met_amount)).setText(amount);
         etPassword = findViewById(R.id.password);
         etPassword.requestFocus();
-        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-
-                }
-                return true;
-            }
-        });
+//        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+//                if (i == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+//                    apply();
+//                }
+//                return true;
+//            }
+//        });
         findViewById(R.id.tv_apply).setOnClickListener(this);
         ImageView ivAvatar = findViewById(R.id.iv_avatar);
         String initials = Utils.extractInitials(name, suname);
-        Utils.displayAvatar(context, ivAvatar, photo, initials );
+        Utils.displayAvatar(context, ivAvatar, photo, initials);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.ivBack:
                 onBackPressed();
@@ -93,8 +90,14 @@ public class ConfirmPayRequestActivity extends BaseActivity {
         if (password.equals("")) Utils.toast(context, getString(R.string.enter_password));
         else if (password.length() < 8) Utils.toast(context, getString(R.string.password8));
         else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
-        else ApiClient.getApiInterface().confirmInvoice(TokenStorage.getToken(context)
-                    , requestId, password).enqueue(new BaseCallback<Object>(context, true) {
+        else ApiClient.getApiInterface().confirmInvoice(TokenStorage.getToken(context),
+                    requestId, password).enqueue(new BaseCallback<Object>(context, true) {
+                @Override
+                protected void onError(int code, String errorDescription) {
+                    super.onError(code, errorDescription);
+//                    if (code == 243) toast(getString(R.string.password_incorrect));
+                }
+
                 @Override
                 protected void onResult(int code, Object result) {
                     context.startActivity(new Intent(context, SuccessPayRequestActivity.class));

@@ -198,7 +198,7 @@ public class TransactionActivity extends DrawerActivity {
                     Utils.toast(context, "success");
                     break;
                 case "REJECTED":
-                    Utils.toast(context, "rejected");
+                    Utils.toast(context, getString(R.string.rejected));
                     break;
                 case "REVERSED":
                     Utils.toast(context, "reversed");
