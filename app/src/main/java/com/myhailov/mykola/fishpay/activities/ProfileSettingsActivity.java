@@ -1,16 +1,16 @@
 package com.myhailov.mykola.fishpay.activities;
 
+import com.google.gson.Gson;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
@@ -35,7 +35,6 @@ import okhttp3.RequestBody;
 
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.activities.profile.ChangeLanguageActivity.CHANGE_LANG;
-import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.LANG;
 
 public class ProfileSettingsActivity extends DrawerActivity {
@@ -55,7 +54,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.ivAvatar:
                 Intent userInfoIntent = new Intent(context, UserInfoActivity.class);
@@ -81,7 +80,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                 context.startActivity(new Intent(context, DeleteAccountActivity.class));
                 break;
             case R.id.ll_card:
-                context.startActivity(new Intent(context, CardsActivity.class));
+                startActivityForResult(new Intent(context, CardsActivity.class), REQUEST_CARD);
                 break;
 
 
@@ -96,15 +95,18 @@ public class ProfileSettingsActivity extends DrawerActivity {
             setLang(language);
             recreate();
         }
+        if (requestCode == REQUEST_CARD && resultCode == RESULT_OK) {
+            recreate();
+        }
     }
 
-    private void getProfileRequest(){
+    private void getProfileRequest() {
 
         ApiClient.getApiInterface().getProfile(token)
                 .enqueue(new BaseCallback<ProfileResult>(context, true) {
                     @Override
                     protected void onResult(int code, ProfileResult result) {
-                        if (code == 200){
+                        if (code == 200) {
                             ProfileResult.Profile profile = result.getProfile();
                             if (profile != null) {
                                 id = result.getUserId();
@@ -118,7 +120,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 setLang(lang);
                                 Card card = profile.getCard();
                                 String cardJson = card == null ? null : new Gson().toJson(card);
-                         //       Log.e("cardJson1", cardJson);
+                                //       Log.e("cardJson1", cardJson);
                                 preferences.edit().putString(PrefKeys.CARD, cardJson).apply();
 
 
@@ -149,7 +151,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
                 });
     }
 
-
     private void setLang(String language) {
         if (language.equals("ua")) language = "uk";
         Locale current = getResources().getConfiguration().locale;
@@ -163,7 +164,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
             recreate();
         }
     }
-
 
 
     private void initViews() {
@@ -197,13 +197,13 @@ public class ProfileSettingsActivity extends DrawerActivity {
     }
 
 
-    private void setPreferencesRequest(){
+    private void setPreferencesRequest() {
 
         String allowMoneyRequests = "1";
         String touchIdLogin = "1";
         String lang = "ru";
         ApiClient.getApiInterface()
-                .setPreferences(token, allowMoneyRequests, touchIdLogin, lang )
+                .setPreferences(token, allowMoneyRequests, touchIdLogin, lang)
                 .enqueue(new BaseCallback<Object>(context, false) {
                              @Override
                              protected void onResult(int code, Object result) {

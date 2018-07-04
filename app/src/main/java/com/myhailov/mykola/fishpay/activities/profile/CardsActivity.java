@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +14,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -63,6 +67,10 @@ public class CardsActivity extends BaseActivity {
 
     private EditText etCardNumber1, etCardNumber2, etCardNumber3, etCardNumber4;
     private View llCardNumber;
+    private InputMethodManager imm;
+    private AlertDialog alertDeleteCard;
+
+    private Card deleteCard;
 
 
     @Override
@@ -96,6 +104,7 @@ public class CardsActivity extends BaseActivity {
         progressBar = findViewById(R.id.progress_bar);
         rvCards = findViewById(R.id.rv_cards);
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         /*tvCardNumber.addTextChangedListener(new AutoAddTextWatcher(tvCardNumber, " ", 4, 8, 12));
         tvCardNumber.setImeOptions(IME_ACTION_DONE);
@@ -198,6 +207,15 @@ public class CardsActivity extends BaseActivity {
                         protected void onResult(int code, Object result) {
                             if (code == 201) {
                                 etCardName.getText().clear();
+                                etCardNumber1.getText().clear();
+                                etCardNumber2.getText().clear();
+                                etCardNumber3.getText().clear();
+                                etCardNumber4.getText().clear();
+                                tvCardNumber.setVisibility(View.VISIBLE);
+                                llCardNumber.setVisibility(View.GONE);
+                                (findViewById(R.id.vDivider)).setVisibility(View.VISIBLE);
+                                (findViewById(R.id.llDividers)).setVisibility(View.GONE);
+                                etDateEnd.setText(getString(R.string.enter_expiration_card));
                         //        tvCardNumber.getText().clear();
                                 getCards();
                             }
@@ -206,14 +224,16 @@ public class CardsActivity extends BaseActivity {
         } else Utils.noInternetToast(context);
     }
 
-    private void setPublicCard(String cardId) {
+    private void setPublicCard(final Card card) {
         if (Utils.isOnline(context)) {
-            ApiClient.getApiInterface().setPublicCard(TokenStorage.getToken(context), cardId)
+            ApiClient.getApiInterface().setPublicCard(TokenStorage.getToken(context), card.getId())
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
                             if (code == 200) {
-                                getCards();
+//                                getCards();
+                                setResult(RESULT_OK, new Intent());
+                                finish();
                             }
                         }
                     });
@@ -226,7 +246,12 @@ public class CardsActivity extends BaseActivity {
                     .enqueue(new BaseCallback<Object>(context, false) {
                         @Override
                         protected void onResult(int code, Object result) {
-                            if (code == 200) getCards();
+                            if (code == 200) {
+//                                getCards();
+
+                                setResult(RESULT_OK, new Intent());
+                                finish();
+                            }
                         }
                     });
         } else Utils.noInternetToast(context);
@@ -258,9 +283,8 @@ public class CardsActivity extends BaseActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Locale locale = getResources().getConfiguration().locale;
-                Locale.setDefault(locale);
                 calendar.set(year, month, dayOfMonth);
-                SimpleDateFormat visibleFormat = new SimpleDateFormat("MM / yy", new Locale("ru"));
+                SimpleDateFormat visibleFormat = new SimpleDateFormat("MM / yy", locale);
                 etDateEnd.setText(visibleFormat.format(calendar.getTimeInMillis()));
                 SimpleDateFormat savedFormat = new SimpleDateFormat("yyyy-MM", new Locale("ru"));
                 expiresAt = savedFormat.format(calendar.getTimeInMillis());
@@ -281,6 +305,31 @@ public class CardsActivity extends BaseActivity {
         tvDateError.setVisibility(isDateValid ? View.GONE : View.VISIBLE);
         return isNameValid && isNumberValid;
     }
+
+    private void showAlertDeleteCard(){
+        TextView tvDelete, tvClose, tvTitle;
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.alert_with_two_action, null);
+            dialogBuilder.setView(dialogView);
+            tvTitle = dialogView.findViewById(R.id.tv_title);
+            tvClose = dialogView.findViewById(R.id.tv_first_action);
+            tvDelete = dialogView.findViewById(R.id.tv_second_action);
+            dialogView.findViewById(R.id.tv_description).setVisibility(View.GONE);
+
+            tvClose.setText(getString(R.string.cancel));
+            tvDelete.setText(getString(R.string.ok));
+            tvTitle.setText(getString(R.string.alert_delete_card));
+            tvDelete.setOnClickListener(this);
+            tvClose.setOnClickListener(this);
+
+            alertDeleteCard = dialogBuilder.create();
+            alertDeleteCard.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDeleteCard.show();
+    }
+
+
 
     private void showConfirmation(final Card card) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -303,6 +352,7 @@ public class CardsActivity extends BaseActivity {
                 break;
             case R.id.tv_add_card:
                 if (isDataValid()) {
+                    imm.hideSoftInputFromWindow(etCardNumber1.getWindowToken(), 0);
                     String cardNumber = etCardNumber1.getText().toString()
                             + etCardNumber2.getText().toString()
                             + etCardNumber3.getText().toString()
@@ -313,7 +363,18 @@ public class CardsActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_delete:
-                showConfirmation((Card) view.getTag());
+//                showConfirmation((Card) view.getTag());
+                deleteCard = (Card) view.getTag();
+                showAlertDeleteCard();
+                break;
+            case R.id.tv_first_action:
+                alertDeleteCard.cancel();
+                break;
+            case R.id.tv_second_action:
+                alertDeleteCard.cancel();
+                if (deleteCard != null) {
+                    deleteCard(deleteCard);
+                }
                 break;
             case R.id.ll_without_card:
 //                setWithoutCard();
@@ -325,6 +386,7 @@ public class CardsActivity extends BaseActivity {
                 chooseCard(((Card) view.getTag()));
                 break;
             case R.id.et_date_end:
+                imm.hideSoftInputFromWindow(etCardNumber1.getWindowToken(), 0);
                 showDataPicker();
                 break;
             case R.id.tv_card_number:
@@ -332,6 +394,9 @@ public class CardsActivity extends BaseActivity {
                 llCardNumber.setVisibility(View.VISIBLE);
                 (findViewById(R.id.vDivider)).setVisibility(View.GONE);
                 (findViewById(R.id.llDividers)).setVisibility(View.VISIBLE);
+                etCardNumber1.requestFocus();
+                imm.showSoftInput(etCardNumber1, InputMethodManager.SHOW_IMPLICIT);
+//                etCardNumber1.setSelection(0);
                 break;
         }
     }
@@ -341,8 +406,10 @@ public class CardsActivity extends BaseActivity {
             setResult(RESULT_OK, new Intent().putExtra(Keys.CARD, card));
             finish();
         } else {
-            if (card != null) setPublicCard((card.getId()));
-            else setWithoutCard();
+            Log.d("sss", "chooseCard: " + "not request");
+            if (card != null) {
+                setPublicCard(card);
+            } else setWithoutCard();
         }
     }
 

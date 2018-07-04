@@ -186,7 +186,7 @@ public interface ApiInterface {
 
     @DELETE("api/user/cards/{cardId}")
     Call<BaseResponse<Object>> deleteCard (@Header("Authorization") String token,
-                                           @Path("cardNumber") String cardId);
+                                           @Path("cardId") String cardId);
 
     @FormUrlEncoded @POST("api/user/cards/setPublic")
     Call<BaseResponse<Object>> setPublicCard (@Header("Authorization") String token,
