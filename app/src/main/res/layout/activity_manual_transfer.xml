@@ -1,9 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.group_spends.ManualTransferActivity">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".activities.group_spends.ManualTransferActivity">
+
+    <LinearLayout
+            android:id="@+id/liner"
+            android:background="@color/black_light"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:tint="@color/white"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+
+        <RelativeLayout
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:background="@color/black_light"
+            android:id="@+id/constraint_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/liner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+                android:maxLines="1"
+                android:textSize="17sp"
+                android:textColor="#929292"
+                android:text="@string/from_members"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView55"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"/>
+
+        <FrameLayout
+                android:id="@+id/flAvatarContainer"
+                android:background="@color/white"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="@+id/textView55"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView55">
+
+            <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription"/>
+
+            <TextView
+                    android:id="@+id/tvInitials"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"/>
+
+            <View
+                    android:id="@+id/vBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/awatar_black"/>
+        </FrameLayout>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                tools:text="Максим Коваль"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_menu"
+                app:layout_constraintTop_toTopOf="@+id/flAvatarContainer"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/menu_spends"
+                android:id="@+id/iv_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toTopOf="@+id/flAvatarContainer"
+                app:layout_constraintBottom_toBottomOf="@+id/flAvatarContainer"
+                android:layout_marginBottom="8dp"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="#737171"
+                tools:text="380673607437"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_phone"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_menu"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"/>
+
+        <TextView
+                android:maxLines="1"
+                android:textSize="17sp"
+                android:textColor="#929292"
+                android:text="@string/to_members"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView56"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone"/>
+
+        <FrameLayout
+                android:id="@+id/flAvatarContainer_to"
+                android:background="@color/white"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="@+id/textView55"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView56">
+
+            <ImageView
+                    android:id="@+id/ivAvatar_to"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription"/>
+
+            <TextView
+                    android:id="@+id/tvInitials_to"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"/>
+
+            <View
+                    android:id="@+id/vBackground_to"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/awatar_black"/>
+        </FrameLayout>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                tools:text="Максим Коваль"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name_to"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_menu_to"
+                app:layout_constraintTop_toTopOf="@+id/flAvatarContainer_to"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/menu_spends"
+                android:id="@+id/iv_menu_to"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toTopOf="@+id/flAvatarContainer_to"
+                app:layout_constraintBottom_toBottomOf="@+id/flAvatarContainer_to"
+                />
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="#737171"
+                tools:text="380673607437"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_phone_to"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_menu_to"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_to"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="#323233"
+                android:id="@+id/view"
+                app:layout_constraintStart_toEndOf="@+id/flAvatarContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/comments"
+            android:id="@+id/imageView11"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_1"/>
+
+    <TextView
+            android:textColor="@color/blue1"
+            android:textSize="17sp"
+            android:text="@string/comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView62"
+            app:layout_constraintStart_toEndOf="@+id/imageView11"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"/>
+
+    <EditText
+            android:textColor="@color/blue1"
+            android:textSize="17sp"
+            android:theme="@style/editTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:ems="10"
+            android:id="@+id/et_comment"
+            app:layout_constraintEnd_toEndOf="@+id/textView62"
+            app:layout_constraintStart_toStartOf="@+id/textView62"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView62"/>
+
+    <com.myhailov.mykola.fishpay.views.MoneyEditText
+            android:textAlignment="textEnd"
+            android:textCursorDrawable="@drawable/grey_cursor"
+            android:theme="@style/editTextTheme"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:textSize="36sp"
+            android:textColor="@color/blue1"
+            android:id="@+id/et_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/textView63"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="@+id/et_comment"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/et_comment"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_create"
+            app:layout_constraintVertical_bias="0.7"/>
+
+    <TextView
+            android:textSize="24sp"
+            android:textColor="@color/grey_text_currency"
+            android:text="@string/uah2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView63"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@+id/et_amount"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_amount"
+            android:layout_marginBottom="8dp"/>
+
+    <View
+            android:background="@color/light_grey"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id="@+id/view1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_create"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/blue1"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="@string/create_transaction"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/tv_create"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
 </android.support.constraint.ConstraintLayout>

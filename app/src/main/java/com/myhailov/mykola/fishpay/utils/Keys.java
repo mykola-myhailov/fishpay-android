@@ -29,6 +29,7 @@ public class Keys {
     public static final String CONTACTS = "contacts";
     public static final String TITLE = "title";
     public static final String MEMBER = "member";
+    public static final String MEMBERS = "members";
     public static final String OWNER = "owner";
     public static final String CLOSED = "closed";
     public static final String AMOUNT = "amount";
@@ -58,6 +59,7 @@ public class Keys {
     public static final String MAX_PRICE = "max_price";
 
     public static final String LOAD_CONTACTS = "load_contacts";
+    public static final String ROLE = "role";
 
     public static final String SPEND = "spend";
     public static final String TYPE = "type";

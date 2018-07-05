@@ -323,4 +323,11 @@
     <string name="delete_joint_spends">Ви впевнені, що хочете видалити витрату зі списку спільних витрат? Загальна сума буде змінена</string>
     <string name="unblock">Розблокувати</string>
     <string name="alert_delete_contact_description">Контакт буде вилучений і з історії операцій</string>
+    <string name="from_members">Від учасника</string>
+    <string name="to_members">До учасника</string>
+    <string name="create_transaction">СТВОРИТИ ТРАНЗАКЦІЮ</string>
+    <string name="manual_transaction">ПЕРЕКАЗ ВРУЧНУ</string>
+    <string name="expense">Видатки</string>
+    <string name="equalise_expenses">ВИРІВНЯТИ</string>
+    <string name="fields_must_filled">Для створення транзакції поля \'Від учасника\' і \'До учасника\' повинні бути заповнені</string>
 </resources>

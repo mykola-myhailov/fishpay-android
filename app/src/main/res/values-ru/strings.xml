@@ -323,4 +323,11 @@
     <string name="delete_joint_spends">Вы уверены, что хотите удалить расход из списка общих расходов? Общая сумма будет изменена</string>
     <string name="unblock">Разблокировать</string>
     <string name="alert_delete_contact_description">Контакт будет удален и из истории операций</string>
+    <string name="from_members">От участника</string>
+    <string name="to_members">К участнику</string>
+    <string name="create_transaction">Создать транзакцию</string>
+    <string name="manual_transaction">ПЕРЕВОД ВРУЧНУЮ</string>
+    <string name="expense">РАСХОД</string>
+    <string name="equalise_expenses">Уровняться</string>
+    <string name="fields_must_filled">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть заполнены</string>
 </resources>

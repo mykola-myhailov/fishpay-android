@@ -133,6 +133,7 @@
     <string name="uah2"> |грн</string>
     <string name="select">Выбрать</string>
     <string name="select_min_2">Выберете минимум двоих участников</string>
+    <string name="fields_must_filled">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть заполнены</string>
     <string name="attention">Внимание</string>
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
     <string name="select_participants">Выберите участников</string>
@@ -142,6 +143,9 @@
     <string name="payment_transfer_card">Карта для перевода платежа:</string>
     <string name="pay_card">Карта для отправки платежа</string>
     <string name="message_for_members">Сообщение для учасников</string>
+    <string name="from_members">От участника</string>
+    <string name="to_members">К участнику</string>
+    <string name="create_transaction">Создать транзакцию</string>
     <string name="input_date">Введите дату</string>
     <string name="card_for_reception">Карта для приема</string>
     <string name="choose_card">Выберите карту</string>
@@ -178,6 +182,7 @@
     <string name="start_amount">Стартовая сумма</string>
     <string name="no_group_spends">У вас ещё нет общих расходов</string>
     <string name="outgoing_transaction">Исходящий перевод</string>
+    <string name="manual_transaction">ПЕРЕВОД ВРУЧНУЮ</string>
     <string name="enter_sms_code">Введите СМС-код</string>
     <string name="report">Пожаловатся</string>
     <string name="password_recovery_successful">Восстановление пароля прошло успешно!</string>
@@ -227,6 +232,7 @@
     <string name="date_unknown">дата неизвестна</string>
     <string name="add_expenses">ДОБАВИТЬ РАСХОД</string>
     <string name="group_of_expenses">Группа расходов</string>
+    <string name="expense">РАСХОД</string>
     <string name="categories">Категории</string>
     <string name="category_">Категория: </string>
     <string name="all">Все</string>
@@ -235,6 +241,7 @@
     <string name="add">Добавить</string>
     <string name="proportionately">Пропорционально</string>
     <string name="manually">Вручную</string>
+    <string name="equalise_expenses">Уровняться</string>
     <string name="enter_description">Введите подробное описание</string>
     <string name="description_of_joint_purchase">Описание общей покупки</string>
     <string name="distribution_of_parts">РАСПРЕДЕЛЕНИЕ ДОЛЕЙ</string>

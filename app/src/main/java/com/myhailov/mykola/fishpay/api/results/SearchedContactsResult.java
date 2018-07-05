@@ -50,6 +50,7 @@ public class SearchedContactsResult {
         private boolean isBlocked;
 
 
+        public SearchedContact(){}
 
         protected SearchedContact(Parcel in) {
             id = in.readLong();
@@ -74,6 +75,30 @@ public class SearchedContactsResult {
                 return new SearchedContact[size];
             }
         };
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setSurname(String surname) {
+            this.surname = surname;
+        }
+
+        public void setImportedName(String importedName) {
+            this.importedName = importedName;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
 
         public boolean isBlocked() {
             return isBlocked;

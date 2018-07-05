@@ -323,4 +323,11 @@
     <string name="delete_joint_spends">Are you sure you want to delete the expense from the list? The total amount will be changed.</string>
     <string name="unblock">Unblock</string>
     <string name="alert_delete_contact_description">The contact will be deleted from the transaction history</string>
+    <string name="from_members">From participant</string>
+    <string name="to_members">To the participant</string>
+    <string name="create_transaction">CREATE TRANSACTION</string>
+    <string name="manual_transaction">TRANSFER MANUALLY</string>
+    <string name="expense">Expenses</string>
+    <string name="equalise_expenses">EQUALISE EXPENSES</string>
+    <string name="fields_must_filled">Fields \'From the participant\' and \'To the participant\' must be filled in.</string>
 </resources>

@@ -26,7 +26,11 @@ import java.util.ArrayList;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
+import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
+import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.TRANSACTIONS;
 
 public class SpendDetailActivity extends BaseActivity {
 
@@ -102,7 +106,18 @@ public class SpendDetailActivity extends BaseActivity {
                         .putExtra(Keys.SPEND, spend));
                 break;
             case R.id.rlMemberItem:
+                String role = "";
+                for (MemberDetails memberDetails : spendDetail.getMembers()) {
+                    if (memberDetails.getUserId().equals(myUserId+"")){
+                        role = memberDetails.getRole();
+                    }
+                }
                 context.startActivity(new Intent(context, MemberDetailsActivity.class)
+                        .putExtra(ROLE, role)
+                        .putExtra(SPEND, spend)
+                        .putExtra(MEMBERS, spendDetail.getMembers())
+                        .putExtra(TITLE, spendDetail.getTitle())
+                        .putExtra(TRANSACTIONS, spendDetail.getTransactions())
                         .putExtra(Keys.MEMBER, (MemberDetails) view.getTag()));
                 break;
         }

@@ -54,6 +54,7 @@ import java.util.List;
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectGoodsActivity.REQUEST_GOODS;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
+import static com.myhailov.mykola.fishpay.utils.Keys.AMOUNT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
@@ -92,6 +93,10 @@ public class CreatePayRequestActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            if (extras.containsKey(AMOUNT)){
+                amount = extras.getInt(AMOUNT);
+            }
+
             if (extras.containsKey(Keys.CONTACT)) {
                 receiverContact = extras.getParcelable(Keys.CONTACT);
                 if (receiverContact != null) {

@@ -1,92 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.chauthai.swipereveallayout.SwipeRevealLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/swipe_layout"
-    app:mode="same_level"
-    app:dragEdge="right">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_layout"
+        app:mode="same_level"
+        app:dragEdge="right">
 
 
     <TextView
-        android:id="@+id/tv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:background="@android:color/holo_red_dark"
-        android:textColor="@color/white"
-        android:text="@string/delete"/>
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@color/white"
+            android:text="@string/delete"/>
 
     <RelativeLayout
-        android:id="@+id/container"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:id="@+id/container"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
         <TextView
-            android:id="@+id/tv_from"
-            android:text="@string/from"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:textSize="15sp"
+                android:textColor="@color/black1"
+                android:id="@+id/tv_from1"
+                android:text="@string/from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/tv_date"
-            android:layout_alignParentEnd="true"
-            android:textSize="12sp"
-            android:text="@string/date_unknown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <TextView
-            android:id="@+id/tv_description"
-            android:layout_below="@+id/tv_from"
-            android:layout_marginTop="10dp"
-            android:text="@string/description_is_not_available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tv_from1"
+                android:textSize="15sp"
+                android:textColor="@color/black1"
+                android:id="@+id/tv_from"
+                tools:text="asdasdasdsad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
 
         <TextView
-            android:id="@+id/tv_amount"
-            android:layout_alignBaseline="@+id/tv_description"
-            android:layout_toStartOf="@+id/tv_currency"
-            android:text="0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_currency"
-            android:text="@string/uah2"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBaseline="@+id/tv_description"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tv_date"
+                android:layout_alignParentEnd="true"
+                android:textSize="13sp"
+                android:textColor="@color/grey_text"
+                android:text="@string/date_unknown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
 
         <TextView
-            android:id="@+id/tv_to"
-            android:layout_below="@+id/tv_description"
-            android:layout_marginTop="10dp"
-            android:text="@string/to"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:textSize="17sp"
+                android:textColor="@color/grey_text"
+                android:id="@+id/tv_description"
+                android:layout_below="@+id/tv_from"
+                android:layout_marginTop="10dp"
+                android:text="@string/description_is_not_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView
+                android:id="@+id/tv_amount"
+                android:layout_alignBaseline="@+id/tv_description"
+                android:layout_toStartOf="@+id/tv_currency"
+                android:text="0"
+                android:textSize="18sp"
+                android:textColor="@color/black1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:textSize="13sp"
+                android:textColor="@color/grey_text_currency"
+                android:id="@+id/tv_currency"
+                android:text="@string/uah2"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBaseline="@+id/tv_description"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView
+                android:textSize="15sp"
+                android:textColor="@color/black1"
+                android:id="@+id/tv_to1"
+                android:layout_below="@+id/tv_description"
+                android:layout_marginTop="10dp"
+                android:text="@string/to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tv_to1"
+                android:textSize="15sp"
+                android:textColor="@color/black1"
+                android:id="@+id/tv_to"
+                android:layout_below="@+id/tv_description"
+                android:layout_marginTop="10dp"
+                android:text="@string/to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
 
         <View
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+                android:background="#CECED2"
+                android:layout_below="@+id/tv_to"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"/>
 
 
     </RelativeLayout>

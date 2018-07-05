@@ -166,21 +166,24 @@ public class TransactionActivity extends DrawerActivity {
     }
 
     private void payRequest() {
-        ApiInterface anInterface = ApiClient.getApiInterface();
-        Call<BaseResponse<Object>> call;
-        switch (type){
-            case TRANSFER:
-                call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
-                break;
-            case INCOMING_PAY_REQUEST:
-                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
-                break;
-            case JOINT_PURCHASE:
-                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
-                break;
-            default: return;
-        }
-        call.enqueue(new PayCallback(context, true));
+        toast("В розробці");
+
+        // TODO: 05.07.2018 в розроці
+//        ApiInterface anInterface = ApiClient.getApiInterface();
+//        Call<BaseResponse<Object>> call;
+//        switch (type){
+//            case TRANSFER:
+//                call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
+//                break;
+//            case INCOMING_PAY_REQUEST:
+//                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
+//                break;
+//            case JOINT_PURCHASE:
+//                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
+//                break;
+//            default: return;
+//        }
+//        call.enqueue(new PayCallback(context, true));
     }
 
     private class PayCallback extends BaseCallback<Object> {
@@ -303,6 +306,7 @@ public class TransactionActivity extends DrawerActivity {
         else if (requestCode == REQUEST_CONTACT){
             receiverContact = data.getParcelableExtra(CONTACT);
             if (receiverContact != null) {
+                receiverId = receiverContact.getUserId() + "";
                 receiverPhone = receiverContact.getPhone();
                 receiverName = receiverContact.getName();
                 if (receiverName != null) tvName.setText(receiverName);

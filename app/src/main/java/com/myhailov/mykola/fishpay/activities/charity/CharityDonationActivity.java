@@ -64,7 +64,9 @@ public class CharityDonationActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.tv_to_transfer:
                 if (checkValue()) {
-                    attemptPayCharity();
+                    toast("В розробці");
+                    // TODO: 05.07.2018 В розробці
+//                    attemptPayCharity();
                 }
                 break;
             case R.id.iv_card:

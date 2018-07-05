@@ -1,275 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.group_spends.MemberDetailsActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activities.group_spends.MemberDetailsActivity">
 
     <LinearLayout
-        android:id="@+id/llToolbar"
-        android:background="@color/black_light"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:id="@+id/llToolbar"
+            android:background="@color/black_light"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <ImageView
-            android:id="@+id/ivBack"
-            android:padding="16dp"
-            android:tint="@color/white"
-            android:src="@drawable/arrow_back"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize" />
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:tint="@color/white"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
 
         <RelativeLayout
-            android:layout_marginEnd="?attr/actionBarSize"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
             <TextView
-                android:textSize="18sp"
-                android:id="@+id/tvToolBarTitle"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:background="@android:color/transparent"
-                tools:text="@string/app_name"/>
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
         </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rlBlack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llToolbar"
-        android:background="@color/black1">
+            android:id="@+id/rlBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llToolbar"
+            android:background="@color/black1">
 
 
         <FrameLayout
-            android:id="@+id/flAvatarContainer"
-            android:background="@color/white"
-            android:layout_marginTop="5dp"
+                android:id="@+id/flAvatarContainer"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
 
-            android:layout_width="50dp"
-            android:layout_height="50dp">
+                android:layout_width="50dp"
+                android:layout_height="50dp">
 
             <ImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="@dimen/avatar_size"
-                android:layout_height="@dimen/avatar_size"
-                android:scaleType="centerCrop"
-                tools:ignore="ContentDescription" />
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription"/>
 
             <TextView
-                android:id="@+id/tvInitials"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@color/transparent"
-                android:gravity="center"
-                android:textSize="18sp" />
+                    android:id="@+id/tvInitials"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textSize="18sp"/>
 
             <View
-                android:id="@+id/vBackground"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/awatar_black" />
+                    android:id="@+id/vBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/awatar_black"/>
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_toEndOf="@+id/flAvatarContainer"
-            android:textAllCaps="true"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:layout_marginStart="10dp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvName"
+                android:layout_toEndOf="@+id/flAvatarContainer"
+                android:textAllCaps="true"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/tvRole"
-            android:layout_below="@+id/tvName"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/flAvatarContainer"
-            android:textColor="@color/gray_light"
-            android:textSize="18dp"
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvRole"
+                android:layout_below="@+id/tvName"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/flAvatarContainer"
+                android:textColor="@color/gray_light"
+                android:textSize="18dp"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/llBlack"
-        android:background="@color/black"
-        android:layout_below="@+id/rlBlack"
-        android:orientation="vertical"
+            android:id="@+id/llBlack"
+            android:background="@color/black"
+            android:layout_below="@+id/rlBlack"
+            android:orientation="vertical"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:background="@color/gray_light"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
-
-        <RelativeLayout
-            android:padding="10dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <View
+                android:background="@color/gray_light"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+        <RelativeLayout
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
 
             <TextView
-                android:text="@string/all_spends"
-                android:textColor="@color/gray_light"
-                android:gravity="top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:text="@string/all_spends"
+                    android:textColor="@color/gray_light"
+                    android:gravity="top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvSum"
-                android:text="0"
-                android:layout_toStartOf="@+id/tvCurrency1"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvSum"
+                    android:text="0"
+                    android:layout_toStartOf="@+id/tvCurrency1"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvCurrency1"
-                android:text="@string/uah2"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:gravity="bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvCurrency1"
+                    android:text="@string/uah2"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
         </RelativeLayout>
 
 
         <View
-            android:background="@color/gray_light"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+                android:background="@color/gray_light"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
 
         <RelativeLayout
-            android:padding="10dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
             <TextView
-                android:text="@string/summary_ballance"
-                android:textColor="@color/gray_light"
-                android:gravity="top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:text="@string/summary_ballance"
+                    android:textColor="@color/gray_light"
+                    android:gravity="top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvBalance"
-                android:text="0"
-                android:layout_toStartOf="@+id/tvCurrency2"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvBalance"
+                    android:text="0"
+                    android:layout_toStartOf="@+id/tvCurrency2"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvCurrency2"
-                android:text="@string/uah2"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:gravity="bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvCurrency2"
+                    android:text="@string/uah2"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
         </RelativeLayout>
 
         <View
-            android:background="@color/gray_light"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+                android:background="@color/gray_light"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
 
         <RelativeLayout
-            android:padding="10dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
             <TextView
-                android:text="@string/for_you"
-                android:textColor="@color/gray_light"
-                android:gravity="top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:text="@string/for_you"
+                    android:textColor="@color/gray_light"
+                    android:gravity="top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvForYou"
-                android:text="0"
-                android:layout_toStartOf="@+id/tvCurrency3"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvForYou"
+                    android:text="0"
+                    android:layout_toStartOf="@+id/tvCurrency3"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvCurrency3"
-                android:text="@string/uah2"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:gravity="bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/tvCurrency3"
+                    android:text="@string/uah2"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
         </RelativeLayout>
 
     </LinearLayout>
 
 
     <RelativeLayout
-        android:layout_below="@+id/llBlack"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:layout_below="@+id/llBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvNoTransactions"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:text="@string/user_no_have_operations_yet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvNoTransactions"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:text="@string/user_no_have_operations_yet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+                android:layout_above="@+id/ll_buttons"
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         <LinearLayout
-            android:id="@+id/ll_buttons"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:id="@+id/ll_buttons"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_add"
+                    android:background="?attr/selectableItemBackground"
+                    android:textAllCaps="true"
+                    android:id="@+id/tv_manually"
+                    android:text="@string/manually"
+                    android:textSize="17sp"
+                    android:textColor="@color/blue1"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-                android:padding="10dp"
-                android:text="@string/add"
-                android:textAllCaps="true"
-                android:textColor="@color/blue1"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <TextView
+                    android:background="?attr/selectableItemBackground"
+                    android:textAllCaps="true"
+                    android:id="@+id/tv_equalise_expenses"
+                    android:text="@string/equalise_expenses"
+                    android:textSize="17sp"
+                    android:textColor="@color/blue1"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            <TextView
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:id="@+id/tv_expense"
+                    android:padding="10dp"
+                    android:text="@string/expense"
+                    android:textAllCaps="true"
+                    android:textSize="17sp"
+                    android:textColor="@color/blue1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </RelativeLayout>
