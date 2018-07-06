@@ -335,4 +335,7 @@
     <string name="text">Текст</string>
     <string name="info_description">В текущей версии приложения денежные переводы не осуществляются</string>
     <string name="info_not_sup_description">В текущей версии приложения операция не поддерживается</string>
+    <string name="date">Дата</string>
+    <string name="today_">сегодня</string>
+    <string name="before_yesterday">позавчера</string>
 </resources>

@@ -335,4 +335,7 @@
     <string name="text">Text</string>
     <string name="info_description">In the current version of the application, money transfers are not supported</string>
     <string name="info_not_sup_description">In the current version of the application, the operation is not supported</string>
+    <string name="date">"Date "</string>
+    <string name="today_">today</string>
+    <string name="before_yesterday">"day before yesterday "</string>
 </resources>

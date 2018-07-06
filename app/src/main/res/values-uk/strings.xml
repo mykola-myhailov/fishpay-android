@@ -335,4 +335,7 @@
     <string name="text">Текст</string>
     <string name="info_not_sup_description">У поточній версії програми операція не підтримується</string>
     <string name="info_description">У поточній версії програми грошові перекази не здійснюються</string>
+    <string name="date">Дата</string>
+    <string name="today_">сьогодні</string>
+    <string name="before_yesterday">позавчора</string>
 </resources>

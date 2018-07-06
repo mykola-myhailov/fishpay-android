@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.myhailov.mykola.fishpay.activities.profile.DeleteAccountActivity;
 import com.myhailov.mykola.fishpay.api.requestBodies.CommonPurchaseBody;
 import com.myhailov.mykola.fishpay.api.requestBodies.GroupSpendBody;
+import com.myhailov.mykola.fishpay.api.results.ActivityResult;
 import com.myhailov.mykola.fishpay.api.results.AuditPayResult;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CategoryResult;
@@ -356,6 +357,14 @@ public interface ApiInterface {
                                            @Field("comment") String comment,
                                            @Field("member_from") String memberFrom,
                                            @Field("member_to") String memberTo);
+
+    @GET("api/user/activity")
+    Call<BaseResponse<ActivityResult>> getLog (@Header("Authorization") String token,
+                                               @Query("from") String from,
+                                               @Query("to") String to,
+                                               @Query("start") int start,
+                                               @Query("count") int count);
+
     // Charity
 
     @GET("api/charity")

@@ -285,7 +285,9 @@ public class Utils {
     }
 
     public static String convertStringToDateWithCustomFormat(Context context, String date, String format){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(date);
@@ -293,6 +295,7 @@ public class Utils {
             e.printStackTrace();
         }
         SimpleDateFormat newDateFormat = new SimpleDateFormat(format, context.getResources().getConfiguration().locale);
+        newDateFormat.setTimeZone(TimeZone.getDefault());
         return newDateFormat.format(convertedDate);
     }
 
