@@ -17,6 +17,8 @@ import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoNotSuportedAlert;
+
 public abstract class DrawerActivity extends BaseActivity {
 
     protected String token;
@@ -76,13 +78,20 @@ public abstract class DrawerActivity extends BaseActivity {
                             nextActivityClass = CharityActivity.class;
                             break;
                         case R.id.navActivity:
-                            nextActivityClass = ActivityActivity.class;
+                            showInfoNotSuportedAlert(context);
+//                            nextActivityClass = ActivityActivity.class;
                             break;
                         case R.id.navGroupSpends:
                             nextActivityClass = GroupSpendsActivity.class;
                             break;
                         case R.id.ll_send_request:
                             nextActivityClass = TransactionActivity.class;
+                            break;
+                        case R.id.ll_pay:
+                            showInfoNotSuportedAlert(context);
+                            break;
+                        case R.id.ll_about_us:
+                            showInfoNotSuportedAlert(context);
                             break;
                     }
                     if (nextActivityClass != null/* && !(nextActivityClass.equals(context.getClass()) )*/)
@@ -109,6 +118,8 @@ public abstract class DrawerActivity extends BaseActivity {
         navigationView.findViewById(R.id.navActivity).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.navGroupSpends).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.ll_send_request).setOnClickListener(navClickListener);
+        navigationView.findViewById(R.id.ll_pay).setOnClickListener(navClickListener);
+        navigationView.findViewById(R.id.ll_about_us).setOnClickListener(navClickListener);
     }
 
     protected void initDrawerToolbar(String title) {

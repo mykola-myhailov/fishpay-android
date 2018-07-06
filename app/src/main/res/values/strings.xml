@@ -354,8 +354,9 @@
     <string name="joint_spends_empty_list">Здесь будет отображатся список затрат в группе</string>
     <string name="done">Готово!</string>
     <string name="tranfer_successfully">Перевод успешно добавлен в группу «%s». Вы всегда можете его посмотреть в списке</string>
-    <string name="info">INFO</string>
+    <string name="info" translatable="false">INFO</string>
     <string name="info_description">В текущей версии приложения денежные переводы не осуществляются</string>
+    <string name="info_not_sup_description">В текущей версии приложения операция не поддерживается</string>
 
 
 </resources>

@@ -332,4 +332,7 @@
     <string name="fields_must_filled">Fields \'From the participant\' and \'To the participant\' must be filled in.</string>
     <string name="done">Done!</string>
     <string name="tranfer_successfully">The transfer has been successfully added to the \"%s\" group.  You can always find it in the list</string>
+    <string name="text">Text</string>
+    <string name="info_description">In the current version of the application, money transfers are not supported</string>
+    <string name="info_not_sup_description">In the current version of the application, the operation is not supported</string>
 </resources>

@@ -332,4 +332,7 @@
     <string name="fields_must_filled">Для створення транзакції поля \'Від учасника\' і \'До учасника\' повинні бути заповнені</string>
     <string name="done">Готово!</string>
     <string name="tranfer_successfully">Переклад успішно доданий в групу \"%s\". Ви завжди можете його переглянути в списку</string>
+    <string name="text">Текст</string>
+    <string name="info_not_sup_description">У поточній версії програми операція не підтримується</string>
+    <string name="info_description">У поточній версії програми грошові перекази не здійснюються</string>
 </resources>
