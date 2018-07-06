@@ -29,6 +29,7 @@ import java.util.List;
 
 import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
 import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class ContactDetailsActivity extends BaseActivity {
 
@@ -177,37 +178,42 @@ public class ContactDetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.tvGet:
-                if (contactDetails != null) {
-                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-                            .putExtra(Keys.CONTACT, contact));
-                } else {
-                    if (!isContact) {
-                        context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-                                .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
-                    }
-                }
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+
+//                if (contactDetails != null) {
+//                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+//                            .putExtra(Keys.CONTACT, contact));
+//                } else {
+//                    if (!isContact) {
+//                        context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+//                                .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
+//                    }
+//                }
 
                 break;
 
             case R.id.tvGive:
-                String contactName = "";
-                String idUser = "";
-                if (isContact) {
-                    if (!TextUtils.isEmpty(contactDetails.getName())) {
-                        contactName = contactDetails.getName() + " ";
-                    }
-                    if (!TextUtils.isEmpty(contactDetails.getSuname())) {
-                        contactName = contactName + contactDetails.getSuname();
-                    }
-                    idUser = contactDetails.getUserId();
-                } else {
-                    contactName = name + " " + surname;
-                    idUser = userId + "";
-                }
-                context.startActivity((new Intent(context, TransactionActivity.class))
-                        .putExtra(NAME, contactName)
-                        .putExtra(USER_ID, idUser)
-                        .putExtra(Keys.CONTACT, contact));
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                String contactName = "";
+//                String idUser = "";
+//                if (isContact) {
+//                    if (!TextUtils.isEmpty(contactDetails.getName())) {
+//                        contactName = contactDetails.getName() + " ";
+//                    }
+//                    if (!TextUtils.isEmpty(contactDetails.getSuname())) {
+//                        contactName = contactName + contactDetails.getSuname();
+//                    }
+//                    idUser = contactDetails.getUserId();
+//                } else {
+//                    contactName = name + " " + surname;
+//                    idUser = userId + "";
+//                }
+//                context.startActivity((new Intent(context, TransactionActivity.class))
+//                        .putExtra(NAME, contactName)
+//                        .putExtra(USER_ID, idUser)
+//                        .putExtra(Keys.CONTACT, contact));
 
 
         }

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +17,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -328,5 +332,30 @@ public class Utils {
         percentFormat.setMinimumFractionDigits(0);
         percentFormat.setMaximumFractionDigits(0);
         return percentFormat.format(0);
+    }
+
+    public static  void showInfoAlert(Context context) {
+        TextView tvTitle;
+        final AlertDialog infoAlert;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+//        LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View dialogView = inflater.inflate(R.layout.alert_with_one_action, null);
+        dialogBuilder.setView(dialogView);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+        tvTitle.setText(context.getString(R.string.info));
+
+
+        ((TextView)dialogView.findViewById(R.id.tv_description)).setText(context.getString(R.string.info_description));
+
+        infoAlert = dialogBuilder.create();
+        infoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoAlert.show();
+        dialogView.findViewById(R.id.tv_action_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoAlert.cancel();
+            }
+        });
     }
 }

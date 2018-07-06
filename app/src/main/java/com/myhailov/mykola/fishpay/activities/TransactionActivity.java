@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +44,7 @@ import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUE
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class TransactionActivity extends DrawerActivity {
 
@@ -71,6 +75,10 @@ public class TransactionActivity extends DrawerActivity {
         setContentView(R.layout.activity_outgoing_transaction);
 
         createDrawer();
+        // TODO: 06.07.2018 в розробці
+        showInfoAlert();
+
+
         preferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
         String userId = preferences.getString(PrefKeys.ID, "");
         Bundle extras = getIntent().getExtras();
@@ -148,6 +156,36 @@ public class TransactionActivity extends DrawerActivity {
         }
     }
 
+    private void showInfoAlert() {
+        TextView tvTitle;
+        final AlertDialog infoAlert;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_one_action, null);
+        dialogBuilder.setView(dialogView);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+        tvTitle.setText(context.getString(R.string.info));
+
+
+        ((TextView)dialogView.findViewById(R.id.tv_description)).setText(context.getString(R.string.info_description));
+
+        infoAlert = dialogBuilder.create();
+        infoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoAlert.show();
+        infoAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+        dialogView.findViewById(R.id.tv_action_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoAlert.cancel();
+                finish();
+            }
+        });
+    }
 
     private boolean dataIsValid() {
         amountUAH = etAmount.getText().toString();
@@ -166,24 +204,21 @@ public class TransactionActivity extends DrawerActivity {
     }
 
     private void payRequest() {
-        toast("В розробці");
-
-        // TODO: 05.07.2018 в розроці
-//        ApiInterface anInterface = ApiClient.getApiInterface();
-//        Call<BaseResponse<Object>> call;
-//        switch (type){
-//            case TRANSFER:
-//                call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
-//                break;
-//            case INCOMING_PAY_REQUEST:
-//                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
-//                break;
-//            case JOINT_PURCHASE:
-//                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
-//                break;
-//            default: return;
-//        }
-//        call.enqueue(new PayCallback(context, true));
+        ApiInterface anInterface = ApiClient.getApiInterface();
+        Call<BaseResponse<Object>> call;
+        switch (type){
+            case TRANSFER:
+                call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
+                break;
+            case INCOMING_PAY_REQUEST:
+                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
+                break;
+            case JOINT_PURCHASE:
+                call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
+                break;
+            default: return;
+        }
+        call.enqueue(new PayCallback(context, true));
     }
 
     private class PayCallback extends BaseCallback<Object> {

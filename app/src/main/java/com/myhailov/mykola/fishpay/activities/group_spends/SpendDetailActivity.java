@@ -33,6 +33,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.TRANSACTIONS;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class SpendDetailActivity extends BaseActivity {
     public static final int ADD_SPEND_REQUESR = 96;
@@ -105,8 +106,10 @@ public class SpendDetailActivity extends BaseActivity {
                         .putExtra(SPEND, spendDetail));
                 break;
             case R.id.iv_plus:
-                startActivityForResult(new Intent(context, AddMoreSpendsActivity.class)
-                        .putExtra(Keys.SPEND, spend), ADD_SPEND_REQUESR);
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                startActivityForResult(new Intent(context, AddMoreSpendsActivity.class)
+//                        .putExtra(Keys.SPEND, spend), ADD_SPEND_REQUESR);
                 break;
             case R.id.rlMemberItem:
                 String role = "";

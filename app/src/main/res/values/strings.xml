@@ -230,6 +230,8 @@
     <string name="to">до</string>
     <string name="description_is_not_available">описание недоступно</string>
     <string name="date_unknown">дата неизвестна</string>
+    <string name="date">Дата</string>
+    <string name="text">Текст</string>
     <string name="add_expenses">ДОБАВИТЬ РАСХОД</string>
     <string name="group_of_expenses">Группа расходов</string>
     <string name="expense">РАСХОД</string>
@@ -286,7 +288,9 @@
     <string name="summary_ballance">Общий балланс</string>
     <string name="for_you">По отношению к вам</string>
     <string name="today">сегодня в %s</string>
+    <string name="today_">сегодня</string>
     <string name="yesterday">вчера</string>
+    <string name="before_yesterday">позавчера</string>
     <string name="thank">Спасибо!</string>
     <string name="create_new">Создать новую</string>
     <string name="to_work">Вернутся к роботе</string>
@@ -350,6 +354,8 @@
     <string name="joint_spends_empty_list">Здесь будет отображатся список затрат в группе</string>
     <string name="done">Готово!</string>
     <string name="tranfer_successfully">Перевод успешно добавлен в группу «%s». Вы всегда можете его посмотреть в списке</string>
+    <string name="info">INFO</string>
+    <string name="info_description">В текущей версии приложения денежные переводы не осуществляются</string>
 
 
 </resources>

@@ -26,6 +26,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
 import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class MemberDetailsActivity extends BaseActivity {
 
@@ -62,13 +63,16 @@ public class MemberDetailsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_manually:
-                context.startActivity((new Intent(context, ManualTransferActivity.class))
-                        .putExtra(SPEND, spend)
-                        .putExtra(MEMBER, member)
-                        .putExtra(MEMBERS, members));
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                context.startActivity((new Intent(context, ManualTransferActivity.class))
+//                        .putExtra(SPEND, spend)
+//                        .putExtra(MEMBER, member)
+//                        .putExtra(MEMBERS, members));
                 break;
             case R.id.tv_equalise_expenses:
-                toast("В розробці");
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
                 // TODO: 06.07.2018 fix request
 //                if (member.getRelativeBallance() > 0) {
 //                    context.startActivity((new Intent(context, TransactionActivity.class))
@@ -93,10 +97,11 @@ public class MemberDetailsActivity extends BaseActivity {
 //                }
                 break;
             case R.id.tv_expense:
-
-                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
-                        .putExtra(MEMBER, member)
-                        .putExtra(Keys.SPEND, spend));
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
+//                        .putExtra(MEMBER, member)
+//                        .putExtra(Keys.SPEND, spend));
 
                 break;
         }

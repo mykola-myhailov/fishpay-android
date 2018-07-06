@@ -116,31 +116,28 @@ public class AddMoreSpendsActivity extends BaseActivity {
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else if (isDataValid())
-            toast("В розробці");
-        // TODO: 06.07.2018  в розроці
-        return;
-//        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
-//                spendId, true,userId, null, pennyAmount, comment)
-//                .enqueue(new BaseCallback<JsonElement>(context, true) {
-//
-//                    @Override
-//                    protected void onError(int code, String errorDescription) {
-//                        super.onError(code, errorDescription);
-//                    }
-//
-//                    @Override
-//                    protected void onResult(int code, JsonElement result) {
-//                        setResult(RESULT_OK);
-//                        finish();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
-//                        super.onFailure(call, t);
-//                        Log.d("sss", "onFailure: " + t);
-//                        onBackPressed();
-//                    }
-//                });
+        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
+                spendId, true,userId, null, pennyAmount, comment)
+                .enqueue(new BaseCallback<JsonElement>(context, true) {
+
+                    @Override
+                    protected void onError(int code, String errorDescription) {
+                        super.onError(code, errorDescription);
+                    }
+
+                    @Override
+                    protected void onResult(int code, JsonElement result) {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
+                        super.onFailure(call, t);
+                        Log.d("sss", "onFailure: " + t);
+                        onBackPressed();
+                    }
+                });
     }
 
     private boolean isDataValid() {

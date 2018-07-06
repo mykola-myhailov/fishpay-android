@@ -22,6 +22,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.OWNER;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.ID;
 import static com.myhailov.mykola.fishpay.utils.PrefKeys.USER_PREFS;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class MembersPartActivity extends BaseActivity {
 
@@ -113,7 +114,9 @@ public class MembersPartActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_pay:
-                startPaymentMemberActivity();
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                startPaymentMemberActivity();
                 break;
             case R.id.tv_request:
                 context.startActivity(new Intent(context, CreatePayRequestActivity.class)

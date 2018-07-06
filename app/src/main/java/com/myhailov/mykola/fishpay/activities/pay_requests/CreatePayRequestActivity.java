@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -90,6 +93,10 @@ public class CreatePayRequestActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pay_request);
+
+        // TODO: 06.07.2018 в розробці
+        showInfoAlert();
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -164,6 +171,37 @@ public class CreatePayRequestActivity extends BaseActivity {
             long userId = contact.getUserId();
             if (userId != 0) appContacts.add(contact);
         }
+    }
+
+    private void showInfoAlert() {
+        TextView tvTitle;
+        final AlertDialog infoAlert;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_with_one_action, null);
+        dialogBuilder.setView(dialogView);
+        tvTitle = dialogView.findViewById(R.id.tv_title);
+        tvTitle.setText(context.getString(R.string.info));
+
+
+        ((TextView)dialogView.findViewById(R.id.tv_description)).setText(context.getString(R.string.info_description));
+
+        infoAlert = dialogBuilder.create();
+        infoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoAlert.show();
+        infoAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+        dialogView.findViewById(R.id.tv_action_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoAlert.cancel();
+                finish();
+            }
+        });
     }
 
     private void initViews() {

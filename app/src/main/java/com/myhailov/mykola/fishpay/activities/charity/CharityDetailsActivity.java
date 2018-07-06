@@ -35,6 +35,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_RESULT;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_USER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.CHARITY_VISIBILITY;
 import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrl;
+import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class CharityDetailsActivity extends BaseActivity implements TabLayout.OnTabChangedListener {
     public static final long NOTHING = -1;
@@ -89,9 +90,11 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                 startActivity(intent);
                 break;
             case R.id.tv_contribution:
-                Intent donationIntent = new Intent(context, CharityDonationActivity.class);
-                donationIntent.putExtra(CHARITY_RESULT, charity);
-                startActivity(donationIntent);
+                showInfoAlert(context);
+                // TODO: 06.07.2018 в розробці
+//                Intent donationIntent = new Intent(context, CharityDonationActivity.class);
+//                donationIntent.putExtra(CHARITY_RESULT, charity);
+//                startActivity(donationIntent);
                 break;
         }
 
@@ -109,6 +112,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                 break;
         }
     }
+
 
     private void assignViews() {
         tabLayout = findViewById(R.id.tab_layout_activity_сharity);

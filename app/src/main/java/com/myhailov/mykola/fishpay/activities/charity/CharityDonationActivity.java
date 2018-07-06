@@ -4,12 +4,16 @@ import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,9 +68,7 @@ public class CharityDonationActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.tv_to_transfer:
                 if (checkValue()) {
-                    toast("В розробці");
-                    // TODO: 05.07.2018 В розробці
-//                    attemptPayCharity();
+                    attemptPayCharity();
                 }
                 break;
             case R.id.iv_card:
