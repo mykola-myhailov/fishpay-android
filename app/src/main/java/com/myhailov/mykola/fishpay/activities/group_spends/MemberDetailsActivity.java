@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
 import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 
 public class MemberDetailsActivity extends BaseActivity {
-    private final static String ROLE_MEMBER = "member", ROLE_CREATOR = "creator";
 
     private TextView tvManually, tvEqualiseExpenses, tvExpense;
 
@@ -62,11 +63,13 @@ public class MemberDetailsActivity extends BaseActivity {
                 break;
             case R.id.tv_manually:
                 context.startActivity((new Intent(context, ManualTransferActivity.class))
+                        .putExtra(SPEND, spend)
                         .putExtra(MEMBER, member)
                         .putExtra(MEMBERS, members));
                 break;
             case R.id.tv_equalise_expenses:
                 toast("В розробці");
+                // TODO: 06.07.2018 fix request
 //                if (member.getRelativeBallance() > 0) {
 //                    context.startActivity((new Intent(context, TransactionActivity.class))
 //                            .putExtra(AMOUNT, Utils.pennyToUah((long) member.getRelativeBallance()))
@@ -92,7 +95,9 @@ public class MemberDetailsActivity extends BaseActivity {
             case R.id.tv_expense:
 
                 context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
+                        .putExtra(MEMBER, member)
                         .putExtra(Keys.SPEND, spend));
+
                 break;
         }
     }
@@ -113,8 +118,13 @@ public class MemberDetailsActivity extends BaseActivity {
         tvEqualiseExpenses = findViewById(R.id.tv_equalise_expenses);
         tvExpense = findViewById(R.id.tv_expense);
 
+
         if (role.equals("creator")) {
             tvExpense.setVisibility(View.VISIBLE);
+        }
+        if (role.equals("no_account") || role.isEmpty()) {
+            tvExpense.setVisibility(View.VISIBLE);
+            tvEqualiseExpenses.setVisibility(View.GONE);
         }
 
         tvManually.setOnClickListener(this);

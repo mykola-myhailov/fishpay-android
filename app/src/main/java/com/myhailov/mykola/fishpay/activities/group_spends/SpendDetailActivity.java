@@ -26,6 +26,8 @@ import java.util.ArrayList;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
+import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
+import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
 import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
@@ -33,6 +35,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 import static com.myhailov.mykola.fishpay.utils.Keys.TRANSACTIONS;
 
 public class SpendDetailActivity extends BaseActivity {
+    public static final int ADD_SPEND_REQUESR = 96;
 
     private TextView tvAmount;
     private RecyclerView recyclerView;
@@ -102,14 +105,15 @@ public class SpendDetailActivity extends BaseActivity {
                         .putExtra(SPEND, spendDetail));
                 break;
             case R.id.iv_plus:
-                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
-                        .putExtra(Keys.SPEND, spend));
+                startActivityForResult(new Intent(context, AddMoreSpendsActivity.class)
+                        .putExtra(Keys.SPEND, spend), ADD_SPEND_REQUESR);
                 break;
             case R.id.rlMemberItem:
                 String role = "";
                 for (MemberDetails memberDetails : spendDetail.getMembers()) {
-                    if (memberDetails.getUserId().equals(myUserId+"")){
+                    if (memberDetails.getUserId() != null && memberDetails.getUserId().equals(myUserId + "")) {
                         role = memberDetails.getRole();
+                        break;
                     }
                 }
                 context.startActivity(new Intent(context, MemberDetailsActivity.class)
@@ -120,6 +124,14 @@ public class SpendDetailActivity extends BaseActivity {
                         .putExtra(TRANSACTIONS, spendDetail.getTransactions())
                         .putExtra(Keys.MEMBER, (MemberDetails) view.getTag()));
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_SPEND_REQUESR && resultCode == RESULT_OK) {
+            recreate();
         }
     }
 

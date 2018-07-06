@@ -1,8 +1,12 @@
 package com.myhailov.mykola.fishpay.activities.group_spends;
 
+import com.google.gson.JsonElement;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,15 +14,20 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.BaseResponse;
+import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
+import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
-import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
+import retrofit2.Call;
+
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
@@ -34,6 +43,9 @@ public class ManualTransferActivity extends BaseActivity {
     private long myUserId;
     private ArrayList<MemberDetails> members;
     private MemberDetails member;
+    private GroupSpend spend;
+    private String comment, fromId, toId;
+    private int amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,7 @@ public class ManualTransferActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            spend = getIntent().getExtras().getParcelable(Keys.SPEND);
             members = getIntent().getExtras().getParcelableArrayList(Keys.MEMBERS);
             member = getIntent().getExtras().getParcelable(MEMBER);
         }
@@ -54,7 +67,7 @@ public class ManualTransferActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ivBack:
                 onBackPressed();
                 break;
@@ -82,13 +95,15 @@ public class ManualTransferActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHOOSE_RECUEST && resultCode == RESULT_OK) {
             MemberDetails memberDetails = data.getParcelableExtra(MEMBER);
-            if (isFrom){
+            if (isFrom) {
+                fromId = memberDetails.getUserId();
                 String initials = Utils.extractInitials(memberDetails.getName(), memberDetails.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarFrom, photo, initials);
                 tvNameFrom.setText(memberDetails.getName() + " " + memberDetails.getSurname());
                 tvPhoneFrom.setText("+" + memberDetails.getPhone());
-            }else {
+            } else {
+                toId = memberDetails.getUserId();
                 String initials = Utils.extractInitials(memberDetails.getName(), member.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarTo, photo, initials);
@@ -99,7 +114,7 @@ public class ManualTransferActivity extends BaseActivity {
         }
     }
 
-    private void initViews(){
+    private void initViews() {
         tvNameFrom = findViewById(R.id.tv_name);
         tvPhoneFrom = findViewById(R.id.tv_phone);
         tvNameTo = findViewById(R.id.tv_name_to);
@@ -117,37 +132,67 @@ public class ManualTransferActivity extends BaseActivity {
         findViewById(R.id.tv_create).setOnClickListener(this);
     }
 
-    private void createTransaction(){
-        if (isValid()){
-            sendTransaction();
+    private void createTransaction() {
+        if (isValid()) {
+            toast("В розробці");
+//            addSpendRequest();
         }
     }
 
-    private void sendTransaction(){
+    private void addSpendRequest() {
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+            ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
+                    spend.getId(), true, fromId, toId, amount, comment)
+                    .enqueue(new BaseCallback<JsonElement>(context, true) {
 
+                        @Override
+                        protected void onError(int code, String errorDescription) {
+                            super.onError(code, errorDescription);
+                            Log.d("sss", "onError: " + errorDescription);
+                        }
+
+                        @Override
+                        protected void onResult(int code, JsonElement result) {
+                            Log.d("sss", "onResult: " + code);
+                            onBackPressed();
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
+                            super.onFailure(call, t);
+                            Log.d("sss", "onFailure: " + t);
+                            onBackPressed();
+                        }
+                    });
     }
 
-    private boolean isValid(){
-        if (tvPhoneTo.getText().toString().equals(tvPhoneFrom.getText().toString())){
+    private boolean isValid() {
+        if (tvPhoneTo.getText().toString().equals(tvPhoneFrom.getText().toString())) {
             toast(getString(R.string.fields_must_filled));
             return false;
         }
-        if (TextUtils.isEmpty(etComment.getText().toString())){
+        if (TextUtils.isEmpty(etComment.getText().toString())) {
             toast(getString(R.string.enter_comment));
             return false;
         }
-        if (TextUtils.isEmpty(etAmount.getText().toString())){
+        if (TextUtils.isEmpty(etAmount.getText().toString())) {
             toast(getString(R.string.enter_amount));
             return false;
         }
 
+        comment = etComment.getText().toString();
+        amount = Utils.UAHtoPenny(etAmount.getText().toString());
 
         return true;
     }
 
-    private void setValue(){
+    private void setValue() {
         for (MemberDetails member : members) {
-            if (member.getUserId().equals(myUserId + "")){
+            if (member.getUserId().equals(myUserId + "")) {
+                fromId = member.getUserId();
                 String initials = Utils.extractInitials(member.getName(), member.getSurname());
                 String photo = member.getPhoto();
                 Utils.displayAvatar(context, ivAvatarFrom, photo, initials);
@@ -156,6 +201,7 @@ public class ManualTransferActivity extends BaseActivity {
                 break;
             }
         }
+        toId = member.getUserId();
         String initials = Utils.extractInitials(member.getName(), member.getSurname());
         String photo = member.getPhoto();
         Utils.displayAvatar(context, ivAvatarTo, photo, initials);

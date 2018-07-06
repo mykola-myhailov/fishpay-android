@@ -330,4 +330,6 @@
     <string name="expense">Видатки</string>
     <string name="equalise_expenses">ВИРІВНЯТИ</string>
     <string name="fields_must_filled">Для створення транзакції поля \'Від учасника\' і \'До учасника\' повинні бути заповнені</string>
+    <string name="done">Готово!</string>
+    <string name="tranfer_successfully">Переклад успішно доданий в групу \"%s\". Ви завжди можете його переглянути в списку</string>
 </resources>

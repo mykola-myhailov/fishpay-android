@@ -3,6 +3,7 @@ package com.myhailov.mykola.fishpay.activities.group_spends;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
+import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
@@ -22,9 +24,12 @@ import com.myhailov.mykola.fishpay.utils.Utils;
 
 import retrofit2.Call;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
+
 public class AddMoreSpendsActivity extends BaseActivity {
 
     private GroupSpend spend;
+    private MemberDetails member;
 
     private String comment, userId, userName, userSurname, phoneNumber, photoLink, spendTitle;
     private int pennyAmount;
@@ -50,14 +55,26 @@ public class AddMoreSpendsActivity extends BaseActivity {
         spendId = spend.getId();
         spendTitle = spend.getTitle();
 
+        if (extras.containsKey(MEMBER)){
+            member = extras.getParcelable(MEMBER);
+            if (member != null) {
+                userName = member.getName();
+                userSurname = member.getSurname();
+                phoneNumber = member.getPhone();
+                photoLink = member.getPhoto();
+                if (member.getUserId() != null) {
+                    userId = member.getUserId();
+                }
+            }
+        }else {
 
-        //if
-        userName = preferences.getString(PrefKeys.NAME, "");
-        userSurname = preferences.getString(PrefKeys.SURNAME, "");
-        phoneNumber = preferences.getString(PrefKeys.PHONE, "");
-        photoLink = preferences.getString(PrefKeys.AVATAR, "");
-        userId = preferences.getString(PrefKeys.ID, "");
-
+            //if
+            userName = preferences.getString(PrefKeys.NAME, "");
+            userSurname = preferences.getString(PrefKeys.SURNAME, "");
+            phoneNumber = preferences.getString(PrefKeys.PHONE, "");
+            photoLink = preferences.getString(PrefKeys.AVATAR, "");
+            userId = preferences.getString(PrefKeys.ID, "");
+        }
 
         initViews();
     }
@@ -97,21 +114,33 @@ public class AddMoreSpendsActivity extends BaseActivity {
 
     private void addSpendRequest(){
         if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+        if (!Utils.isOnline(context)) Utils.noInternetToast(context);
         else if (isDataValid())
-        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
-                spendId, true,userId, null, pennyAmount, comment)
-                .enqueue(new BaseCallback<JsonElement>(context, true) {
-                    @Override
-                    protected void onResult(int code, JsonElement result) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
-                        super.onFailure(call, t);
-                        onBackPressed();
-                    }
-                });
+            toast("В розробці");
+        // TODO: 06.07.2018  в розроці
+        return;
+//        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
+//                spendId, true,userId, null, pennyAmount, comment)
+//                .enqueue(new BaseCallback<JsonElement>(context, true) {
+//
+//                    @Override
+//                    protected void onError(int code, String errorDescription) {
+//                        super.onError(code, errorDescription);
+//                    }
+//
+//                    @Override
+//                    protected void onResult(int code, JsonElement result) {
+//                        setResult(RESULT_OK);
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
+//                        super.onFailure(call, t);
+//                        Log.d("sss", "onFailure: " + t);
+//                        onBackPressed();
+//                    }
+//                });
     }
 
     private boolean isDataValid() {

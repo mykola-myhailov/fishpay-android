@@ -348,6 +348,8 @@
     <string name="choose_payment_method">Выберите метод оплаты</string>
     <string name="delete_joint_spends">Вы уверены, что хотите удалить расход из списка общих расходов? Общая сумма будет изменена</string>
     <string name="joint_spends_empty_list">Здесь будет отображатся список затрат в группе</string>
+    <string name="done">Готово!</string>
+    <string name="tranfer_successfully">Перевод успешно добавлен в группу «%s». Вы всегда можете его посмотреть в списке</string>
 
 
 </resources>

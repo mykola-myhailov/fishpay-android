@@ -137,6 +137,8 @@
         </activity>
         <activity android:name=".activities.group_spends.ChooseMemberActivity">
         </activity>
+        <activity android:name=".activities.group_spends.GroupSpendsTransitionSuccessActivity">
+        </activity>
     </application>
 
 </manifest>
