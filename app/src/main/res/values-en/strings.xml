@@ -340,4 +340,6 @@
     <string name="before_yesterday">"day before yesterday "</string>
     <string name="empty_list_log">No activity for this period</string>
     <string name="alert_problem">We\'re sorry, but something went wrong( We will find out the cause and eliminate it</string>
+    <string name="privacy_licence_switch">I agree with the contract of a public offer</string>
+    <string name="privacy_licence_error">Read the public offer contract</string>
 </resources>

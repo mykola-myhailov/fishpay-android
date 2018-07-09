@@ -340,4 +340,6 @@
     <string name="before_yesterday">позавчора</string>
     <string name="empty_list_log">Відсутня активність за даний період</string>
     <string name="alert_problem">Щось пішло не так( Ми постараємося з\'ясувати причину збою і усунути її</string>
+    <string name="privacy_licence_switch">Я згоден з договором публічної оферти</string>
+    <string name="privacy_licence_error">Прочитайте договір публічної оферти</string>
 </resources>

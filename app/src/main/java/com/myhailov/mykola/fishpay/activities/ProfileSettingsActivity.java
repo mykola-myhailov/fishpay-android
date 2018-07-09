@@ -193,6 +193,8 @@ public class ProfileSettingsActivity extends DrawerActivity {
         editor.putString(PrefKeys.SURNAME, surname);
         editor.putString(PrefKeys.AVATAR, avatar);
         editor.putString(PrefKeys.PHONE, phone);
+        editor.putString(PrefKeys.EMAIL, email);
+        editor.putString(PrefKeys.BIRTHDAY, birthday);
         editor.apply();
     }
 

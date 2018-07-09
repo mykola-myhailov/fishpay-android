@@ -27,14 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="16dp"
             android:cursorVisible="false"
             android:focusable="false"
             android:clickable="false"
             android:longClickable="false"
             android:focusableInTouchMode="false"
             android:inputType="textPersonName"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:theme="@style/editTextTheme"
             android:hint="@string/your_name"
             android:textColorHint="@color/grey1"
@@ -50,9 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="16dp"
             android:inputType="textPersonName"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:theme="@style/editTextTheme"
             android:hint="@string/surname"
             android:textColorHint="@color/grey1"
@@ -70,8 +70,8 @@
             android:clickable="false"
             android:longClickable="false"
             android:focusableInTouchMode="false"
-            android:textSize="28sp"
-            android:layout_marginStart="48dp"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
             android:theme="@style/editTextTheme"
             android:hint="@string/birthday"
             android:textColorHint="@color/grey1"
@@ -82,13 +82,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="16dp"
             android:inputType="textEmailAddress"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:hint="@string/email"
             android:theme="@style/editTextTheme"
             android:textColorHint="@color/grey1"
             android:textColor="@color/blue1" />
+
+        <LinearLayout
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:clickable="false"
+                    android:id="@+id/tv_offer"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:layout_gravity="start"
+                    android:textColor="@color/grey"
+                    android:textSize="17sp"
+                    android:text="@string/privacy_licence_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <Switch
+                    android:theme="@style/SwitchStyle"
+                    android:id="@+id/switch_offer"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 

@@ -61,6 +61,8 @@ public interface ApiInterface {
     @GET("api/info")
     Call<BaseResponse<Object>> getInfoVersion(@Header("Authorization") String token);
 
+    @GET("api/docs/public_offer")
+    Call<BaseResponse<String>> getOffer();
 
     // 1) registration
     @GET ("api/user/checkMobile/{phoneNumber}") // check is there users with this phone number exist

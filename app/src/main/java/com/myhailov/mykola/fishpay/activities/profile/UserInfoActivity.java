@@ -3,13 +3,20 @@ package com.myhailov.mykola.fishpay.activities.profile;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mvc.imagepicker.ImagePicker;
@@ -19,6 +26,7 @@ import com.myhailov.mykola.fishpay.activities.ProfileSettingsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -36,6 +44,9 @@ import okhttp3.RequestBody;
 
 public class UserInfoActivity extends BaseActivity {
 
+    private Switch switchOffer;
+    private TextView tvOffer;
+
     private String phone, name, surname, email, birthday, deviceId, deviceInfo;
     private EditText etName, etSurname, etEmail, etBirthday;
     private ImageView ivAvatar;
@@ -47,21 +58,25 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
+        switchOffer = findViewById(R.id.switch_offer);
+        tvOffer = findViewById(R.id.tv_offer);
+        setOffer();
         Bundle extras = getIntent().getExtras();
-        if (extras == null)  return;
+        if (extras == null) return;
         String photo = extras.getString(Keys.PHOTO, "");
         name = extras.getString(Keys.NAME, "");
         surname = extras.getString(Keys.SURNAME, "");
         birthday = extras.getString(Keys.BIRTHDAY, "");
         email = extras.getString(Keys.EMAIL, "");
 
+        switchOffer.setChecked(true);
         etName = findViewById(R.id.etName);
         etName.setText(name);
         etSurname = findViewById(R.id.etSurname);
         etSurname.setText(surname);
         etEmail = findViewById(R.id.etEmail);
         etEmail.setText(email);
-        etBirthday= findViewById(R.id.etBirthday);
+        etBirthday = findViewById(R.id.etBirthday);
         etBirthday.setText(birthday);
         ivAvatar = findViewById(R.id.ivAvatar);
         String initails = Utils.extractInitials(name, surname);
@@ -82,15 +97,46 @@ public class UserInfoActivity extends BaseActivity {
                 name = etName.getText().toString();
                 surname = etSurname.getText().toString();
                 email = etEmail.getText().toString();
+
+                if (!switchOffer.isChecked()){
+                    toast(getString(R.string.privacy_licence_error));
+                    break;
+                }
+
                 if (name.equals("")) Utils.toast(context, getString(R.string.enter_name));
-                else if (surname.equals("")) Utils.toast(context,getString(R.string.enter_surname));
+                else if (surname.equals(""))
+                    Utils.toast(context, getString(R.string.enter_surname));
                     //  else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
-                else if (surname.length() < 2 || surname.length() > 20 )
+                else if (surname.length() < 2 || surname.length() > 20)
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, getString(R.string.incorrect_email));
+                else if (!email.equals("") && !Utils.isValidEmail(email))
+                    Utils.toast(context, getString(R.string.incorrect_email));
                 else editProfileRequest();
                 break;
         }
+    }
+
+    private void setOffer(){
+        SpannableString ss = new SpannableString(getString(R.string.privacy_licence_switch));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(new Intent(context, PublicOfferActivity.class));
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        };
+        ss.setSpan(clickableSpan, 11, ss.length(), 0);
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue1)), 11, ss.length(), 0);
+
+
+        tvOffer.setText(ss);
+        tvOffer.setMovementMethod(LinkMovementMethod.getInstance());
+        tvOffer.setHighlightColor(Color.TRANSPARENT);
     }
 
 
@@ -104,7 +150,7 @@ public class UserInfoActivity extends BaseActivity {
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat monthFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("ru"));
                 etBirthday.setText(monthFormat.format(calendar.getTimeInMillis()));
-                birthday = year  + "-" + Utils.toTwoSigns(month+1) + "-" + Utils.toTwoSigns(dayOfMonth);
+                birthday = year + "-" + Utils.toTwoSigns(month + 1) + "-" + Utils.toTwoSigns(dayOfMonth);
             }
         };
     }
@@ -114,12 +160,15 @@ public class UserInfoActivity extends BaseActivity {
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
             // get new image, make file and upload to server
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null){
+            if (bitmap != null) {
                 ivAvatar.setImageBitmap(bitmap);
 
                 File imageFile = null;
-                try {imageFile = File.createTempFile("avatar" + ".jpg", null, context.getCacheDir());}
-                catch (IOException e) {e.printStackTrace();}
+                try {
+                    imageFile = File.createTempFile("avatar" + ".jpg", null, context.getCacheDir());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 OutputStream outputStream = null;
                 try {
                     if (imageFile != null) outputStream = new FileOutputStream(imageFile);
