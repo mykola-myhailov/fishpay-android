@@ -91,7 +91,8 @@ public abstract class DrawerActivity extends BaseActivity {
                             showInfoNotSuportedAlert(context);
                             break;
                         case R.id.ll_about_us:
-                            showInfoNotSuportedAlert(context);
+//                            showInfoNotSuportedAlert(context);
+                            nextActivityClass = AboutUsActivity.class;
                             break;
                     }
                     if (nextActivityClass != null/* && !(nextActivityClass.equals(context.getClass()) )*/)

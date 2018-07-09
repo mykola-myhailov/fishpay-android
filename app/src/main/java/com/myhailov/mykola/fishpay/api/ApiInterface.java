@@ -58,6 +58,10 @@ import retrofit2.http.QueryMap;
 
 public interface ApiInterface {
 
+    @GET("api/info")
+    Call<BaseResponse<Object>> getInfoVersion(@Header("Authorization") String token);
+
+
     // 1) registration
     @GET ("api/user/checkMobile/{phoneNumber}") // check is there users with this phone number exist
     Call<BaseResponse<Object>> checkMobile(@Header("deviceType") String deviceType ,

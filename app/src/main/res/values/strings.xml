@@ -11,6 +11,11 @@
     <string name="long_number">Номер слишком длинный</string>
     <string name="sms_password">СМС-пароль</string>
     <string name="version" translatable="false">version</string>
+    <string name="version_" translatable="false">Version</string>
+    <string name="version_api" translatable="false">Version API</string>
+    <string name="site" translatable="false">www.fishpay.net</string>
+    <string name="contact_support" translatable="false">Contact support: support@fishpay.net</string>
+    <string name="privacy_licence" translatable="false">© 2016-2017 FishPay blablabla Privacy Policy</string>
     <string name="enter_otp_code">Введите код из смс</string>
     <string name="plus" translatable="false">+</string>
     <string name="enter_password">Введите пароль</string>
