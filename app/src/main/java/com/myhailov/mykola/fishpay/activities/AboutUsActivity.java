@@ -33,6 +33,12 @@ public class AboutUsActivity extends BaseActivity {
             case R.id.tv_site:
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.fishpay.net"));
                 startActivity(i);
+                break;
+            case R.id.tv_email:
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "support@fishpay.net", null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                break;
         }
 
     }
@@ -45,6 +51,7 @@ public class AboutUsActivity extends BaseActivity {
 
         findViewById(R.id.ivBack).setOnClickListener(this);
         findViewById(R.id.tv_site).setOnClickListener(this);
+        findViewById(R.id.tv_email).setOnClickListener(this);
     }
 
     private void getVersion() {
