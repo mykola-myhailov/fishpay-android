@@ -236,6 +236,8 @@ public class TransactionActivity extends DrawerActivity {
                     Utils.toast(context, "success");
                     break;
                 case "REJECTED":
+                    // TODO: 09.07.2018 set alert
+//                    showErrorAlert();
                     Utils.toast(context, getString(R.string.rejected));
                     break;
                 case "REVERSED":
@@ -349,5 +351,23 @@ public class TransactionActivity extends DrawerActivity {
         }
     }
 
+    private void showErrorAlert() {
+        final AlertDialog infoAlert;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_error, null);
+        dialogBuilder.setView(dialogView);
+
+        infoAlert = dialogBuilder.create();
+        infoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoAlert.show();
+
+        dialogView.findViewById(R.id.tv_action_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoAlert.cancel();
+            }
+        });
+    }
 
 }

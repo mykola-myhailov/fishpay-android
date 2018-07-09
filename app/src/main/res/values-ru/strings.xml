@@ -338,4 +338,6 @@
     <string name="date">Дата</string>
     <string name="today_">сегодня</string>
     <string name="before_yesterday">позавчера</string>
+    <string name="empty_list_log">Отсутствует активность за данный период</string>
+    <string name="alert_problem">Что то пошло не так( Мы постараеся выяснить причину сбоя и устранить ее</string>
 </resources>

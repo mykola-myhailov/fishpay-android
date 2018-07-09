@@ -338,4 +338,6 @@
     <string name="date">"Date "</string>
     <string name="today_">today</string>
     <string name="before_yesterday">"day before yesterday "</string>
+    <string name="empty_list_log">No activity for this period</string>
+    <string name="alert_problem">We\'re sorry, but something went wrong( We will find out the cause and eliminate it</string>
 </resources>

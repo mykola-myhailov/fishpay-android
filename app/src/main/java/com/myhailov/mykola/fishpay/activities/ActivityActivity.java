@@ -26,7 +26,7 @@ import java.util.Locale;
 import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 
 public class ActivityActivity extends DrawerActivity {
-    private TextView tvDateFrom, tvDateTo;
+    private TextView tvDateFrom, tvDateTo, tvEmptyLog;
     private RecyclerView rvLog;
     private LinearLayoutManager layoutManager;
 
@@ -85,6 +85,7 @@ public class ActivityActivity extends DrawerActivity {
         tvDateTo = findViewById(R.id.tv_date_to);
         tvDateFrom = findViewById(R.id.tv_date_from);
         rvLog = findViewById(R.id.rv_log);
+        tvEmptyLog = findViewById(R.id.tv_empty_log);
         layoutManager = new LinearLayoutManager(context);
         rvLog.setLayoutManager(layoutManager);
         rvLog.addOnScrollListener(rvOnScrolListener);
@@ -172,9 +173,16 @@ public class ActivityActivity extends DrawerActivity {
                             isLoading = false;
                             if (result.getResult().size() == 0) {
                                 isLastPage = true;
+                                if (logResult.size() == 0) {
+                                    tvEmptyLog.setVisibility(View.VISIBLE);
+                                    rvLog.setVisibility(View.GONE);
+                                }
                             } else {
+                                if (rvLog.getVisibility() == View.GONE){
+                                    tvEmptyLog.setVisibility(View.GONE);
+                                    rvLog.setVisibility(View.VISIBLE);
+                                }
                                 logResult.addAll(result.getResult());
-
                             }
                             adapter.notifyDataSetChanged();
 
