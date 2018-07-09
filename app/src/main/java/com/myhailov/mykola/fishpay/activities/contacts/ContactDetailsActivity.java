@@ -80,6 +80,7 @@ public class ContactDetailsActivity extends BaseActivity {
                                 String publicCard = result.getPublicCard();
                                 String name = result.getName();
                                 String surname = result.getSuname();
+                                if (surname == null) surname = "";
                                 String photo = result.getPhoto();
                                 String phone = result.getPhone();
                                 tvIsAdded.setText(getString(R.string.in_contacts));
@@ -106,6 +107,7 @@ public class ContactDetailsActivity extends BaseActivity {
             photo = searchedContact.getPhoto();
             name = searchedContact.getName();
             surname = searchedContact.getSurname();
+            if (surname == null) surname = "";
             userId = searchedContact.getId();
             tvIsAdded.setText(getString(R.string.add_contact));
             tvIsAdded.setOnClickListener(this);

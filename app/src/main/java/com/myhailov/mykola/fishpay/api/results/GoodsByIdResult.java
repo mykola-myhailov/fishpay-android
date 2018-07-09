@@ -163,6 +163,9 @@ public class GoodsByIdResult {
         }
 
         public String getSecondName() {
+            if (secondName == null){
+                return "";
+            }
             return secondName;
         }
 
