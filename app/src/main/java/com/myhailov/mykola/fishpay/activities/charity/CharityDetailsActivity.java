@@ -90,11 +90,11 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                 startActivity(intent);
                 break;
             case R.id.tv_contribution:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                Intent donationIntent = new Intent(context, CharityDonationActivity.class);
-//                donationIntent.putExtra(CHARITY_RESULT, charity);
-//                startActivity(donationIntent);
+                Intent donationIntent = new Intent(context, CharityDonationActivity.class);
+                donationIntent.putExtra(CHARITY_RESULT, charity);
+                startActivity(donationIntent);
                 break;
         }
 

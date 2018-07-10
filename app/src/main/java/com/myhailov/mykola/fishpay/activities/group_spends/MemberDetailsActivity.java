@@ -125,7 +125,7 @@ public class MemberDetailsActivity extends BaseActivity {
         Utils.displayAvatar(context, ivAvatar, photo, initials);
         Utils.setText((TextView) findViewById(R.id.tvSum), Utils.pennyToUah(member.getSum()));
         Utils.setText((TextView) findViewById(R.id.tvBalance), Utils.pennyToUah(member.getOverpaiment()));
-        Utils.setText((TextView) findViewById(R.id.tvForYou), member.getRelativeBallance());
+        Utils.setText((TextView) findViewById(R.id.tvForYou), Utils.pennyToUah((long) member.getRelativeBallance()));
 
         tvManually = findViewById(R.id.tv_manually);
         tvEqualiseExpenses = findViewById(R.id.tv_equalise_expenses);

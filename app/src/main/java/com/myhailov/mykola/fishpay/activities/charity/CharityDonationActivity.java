@@ -1,34 +1,36 @@
 package com.myhailov.mykola.fishpay.activities.charity;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
-import com.myhailov.mykola.fishpay.activities.CharityActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.BankWebActivity;
 import com.myhailov.mykola.fishpay.activities.profile.CardsActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CharityResultById;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
@@ -46,6 +48,7 @@ public class CharityDonationActivity extends BaseActivity {
     private ImageView ivCard;
     private EditText etTotal, etCvv;
 
+    private String fpt, fptId, anon;
     private Card card;
     private CharityResultById charity = new CharityResultById();
 
@@ -124,11 +127,12 @@ public class CharityDonationActivity extends BaseActivity {
 
     private void attemptPayCharity() {
         if (Utils.isOnline(context)) {
+            anon = (!anonymousSwitch.isChecked()) + "";
             ApiClient.getApiInterface().attemptPayCharity(
                     TokenStorage.getToken(context),
                     Utils.makeRequestBody(Utils.UAHtoPenny(etTotal.getText().toString()) + ""),
                     Utils.makeRequestBody("true"),
-                    Utils.makeRequestBody((!anonymousSwitch.isChecked()) + ""),
+                    Utils.makeRequestBody(anon),
                     charity.getId() + "",
                     Utils.makeRequestBody(card.getId()),
                     Utils.makeRequestBody(etCvv.getText().toString()))
@@ -136,19 +140,17 @@ public class CharityDonationActivity extends BaseActivity {
                         @Override
                         public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
                             super.onFailure(call, t);
-                            Log.d("sss", "onFailure: " + t);
                         }
 
                         @Override
                         protected void onResult(int code, Object result) {
-                            startActivity(new Intent(context, CharityActivity.class));
-                            Log.d("sss", "onResult: code " + code);
-                            Log.d("sss", "onResult: result " + result);
-
+                            LinkedTreeMap resultMap = (LinkedTreeMap) result;
+                            parseResultMap(resultMap);
                         }
                     });
         }
     }
+
 
     private void getCard() {
         SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
@@ -187,5 +189,76 @@ public class CharityDonationActivity extends BaseActivity {
         }
 
         return true;
+    }
+
+    private void parseResultMap(LinkedTreeMap result) {
+        String type = (String) result.get("type");
+        if (type.equals("3DS")) {
+            fpt = (String) result.get("fpt");
+            fptId = (String) result.get("id");
+            String url = (String) result.get("url");
+            LinkedTreeMap form_params = (LinkedTreeMap) result.get("form_params");
+            String termUrl = (String) form_params.get("TermUrl");
+            String paReq = (String) form_params.get("PaReq");
+
+            context.startActivity(new Intent(context, BankWebActivity.class)
+                    .putExtra(Keys.TYPE, type)
+                    .putExtra(Keys.URL, url)
+                    .putExtra(Keys.TERM_URL, termUrl)
+                    .putExtra(Keys.PA_REQ, paReq)
+                    .putExtra(Keys.FPT, fpt)
+                    .putExtra(Keys.FPT_ID, fptId)
+
+                    .putExtra(Keys.CHARITY_ID, charity.getId() + "")
+                    .putExtra(Keys.CHARITY_ANON, anon)
+            );
+        } else if (type.equals("lookup")) {
+            fpt = (String) result.get("fpt");
+            fptId = (String) result.get("id");
+            requestLookup();
+        }
+    }
+
+    private void requestLookup() {
+        final EditText input = new EditText(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        new AlertDialog.Builder(context)
+                .setMessage(getString(R.string.enter_sms_code))
+                .setView(input)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String code = input.getText().toString();
+
+                        if (code.equals(""))
+                            Utils.toast(context, getString(R.string.enter_sms_code));
+                        else if (!Utils.isOnline(context)) Utils.noInternetToast(context);
+                        else ApiClient.getApiInterface()
+                                    .sendLookupCharity(TokenStorage.getToken(context), "true", anon,
+                                            charity.getId() + "", fpt, fptId, code)
+                                    .enqueue(new BaseCallback<String>(context, true) {
+                                        @Override
+                                        protected void onResult(int code, String result) {
+                                            switch (result.toLowerCase()) {
+                                                case "error_code":
+                                                    Utils.toast(context, getString(R.string.incorrect_code));
+                                                    requestLookup();
+                                                    break;
+                                                case "success":
+                                                    Utils.toast(context, getString(R.string.successfully));
+                                                    break;
+                                                default:
+                                                    Utils.toast(context, getString(R.string.error));
+                                                    break;
+                                            }
+                                        }
+                                    });
+                    }
+                })
+                .create().show();
     }
 }

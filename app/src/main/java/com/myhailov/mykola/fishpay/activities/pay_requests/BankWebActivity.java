@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import java.net.URLEncoder;
 
 import retrofit2.Call;
 
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.CHARITY_DONATION;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.INCOMING_PAY_REQUEST;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.JOINT_PURCHASE;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.TRANSFER;
@@ -85,6 +87,7 @@ public class BankWebActivity extends AppCompatActivity {
         if (Utils.isOnline(context)){
             ApiInterface apiInterface = ApiClient.getApiInterface();
             Call<BaseResponse<Object>> call;
+            Log.d("sss", "requestAuditpay: " + type);
             switch (type){
                 case TRANSFER:
                     call = apiInterface.auditpay(TokenStorage.getToken(context), fpt, fptId);
@@ -96,6 +99,12 @@ public class BankWebActivity extends AppCompatActivity {
                 case JOINT_PURCHASE:
                     String purchaseId = extras.getString(Keys.PURCHASE_ID);
                     call = apiInterface.auditpayPurchase(TokenStorage.getToken(context), fpt, fptId, purchaseId);
+                    break;
+                case CHARITY_DONATION:
+                    String charityId = extras.getString(Keys.CHARITY_ID);
+                    String isAnon = extras.getString(Keys.CHARITY_ANON);
+                    call = apiInterface.auditPayCharity(TokenStorage.getToken(context), "true", isAnon,
+                            charityId, fpt, fptId);
                     break;
                 default: return;
             }
@@ -185,6 +194,12 @@ public class BankWebActivity extends AppCompatActivity {
             case JOINT_PURCHASE:
                 String purchaseId = extras.getString(Keys.PURCHASE_ID);
                 call = apiInterface.sendLookupIncoming(TokenStorage.getToken(context), fpt, fptId, purchaseId, code);
+                break;
+            case CHARITY_DONATION:
+                String charityId = extras.getString(Keys.CHARITY_ID);
+                String isAnon = extras.getString(Keys.CHARITY_ANON);
+                call = apiInterface.sendLookupCharity(TokenStorage.getToken(context), "true", isAnon,
+                        charityId, fpt, fptId, code);
                 break;
             default: return;
         }

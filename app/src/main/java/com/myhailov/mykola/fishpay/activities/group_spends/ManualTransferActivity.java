@@ -98,14 +98,14 @@ public class ManualTransferActivity extends BaseActivity {
         if (requestCode == CHOOSE_RECUEST && resultCode == RESULT_OK) {
             MemberDetails memberDetails = data.getParcelableExtra(MEMBER);
             if (isFrom) {
-                fromId = memberDetails.getUserId();
+                fromId = memberDetails.getId() + "";
                 String initials = Utils.extractInitials(memberDetails.getName(), memberDetails.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarFrom, photo, initials);
                 tvNameFrom.setText(memberDetails.getName() + " " + memberDetails.getSurname());
                 tvPhoneFrom.setText("+" + memberDetails.getPhone());
             } else {
-                toId = memberDetails.getUserId();
+                toId =  memberDetails.getId() + "";
                 String initials = Utils.extractInitials(memberDetails.getName(), member.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarTo, photo, initials);
@@ -193,7 +193,7 @@ public class ManualTransferActivity extends BaseActivity {
     private void setValue() {
         for (MemberDetails member : members) {
             if (member.getUserId().equals(myUserId + "")) {
-                fromId = member.getUserId();
+                fromId = member.getId() +"";
                 String initials = Utils.extractInitials(member.getName(), member.getSurname());
                 String photo = member.getPhoto();
                 Utils.displayAvatar(context, ivAvatarFrom, photo, initials);
@@ -202,7 +202,7 @@ public class ManualTransferActivity extends BaseActivity {
                 break;
             }
         }
-        toId = member.getUserId();
+        toId = member.getId() + "";
         String initials = Utils.extractInitials(member.getName(), member.getSurname());
         String photo = member.getPhoto();
         Utils.displayAvatar(context, ivAvatarTo, photo, initials);

@@ -67,6 +67,7 @@ public class TransactionActivity extends DrawerActivity {
     public final static String INCOMING_PAY_REQUEST = "incoming_pay_request";
     public static final String JOINT_PURCHASE = "joint_purchase";
     public static final String COMMON_SPENDING = "common_spending";
+    public static final String CHARITY_DONATION = "charity_donation";
     private String requestId;
     private String purchaseId;
 
