@@ -44,8 +44,8 @@ import okhttp3.RequestBody;
 
 public class UserInfoActivity extends BaseActivity {
 
-    private Switch switchOffer;
-    private TextView tvOffer;
+//    private Switch switchOffer;
+//    private TextView tvOffer;
 
     private String phone, name, surname, email, birthday, deviceId, deviceInfo;
     private EditText etName, etSurname, etEmail, etBirthday;
@@ -58,9 +58,9 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        switchOffer = findViewById(R.id.switch_offer);
-        tvOffer = findViewById(R.id.tv_offer);
-        setOffer();
+//        switchOffer = findViewById(R.id.switch_offer);
+//        tvOffer = findViewById(R.id.tv_offer);
+//        setOffer();
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
         String photo = extras.getString(Keys.PHOTO, "");
@@ -69,7 +69,7 @@ public class UserInfoActivity extends BaseActivity {
         birthday = extras.getString(Keys.BIRTHDAY, "");
         email = extras.getString(Keys.EMAIL, "");
 
-        switchOffer.setChecked(true);
+//        switchOffer.setChecked(true);
         etName = findViewById(R.id.etName);
         etName.setText(name);
         etSurname = findViewById(R.id.etSurname);
@@ -98,10 +98,10 @@ public class UserInfoActivity extends BaseActivity {
                 surname = etSurname.getText().toString();
                 email = etEmail.getText().toString();
 
-                if (!switchOffer.isChecked()){
-                    toast(getString(R.string.privacy_licence_error));
-                    break;
-                }
+//                if (!switchOffer.isChecked()){
+//                    toast(getString(R.string.privacy_licence_error));
+//                    break;
+//                }
 
                 if (name.equals("")) Utils.toast(context, getString(R.string.enter_name));
                 else if (surname.equals(""))
@@ -116,28 +116,28 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
-    private void setOffer(){
-        SpannableString ss = new SpannableString(getString(R.string.privacy_licence_switch));
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                startActivity(new Intent(context, PublicOfferActivity.class));
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(true);
-            }
-        };
-        ss.setSpan(clickableSpan, 11, ss.length(), 0);
-        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue1)), 11, ss.length(), 0);
-
-
-        tvOffer.setText(ss);
-        tvOffer.setMovementMethod(LinkMovementMethod.getInstance());
-        tvOffer.setHighlightColor(Color.TRANSPARENT);
-    }
+//    private void setOffer(){
+//        SpannableString ss = new SpannableString(getString(R.string.privacy_licence_switch));
+//        ClickableSpan clickableSpan = new ClickableSpan() {
+//            @Override
+//            public void onClick(View textView) {
+//                startActivity(new Intent(context, PublicOfferActivity.class));
+//            }
+//
+//            @Override
+//            public void updateDrawState(TextPaint ds) {
+//                super.updateDrawState(ds);
+//                ds.setUnderlineText(true);
+//            }
+//        };
+//        ss.setSpan(clickableSpan, 11, ss.length(), 0);
+//        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue1)), 11, ss.length(), 0);
+//
+//
+//        tvOffer.setText(ss);
+//        tvOffer.setMovementMethod(LinkMovementMethod.getInstance());
+//        tvOffer.setHighlightColor(Color.TRANSPARENT);
+//    }
 
 
     private DatePickerDialog.OnDateSetListener createDateSetListener() {

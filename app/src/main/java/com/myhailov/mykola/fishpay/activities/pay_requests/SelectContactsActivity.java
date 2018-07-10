@@ -33,7 +33,8 @@ public class SelectContactsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_contact);
 
-        initToolBar(getString(R.string.my_contacts));
+        initCustomToolbar(getString(R.string.my_contacts));
+        findViewById(R.id.ivBack).setOnClickListener(this);
         contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         appContacts = new ArrayList<>();
         displayedContacts = new ArrayList<>();
@@ -62,7 +63,9 @@ public class SelectContactsActivity extends BaseActivity {
                     finish();
                 }
                 break;
-
+            case R.id.ivBack:
+                onBackPressed();
+                break;
             case R.id.ivInvite:  // click on contact from device to invite
                 if (!Utils.isOnline(context)){
                     Utils.noInternetToast(context);

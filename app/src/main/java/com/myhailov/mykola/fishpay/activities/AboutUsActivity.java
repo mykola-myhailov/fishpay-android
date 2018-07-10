@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.BuildConfig;
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.profile.PublicOfferActivity;
 import com.myhailov.mykola.fishpay.activities.profile.UserInfoActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
@@ -58,12 +59,7 @@ public class AboutUsActivity extends BaseActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-                startActivity(new Intent(context, UserInfoActivity.class)
-                        .putExtra(Keys.PHOTO, preferences.getString(PrefKeys.AVATAR, ""))
-                        .putExtra(Keys.NAME, preferences.getString(PrefKeys.NAME, ""))
-                        .putExtra(Keys.SURNAME, preferences.getString(PrefKeys.SURNAME, ""))
-                        .putExtra(Keys.BIRTHDAY, preferences.getString(PrefKeys.BIRTHDAY, ""))
-                        .putExtra(Keys.EMAIL, preferences.getString(PrefKeys.EMAIL, "")));
+                startActivity(new Intent(context, PublicOfferActivity.class));
             }
 
             @Override
