@@ -1,7 +1,6 @@
 package com.myhailov.mykola.fishpay.activities.pay_requests;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,7 +19,7 @@ public class SuccessPayRequestActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_return_to_work:
                 startActivity(new Intent(context, PayRequestActivity.class));
                 break;

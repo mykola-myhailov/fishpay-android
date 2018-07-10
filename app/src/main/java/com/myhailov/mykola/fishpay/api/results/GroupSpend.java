@@ -78,7 +78,9 @@ public class GroupSpend implements Parcelable {
     }
 
 
-
+    public GroupSpend(long id) {
+        this.id = id;
+    }
 
     //Parcelable implementation:
     @Override

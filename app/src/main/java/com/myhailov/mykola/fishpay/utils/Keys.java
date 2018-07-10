@@ -27,6 +27,7 @@ public class Keys {
     public static final String PURCHASE2 = "purchase2";
     public static final int REQUEST_MEMBER = 100;
     public static final String CONTACTS = "contacts";
+    public static final String JSON_ELEMENT = "json_element";
     public static final String TITLE = "title";
     public static final String MEMBER = "member";
     public static final String MEMBERS = "members";
@@ -37,6 +38,7 @@ public class Keys {
     public static final String GROUP = "group";
     public static final String FROM = "from";
     public static final String SPEND_ID = "spend_id";
+    public static final String COMMENT = "comment";
 
     public static final String FPT = "fpt";
     public static final String FPT_ID = "fpt_id";

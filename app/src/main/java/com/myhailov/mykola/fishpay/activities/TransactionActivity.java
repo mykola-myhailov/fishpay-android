@@ -66,6 +66,7 @@ public class TransactionActivity extends DrawerActivity {
     public final static String TRANSFER = "transfer";
     public final static String INCOMING_PAY_REQUEST = "incoming_pay_request";
     public static final String JOINT_PURCHASE = "joint_purchase";
+    public static final String COMMON_SPENDING = "common_spending";
     private String requestId;
     private String purchaseId;
 
@@ -76,7 +77,7 @@ public class TransactionActivity extends DrawerActivity {
 
         createDrawer();
         // TODO: 06.07.2018 в розробці
-        showInfoAlert();
+//        showInfoAlert();
 
 
         preferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
@@ -206,6 +207,7 @@ public class TransactionActivity extends DrawerActivity {
     private void payRequest() {
         ApiInterface anInterface = ApiClient.getApiInterface();
         Call<BaseResponse<Object>> call;
+        Log.d("sss", "payRequest: " + type);
         switch (type){
             case TRANSFER:
                 call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
@@ -216,6 +218,10 @@ public class TransactionActivity extends DrawerActivity {
             case JOINT_PURCHASE:
                 call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
                 break;
+//            case COMMON_SPENDING:
+//                call = anInterface.initInvoice(token, purchaseId, card.getId(), cvv);
+//                break;
+
             default: return;
         }
         call.enqueue(new PayCallback(context, true));

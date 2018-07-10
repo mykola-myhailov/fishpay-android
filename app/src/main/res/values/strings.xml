@@ -73,6 +73,7 @@
     <string name="password_sms_entered_incorrect">Пароль из SMS введен неправильно</string>
     <string name="confirm">Подтвердить</string>
     <string name="contribution_of_joint_purchase">Взнос в рамках общей покупки %s</string>
+    <string name="contribution_of_common_spend">Запрос на перевод средств в рамках общей покупки</string>
     <string name="contribution">Взнос</string>
     <string name="payment_request">запрос на оплату</string>
     <string name="pay_till">оплатить до:</string>

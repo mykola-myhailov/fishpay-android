@@ -95,7 +95,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         setContentView(R.layout.activity_create_pay_request);
 
         // TODO: 06.07.2018 в розробці
-        showInfoAlert();
+//        showInfoAlert();
 
 
         Bundle extras = getIntent().getExtras();
@@ -135,6 +135,10 @@ public class CreatePayRequestActivity extends BaseActivity {
             if (extras.containsKey(Keys.CARD)) {
                 card = extras.getParcelable(Keys.CARD);
             }
+
+//            if (extras.containsKey(Keys.COMMENT)){
+//                etComment.setText(getString(R.string.contribution_of_common_spend));
+//            }
 
         }
         if (card == null) {

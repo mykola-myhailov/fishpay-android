@@ -31,6 +31,9 @@ public class MemberDetails implements Parcelable{
     @SerializedName("phone")
     private String phone;
 
+    @SerializedName("member_id")
+    private long memberId;
+
     @SerializedName("first_name")
     private String name;
 
@@ -57,6 +60,11 @@ public class MemberDetails implements Parcelable{
 
 
     // getters
+
+
+    public long getMemberId() {
+        return memberId;
+    }
 
     public long getId() {
         return id;
@@ -118,10 +126,11 @@ public class MemberDetails implements Parcelable{
         return relativeBallance;
     }
 
+    public MemberDetails() {
+    }
 
 
-
-    //Parcelable implementation
+//Parcelable implementation
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -136,6 +145,7 @@ public class MemberDetails implements Parcelable{
         parcel.writeString(surname);
         parcel.writeString(photo);
         parcel.writeLong(sum);
+        parcel.writeLong(memberId);
         parcel.writeLong(commitment);
         parcel.writeLong(overpaiment);
         parcel.writeDouble(partInOverpaiment);
@@ -154,6 +164,7 @@ public class MemberDetails implements Parcelable{
         surname = in.readString();
         photo = in.readString();
         sum = in.readLong();
+        memberId = in.readLong();
         commitment = in.readLong();
         overpaiment = in.readLong();
         partInOverpaiment = in.readDouble();

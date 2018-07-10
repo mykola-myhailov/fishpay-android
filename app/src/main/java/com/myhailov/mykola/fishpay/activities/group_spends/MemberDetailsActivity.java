@@ -12,20 +12,28 @@ import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.activities.BaseActivity;
+import com.myhailov.mykola.fishpay.activities.TransactionActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
+import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.MemberDetails;
+import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.AMOUNT;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
+import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
 import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.SEARCHED_CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
+import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
 import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class MemberDetailsActivity extends BaseActivity {
@@ -63,45 +71,45 @@ public class MemberDetailsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_manually:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                context.startActivity((new Intent(context, ManualTransferActivity.class))
-//                        .putExtra(SPEND, spend)
-//                        .putExtra(MEMBER, member)
-//                        .putExtra(MEMBERS, members));
+                context.startActivity((new Intent(context, ManualTransferActivity.class))
+                        .putExtra(SPEND, spend)
+                        .putExtra(MEMBER, member)
+                        .putExtra(MEMBERS, members));
                 break;
             case R.id.tv_equalise_expenses:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
                 // TODO: 06.07.2018 fix request
-//                if (member.getRelativeBallance() > 0) {
-//                    context.startActivity((new Intent(context, TransactionActivity.class))
-//                            .putExtra(AMOUNT, Utils.pennyToUah((long) member.getRelativeBallance()))
-//                            .putExtra(USER_ID, member.getUserId())
-//                            .putExtra(NAME, member.getName() + " " + member.getSurname()));
-//                }
-//                if (member.getRelativeBallance() < 0) {
-//                    SearchedContactsResult.SearchedContact contact = new SearchedContactsResult.SearchedContact();
-//                    contact.setPhone(member.getPhone());
-//                    contact.setName(member.getName());
-//                    contact.setSurname(member.getSurname());
-//
-//                    Member memb = new Member();
-//                    memb.setPhone(member.getPhone());
-//                    memb.setFirstName(member.getName());
-//                    memb.setLastName(member.getSurname());
-//                    memb.setAmountToPay((int) member.getRelativeBallance());
-//                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-//                            .putExtra(SEARCHED_CONTACT, contact)
-//                            .putExtra(MEMBER, memb));
-//                }
+                if (member.getRelativeBallance() > 0) {
+                    context.startActivity((new Intent(context, ManualTransferActivity.class))
+                            .putExtra(SPEND, spend)
+                            .putExtra(MEMBER, member)
+                            .putExtra(MEMBERS, members));
+                }
+                if (member.getRelativeBallance() <= 0) {
+                    SearchedContactsResult.SearchedContact contact = new SearchedContactsResult.SearchedContact();
+                    contact.setPhone(member.getPhone());
+                    contact.setName(member.getName());
+                    contact.setSurname(member.getSurname());
+
+                    Member memb = new Member();
+                    memb.setPhone(member.getPhone());
+                    memb.setFirstName(member.getName());
+                    memb.setLastName(member.getSurname());
+                    memb.setAmountToPay((int) member.getRelativeBallance());
+                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                            .putExtra(SEARCHED_CONTACT, contact)
+                            .putExtra(MEMBER, memb));
+                }
                 break;
             case R.id.tv_expense:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
-//                        .putExtra(MEMBER, member)
-//                        .putExtra(Keys.SPEND, spend));
+                context.startActivity(new Intent(context, AddMoreSpendsActivity.class)
+                        .putExtra(MEMBER, member)
+                        .putExtra(Keys.SPEND, spend));
 
                 break;
         }
@@ -142,6 +150,7 @@ public class MemberDetailsActivity extends BaseActivity {
     private void initRecyclerView() {
         memberTransactions = new ArrayList<>();
         memberId = member.getId();
+//        memberId = Long.parseLong(member.getUserId());
         for (Transaction transaction : allTransactions) {
             if (transaction.getMemberFromId() == memberId || transaction.getMemberToId() == memberId)
                 memberTransactions.add(transaction);

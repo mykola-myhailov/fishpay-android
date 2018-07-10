@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 
+import static com.myhailov.mykola.fishpay.utils.Keys.JSON_ELEMENT;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
@@ -58,6 +59,7 @@ public class ManualTransferActivity extends BaseActivity {
             spend = getIntent().getExtras().getParcelable(Keys.SPEND);
             members = getIntent().getExtras().getParcelableArrayList(Keys.MEMBERS);
             member = getIntent().getExtras().getParcelable(MEMBER);
+
         }
 
         myUserId = Long.valueOf(getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
@@ -134,8 +136,7 @@ public class ManualTransferActivity extends BaseActivity {
 
     private void createTransaction() {
         if (isValid()) {
-            toast("В розробці");
-//            addSpendRequest();
+            addSpendRequest();
         }
     }
 
@@ -144,29 +145,29 @@ public class ManualTransferActivity extends BaseActivity {
             Utils.noInternetToast(context);
             return;
         }
-            ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
-                    spend.getId(), true, fromId, toId, amount, comment)
-                    .enqueue(new BaseCallback<JsonElement>(context, true) {
+        ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
+                spend.getId(), true, fromId, toId, amount, comment)
+                .enqueue(new BaseCallback<JsonElement>(context, true) {
 
-                        @Override
-                        protected void onError(int code, String errorDescription) {
-                            super.onError(code, errorDescription);
-                            Log.d("sss", "onError: " + errorDescription);
-                        }
+                    @Override
+                    protected void onError(int code, String errorDescription) {
+                        super.onError(code, errorDescription);
+                        Log.d("sss", "onError: " + errorDescription);
+                    }
 
-                        @Override
-                        protected void onResult(int code, JsonElement result) {
-                            Log.d("sss", "onResult: " + code);
-                            onBackPressed();
-                        }
+                    @Override
+                    protected void onResult(int code, JsonElement result) {
+                        context.startActivity(new Intent(context, GroupSpendsTransitionSuccessActivity.class)
+                                .putExtra(JSON_ELEMENT, result.toString()));
+                        finish();
+                    }
 
-                        @Override
-                        public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
-                            super.onFailure(call, t);
-                            Log.d("sss", "onFailure: " + t);
-                            onBackPressed();
-                        }
-                    });
+                    @Override
+                    public void onFailure(@NonNull Call<BaseResponse<JsonElement>> call, @NonNull Throwable t) {
+                        super.onFailure(call, t);
+                        Log.d("sss", "onFailure: " + t);
+                    }
+                });
     }
 
     private boolean isValid() {
