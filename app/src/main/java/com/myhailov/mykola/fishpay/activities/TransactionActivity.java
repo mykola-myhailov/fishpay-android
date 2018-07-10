@@ -237,13 +237,14 @@ public class TransactionActivity extends DrawerActivity {
                     break;
                 case "REJECTED":
                     // TODO: 09.07.2018 set alert
-//                    showErrorAlert();
+                    showErrorAlert();
                     Utils.toast(context, getString(R.string.rejected));
                     break;
                 case "REVERSED":
                     Utils.toast(context, "reversed");
                     break;
                 case "ERROR":
+                    showErrorAlert();
                     Utils.toast(context, "error");
                     break;
                 default:

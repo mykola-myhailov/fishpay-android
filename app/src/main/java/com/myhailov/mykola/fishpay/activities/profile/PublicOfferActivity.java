@@ -19,10 +19,12 @@ public class PublicOfferActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_offer);
+        initCustomToolbar(getString(R.string.offer));
         tvOffer = findViewById(R.id.tv_offer);
         tvOffer.setMovementMethod(new ScrollingMovementMethod());
         getOffer();
         findViewById(R.id.tv_ok).setOnClickListener(this);
+        findViewById(R.id.ivBack).setOnClickListener(this);
     }
 
     @Override

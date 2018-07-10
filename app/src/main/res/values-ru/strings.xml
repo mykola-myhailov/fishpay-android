@@ -342,4 +342,5 @@
     <string name="alert_problem">Что то пошло не так( Мы постараеся выяснить причину сбоя и устранить ее</string>
     <string name="privacy_licence_switch">Я согласен с договором публичной оферты</string>
     <string name="privacy_licence_error">Прочтите договор публичной оферты</string>
+    <string name="offer">Оферта</string>
 </resources>

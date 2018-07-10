@@ -78,7 +78,6 @@ public abstract class DrawerActivity extends BaseActivity {
                             nextActivityClass = CharityActivity.class;
                             break;
                         case R.id.navActivity:
-//                            showInfoNotSuportedAlert(context);
                             nextActivityClass = ActivityActivity.class;
                             break;
                         case R.id.navGroupSpends:
@@ -91,7 +90,6 @@ public abstract class DrawerActivity extends BaseActivity {
                             showInfoNotSuportedAlert(context);
                             break;
                         case R.id.ll_about_us:
-//                            showInfoNotSuportedAlert(context);
                             nextActivityClass = AboutUsActivity.class;
                             break;
                     }
