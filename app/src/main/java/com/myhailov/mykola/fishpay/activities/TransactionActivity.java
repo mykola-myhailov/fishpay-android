@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.JointPurchaseDetailsResult;
+import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
@@ -43,7 +45,11 @@ import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContacts
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CARD;
 import static com.myhailov.mykola.fishpay.utils.Keys.CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_CREATOR;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_ID;
 import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class TransactionActivity extends DrawerActivity {
@@ -70,6 +76,7 @@ public class TransactionActivity extends DrawerActivity {
     public static final String CHARITY_DONATION = "charity_donation";
     private String requestId;
     private String purchaseId;
+    private String spendingId, memberFrom, memberTo, spendComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +112,18 @@ public class TransactionActivity extends DrawerActivity {
                     }
                     purchaseId = jointPurchase.getId();
                     break;
+                case COMMON_SPENDING:
+                    MemberDetails memberDetails = extras.getParcelable(MEMBER);
+                    if (memberDetails == null) return;
+                    receiverId = "";
+                    receiverName = memberDetails.getName();
+                    spendingId = extras.getString(SPEND_ID, "");
+                    memberFrom = extras.getString(SPEND_CREATOR, "");
+                    memberTo = extras.getString(MEMBER_ID, "");
+                    amount = (int) memberDetails.getRelativeBallance();
+                    amountUAH = Utils.pennyToUah((int) memberDetails.getRelativeBallance());
+                    spendComment = extras.getString(Keys.COMMENT, "");
+                    break;
             }
          }
         initDrawerToolbar(getString(R.string.outgoing_transaction));
@@ -123,6 +142,10 @@ public class TransactionActivity extends DrawerActivity {
         etCvv = findViewById(R.id.et_cvv);
         if (receiverName != null && !receiverName.equals("")) tvName.setText(receiverName);
         etAmount.setText(amountUAH);
+
+        if (!TextUtils.isEmpty(spendComment)){
+            etComment.setText(spendComment);
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE);
         if (sharedPreferences.contains(PrefKeys.CARD)){
@@ -192,6 +215,7 @@ public class TransactionActivity extends DrawerActivity {
     private boolean dataIsValid() {
         amountUAH = etAmount.getText().toString();
         amount = Utils.UAHtoPenny(amountUAH);
+        Log.d("sss", "dataIsValid: " + amount);
         //   String comment = etComment.getText().toString();
         cvv = etCvv.getText().toString();
         if (receiverContact != null) receiverContact.getUserId();
@@ -214,14 +238,30 @@ public class TransactionActivity extends DrawerActivity {
                 call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
                 break;
             case INCOMING_PAY_REQUEST:
+                Log.d("sss", "payRequest: " + token + "\n"+ receiverId+ "\n"+ card.getId() +"\n"+ cvv +"\n");
                 call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
                 break;
             case JOINT_PURCHASE:
                 call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
                 break;
-//            case COMMON_SPENDING:
-//                call = anInterface.initInvoice(token, purchaseId, card.getId(), cvv);
-//                break;
+            case COMMON_SPENDING:
+                // TODO: 11.07.2018 fix request
+                if (TextUtils.isEmpty(etComment.getText().toString())){
+                    Utils.toast(context, getString(R.string.enter_comment));
+                    return;
+                }
+                call = anInterface.paymentSpend(token, spendingId, true,
+                        memberFrom, memberTo, amount + "",etComment.getText().toString(),
+                        card.getId(), cvv);
+//                call = anInterface.paymentSpend(token, spendingId,
+//                        Utils.makeRequestBody("true"),
+//                        Utils.makeRequestBody(memberFrom),
+//                        Utils.makeRequestBody(memberTo),
+//                        Utils.makeRequestBody(amount + ""),
+//                        Utils.makeRequestBody(etComment.getText().toString()),
+//                        Utils.makeRequestBody(card.getId()),
+//                        Utils.makeRequestBody(cvv));
+                break;
 
             default: return;
         }
@@ -234,16 +274,22 @@ public class TransactionActivity extends DrawerActivity {
             super(context, showProgress);
         }
 
+
+        @Override
+        public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
+            super.onFailure(call, t);
+            Log.d("sss", "onFailure: " + t);
+        }
+
         @Override
         protected void onResult(int code, Object result) {
-
+            Log.d("sss", "onResult: " + result.toString());
             switch (result.toString()) {
 
                 case "SUCCESS":
                     Utils.toast(context, "success");
                     break;
                 case "REJECTED":
-                    // TODO: 09.07.2018 set alert
                     showErrorAlert();
                     Utils.toast(context, getString(R.string.rejected));
                     break;

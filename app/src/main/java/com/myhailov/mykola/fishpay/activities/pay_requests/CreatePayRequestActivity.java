@@ -39,6 +39,7 @@ import com.myhailov.mykola.fishpay.api.requestBodies.SelectedGoods;
 import com.myhailov.mykola.fishpay.api.results.Card;
 import com.myhailov.mykola.fishpay.api.results.CreateInvoiceResult;
 import com.myhailov.mykola.fishpay.api.results.GoodsResults;
+import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
@@ -64,8 +65,12 @@ import static com.myhailov.mykola.fishpay.utils.Keys.GOODS;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_TOTAL_PRICE;
 import static com.myhailov.mykola.fishpay.utils.Keys.LOAD_CONTACTS;
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.REQUEST;
 import static com.myhailov.mykola.fishpay.utils.Keys.SEARCHED_CONTACT;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_CREATOR;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
 
 
@@ -81,13 +86,14 @@ public class CreatePayRequestActivity extends BaseActivity {
     private Member member;
     private Card card;
     private int amount;
-    private boolean fromJointPurchase, loadContacts = true;
+    private boolean fromJointPurchase, loadContacts = true, isSpend = false;
     private View rlRequestAmount;
     private ArrayList<Contact> appContacts;
     private ArrayList<GoodsResults> selectedGoods;
 
     private String title;
     private String beforeChangeAmount;
+    private String spendingId, memberFrom, memberTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +142,19 @@ public class CreatePayRequestActivity extends BaseActivity {
                 card = extras.getParcelable(Keys.CARD);
             }
 
-//            if (extras.containsKey(Keys.COMMENT)){
-//                etComment.setText(getString(R.string.contribution_of_common_spend));
-//            }
+            if (extras.containsKey(Keys.SPEND)){
+                MemberDetails memberDetails = extras.getParcelable(Keys.MEMBERS);
+                if (memberDetails == null) return;
+                isSpend = true;
+                receiverContact = new Contact();
+                receiverName = memberDetails.getName();
+                receiverPhone = memberDetails.getPhone();
+                spendingId = extras.getString(SPEND_ID, "");
+                memberFrom = extras.getString(SPEND_CREATOR, "");
+                memberTo = extras.getString(MEMBER_ID, "");
+                amount = Math.abs((int) memberDetails.getRelativeBallance());
+            }
+
 
         }
         if (card == null) {
@@ -158,6 +174,11 @@ public class CreatePayRequestActivity extends BaseActivity {
         }
         initCustomToolbar(getString(R.string.payment_request));
         initViews();
+
+        if (extras != null && extras.containsKey(Keys.COMMENT)){
+            etComment.setText(extras.getString(Keys.COMMENT, ""));
+        }
+
         // set information if group purchase
         if (!loadContacts) {
             rvContacts.setVisibility(View.GONE);
@@ -220,6 +241,7 @@ public class CreatePayRequestActivity extends BaseActivity {
         etComment = findViewById(R.id.et_comment);
         etAmount = findViewById(R.id.met_amount);
         etAmount.addTextChangedListener(amountTextWatcher);
+
         if (fromJointPurchase) {
             etAmount.setClickable(false);
             etAmount.setLongClickable(false);
@@ -241,6 +263,10 @@ public class CreatePayRequestActivity extends BaseActivity {
             etPhone.setCursorVisible(false);
             etPhone.setFocusableInTouchMode(false);
         }
+        if (isSpend){
+            etAmount.setText(Utils.pennyToUah(amount));
+        }
+
         if (cardName.equals("")) tvCard.setText(receiverCardNumber);
         else {
             Spannable spannable = new SpannableString(String.format("%s | %s", receiverCardNumber, cardName));
@@ -349,12 +375,29 @@ public class CreatePayRequestActivity extends BaseActivity {
                     String cardId = card.getId();
                     String memberId = null;
                     if (member != null) memberId = member.getId();
-                    ApiClient.getApiInterface().createInvoice(TokenStorage.getToken(context),
-                            receiverPhone, cardId, amount, comment, memberId, prepareGoods(selectedGoods))
-                            .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
-                                @Override
-                                protected void onResult(int code, CreateInvoiceResult result) {
-                                    if (code == 201) {
+                    if (!isSpend) {
+                        ApiClient.getApiInterface().createInvoice(TokenStorage.getToken(context),
+                                receiverPhone, cardId, amount, comment, memberId, prepareGoods(selectedGoods))
+                                .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
+                                    @Override
+                                    protected void onResult(int code, CreateInvoiceResult result) {
+                                        if (code == 201) {
+                                            if (result == null) return;
+                                            startActivity(new Intent(context, ConfirmPayRequestActivity.class)
+                                                    .putExtra(Keys.REQUEST_ID, result.getRequestId())
+                                                    .putExtra(Keys.CONTACT, result.getReceiver())
+                                                    .putExtra(Keys.CARD, receiverCardNumber)
+                                                    .putExtra(Keys.AMOUNT, amountUAH)
+                                            );
+                                        }
+                                    }
+                                });
+                    }else {
+                        ApiClient.getApiInterface().initInvoice(TokenStorage.getToken(context),
+                                receiverPhone, cardId, amount + "", comment, memberFrom, memberTo)
+                                .enqueue(new BaseCallback<CreateInvoiceResult>(context, true) {
+                                    @Override
+                                    protected void onResult(int code, CreateInvoiceResult result) {
                                         if (result == null) return;
                                         startActivity(new Intent(context, ConfirmPayRequestActivity.class)
                                                 .putExtra(Keys.REQUEST_ID, result.getRequestId())
@@ -363,8 +406,8 @@ public class CreatePayRequestActivity extends BaseActivity {
                                                 .putExtra(Keys.AMOUNT, amountUAH)
                                         );
                                     }
-                                }
-                            });
+                                });
+                    }
                 } else Utils.noInternetToast(context);
                 break;
         }

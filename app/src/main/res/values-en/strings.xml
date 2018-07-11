@@ -102,7 +102,7 @@
     <string name="all">All</string>
     <string name="use">"Use "</string>
     <string name="add">ADD</string>
-    <string name="enter_comment">Add comment</string>
+    <string name="enter_comment">Enter a comment</string>
     <string name="enter_amount">Enter amount</string>
     <string name="total_cost">total expenses:</string>
     <string name="total">TOTAL</string>
@@ -343,4 +343,6 @@
     <string name="privacy_licence_switch">I agree with the contract of a public offer</string>
     <string name="privacy_licence_error">Read the public offer contract</string>
     <string name="offer">Offer</string>
+    <string name="fields_must_filled_not_equals">Fields \'From the participant\' and \'To the participant\' must be different</string>
+    <string name="contribution_of_common_spend">Request for transfer of funds in the framework of joint spending</string>
 </resources>

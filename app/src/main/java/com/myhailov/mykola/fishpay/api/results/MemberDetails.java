@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.api.results;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -99,6 +100,9 @@ public class MemberDetails implements Parcelable{
     }
 
     public String getSurname() {
+        if (TextUtils.isEmpty(surname)){
+            return "";
+        }
         return surname;
     }
 

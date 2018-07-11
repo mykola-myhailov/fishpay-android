@@ -30,6 +30,7 @@ public class Keys {
     public static final String JSON_ELEMENT = "json_element";
     public static final String TITLE = "title";
     public static final String MEMBER = "member";
+    public static final String MEMBER_ID = "member_id";
     public static final String MEMBERS = "members";
     public static final String OWNER = "owner";
     public static final String CLOSED = "closed";
@@ -38,6 +39,7 @@ public class Keys {
     public static final String GROUP = "group";
     public static final String FROM = "from";
     public static final String SPEND_ID = "spend_id";
+    public static final String SPEND_CREATOR = "spend_creator";
     public static final String COMMENT = "comment";
 
     public static final String FPT = "fpt";

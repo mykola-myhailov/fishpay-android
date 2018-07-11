@@ -180,42 +180,42 @@ public class ContactDetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.tvGet:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
 
-//                if (contactDetails != null) {
-//                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-//                            .putExtra(Keys.CONTACT, contact));
-//                } else {
-//                    if (!isContact) {
-//                        context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-//                                .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
-//                    }
-//                }
+                if (contactDetails != null) {
+                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                            .putExtra(Keys.CONTACT, contact));
+                } else {
+                    if (!isContact) {
+                        context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+                                .putExtra(Keys.SEARCHED_CONTACT, searchedContact));
+                    }
+                }
 
                 break;
 
             case R.id.tvGive:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                String contactName = "";
-//                String idUser = "";
-//                if (isContact) {
-//                    if (!TextUtils.isEmpty(contactDetails.getName())) {
-//                        contactName = contactDetails.getName() + " ";
-//                    }
-//                    if (!TextUtils.isEmpty(contactDetails.getSuname())) {
-//                        contactName = contactName + contactDetails.getSuname();
-//                    }
-//                    idUser = contactDetails.getUserId();
-//                } else {
-//                    contactName = name + " " + surname;
-//                    idUser = userId + "";
-//                }
-//                context.startActivity((new Intent(context, TransactionActivity.class))
-//                        .putExtra(NAME, contactName)
-//                        .putExtra(USER_ID, idUser)
-//                        .putExtra(Keys.CONTACT, contact));
+                String contactName = "";
+                String idUser = "";
+                if (isContact) {
+                    if (!TextUtils.isEmpty(contactDetails.getName())) {
+                        contactName = contactDetails.getName() + " ";
+                    }
+                    if (!TextUtils.isEmpty(contactDetails.getSuname())) {
+                        contactName = contactName + contactDetails.getSuname();
+                    }
+                    idUser = contactDetails.getUserId();
+                } else {
+                    contactName = name + " " + surname;
+                    idUser = userId + "";
+                }
+                context.startActivity((new Intent(context, TransactionActivity.class))
+                        .putExtra(NAME, contactName)
+                        .putExtra(USER_ID, idUser)
+                        .putExtra(Keys.CONTACT, contact));
 
 
         }

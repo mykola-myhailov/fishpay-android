@@ -101,7 +101,7 @@
     <string name="all">Всі</string>
     <string name="use">"Використовувати "</string>
     <string name="add">ДОДАТИ</string>
-    <string name="enter_comment">Додати коментар</string>
+    <string name="enter_comment">Введіть коментар</string>
     <string name="enter_amount">Введіть суму</string>
     <string name="total_cost">всього витрат:</string>
     <string name="total">ВСЬОГО</string>
@@ -343,4 +343,6 @@
     <string name="privacy_licence_switch">Я згоден з договором публічної оферти</string>
     <string name="privacy_licence_error">Прочитайте договір публічної оферти</string>
     <string name="offer">Оферта</string>
+    <string name="fields_must_filled_not_equals">Для створення транзакції поля \'Від учасника\' і \'До учасника\' повинні бути різні</string>
+    <string name="contribution_of_common_spend">Запит на переказ коштів в рамках спільних витрат</string>
 </resources>

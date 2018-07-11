@@ -262,14 +262,13 @@ public interface ApiInterface {
     //7) invoices
     @FormUrlEncoded
     @POST("api/moneyRequest/init")
-    Call<BaseResponse<CreateInvoiceResult>> createInvoice
-    (@Header("Authorization") String token,
-     @Field("phone") String phone,
-     @Field("card_id") String card,
-     @Field("amount") int amount,
-     @Field("comment") String comment,
-     @Field("memberId") String memberId,
-     @Field("goods") String goods);
+    Call<BaseResponse<CreateInvoiceResult>> createInvoice(@Header("Authorization") String token,
+                                                          @Field("phone") String phone,
+                                                          @Field("card_id") String card,
+                                                          @Field("amount") int amount,
+                                                          @Field("comment") String comment,
+                                                          @Field("memberId") String memberId,
+                                                          @Field("goods") String goods);
 
 
     @PUT("api/moneyRequest/{requestId}/confirm")
@@ -379,13 +378,38 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/moneyRequest/initFromCommonSpending")
-    Call<BaseResponse<Object>> initInvoice(@Header("Authorization") String token,
+    Call<BaseResponse<CreateInvoiceResult>> initInvoice(@Header("Authorization") String token,
                                            @Field("phone") String phone,
                                            @Field("card_id") String card,
                                            @Field("amount") String amount,
                                            @Field("comment") String comment,
                                            @Field("member_from") String memberFrom,
                                            @Field("member_to") String memberTo);
+
+
+    @FormUrlEncoded
+    @POST("api/commonSpendings/{spendingId}/attemptpay")
+    Call<BaseResponse<Object>> paymentSpend(@Header("Authorization") String token,
+                                            @Field("spendingId") String spendingId,
+                                            @Field("returnUpdated") boolean returnUpdated,
+                                            @Field("member_from") String member_from,
+                                            @Field("member_to") String member_to,
+                                            @Field("amount") String amount,
+                                            @Field("comment") String comment,
+                                            @Field("card_id") String card_id,
+                                            @Field("securityCode") String securityCode);
+
+//    @Multipart
+//    @POST("api/commonSpendings/{spendingId}/attemptpay")
+//    Call<BaseResponse<Object>> paymentSpend(@Header("Authorization") String token,
+//                                            @Path("spendingId") String spendingId,
+//                                            @Part("returnUpdated") RequestBody returnUpdated,
+//                                            @Part("member_from") RequestBody member_from,
+//                                            @Part("member_to") RequestBody member_to,
+//                                            @Part("amount") RequestBody amount,
+//                                            @Part("comment") RequestBody comment,
+//                                            @Part("card_id") RequestBody card_id,
+//                                            @Part("securityCode") RequestBody securityCode);
 
     @GET("api/user/activity")
     Call<BaseResponse<ActivityResult>> getLog(@Header("Authorization") String token,

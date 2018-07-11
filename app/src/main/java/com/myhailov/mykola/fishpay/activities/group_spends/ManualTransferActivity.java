@@ -105,7 +105,7 @@ public class ManualTransferActivity extends BaseActivity {
                 tvNameFrom.setText(memberDetails.getName() + " " + memberDetails.getSurname());
                 tvPhoneFrom.setText("+" + memberDetails.getPhone());
             } else {
-                toId =  memberDetails.getId() + "";
+                toId = memberDetails.getId() + "";
                 String initials = Utils.extractInitials(memberDetails.getName(), member.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarTo, photo, initials);
@@ -172,7 +172,7 @@ public class ManualTransferActivity extends BaseActivity {
 
     private boolean isValid() {
         if (tvPhoneTo.getText().toString().equals(tvPhoneFrom.getText().toString())) {
-            toast(getString(R.string.fields_must_filled));
+            toast(getString(R.string.fields_must_filled_not_equals));
             return false;
         }
         if (TextUtils.isEmpty(etComment.getText().toString())) {
@@ -192,8 +192,8 @@ public class ManualTransferActivity extends BaseActivity {
 
     private void setValue() {
         for (MemberDetails member : members) {
-            if (member.getUserId().equals(myUserId + "")) {
-                fromId = member.getId() +"";
+            if (member.getUserId() != null && member.getUserId().equals(myUserId + "")) {
+                fromId = member.getId() + "";
                 String initials = Utils.extractInitials(member.getName(), member.getSurname());
                 String photo = member.getPhoto();
                 Utils.displayAvatar(context, ivAvatarFrom, photo, initials);

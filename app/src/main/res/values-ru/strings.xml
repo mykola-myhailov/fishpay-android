@@ -103,7 +103,7 @@
     <string name="all">Все</string>
     <string name="use">"Использовать "</string>
     <string name="add">ДОБАВИТЬ</string>
-    <string name="enter_comment">Добавить коментарий</string>
+    <string name="enter_comment">Введите комментарий</string>
     <string name="enter_amount">Введите сумму</string>
     <string name="total_cost">"всего расходов: "</string>
     <string name="total">ВСЕГО</string>
@@ -343,4 +343,6 @@
     <string name="privacy_licence_switch">Я согласен с договором публичной оферты</string>
     <string name="privacy_licence_error">Прочтите договор публичной оферты</string>
     <string name="offer">Оферта</string>
+    <string name="fields_must_filled_not_equals">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть различные</string>
+    <string name="contribution_of_common_spend">Запрос на перевод средств в рамках совместных расходов</string>
 </resources>

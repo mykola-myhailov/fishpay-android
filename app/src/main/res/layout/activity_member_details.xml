@@ -263,6 +263,7 @@
                 android:layout_height="wrap_content">
 
             <TextView
+                    android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackground"
                     android:textAllCaps="true"
                     android:id="@+id/tv_manually"
@@ -277,6 +278,7 @@
                     android:layout_height="wrap_content"/>
 
             <TextView
+                    android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackground"
                     android:textAllCaps="true"
                     android:id="@+id/tv_equalise_expenses"
@@ -292,6 +294,7 @@
 
 
             <TextView
+                    android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackground"
                     android:visibility="gone"
                     android:layout_weight="1"

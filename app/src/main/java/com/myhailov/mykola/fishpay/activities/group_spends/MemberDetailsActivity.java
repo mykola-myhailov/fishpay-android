@@ -15,26 +15,26 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.activities.TransactionActivity;
 import com.myhailov.mykola.fishpay.activities.pay_requests.CreatePayRequestActivity;
 import com.myhailov.mykola.fishpay.adapters.SpendTransactionsAdapter;
-import com.myhailov.mykola.fishpay.api.requestBodies.Member;
 import com.myhailov.mykola.fishpay.api.results.GroupSpend;
 import com.myhailov.mykola.fishpay.api.results.MemberDetails;
-import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Keys;
+import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import java.util.ArrayList;
 
-import static com.myhailov.mykola.fishpay.utils.Keys.AMOUNT;
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.COMMON_SPENDING;
+import static com.myhailov.mykola.fishpay.utils.Keys.COMMENT;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER;
 import static com.myhailov.mykola.fishpay.utils.Keys.MEMBERS;
-import static com.myhailov.mykola.fishpay.utils.Keys.NAME;
+import static com.myhailov.mykola.fishpay.utils.Keys.MEMBER_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.ROLE;
-import static com.myhailov.mykola.fishpay.utils.Keys.SEARCHED_CONTACT;
 import static com.myhailov.mykola.fishpay.utils.Keys.SPEND;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_CREATOR;
+import static com.myhailov.mykola.fishpay.utils.Keys.SPEND_ID;
 import static com.myhailov.mykola.fishpay.utils.Keys.TITLE;
-import static com.myhailov.mykola.fishpay.utils.Keys.USER_ID;
-import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
+import static com.myhailov.mykola.fishpay.utils.Keys.TYPE;
 
 public class MemberDetailsActivity extends BaseActivity {
 
@@ -77,31 +77,67 @@ public class MemberDetailsActivity extends BaseActivity {
                         .putExtra(SPEND, spend)
                         .putExtra(MEMBER, member)
                         .putExtra(MEMBERS, members));
+
                 break;
             case R.id.tv_equalise_expenses:
 //                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
                 // TODO: 06.07.2018 fix request
                 if (member.getRelativeBallance() > 0) {
-                    context.startActivity((new Intent(context, ManualTransferActivity.class))
-                            .putExtra(SPEND, spend)
-                            .putExtra(MEMBER, member)
-                            .putExtra(MEMBERS, members));
-                }
-                if (member.getRelativeBallance() <= 0) {
-                    SearchedContactsResult.SearchedContact contact = new SearchedContactsResult.SearchedContact();
-                    contact.setPhone(member.getPhone());
-                    contact.setName(member.getName());
-                    contact.setSurname(member.getSurname());
+//                    context.startActivity((new Intent(context, ManualTransferActivity.class))
+//                            .putExtra(SPEND, spend)
+//                            .putExtra(MEMBER, member)
+//                            .putExtra(MEMBERS, members));
+                    long myUserId = Long.valueOf(getSharedPreferences(PrefKeys.USER_PREFS, MODE_PRIVATE)
+                            .getString(PrefKeys.ID, "0"));
+                    String idCreator = "";
+                    for (MemberDetails memberDetails : members) {
+                        if (memberDetails.getUserId().equals(myUserId + "")) {
+                            idCreator = memberDetails.getId() + "";
+                        }
+                    }
 
-                    Member memb = new Member();
-                    memb.setPhone(member.getPhone());
-                    memb.setFirstName(member.getName());
-                    memb.setLastName(member.getSurname());
-                    memb.setAmountToPay((int) member.getRelativeBallance());
-                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
-                            .putExtra(SEARCHED_CONTACT, contact)
-                            .putExtra(MEMBER, memb));
+                    context.startActivity(new Intent(context, TransactionActivity.class)
+                            .putExtra(TYPE, COMMON_SPENDING)
+                            .putExtra(SPEND_ID, spend.getId() + "")
+                            .putExtra(MEMBER_ID, member.getId() + "")
+                            .putExtra(SPEND_CREATOR, idCreator)
+                            .putExtra(COMMENT, getString(R.string.contribution_of_common_spend))
+                            .putExtra(MEMBER, member));
+                }
+                if (member.getRelativeBallance() < 0) {
+
+                    String idCreator = "";
+                    for (MemberDetails memberDetails : members) {
+                        if (memberDetails.getRole().equals("creator")) {
+                            idCreator = memberDetails.getId() + "";
+                        }
+                    }
+
+                    context.startActivity(new Intent(context, CreatePayRequestActivity.class)
+                            .putExtra(SPEND, "")
+                            .putExtra(SPEND_ID, spend.getId() + "")
+                            .putExtra(MEMBER_ID, member.getId() + "")
+                            .putExtra(SPEND_CREATOR, idCreator)
+                            .putExtra(COMMENT, getString(R.string.contribution_of_common_spend))
+                            .putExtra(MEMBERS, member));
+
+
+//                    SearchedContactsResult.SearchedContact contact = new SearchedContactsResult.SearchedContact();
+//                    contact.setPhone(member.getPhone());
+//                    contact.setName(member.getName());
+//                    contact.setSurname(member.getSurname());
+//
+//                    Member memb = new Member();
+//                    memb.setPhone(member.getPhone());
+//                    memb.setFirstName(member.getName());
+//                    memb.setLastName(member.getSurname());
+//                    memb.setAmountToPay((int) Math.abs(member.getRelativeBallance()));
+////                    memb.setAmountToPay(500);
+//                    context.startActivity((new Intent(context, CreatePayRequestActivity.class))
+//                            .putExtra(SEARCHED_CONTACT, contact)
+//                            .putExtra(COMMENT, getString(R.string.contribution_of_common_spend))
+//                            .putExtra(MEMBER, memb));
                 }
                 break;
             case R.id.tv_expense:
@@ -135,7 +171,8 @@ public class MemberDetailsActivity extends BaseActivity {
         if (role.equals("creator")) {
             tvExpense.setVisibility(View.VISIBLE);
         }
-        if (role.equals("no_account") || role.isEmpty()) {
+        Log.d("sss", "initViews: " + member.getRole());
+        if (member.getRole().equals("no_account") || role.isEmpty()) {
             tvExpense.setVisibility(View.VISIBLE);
             tvEqualiseExpenses.setVisibility(View.GONE);
         }

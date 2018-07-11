@@ -73,7 +73,7 @@
     <string name="password_sms_entered_incorrect">Пароль из SMS введен неправильно</string>
     <string name="confirm">Подтвердить</string>
     <string name="contribution_of_joint_purchase">Взнос в рамках общей покупки %s</string>
-    <string name="contribution_of_common_spend">Запрос на перевод средств в рамках общей покупки</string>
+    <string name="contribution_of_common_spend">Запрос на перевод средств в рамках совмесных расходов</string>
     <string name="contribution">Взнос</string>
     <string name="payment_request">запрос на оплату</string>
     <string name="pay_till">оплатить до:</string>
@@ -143,6 +143,7 @@
     <string name="select">Выбрать</string>
     <string name="select_min_2">Выберете минимум двоих участников</string>
     <string name="fields_must_filled">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть заполнены</string>
+    <string name="fields_must_filled_not_equals">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть различные</string>
     <string name="attention">Внимание</string>
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
     <string name="select_participants">Выберите участников</string>
