@@ -133,6 +133,7 @@ public class LoginActivity extends BaseActivity {
             String firebaseToken = "";
             try{
                 firebaseToken = FirebaseInstanceId.getInstance().getToken();
+                Log.d("firebase", "login: " + firebaseToken);
             }
             catch (Exception ignored){
 

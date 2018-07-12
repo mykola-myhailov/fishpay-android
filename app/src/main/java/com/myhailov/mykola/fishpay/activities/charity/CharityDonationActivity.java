@@ -6,6 +6,8 @@ import com.google.gson.internal.LinkedTreeMap;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +16,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -144,8 +147,27 @@ public class CharityDonationActivity extends BaseActivity {
 
                         @Override
                         protected void onResult(int code, Object result) {
-                            LinkedTreeMap resultMap = (LinkedTreeMap) result;
-                            parseResultMap(resultMap);
+                            switch (result.toString()) {
+
+                                case "SUCCESS":
+                                    Utils.toast(context, "success");
+                                    break;
+                                case "REJECTED":
+                                    showErrorAlert();
+                                    Utils.toast(context, getString(R.string.rejected));
+                                    break;
+                                case "REVERSED":
+                                    Utils.toast(context, "reversed");
+                                    break;
+                                case "ERROR":
+                                    showErrorAlert();
+                                    Utils.toast(context, "error");
+                                    break;
+                                default:
+                                    LinkedTreeMap resultMap = (LinkedTreeMap) result;
+                                    parseResultMap(resultMap);
+                                    break;
+                            }
                         }
                     });
         }
@@ -260,5 +282,24 @@ public class CharityDonationActivity extends BaseActivity {
                     }
                 })
                 .create().show();
+    }
+
+    private void showErrorAlert() {
+        final AlertDialog infoAlert;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_error, null);
+        dialogBuilder.setView(dialogView);
+
+        infoAlert = dialogBuilder.create();
+        infoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoAlert.show();
+
+        dialogView.findViewById(R.id.tv_action_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoAlert.cancel();
+            }
+        });
     }
 }

@@ -113,6 +113,9 @@ public class SpendDetailActivity extends BaseActivity {
                 break;
             case R.id.rlMemberItem:
                 String role = "";
+                if (spendDetail.getMembers() == null){
+                    break;
+                }
                 for (MemberDetails memberDetails : spendDetail.getMembers()) {
                     if (memberDetails.getUserId() != null && memberDetails.getUserId().equals(myUserId + "")) {
                         role = memberDetails.getRole();

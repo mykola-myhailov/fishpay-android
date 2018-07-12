@@ -316,7 +316,7 @@ public class CardsActivity extends BaseActivity {
             tvTitle = dialogView.findViewById(R.id.tv_title);
             tvClose = dialogView.findViewById(R.id.tv_first_action);
             tvDelete = dialogView.findViewById(R.id.tv_second_action);
-            dialogView.findViewById(R.id.tv_description).setVisibility(View.GONE);
+            dialogView.findViewById(R.id.tv_description).setVisibility(View.INVISIBLE);
 
             tvClose.setText(getString(R.string.cancel));
             tvDelete.setText(getString(R.string.ok));

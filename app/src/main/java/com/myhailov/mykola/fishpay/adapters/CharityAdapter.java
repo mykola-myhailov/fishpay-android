@@ -67,7 +67,10 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             }
         });
 
-        viewBinderHelper.bind(holder.swipeRevealLayout, item.getId().toString());
+        // TODO: 12.07.2018 charity report
+        holder.swipeRevealLayout.setLockDrag(true);
+        holder.swipeRevealLayout.close(false);
+//        viewBinderHelper.bind(holder.swipeRevealLayout, item.getId().toString());
 
     }
 
