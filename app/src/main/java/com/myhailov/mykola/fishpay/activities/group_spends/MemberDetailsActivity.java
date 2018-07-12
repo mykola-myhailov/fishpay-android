@@ -171,7 +171,6 @@ public class MemberDetailsActivity extends BaseActivity {
         if (role.equals("creator")) {
             tvExpense.setVisibility(View.VISIBLE);
         }
-        Log.d("sss", "initViews: " + member.getRole());
         if (member.getRole().equals("no_account") || role.isEmpty()) {
             tvExpense.setVisibility(View.VISIBLE);
             tvEqualiseExpenses.setVisibility(View.GONE);

@@ -40,6 +40,7 @@ import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.myhailov.mykola.fishpay.activities.pay_requests.SelectContactsActivity.REQUEST_CONTACT;
 import static com.myhailov.mykola.fishpay.activities.profile.CardsActivity.REQUEST_CARD;
@@ -215,7 +216,6 @@ public class TransactionActivity extends DrawerActivity {
     private boolean dataIsValid() {
         amountUAH = etAmount.getText().toString();
         amount = Utils.UAHtoPenny(amountUAH);
-        Log.d("sss", "dataIsValid: " + amount);
         //   String comment = etComment.getText().toString();
         cvv = etCvv.getText().toString();
         if (receiverContact != null) receiverContact.getUserId();
@@ -232,13 +232,11 @@ public class TransactionActivity extends DrawerActivity {
     private void payRequest() {
         ApiInterface anInterface = ApiClient.getApiInterface();
         Call<BaseResponse<Object>> call;
-        Log.d("sss", "payRequest: " + type);
         switch (type){
             case TRANSFER:
                 call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
                 break;
             case INCOMING_PAY_REQUEST:
-                Log.d("sss", "payRequest: " + token + "\n"+ receiverId+ "\n"+ card.getId() +"\n"+ cvv +"\n");
                 call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
                 break;
             case JOINT_PURCHASE:
@@ -274,11 +272,26 @@ public class TransactionActivity extends DrawerActivity {
             super(context, showProgress);
         }
 
+        @Override
+        public void onResponse(@NonNull Call<BaseResponse<Object>> call, @NonNull Response<BaseResponse<Object>> response) {
+            super.onResponse(call, response);
+            Log.d("sss", "onResponse: " + response);
+        }
+
+        @Override
+        protected void onError(int code, String errorDescription) {
+            super.onError(code, errorDescription);
+            Log.d("sss", "onError: " + errorDescription);
+
+            showErrorAlert();
+        }
 
         @Override
         public void onFailure(@NonNull Call<BaseResponse<Object>> call, @NonNull Throwable t) {
             super.onFailure(call, t);
             Log.d("sss", "onFailure: " + t);
+
+            showErrorAlert();
         }
 
         @Override
@@ -329,6 +342,12 @@ public class TransactionActivity extends DrawerActivity {
 
                     .putExtra(Keys.REQUEST_ID, requestId)
                     .putExtra(Keys.PURCHASE_ID, purchaseId)
+
+                    .putExtra(Keys.SPEND_ID, spendingId)
+                    .putExtra(Keys.MEMBER_FROM, memberFrom)
+                    .putExtra(Keys.MEMBER_TO, memberTo)
+                    .putExtra(Keys.AMOUNT, amount + "")
+                    .putExtra(Keys.COMMENT, etComment.getText().toString())
             );
         } else if (type.equals("lookup")){
             fpt = (String) result.get("fpt");

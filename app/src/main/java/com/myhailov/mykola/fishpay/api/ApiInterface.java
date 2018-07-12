@@ -388,6 +388,31 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
+    @POST("api/commonSpendings/{spendingId}/sendlookupp")
+    Call<BaseResponse<String>> sendLookupSpend(@Header("Authorization") String token,
+                                                 @Field("spendingId") String spendingId,
+                                                 @Field("returnUpdated") boolean returnUpdated,
+                                                 @Field("member_from") String member_from,
+                                                 @Field("member_to") String member_to,
+                                                 @Field("amount") String amount,
+                                                 @Field("comment") String comment,
+                                                 @Field("fpt") String fpt,
+                                                 @Field("id") String id,
+                                                 @Field("code") String code);
+
+    @Multipart
+    @POST("api/commonSpendings/{spendingId}/auditpay")
+    Call<BaseResponse<Object>> auditPaySpend(@Header("Authorization") String token,
+                                             @Field("spendingId") String spendingId,
+                                             @Field("returnUpdated") boolean returnUpdated,
+                                             @Field("member_from") String member_from,
+                                             @Field("member_to") String member_to,
+                                             @Field("amount") String amount,
+                                             @Field("comment") String comment,
+                                             @Field("fpt") String fpt,
+                                             @Field("id") String id);
+
+    @FormUrlEncoded
     @POST("api/commonSpendings/{spendingId}/attemptpay")
     Call<BaseResponse<Object>> paymentSpend(@Header("Authorization") String token,
                                             @Field("spendingId") String spendingId,

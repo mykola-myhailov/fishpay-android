@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import retrofit2.Call;
 
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.CHARITY_DONATION;
+import static com.myhailov.mykola.fishpay.activities.TransactionActivity.COMMON_SPENDING;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.INCOMING_PAY_REQUEST;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.JOINT_PURCHASE;
 import static com.myhailov.mykola.fishpay.activities.TransactionActivity.TRANSFER;
@@ -105,6 +106,16 @@ public class BankWebActivity extends AppCompatActivity {
                     String isAnon = extras.getString(Keys.CHARITY_ANON);
                     call = apiInterface.auditPayCharity(TokenStorage.getToken(context), "true", isAnon,
                             charityId, fpt, fptId);
+                    break;
+                case COMMON_SPENDING:
+                    String spendingId = extras.getString(Keys.SPEND_ID);
+                    String memberFrom = extras.getString(Keys.MEMBER_FROM);
+                    String memberTo = extras.getString(Keys.MEMBER_TO);
+                    String amount = extras.getString(Keys.AMOUNT);
+                    String comment = extras.getString(Keys.COMMENT);
+                    call = apiInterface.auditPaySpend(TokenStorage.getToken(context), spendingId, true,
+                            memberFrom, memberTo, amount,comment,
+                            fpt, fptId);
                     break;
                 default: return;
             }
@@ -200,6 +211,16 @@ public class BankWebActivity extends AppCompatActivity {
                 String isAnon = extras.getString(Keys.CHARITY_ANON);
                 call = apiInterface.sendLookupCharity(TokenStorage.getToken(context), "true", isAnon,
                         charityId, fpt, fptId, code);
+                break;
+            case COMMON_SPENDING:
+                String spendingId = extras.getString(Keys.SPEND_ID);
+                String memberFrom = extras.getString(Keys.MEMBER_FROM);
+                String memberTo = extras.getString(Keys.MEMBER_TO);
+                String amount = extras.getString(Keys.AMOUNT);
+                String comment = extras.getString(Keys.COMMENT);
+                call = apiInterface.sendLookupSpend(TokenStorage.getToken(context), spendingId, true,
+                        memberFrom, memberTo, amount,comment,
+                        fpt, fptId, code);
                 break;
             default: return;
         }

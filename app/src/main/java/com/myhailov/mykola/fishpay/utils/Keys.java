@@ -30,6 +30,8 @@ public class Keys {
     public static final String JSON_ELEMENT = "json_element";
     public static final String TITLE = "title";
     public static final String MEMBER = "member";
+    public static final String MEMBER_FROM = "member_from";
+    public static final String MEMBER_TO = "member_to";
     public static final String MEMBER_ID = "member_id";
     public static final String MEMBERS = "members";
     public static final String OWNER = "owner";

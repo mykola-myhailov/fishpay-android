@@ -153,6 +153,9 @@ public class CreatePayRequestActivity extends BaseActivity {
                 memberFrom = extras.getString(SPEND_CREATOR, "");
                 memberTo = extras.getString(MEMBER_ID, "");
                 amount = Math.abs((int) memberDetails.getRelativeBallance());
+                findViewById(R.id.iv_payment).setVisibility(View.GONE);
+                findViewById(R.id.tv_invoice).setVisibility(View.GONE);
+                findViewById(R.id.view_divider3).setVisibility(View.GONE);
             }
 
 
