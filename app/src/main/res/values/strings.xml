@@ -267,6 +267,7 @@
     <string name="messages_for_users">Сообщение для пользователей</string>
     <string name="describe_product_properties">Опишите свойства товара</string>
     <string name="enter_amount">Введите сумму</string>
+    <string name="max_amount">Сумма не должна превышать 14999грн</string>
     <string name="role">роль: </string>
     <string name="main_photo">Заглавное фото</string>
     <string name="add_photo">Добавить фото</string>

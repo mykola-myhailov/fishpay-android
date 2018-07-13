@@ -54,7 +54,9 @@ public class SpendDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spend_detail);
         Bundle extras = getIntent().getExtras();
-        spend = extras.getParcelable(Keys.SPEND);
+        if (extras != null) {
+            spend = extras.getParcelable(Keys.SPEND);
+        }
         spendId = spend.getId();
         tvAmount = findViewById(R.id.tv_amount);
 
@@ -106,10 +108,10 @@ public class SpendDetailActivity extends BaseActivity {
                         .putExtra(SPEND, spendDetail));
                 break;
             case R.id.iv_plus:
-                showInfoAlert(context);
+//                showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                startActivityForResult(new Intent(context, AddMoreSpendsActivity.class)
-//                        .putExtra(Keys.SPEND, spend), ADD_SPEND_REQUESR);
+                startActivityForResult(new Intent(context, AddMoreSpendsActivity.class)
+                        .putExtra(Keys.SPEND, spend), ADD_SPEND_REQUESR);
                 break;
             case R.id.rlMemberItem:
                 String role = "";

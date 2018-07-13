@@ -115,7 +115,7 @@ public class TransactionActivity extends DrawerActivity {
                     break;
                 case COMMON_SPENDING:
                     MemberDetails memberDetails = extras.getParcelable(MEMBER);
-                    if (memberDetails == null) return;
+                    if (memberDetails == null) break;
                     receiverId = "";
                     receiverName = memberDetails.getName();
                     spendingId = extras.getString(SPEND_ID, "");
@@ -127,6 +127,7 @@ public class TransactionActivity extends DrawerActivity {
                     break;
             }
          }
+        if (type == null) type = TRANSFER;
         initDrawerToolbar(getString(R.string.outgoing_transaction));
         initViews();
     }
@@ -159,7 +160,6 @@ public class TransactionActivity extends DrawerActivity {
             cardName = card.getName();
             if (cardName.equals("")) tvCard.setText(cardNumber);
             else tvCard.setText(String.format("%s | %s", cardName, cardNumber));
-            Log.d("card", cardNumber);
         }
 
     }
@@ -224,6 +224,7 @@ public class TransactionActivity extends DrawerActivity {
         if (card == null) Utils.toast(context, getString(R.string.enter_card));
         else if (receiverId == null) Utils.toast(context, getString(R.string.select_contact));
         else if (amount == 0) Utils.toast(context, getString(R.string.enter_amount));
+        else if (amount >1499900) Utils.toast(context, getString(R.string.max_amount));
         else if (cvv.equals("")) Utils.toast(context,getString(R.string.enter_cvv_code));
         else return true;
         return false;
@@ -237,7 +238,8 @@ public class TransactionActivity extends DrawerActivity {
                 call = anInterface.transfer(token, receiverId, card.getId(), cvv, amount);
                 break;
             case INCOMING_PAY_REQUEST:
-                call = anInterface.paymentIncoming(token, receiverId, card.getId(), cvv);
+                Log.d("sss", "payRequest: "+ token + "\n"+ requestId+ "\n"+ card.getId() + "\n" + cvv+ "\n"+amount);
+                call = anInterface.paymentIncoming(token, requestId, card.getId(), cvv);
                 break;
             case JOINT_PURCHASE:
                 call = anInterface.paymentPurchase(token, purchaseId, card.getId(), cvv);
@@ -409,14 +411,13 @@ public class TransactionActivity extends DrawerActivity {
                 cardName = card.getName();
                 if (cardName.equals("")) tvCard.setText(cardNumber);
                 else tvCard.setText(String.format("%s | %s", cardName, cardNumber));
-                Log.d("card", cardNumber);
             }
         }
 
         else if (requestCode == REQUEST_CONTACT){
             receiverContact = data.getParcelableExtra(CONTACT);
             if (receiverContact != null) {
-                receiverId = receiverContact.getUserId() + "";
+                receiverId = receiverContact.getContactId() + "";
                 receiverPhone = receiverContact.getPhone();
                 receiverName = receiverContact.getName();
                 if (receiverName != null) tvName.setText(receiverName);

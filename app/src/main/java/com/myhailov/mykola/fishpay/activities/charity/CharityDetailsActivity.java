@@ -53,7 +53,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
 
     private String charityId = NOTHING + "";
     private long userId = NOTHING;
-    private String charityVisibility = new String();
+    private String charityVisibility = "";
     private String membersVisibility;
     private CharityResultById charity = new CharityResultById();
     private Card card;

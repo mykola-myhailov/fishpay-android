@@ -1,5 +1,8 @@
 package com.myhailov.mykola.fishpay.services;
-import android.app.NotificationChannel;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,15 +10,16 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
+
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.PayRequestActivity;
 import com.myhailov.mykola.fishpay.activities.ProfileSettingsActivity;
-import com.myhailov.mykola.fishpay.activities.login.BeginActivity;
+import com.myhailov.mykola.fishpay.activities.charity.CharityDetailsActivity;
+import com.myhailov.mykola.fishpay.activities.group_spends.SpendDetailActivity;
+import com.myhailov.mykola.fishpay.activities.pay_requests.OutComingPayRequestActivity;
+import com.myhailov.mykola.fishpay.utils.Keys;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,11 +76,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
+    private void sendNotification(String messageBody) {
+        String id = "", message = "", title = "";
 
-    private void sendNotification(String messageBody){
-        String id="",message="",title="";
-
-        if(type.equals("json")) {
+        if (type.equals("json")) {
             try {
                 JSONObject jsonObject = new JSONObject(messageBody);
                 id = jsonObject.getString("id");
@@ -86,30 +89,60 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } catch (JSONException e) {
                 //            }
             }
-        }
-        else if(type.equals("message"))
-        {
+        } else if (type.equals("message")) {
             message = messageBody;
         }
+        Intent intent;
+        String type = "";
 
-        Intent intent=new Intent(this,ProfileSettingsActivity.class);
+        switch (type) {
+            //Новий вхідний запит
+            case "1":
+                intent = new Intent(this, PayRequestActivity.class);
+                break;
+            //Запит на оплату прийнято
+            case "2":
+                intent = new Intent(this, OutComingPayRequestActivity.class)
+                        .putExtra(Keys.REQUEST_ID, 1);
+                break;
+//            Запит на оплату відхилено
+            case "3":
+                intent = new Intent(this, OutComingPayRequestActivity.class)
+                        .putExtra(Keys.REQUEST_ID, 1);
+//            Нова транзакція у спільній витраті
+            case "4":
+                //fix put Extra
+                intent = new Intent(this, SpendDetailActivity.class)
+//                        .putExtra(Keys.SPEND, 1)
+                ;
+                break;
+//            Нове пожертвування
+            case "5":
+//                add extra
+                intent = new Intent(this, CharityDetailsActivity.class);
+                break;
+            default:
+                intent = new Intent(this, ProfileSettingsActivity.class);
+                break;
+        }
+
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder=new NotificationCompat.Builder(this);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle(getString(R.string.app_name));
         notificationBuilder.setContentText(message);
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder.setSound(soundUri);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_launcher_new));
+        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher_new));
         notificationBuilder.setAutoCancel(true);
         // TODO: 12.07.2018  get Permission
-
 //        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 //        v.vibrate(1000);
         notificationBuilder.setContentIntent(pendingIntent);
-        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notificationBuilder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
 }
