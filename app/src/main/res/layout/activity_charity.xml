@@ -139,13 +139,14 @@
                     />
 
             <android.support.v7.widget.SearchView
+                    android:theme="@style/editTextTheme"
                     android:id="@+id/search"
                     android:background="@drawable/grey_oval"
                     android:focusable="false"
                     app:iconifiedByDefault="false"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:queryHint="поиск по контакту или названию"
+                    android:queryHint="@string/charity_search"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     app:layout_constraintStart_toStartOf="@+id/tv_contributions"

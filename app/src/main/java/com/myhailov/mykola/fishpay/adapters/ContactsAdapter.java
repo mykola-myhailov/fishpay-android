@@ -3,7 +3,6 @@ package com.myhailov.mykola.fishpay.adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,31 +74,34 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         final String initials = Utils.extractInitials(name, "");
         if (userId == 0) {
             holder.container.setOnClickListener(null);
-            //this contact is not app user
-        /*    Picasso picasso = new Picasso.Builder(context)
-                    .listener(new Picasso.Listener() {
-                        @Override
-                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                            holder.tvInitials.setText(initials);
-                        }
-                    })
-                    .build();*/
             if (photo != null && !photo.equals("")) {
                 holder.tvInitials.setText("");
+                holder.tvInitials.setBackgroundColor(context.getResources().getColor(R.color.transparent));
                 Uri photoUri = Uri.parse(contact.getPhoto());
-
                 holder.ivAvatar.setImageURI(photoUri);
                 if (holder.ivAvatar.getDrawable() != null) {
 //                    Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
-                } else holder.tvInitials.setText(initials);
+                } else {
+                    holder.tvInitials.setText(initials);
+                    holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+                }
             } else holder.tvInitials.setText(initials);
-
-
         } else {  //this contact is app user
             holder.ivAvatar.setImageDrawable(null);
+            holder.tvInitials.setBackgroundColor(context.getResources().getColor(R.color.transparent));
             if (photo != null && !photo.equals("")) {
-                Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
-            } else holder.tvInitials.setText(initials);
+                Uri photoUri = Uri.parse(contact.getPhoto());
+                holder.ivAvatar.setImageURI(photoUri);
+                if (holder.ivAvatar.getDrawable() != null) {
+                    Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
+                } else {
+                    holder.tvInitials.setText(initials);
+                    holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+                }
+            } else {
+                holder.tvInitials.setText(initials);
+                holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+            }
             holder.container.setTag(contact);
             holder.container.setOnClickListener((View.OnClickListener) context);
 

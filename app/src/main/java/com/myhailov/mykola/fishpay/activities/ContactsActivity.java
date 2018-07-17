@@ -1,6 +1,5 @@
 package com.myhailov.mykola.fishpay.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +13,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
-import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -161,7 +161,7 @@ public class ContactsActivity extends DrawerActivity {
         } else Utils.noInternetToast(context);
     }
 
-    private void showDeleteAlert(){
+    private void showDeleteAlert() {
         TextView tvDelete, tvClose, tvDescription, tvTitle;
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -200,6 +200,17 @@ public class ContactsActivity extends DrawerActivity {
                 filterQuery = newText;
                 filter();
                 return true;
+            }
+        });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    findViewById(R.id.abl_contacts).setVisibility(View.GONE);
+
+                } else {
+                    findViewById(R.id.abl_contacts).setVisibility(View.VISIBLE);
+                }
             }
         });
         searchView.setQueryHint(getString(R.string.enter_name));

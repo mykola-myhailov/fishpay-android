@@ -1,123 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.CreateMemberActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.myhailov.mykola.fishpay.activities.joint_purchases.CreateMemberActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <ImageView
-            android:id="@+id/ivBack"
-            android:padding="16dp"
-            android:src="@drawable/arrow_back"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize" />
+                android:id="@+id/ivBack"
+                android:padding="16dp"
+                android:src="@drawable/arrow_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
 
         <RelativeLayout
-            android:layout_marginEnd="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <TextView
-                android:textSize="18sp"
-                android:id="@+id/tvToolBarTitle"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/blue"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:background="@android:color/transparent"
-                tools:text="@string/app_name"/>
+                    android:textSize="18sp"
+                    android:id="@+id/tvToolBarTitle"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@android:color/transparent"
+                    tools:text="@string/app_name"/>
         </RelativeLayout>
     </LinearLayout>
+
     <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"
-        android:layout_marginBottom="12dp"/>
-
-
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"
+            android:layout_marginBottom="12dp"/>
 
 
     <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/participant_name"/>
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/participant_name"/>
+
     <EditText
-        android:id="@+id/et_member_name"
-        android:maxLines="1"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:singleLine="true"
-        android:imeOptions="actionNext"
-        android:textSize="22sp"
-        android:textColorHint="@color/grey2"
-        android:textColor="@color/black1"
-        android:hint="@string/enter_participant_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"/>
+            android:theme="@style/editTextTheme"
+            android:id="@+id/et_member_name"
+            android:maxLines="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:textSize="22sp"
+            android:textColorHint="@color/grey2"
+            android:textColor="@color/black1"
+            android:hint="@string/enter_participant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+
     <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
 
 
     <TextView
-        android:layout_marginStart="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/phone_number"/>
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"/>
+
     <EditText
-        android:id="@+id/et_member_phone"
-        android:maxLines="1"
-        android:text="+380"
-        android:inputType="phone"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="22dp"
-        android:singleLine="true"
-        android:imeOptions="actionDone"
-        android:textSize="22sp"
-        android:textColorHint="@color/grey2"
-        android:textColor="@color/black1"
-        android:hint="@string/enter_phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"/>
-    <View
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey2"/>
+            android:theme="@style/editTextTheme"
+            android:id="@+id/et_member_phone"
+            android:maxLines="1"
+            android:text="+380"
+            android:inputType="phone"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22dp"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textSize="22sp"
+            android:textColorHint="@color/grey2"
+            android:textColor="@color/black1"
+            android:hint="@string/enter_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
 
+    <View
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey2"/>
 
 
     <TextView
-        android:background="?android:attr/selectableItemBackground"
-        android:id="@+id/tv_add"
-        android:layout_marginEnd="22dp"
-        android:layout_gravity="end"
-        android:padding="4dp"
-        android:textColor="@color/blue1"
-        android:text="@string/add"
-        android:layout_marginTop="12dp"
-        android:textSize="32sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/tv_add"
+            android:layout_marginEnd="22dp"
+            android:layout_gravity="end"
+            android:padding="4dp"
+            android:textColor="@color/blue1"
+            android:text="@string/add"
+            android:layout_marginTop="12dp"
+            android:textSize="32sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/tvInitials"
-                android:background="@color/transparent"
+                android:background="@drawable/contact_grey_rounded"
                 android:textSize="18sp"
                 android:gravity="center"
                 android:layout_width="50dp"

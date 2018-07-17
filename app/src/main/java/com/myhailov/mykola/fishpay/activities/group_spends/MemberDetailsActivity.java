@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +38,7 @@ import static com.myhailov.mykola.fishpay.utils.Keys.TYPE;
 
 public class MemberDetailsActivity extends BaseActivity {
 
-    private TextView tvManually, tvEqualiseExpenses, tvExpense;
+    private TextView tvManually, tvEqualiseExpenses, tvExpense, tvSum, tvForYou, tvBalance, tvPecent;
 
     private GroupSpend spend;
     private MemberDetails member;
@@ -60,7 +60,7 @@ public class MemberDetailsActivity extends BaseActivity {
         members = getIntent().getExtras().getParcelableArrayList(Keys.MEMBERS);
         initCustomToolbar(title);
         initViews();
-        if (allTransactions != null) initRecyclerView();
+        if (allTransactions != null && allTransactions.size() > 0) initRecyclerView();
         else (findViewById(R.id.tvNoTransactions)).setVisibility(View.VISIBLE);
     }
 
@@ -159,13 +159,36 @@ public class MemberDetailsActivity extends BaseActivity {
         ImageView ivAvatar = findViewById(R.id.ivAvatar);
         String photo = member.getPhoto();
         Utils.displayAvatar(context, ivAvatar, photo, initials);
-        Utils.setText((TextView) findViewById(R.id.tvSum), Utils.pennyToUah(member.getSum()));
-        Utils.setText((TextView) findViewById(R.id.tvBalance), Utils.pennyToUah(member.getOverpaiment()));
-        Utils.setText((TextView) findViewById(R.id.tvForYou), Utils.pennyToUah((long) member.getRelativeBallance()));
-
+        tvBalance = findViewById(R.id.tvBalance);
+        tvForYou = findViewById(R.id.tvForYou);
+        tvSum = findViewById(R.id.tvSum);
+        tvPecent = findViewById(R.id.tv_percent);
+//        int percent =(int) Math.round(Math.abs(member.getPartInOverpaiment() * 100));
+        tvPecent.setText(member.getPart() + "");
+        if (member.getSum() == 0) {
+            tvSum.setText("0.00");
+        } else {
+            Utils.setText(tvSum, Utils.pennyToUah(member.getSum()));
+        }
+        if (member.getOverpaiment() == 0) {
+            tvBalance.setText("0.00");
+        } else {
+            Utils.setText(tvBalance, Utils.pennyToUah(member.getOverpaiment()));
+        }
+        if ((long) member.getRelativeBallance() == 0) {
+            tvForYou.setText("0.00");
+        } else {
+            Utils.setText(tvForYou, Utils.pennyToUah((long) member.getRelativeBallance()));
+        }
         tvManually = findViewById(R.id.tv_manually);
         tvEqualiseExpenses = findViewById(R.id.tv_equalise_expenses);
         tvExpense = findViewById(R.id.tv_expense);
+
+        if (!TextUtils.isEmpty(member.getPhone()) && !member.getRole().equals("no_account")) {
+            ((TextView) findViewById(R.id.tvRole)).setText(member.getPhone());
+        } else {
+            ((TextView) findViewById(R.id.tvRole)).setText(getString(R.string.user_unknown));
+        }
 
 
         if (role.equals("creator")) {
@@ -191,8 +214,10 @@ public class MemberDetailsActivity extends BaseActivity {
             if (transaction.getMemberFromId() == memberId || transaction.getMemberToId() == memberId)
                 memberTransactions.add(transaction);
         }
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new SpendTransactionsAdapter(context, memberTransactions));
+        if (memberTransactions.size() > 0) {
+            RecyclerView recyclerView = findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(new SpendTransactionsAdapter(context, memberTransactions));
+        } else (findViewById(R.id.tvNoTransactions)).setVisibility(View.VISIBLE);
     }
 }

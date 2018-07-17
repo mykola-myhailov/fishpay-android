@@ -346,4 +346,8 @@
     <string name="fields_must_filled_not_equals">Fields \'From the participant\' and \'To the participant\' must be different</string>
     <string name="contribution_of_common_spend">Request for transfer of funds in the framework of joint spending</string>
     <string name="max_amount">The amount should not exceed 14999 UAH</string>
+    <string name="user_unknown">Unknown user</string>
+    <string name="not_found_phone_number">Unfortunately, the program does not have a user registered by this phone number</string>
+    <string name="charity_search">search by contact or name</string>
+    <string name="contacts_search">search by name</string>
 </resources>

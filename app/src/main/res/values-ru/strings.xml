@@ -346,4 +346,8 @@
     <string name="fields_must_filled_not_equals">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть различные</string>
     <string name="contribution_of_common_spend">Запрос на перевод средств в рамках совместных расходов</string>
     <string name="max_amount">Сумма не должна превышать 14999грн</string>
+    <string name="user_unknown">Неизвестный пользователь</string>
+    <string name="not_found_phone_number">К сожалению, в программе нет пользователя зарегистрированного по номеру телефона</string>
+    <string name="charity_search">поиск по контакту или названию</string>
+    <string name="contacts_search">поиск по имени</string>
 </resources>

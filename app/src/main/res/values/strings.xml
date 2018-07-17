@@ -3,6 +3,7 @@
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="app_name" translatable="false">Fishpay</string>
     <string name="your_phone_number">Ваш номер телефона</string>
+    <string name="not_found_phone_number">К сожалению, в программе нет пользователя зарегистрированного по номеру телефона</string>
     <string name="next">Далее</string>
     <string name="enter_phone_number">Введите номер телефона</string>
     <string name="no_internet">Нет соединения с интернетом</string>
@@ -63,6 +64,8 @@
     <string name="error">Произошла ошибка</string>
     <string name="profile">Профиль</string>
     <string name="search">Поиск</string>
+    <string name="contacts_search">поиск по имени</string>
+    <string name="charity_search">поиск по контакту или названию</string>
     <string name="my_contacts">Мои контакты</string>
     <string name="my">Мои</string>
     <string name="inbox">Входящие</string>
@@ -240,6 +243,7 @@
     <string name="to">до</string>
     <string name="description_is_not_available">описание недоступно</string>
     <string name="date_unknown">дата неизвестна</string>
+    <string name="user_unknown">Неизвестный пользователь</string>
     <string name="date">Дата</string>
     <string name="text">Текст</string>
     <string name="empty_list_log">Отсутствует активность за данный период</string>
