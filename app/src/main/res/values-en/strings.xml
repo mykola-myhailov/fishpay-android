@@ -350,4 +350,5 @@
     <string name="not_found_phone_number">Unfortunately, the program does not have a user registered by this phone number</string>
     <string name="charity_search">search by contact or name</string>
     <string name="contacts_search">search by name</string>
+    <string name="cancel_search">Cancel</string>
 </resources>

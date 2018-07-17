@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +44,19 @@ public class GroupSpendMemberAdapter extends RecyclerView.Adapter<GroupSpendMemb
         holder.tvName.setText(name);
         String photo = item.getPhoto();
         String initials = Utils.extractInitials(name, "");
-        Utils.displayAvatar(context, holder.ivAvatar, photo, initials);
+
+        if (TextUtils.isEmpty(photo)){
+            holder.tvInitials.setText(initials);
+            holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+        }else {
+            holder.tvInitials.setText("");
+            holder.tvInitials.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+            Utils.displayAvatar(context, holder.ivAvatar, photo, initials);
+        }
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("sss", "onClick: ");
                 listener.onItemClick(item);
             }
         });

@@ -212,6 +212,7 @@
     <string name="alert_block_user">Вы действительно хотите заблокировать пользователя? %s?</string>
     <string name="close_charity_alert_description">Данные о сборе буду сохраняться в публичном доступе и дальше. Возможность взносов будет закрыта</string>
     <string name="cancel">Отменить</string>
+    <string name="cancel_search">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="delivered">Доставлено</string>
     <string name="read">Прочитано</string>

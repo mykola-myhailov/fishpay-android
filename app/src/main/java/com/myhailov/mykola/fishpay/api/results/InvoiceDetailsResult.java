@@ -34,6 +34,7 @@ public class InvoiceDetailsResult {
 
     @SerializedName("status")
     private String status;
+
     @SerializedName("goods")
     private List<GoodsRequest> goods = null;
 

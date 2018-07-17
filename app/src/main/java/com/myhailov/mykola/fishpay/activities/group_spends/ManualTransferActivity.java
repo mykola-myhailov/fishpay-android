@@ -106,7 +106,7 @@ public class ManualTransferActivity extends BaseActivity {
                 tvPhoneFrom.setText("+" + memberDetails.getPhone());
             } else {
                 toId = memberDetails.getId() + "";
-                String initials = Utils.extractInitials(memberDetails.getName(), member.getSurname());
+                String initials = Utils.extractInitials(memberDetails.getName(), memberDetails.getSurname());
                 String photo = memberDetails.getPhoto();
                 Utils.displayAvatar(context, ivAvatarTo, photo, initials);
                 tvNameTo.setText(memberDetails.getName() + " " + memberDetails.getSurname());

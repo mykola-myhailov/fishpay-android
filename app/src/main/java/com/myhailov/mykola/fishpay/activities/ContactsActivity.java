@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
@@ -30,12 +32,16 @@ import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class ContactsActivity extends DrawerActivity {
+
+    private TextView tvCancel;
+    private SearchView searchView;
 
     private List<Contact> allContacts, appContacts, displayedContacts, filteredContacts;
     private RecyclerView rvContacts;
@@ -136,6 +142,11 @@ public class ContactsActivity extends DrawerActivity {
                     return;
                 }
                 break;
+            case R.id.tv_cancel:
+                tvCancel.setVisibility(View.GONE);
+                searchView.clearFocus();
+                searchView.setQuery("", false);
+                break;
         }
     }
 
@@ -186,7 +197,9 @@ public class ContactsActivity extends DrawerActivity {
     }
 
     private void initSearchView() {
-        SearchView searchView = findViewById(R.id.search);
+        searchView = findViewById(R.id.search);
+        tvCancel = findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -207,12 +220,27 @@ public class ContactsActivity extends DrawerActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     findViewById(R.id.abl_contacts).setVisibility(View.GONE);
-
+                    tvCancel.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.abl_contacts).setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(searchView.getQuery().toString())) {
+                        tvCancel.setVisibility(View.GONE);
+                    }
                 }
             }
         });
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            ImageView mSearchCloseButton = (ImageView) searchField.get(searchView);
+            if (mSearchCloseButton != null) {
+                mSearchCloseButton.setEnabled(false);//  mSearchCloseButton.setEnabled(false);
+                mSearchCloseButton.setImageDrawable(getResources().getDrawable(R.drawable.transparent));
+            }
+        } catch (Exception e) {
+            Log.e("ssss", "Error finding close button", e);
+        }
+
         searchView.setQueryHint(getString(R.string.enter_name));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         //searchEditText.setTextColor(getResources().getColor(R.color.blue1));
@@ -228,7 +256,7 @@ public class ContactsActivity extends DrawerActivity {
         }
         String search = filterQuery.toLowerCase();
         for (Contact contact : displayedContacts) {
-            String name = contact.getName().toLowerCase();
+            String name = contact.getName().toLowerCase() + contact.getSurname().toLowerCase();
             if (name.contains(search)) {
                 filteredContacts.add(contact);
             }

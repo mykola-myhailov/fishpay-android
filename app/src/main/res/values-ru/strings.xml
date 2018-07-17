@@ -350,4 +350,5 @@
     <string name="not_found_phone_number">К сожалению, в программе нет пользователя зарегистрированного по номеру телефона</string>
     <string name="charity_search">поиск по контакту или названию</string>
     <string name="contacts_search">поиск по имени</string>
+    <string name="cancel_search">Отменить</string>
 </resources>

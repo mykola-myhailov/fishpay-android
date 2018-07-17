@@ -285,9 +285,10 @@
                 />
 
         <ImageView
-                android:layout_width="110dp"
-                android:layout_height="65dp"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
                 android:id="@+id/iv_main_photo"
                 app:layout_constraintStart_toStartOf="@+id/textView20"
                 android:layout_marginTop="8dp"
@@ -300,11 +301,9 @@
                 app:srcCompat="@android:drawable/ic_delete"
                 android:id="@+id/iv_delete_main_photo"
                 app:layout_constraintTop_toTopOf="@+id/iv_main_photo"
-                app:layout_constraintEnd_toEndOf="@+id/iv_main_photo"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toEndOf="@+id/iv_main_photo"
-                android:layout_marginStart="8dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                />
 
         <TextView
                 android:text="@string/add_photo"

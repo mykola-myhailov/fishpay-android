@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import java.util.List;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 
 public class IncomingDetailsActivity extends BaseActivity {
+    private final String REJECTED = "REJECTED", ACCEPTED = "ACCEPTED";
 
     private AlertDialog alertDialog, alertBlockUser;
 
@@ -67,6 +69,9 @@ public class IncomingDetailsActivity extends BaseActivity {
                                 amount = Utils.pennyToUah(result.getAmount());
                                 comment = result.getComment();
                                 status = result.getStatus();
+                                if (status.equals(REJECTED) || status.equals(ACCEPTED)) {
+                                    findViewById(R.id.linear2).setVisibility(View.INVISIBLE);
+                                }
                                 createAt = result.getCreatedAt();
                                 InvoiceDetailsResult.Contact requester = result.getRequester();
                                 if (requester != null) {
@@ -209,7 +214,6 @@ public class IncomingDetailsActivity extends BaseActivity {
             rvGoods.setLayoutManager(new LinearLayoutManager(context));
             rvGoods.setAdapter(new GoodsOutIncomAdapter(context, goods, rvListener));
         }
-
 
         findViewById(R.id.tvAccept).setOnClickListener(this);
         findViewById(R.id.tvReject).setOnClickListener(this);

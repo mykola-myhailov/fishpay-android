@@ -14,7 +14,6 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -73,38 +72,36 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         String phone = contact.getPhone();
         final String initials = Utils.extractInitials(name, "");
         if (userId == 0) {
+            holder.ivAvatar.setImageDrawable(null);
             holder.container.setOnClickListener(null);
             if (photo != null && !photo.equals("")) {
-                holder.tvInitials.setText("");
-                holder.tvInitials.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+                clearInitials(holder.tvInitials);
                 Uri photoUri = Uri.parse(contact.getPhoto());
                 holder.ivAvatar.setImageURI(photoUri);
                 if (holder.ivAvatar.getDrawable() != null) {
 //                    Picasso.with(context).load(photoUri).resize(50, 50).into(holder.ivAvatar);
                 } else {
-                    holder.tvInitials.setText(initials);
-                    holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+                    setInitials(holder.tvInitials, initials);
                 }
-            } else holder.tvInitials.setText(initials);
+            } else {
+                setInitials(holder.tvInitials, initials);
+            }
         } else {  //this contact is app user
             holder.ivAvatar.setImageDrawable(null);
-            holder.tvInitials.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+            clearInitials(holder.tvInitials);
             if (photo != null && !photo.equals("")) {
                 Uri photoUri = Uri.parse(contact.getPhoto());
                 holder.ivAvatar.setImageURI(photoUri);
                 if (holder.ivAvatar.getDrawable() != null) {
-                    Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
+//                    Picasso.with(context).load(photo).resize(50, 50).into(holder.ivAvatar);
                 } else {
-                    holder.tvInitials.setText(initials);
-                    holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+                    setInitials(holder.tvInitials, initials);
                 }
             } else {
-                holder.tvInitials.setText(initials);
-                holder.tvInitials.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
+                setInitials(holder.tvInitials, initials);
             }
             holder.container.setTag(contact);
             holder.container.setOnClickListener((View.OnClickListener) context);
-
 
             if (contact.isActiveUser()) {
                 holder.tvDelete.setTag(contact);
@@ -114,6 +111,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
             }
         }
+    }
+
+    private void clearInitials(TextView tv) {
+        tv.setText("");
+        tv.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+    }
+
+    private void setInitials(TextView tv, String initials) {
+        tv.setText(initials);
+        tv.setBackground(context.getResources().getDrawable(R.drawable.contact_grey_rounded));
     }
 
 

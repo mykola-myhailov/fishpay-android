@@ -117,6 +117,7 @@ public class CreateGoodsActivity extends BaseActivity {
             case R.id.tvChangePhoto:
                 mainPhotoPick = true;
                 ImagePicker.pickImage(this, "Select your image:");
+                break;
             case R.id.tvCreate:
                 if (checkGoods()) {
                     setGoodsValue();
