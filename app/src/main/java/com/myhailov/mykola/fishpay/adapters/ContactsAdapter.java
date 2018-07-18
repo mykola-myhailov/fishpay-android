@@ -86,6 +86,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             } else {
                 setInitials(holder.tvInitials, initials);
             }
+
+            holder.tvDelete.setTag(contact);
+            holder.tvDelete.setOnClickListener((View.OnClickListener) context);
+            viewBinderHelper.bind(holder.swipeRevealLayout,
+                    String.valueOf(contacts.get(position).getId()));
+
         } else {  //this contact is app user
             holder.ivAvatar.setImageDrawable(null);
             clearInitials(holder.tvInitials);

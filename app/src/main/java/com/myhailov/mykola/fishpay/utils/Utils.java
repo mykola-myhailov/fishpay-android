@@ -268,9 +268,12 @@ public class Utils {
         SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d H:m");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat newDateFormat = new SimpleDateFormat("d MMMM y");
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
 
         Date convertedDate = new Date();
         String today = newDateFormat.format(convertedDate);
+        String yesterday = newDateFormat.format(cal.getTime());
         try {
             convertedDate = dateFormat.parse(date);
         } catch (ParseException e) {
@@ -279,6 +282,9 @@ public class Utils {
         String convertDate = newDateFormat.format(convertedDate);
         if (convertDate.equals(today)){
             return context.getString(R.string.today,  new SimpleDateFormat("H:mm").format(convertedDate));
+        }
+        if (convertDate.equals(yesterday)){
+            return context.getString(R.string.yesterday_,  new SimpleDateFormat("H:mm").format(convertedDate));
         }
         return new SimpleDateFormat("H:mm d MMMM y ",
                 context.getResources().getConfiguration().locale).format(convertedDate);

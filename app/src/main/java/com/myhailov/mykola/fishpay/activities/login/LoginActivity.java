@@ -301,11 +301,15 @@ public class LoginActivity extends BaseActivity {
             preparedContacts.put("contacts_data", contactsArray);
         } catch (Exception ignored){}
 
+        Log.d("sss", "uploadContactsRequest: ");
+
         ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
-                .enqueue(new BaseCallback<Object>(context, false) {
+                .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
+//                        context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                         getContactsRequest();
+                        Log.d("sss", "onResult: 1");
                     }
                 });
     }
@@ -322,8 +326,10 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     protected void onResult(int code, ContactsResult result) {
                         if (result == null) return;
+                        Log.d("sss", "onResult: 2");
                         ArrayList<Contact> appContacts = result.getContacts();
                         DBUtils.saveAppContacts(context, appContacts);
+                        Log.d("sss", "onResult: 3");
                     }
                 });
     }

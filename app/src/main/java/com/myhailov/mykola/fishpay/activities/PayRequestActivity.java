@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -126,9 +127,9 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                         Collections.sort(currentList, new Comparator<PayRequest>() {
                             @Override
                             public int compare(PayRequest o1, PayRequest o2) {
-                                if (o1.getCreatingTime() == null || o2.getCreatingTime() == null)
+                                if (o1.getChangedAt() == null || o2.getChangedAt() == null)
                                     return 0;
-                                return o2.getCreatingTime().compareTo(o1.getCreatingTime());
+                                return o2.getChangedAt().compareTo(o1.getChangedAt());
                             }
                         });
                     }
@@ -258,6 +259,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
             TextView tvAmount;
             TextView tvStatus;
             TextView tvTime;
+            TextView tvCurrency;
 
             PayRequestHolder(View itemView) {
                 super(itemView);
@@ -268,23 +270,55 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 tvAmount = itemView.findViewById(R.id.tv_amount);
                 tvTime = itemView.findViewById(R.id.tv_time);
                 tvStatus = itemView.findViewById(R.id.tv_status);
+                tvCurrency = itemView.findViewById(R.id.tv_currency);
             }
 
             void bind(PayRequest request) {
                 viewed.setVisibility(request._getStatus().equals("ACTIVE") ? VISIBLE : View.INVISIBLE);
                 tvName.setText(request.getFullName());
                 tvAmount.setText(pennyToUah(request.getAmount()));
-                tvStatus.setText(getString(R.string.across_fishpay));
-                tvTime.setText(Utils.checkDateIsToday(context, request.getCreatingTime()));
-                if (request.getStatus().equals("REJECTED")) {
-
+                tvTime.setText(Utils.checkDateIsToday(context, request.getChangedAt()));
+                Log.d("sss", "bind: " + tabPosition);
+                if (TAB_INCOMING == tabPosition) {
+                    tvStatus.setText(getString(R.string.across_fishpay));
+                    if (request._getStatus().equals("REJECTED")) {
+                        setReject();
+                    } else {
+                        setActive();
+                    }
+                }
+                if (TAB_OUTCOMING == tabPosition){
+                    tvStatus.setText(getString(R.string.status, getString(R.string.status_out_request), request.getStatus(context)));
+                    setActive();
                 }
                 tvDelete.setTag(request);
                 rlPayRequest.setTag(request);
                 tvDelete.setOnClickListener((View.OnClickListener) context);
                 rlPayRequest.setOnClickListener((View.OnClickListener) context);
             }
+            private void setReject(){
+                tvName.setTextColor(getResources().getColor(R.color.grey_disabled));
+                tvAmount.setTextColor(getResources().getColor(R.color.grey_disabled));
+                tvCurrency.setTextColor(getResources().getColor(R.color.grey_disabled));
+                tvName.setAlpha(0.50f);
+                tvAmount.setAlpha(0.50f);
+                tvCurrency.setAlpha(0.50f);
+                tvStatus.setAlpha(0.50f);
+                tvTime.setAlpha(0.50f);
+            }
+
+            private void setActive(){
+                tvName.setTextColor(getResources().getColor(R.color.black_light));
+                tvAmount.setTextColor(getResources().getColor(R.color.black_light));
+                tvCurrency.setTextColor(getResources().getColor(R.color.black_light));
+                tvName.setAlpha(1);
+                tvAmount.setAlpha(1);
+                tvCurrency.setAlpha(1);
+                tvStatus.setAlpha(1);
+                tvTime.setAlpha(1);
+            }
         }
+
     }
 
     private enum State {

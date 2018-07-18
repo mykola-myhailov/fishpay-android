@@ -169,8 +169,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
         });
         searchView.setQueryHint(getString(R.string.enter_name_or));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
-        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        searchEditText.setHintTextColor(getResources().getColor(R.color.grey_material_500));
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
     }
 
     private void filter() {

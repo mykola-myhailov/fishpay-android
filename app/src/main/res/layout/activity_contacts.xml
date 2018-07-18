@@ -84,6 +84,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:queryHint="@string/contacts_search"
+                    
                     android:layout_width="211dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="100"/>

@@ -349,6 +349,8 @@
     <string name="user_unknown">Неизвестный пользователь</string>
     <string name="not_found_phone_number">К сожалению, в программе нет пользователя зарегистрированного по номеру телефона</string>
     <string name="charity_search">поиск по контакту или названию</string>
-    <string name="contacts_search">поиск по имени</string>
+    <string name="contacts_search">Поиск по имени</string>
     <string name="cancel_search">Отменить</string>
+    <string name="status_out_request">статус:</string>
+    <string name="yesterday_">вчера в %s</string>
 </resources>

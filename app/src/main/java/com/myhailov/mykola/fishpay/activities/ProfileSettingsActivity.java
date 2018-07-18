@@ -101,7 +101,6 @@ public class ProfileSettingsActivity extends DrawerActivity {
     }
 
     private void getProfileRequest() {
-
         ApiClient.getApiInterface().getProfile(token)
                 .enqueue(new BaseCallback<ProfileResult>(context, true) {
                     @Override

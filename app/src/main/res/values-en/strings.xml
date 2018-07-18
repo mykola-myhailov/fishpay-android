@@ -349,6 +349,8 @@
     <string name="user_unknown">Unknown user</string>
     <string name="not_found_phone_number">Unfortunately, the program does not have a user registered by this phone number</string>
     <string name="charity_search">search by contact or name</string>
-    <string name="contacts_search">search by name</string>
+    <string name="contacts_search">Search by name</string>
     <string name="cancel_search">Cancel</string>
+    <string name="yesterday_">yesterday at %s</string>
+    <string name="status_out_request">status:</string>
 </resources>

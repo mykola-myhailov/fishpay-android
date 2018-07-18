@@ -14,8 +14,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +24,7 @@ import com.myhailov.mykola.fishpay.activities.contacts.SearchContactActivity;
 import com.myhailov.mykola.fishpay.adapters.ContactsAdapter;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.ContactsResult;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.Keys;
@@ -48,6 +47,8 @@ public class ContactsActivity extends DrawerActivity {
     private String filterQuery = "";
     private AlertDialog alertDeleteContact;
     private long contactIdDelete;
+    private String phoneDelete;
+    private int tabPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class ContactsActivity extends DrawerActivity {
 
         createDrawer();
         initDrawerToolbar(getString(R.string.my_contacts));
-        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+//        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         appContacts = new ArrayList<>();
         displayedContacts = new ArrayList<>();
         filteredContacts = new ArrayList<>();
@@ -91,8 +92,14 @@ public class ContactsActivity extends DrawerActivity {
 
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
-                if (position == 0) displayedContacts = appContacts;
-                else displayedContacts = allContacts;
+                if (position == 0) {
+                    tabPosition = 0;
+                    displayedContacts = appContacts;
+                }
+                else {
+                    tabPosition = 1;
+                    displayedContacts = allContacts;
+                }
                 filter();
             }
         });
@@ -125,14 +132,30 @@ public class ContactsActivity extends DrawerActivity {
                 break;
 
             case R.id.tv_delete:
-                showDeleteAlert();
                 contactIdDelete = ((Contact) view.getTag()).getContactId();
+                phoneDelete = ((Contact) view.getTag()).getPhone();
+                showDeleteAlert();
                 break;
             case R.id.tv_first_action:
                 alertDeleteContact.cancel();
                 break;
             case R.id.tv_second_action:
-                deleteContactRequest(contactIdDelete);
+                if (contactIdDelete == 0) {
+                    toast(getString(R.string.deleted));
+                    Contact con = new Contact();
+                    for (Contact appContact : allContacts) {
+                        if (appContact.getPhone().equals(phoneDelete)) {
+                            con = appContact;
+                            break;
+                        }
+                    }
+                    DBUtils.getDaoSession(context).delete(con);
+                    allContacts.remove(con);
+                    displayedContacts = allContacts;
+                    filter();
+                } else {
+                    deleteContactRequest(contactIdDelete);
+                }
                 alertDeleteContact.cancel();
                 break;
 
@@ -166,7 +189,15 @@ public class ContactsActivity extends DrawerActivity {
                                 }
                             }
                             DBUtils.getDaoSession(context).delete(con);
-                            recreate();
+                            allContacts.remove(con);
+                            appContacts.remove(con);
+                            if (tabPosition == 0){
+                                displayedContacts = appContacts;
+                            }else {
+                                displayedContacts = allContacts;
+                            }
+                            filter();
+
                         }
                     });
         } else Utils.noInternetToast(context);
@@ -199,6 +230,20 @@ public class ContactsActivity extends DrawerActivity {
     private void initSearchView() {
         searchView = findViewById(R.id.search);
         tvCancel = findViewById(R.id.tv_cancel);
+
+//        try {
+//            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+//            searchField.setAccessible(true);
+//            ImageView mSearchCloseButton = (ImageView) searchField.get(searchView);
+//            if (mSearchCloseButton != null) {
+//                mSearchCloseButton.setEnabled(false);
+//                mSearchCloseButton.setVisibility(View.GONE);
+//                mSearchCloseButton.setImageDrawable(getResources().getDrawable(R.drawable.transparent));
+//            }
+//        } catch (Exception e) {
+//            Log.e("sss", "Error finding close button", e);
+//        }
+
         tvCancel.setOnClickListener(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -229,23 +274,13 @@ public class ContactsActivity extends DrawerActivity {
                 }
             }
         });
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            ImageView mSearchCloseButton = (ImageView) searchField.get(searchView);
-            if (mSearchCloseButton != null) {
-                mSearchCloseButton.setEnabled(false);//  mSearchCloseButton.setEnabled(false);
-                mSearchCloseButton.setImageDrawable(getResources().getDrawable(R.drawable.transparent));
-            }
-        } catch (Exception e) {
-            Log.e("ssss", "Error finding close button", e);
-        }
 
-        searchView.setQueryHint(getString(R.string.enter_name));
+
+        searchView.setQueryHint(getString(R.string.contacts_search));
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         //searchEditText.setTextColor(getResources().getColor(R.color.blue1));
-        searchEditText.setHintTextColor(getResources().getColor(R.color.blue1));
-        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        searchEditText.setHintTextColor(getResources().getColor(R.color.grey_material_500));
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
     }
 
     private void filter() {
@@ -263,6 +298,5 @@ public class ContactsActivity extends DrawerActivity {
         }
         rvContacts.setAdapter(new ContactsAdapter(context, filteredContacts));
     }
-
 
 }
