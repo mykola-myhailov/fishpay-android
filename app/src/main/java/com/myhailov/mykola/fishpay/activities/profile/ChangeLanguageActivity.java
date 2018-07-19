@@ -109,7 +109,7 @@ public class ChangeLanguageActivity extends BaseActivity {
         String token = TokenStorage.getToken(context);
         ApiClient.getApiInterface()
                 .setPreferences(token, allowMoneyRequests, touchIdLogin, lang)
-                .enqueue(new BaseCallback<Object>(context, false) {
+                .enqueue(new BaseCallback<Object>(context, true) {
                              @Override
                              protected void onResult(int code, Object result) {
                                   if (code == 200){

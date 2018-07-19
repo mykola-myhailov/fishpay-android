@@ -57,7 +57,9 @@ public class ContactsActivity extends DrawerActivity {
 
         createDrawer();
         initDrawerToolbar(getString(R.string.my_contacts));
-//        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+//        getContactsRequest();
+        allContacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
+        Log.d("sss", "onCreate: " + allContacts.size());
         appContacts = new ArrayList<>();
         displayedContacts = new ArrayList<>();
         filteredContacts = new ArrayList<>();
@@ -75,9 +77,6 @@ public class ContactsActivity extends DrawerActivity {
         initSearchView();
         displayedContacts = appContacts;
         filter();
-        Log.d("log", allContacts.size() + " " + appContacts.size() + " " + displayedContacts.size() + " " +
-                filteredContacts.size());
-
 
     }
 
@@ -297,6 +296,30 @@ public class ContactsActivity extends DrawerActivity {
             }
         }
         rvContacts.setAdapter(new ContactsAdapter(context, filteredContacts));
+    }
+
+    private void getContactsRequest(){
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+
+        ApiClient.getApiInterface()
+                .getContacts(TokenStorage.getToken(context), true, true)
+                .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                    @Override
+                    protected void onResult(int code, ContactsResult result) {
+                        if (result == null) return;
+                        allContacts = result.getContacts();
+                        for (Contact contact : allContacts) {
+                            if (contact.getContactId() != 0) {
+                                appContacts.add(contact);
+                            }
+                        }
+                        displayedContacts = appContacts;
+                        filter();
+                    }
+                });
     }
 
 }

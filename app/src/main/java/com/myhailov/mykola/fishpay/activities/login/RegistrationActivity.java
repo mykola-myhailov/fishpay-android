@@ -50,19 +50,20 @@ public class RegistrationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        Bundle extras  = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         assert extras != null;
         phone = extras.getString(Keys.PHONE);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
         etEmail = findViewById(R.id.etEmail);
-        etBirthday= findViewById(R.id.etBirthday);
+        etBirthday = findViewById(R.id.etBirthday);
         etBirthday.setOnClickListener(this);
         ivAvatar = findViewById(R.id.ivAvatar);
         ivAvatar.setOnClickListener(this);
         tvSave = findViewById(R.id.tvSave);
         tvSave.setOnClickListener(this);
+        uploadContactsRequest();
     }
 
 
@@ -80,11 +81,13 @@ public class RegistrationActivity extends BaseActivity {
                 surname = etSurname.getText().toString();
                 email = etEmail.getText().toString();
                 if (name.equals("")) Utils.toast(context, getString(R.string.enter_name));
-                else if (surname.equals("")) Utils.toast(context,getString(R.string.enter_surname));
+                else if (surname.equals(""))
+                    Utils.toast(context, getString(R.string.enter_surname));
                 else if (birthday == null) Utils.toast(context, getString(R.string.enter_birthday));
-                else if (surname.length() < 2 || surname.length() > 20 )
+                else if (surname.length() < 2 || surname.length() > 20)
                     Utils.toast(context, getString(R.string.wrong_surname));
-                else if  (!email.equals("") && !Utils.isValidEmail(email)) Utils.toast(context, getString(R.string.incorrect_email));
+                else if (!email.equals("") && !Utils.isValidEmail(email))
+                    Utils.toast(context, getString(R.string.incorrect_email));
                 else {
                     Intent intent = new Intent(context, SetPasswordActivity.class);
                     intent.putExtra(Keys.PHONE, phone);
@@ -98,7 +101,6 @@ public class RegistrationActivity extends BaseActivity {
                 break;
         }
     }
-
 
 
     private void showDataPicker() {
@@ -117,7 +119,7 @@ public class RegistrationActivity extends BaseActivity {
                 calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat monthFormat = new SimpleDateFormat("d MMMM yyyy", new Locale("ru"));
                 etBirthday.setText(monthFormat.format(calendar.getTimeInMillis()));
-                birthday = year  + "-" + Utils.toTwoSigns(month+1) + "-" + Utils.toTwoSigns(dayOfMonth);
+                birthday = year + "-" + Utils.toTwoSigns(month + 1) + "-" + Utils.toTwoSigns(dayOfMonth);
             }
         };
     }
@@ -128,12 +130,15 @@ public class RegistrationActivity extends BaseActivity {
         if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE) {
             // get new image, make file and upload to server
             Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-            if (bitmap != null){
+            if (bitmap != null) {
                 ivAvatar.setImageBitmap(bitmap);
 
                 File imageFile = null;
-                try {imageFile = File.createTempFile("avatar" + ".jpg", null, context.getCacheDir());}
-                catch (IOException e) {e.printStackTrace();}
+                try {
+                    imageFile = File.createTempFile("avatar" + ".jpg", null, context.getCacheDir());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 OutputStream outputStream = null;
                 try {
                     if (imageFile != null) outputStream = new FileOutputStream(imageFile);
@@ -155,19 +160,26 @@ public class RegistrationActivity extends BaseActivity {
         JSONArray contactsArray = new JSONArray();
         JSONObject preparedContacts = new JSONObject();
         try {
-            for (Contact contactInfo: contacts) {
+            for (Contact contactInfo : contacts) {
                 JSONObject contactObject = new JSONObject();
-                contactObject.put("first_name",  contactInfo.getName());
-                contactObject.put("last_name",  contactInfo.getSurname());
-                contactObject.put("phone_number",contactInfo.getPhone());
+                contactObject.put("first_name", contactInfo.getName());
+                contactObject.put("last_name", contactInfo.getSurname());
+                contactObject.put("phone_number", contactInfo.getPhone());
                 contactsArray.put(contactObject);
             }
 
             preparedContacts.put("contacts_data", contactsArray);
-        } catch (Exception ignored){}
-
+        } catch (Exception ignored) {
+        }
         ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
                 .enqueue(new BaseCallback<Object>(context, false) {
+
+                    @Override
+                    protected void onError(int code, String errorDescription) {
+                        super.onError(code, errorDescription);
+                        Log.d("sss", "onError: " + errorDescription);
+                    }
+
                     @Override
                     protected void onResult(int code, Object result) {
                         getContactsRequest();
@@ -175,14 +187,14 @@ public class RegistrationActivity extends BaseActivity {
                 });
     }
 
-    private void getContactsRequest(){
+    private void getContactsRequest() {
         if (!Utils.isOnline(context)) {
             Utils.noInternetToast(context);
             return;
         }
         ApiClient.getApiInterface()
                 .getContacts(TokenStorage.getToken(context), true, true)
-                .enqueue(new BaseCallback<ContactsResult>(context, true) {
+                .enqueue(new BaseCallback<ContactsResult>(context, false) {
                     @Override
                     protected void onResult(int code, ContactsResult result) {
                         if (result == null) return;

@@ -27,15 +27,15 @@ import java.util.Locale;
 
 public class BeginActivity extends BaseActivity {
 
-    private TextView tvUa, tvRu, tvEn;
+    private TextView tvUa, tvRu, tvEn, tvNext, tvNumber;
     EditText etPhone;
     String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_begin);
 
+        setContentView(R.layout.activity_begin);
         startService(new Intent(this, ContactsIntentService.class));
         //   quicklogin();
         etPhone = findViewById(R.id.etPhone);
@@ -47,14 +47,15 @@ public class BeginActivity extends BaseActivity {
 
         String versionText = getString(R.string.version) + ": " + BuildConfig.VERSION_NAME;
         ((TextView) findViewById(R.id.tvVersion)).setText(versionText);
-        (findViewById(R.id.tvNext)).setOnClickListener(this);
-        (findViewById(R.id.ivNext)).setOnClickListener(this);
-
         tvEn = findViewById(R.id.tv_en);
         tvRu = findViewById(R.id.tv_ru);
         tvUa = findViewById(R.id.tv_ua);
-
+        tvNext = findViewById(R.id.tvNext);
+        tvNumber = findViewById(R.id.tvPhone);
         checkLang();
+        tvNext.setOnClickListener(this);
+        (findViewById(R.id.ivNext)).setOnClickListener(this);
+
 
         tvEn.setOnClickListener(this);
         tvRu.setOnClickListener(this);
@@ -92,6 +93,9 @@ public class BeginActivity extends BaseActivity {
     }
 
     private void checkLang() {
+        tvRu.setTextColor(getResources().getColor(R.color.grey_disabled));
+        tvUa.setTextColor(getResources().getColor(R.color.grey_disabled));
+        tvEn.setTextColor(getResources().getColor(R.color.grey_disabled));
         Locale current = getResources().getConfiguration().locale;
         switch (current.toString()) {
             case "ru":
@@ -120,7 +124,9 @@ public class BeginActivity extends BaseActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         if (!current.toString().equals(language)) {
-            recreate();
+            checkLang();
+            tvNumber.setText(getString(R.string.your_phone_number));
+            tvNext.setText(getString(R.string.next));
         }
     }
 

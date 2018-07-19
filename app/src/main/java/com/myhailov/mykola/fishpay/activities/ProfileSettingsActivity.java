@@ -41,6 +41,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     private String name, surname, phone, avatar, email, birthday, id, lang;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +101,11 @@ public class ProfileSettingsActivity extends DrawerActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void getProfileRequest() {
         ApiClient.getApiInterface().getProfile(token)
                 .enqueue(new BaseCallback<ProfileResult>(context, true) {
@@ -108,6 +114,8 @@ public class ProfileSettingsActivity extends DrawerActivity {
                         if (code == 200) {
                             ProfileResult.Profile profile = result.getProfile();
                             if (profile != null) {
+                                lang = profile.getProfileProperties().getLang();
+                                setLang(lang);
                                 id = result.getUserId();
                                 name = profile.getName();
                                 surname = profile.getSurname();
@@ -115,8 +123,7 @@ public class ProfileSettingsActivity extends DrawerActivity {
                                 avatar = profile.getPhoto();
                                 email = profile.getEmail();
                                 birthday = profile.getBirthday();
-                                lang = profile.getProfileProperties().getLang();
-                                setLang(lang);
+
                                 Card card = profile.getCard();
                                 String cardJson = card == null ? null : new Gson().toJson(card);
                                 //       Log.e("cardJson1", cardJson);
@@ -152,16 +159,11 @@ public class ProfileSettingsActivity extends DrawerActivity {
 
     private void setLang(String language) {
         if (language.equals("ua")) language = "uk";
-        Locale current = getResources().getConfiguration().locale;
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-
-        if (!current.toString().equals(language)) {
-            recreate();
-        }
     }
 
 

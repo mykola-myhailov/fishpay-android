@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -189,7 +191,9 @@ public class LoginActivity extends BaseActivity {
                                 case 200:
                                     JsonObject loginResult = result.getAsJsonObject();
                                     TokenStorage.setToken(context, loginResult.get("access_token").getAsString());
+                                    getContactsRequest();
                                     uploadContactsRequest();
+                                    setLang(loginResult.get("UI_LANG").getAsString());
                                     context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                                     break;
                             }
@@ -284,6 +288,7 @@ public class LoginActivity extends BaseActivity {
 
 
     private void uploadContactsRequest() {
+        Log.d("sss", "uploadContactsRequest: 1");
         List<Contact> contacts = DBUtils.getDaoSession(context).getContactDao().loadAll();
         if (!Utils.isOnline(this)) return;
         JSONArray contactsArray = new JSONArray();
@@ -300,16 +305,11 @@ public class LoginActivity extends BaseActivity {
 
             preparedContacts.put("contacts_data", contactsArray);
         } catch (Exception ignored){}
-
-        Log.d("sss", "uploadContactsRequest: ");
-
-        ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(this), preparedContacts.toString())
-                .enqueue(new BaseCallback<Object>(context, true) {
+        ApiClient.getApiInterface().exportContacts(TokenStorage.getToken(context), preparedContacts.toString())
+                .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
-//                        context.startActivity(new Intent(context, ProfileSettingsActivity.class));
-                        getContactsRequest();
-                        Log.d("sss", "onResult: 1");
+//                        getContactsRequest();
                     }
                 });
     }
@@ -347,4 +347,12 @@ public class LoginActivity extends BaseActivity {
         } else Utils.noInternetToast(context);
     }
 
+    private void setLang(String language) {
+        if (language.equals("ua")) language = "uk";
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
 }
