@@ -363,42 +363,51 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/commonSpendings/{id}/transactions")
     Call<BaseResponse<JsonElement>> spendTransaction(@Header("Authorization") String token,
-                                                     @Path("id") long id,
+                                                     @Path("id") String id,
                                                      @Field("returnUpdated") boolean returnUpdated,
                                                      @Field("member_from") String memberFrom,
                                                      @Field("member_to") String memberTo,
                                                      @Field("amount") int amount,
                                                      @Field("comment") String comment);
 
+    @FormUrlEncoded
+    @POST("api/commonSpendings/{id}/transactions")
+    Call<BaseResponse<JsonElement>> spendTransactionWithoutMemberTo(@Header("Authorization") String token,
+                                                                    @Path("id") String id,
+                                                                    @Field("returnUpdated") boolean returnUpdated,
+                                                                    @Field("member_from") String memberFrom,
+                                                                    @Field("amount") int amount,
+                                                                    @Field("comment") String comment);
+
     @DELETE("api/commonSpendings/transactions/{trans_id}")
     Call<BaseResponse<Object>> deleteTransaction(@Header("Authorization") String token,
-                                                 @Path("trans_id") String transId,
-                                                 @Path("returnUpdated") boolean returnUpdated);
+//                                                 @Field("returnUpdated") boolean returnUpdated);
+                                                 @Path("trans_id") String transId);
 
 
     @FormUrlEncoded
     @POST("api/moneyRequest/initFromCommonSpending")
     Call<BaseResponse<CreateInvoiceResult>> initInvoice(@Header("Authorization") String token,
-                                           @Field("phone") String phone,
-                                           @Field("card_id") String card,
-                                           @Field("amount") String amount,
-                                           @Field("comment") String comment,
-                                           @Field("member_from") String memberFrom,
-                                           @Field("member_to") String memberTo);
+                                                        @Field("phone") String phone,
+                                                        @Field("card_id") String card,
+                                                        @Field("amount") String amount,
+                                                        @Field("comment") String comment,
+                                                        @Field("member_from") String memberFrom,
+                                                        @Field("member_to") String memberTo);
 
 
     @FormUrlEncoded
     @POST("api/commonSpendings/{spendingId}/sendlookupp")
     Call<BaseResponse<String>> sendLookupSpend(@Header("Authorization") String token,
-                                                 @Field("spendingId") String spendingId,
-                                                 @Field("returnUpdated") boolean returnUpdated,
-                                                 @Field("member_from") String member_from,
-                                                 @Field("member_to") String member_to,
-                                                 @Field("amount") String amount,
-                                                 @Field("comment") String comment,
-                                                 @Field("fpt") String fpt,
-                                                 @Field("id") String id,
-                                                 @Field("code") String code);
+                                               @Field("spendingId") String spendingId,
+                                               @Field("returnUpdated") boolean returnUpdated,
+                                               @Field("member_from") String member_from,
+                                               @Field("member_to") String member_to,
+                                               @Field("amount") String amount,
+                                               @Field("comment") String comment,
+                                               @Field("fpt") String fpt,
+                                               @Field("id") String id,
+                                               @Field("code") String code);
 
     @Multipart
     @POST("api/commonSpendings/{spendingId}/auditpay")

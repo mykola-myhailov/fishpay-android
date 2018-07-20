@@ -202,6 +202,11 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         @Override
         public void onBindViewHolder(SpendsViewHolder holder, int position) {
             GroupSpend spend = selectedSpends.get(position);
+            if(spend.getCreatorId() != myUserId){
+                holder.swipeRevealLayout.close(false);
+                holder.swipeRevealLayout.setLockDrag(true);
+            }else holder.swipeRevealLayout.setLockDrag(false);
+
             if (spend.getStatus().equals("NOT_VIEWED")) holder.viewed.setVisibility(View.VISIBLE);
             else holder.viewed.setVisibility(View.INVISIBLE);
             if (spend.getStatus().equals("CLOSED") || spend.getStatus().equals("REJECTED"))

@@ -143,6 +143,12 @@
         </activity>
         <activity android:name=".activities.profile.PublicOfferActivity">
         </activity>
+        <activity android:name=".activities.joint_purchases.JointPuchaseSuccessActivity">
+        </activity>
+        <activity android:name=".activities.group_spends.GroupSpendsAddActivity">
+        </activity>
+        <activity android:name=".activities.group_spends.GroupSpendMenuActivity">
+        </activity>
     </application>
 
 </manifest>

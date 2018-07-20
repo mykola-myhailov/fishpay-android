@@ -353,4 +353,7 @@
     <string name="cancel_search">Отменить</string>
     <string name="status_out_request">статус:</string>
     <string name="yesterday_">вчера в %s</string>
+    <string name="from_">от %s</string>
+    <string name="alert_delete_transaction_description">Вы уверены, что хотите удалить транзакцию? Общая сумма будет изменена</string>
+    <string name="group_spends_add_success">Ваш расход успешно добавлен в группу «%s». Вы всегда можете его посмотреть в списке расходов</string>
 </resources>

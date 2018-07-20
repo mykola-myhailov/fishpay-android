@@ -92,7 +92,7 @@ public class MemberDetailsActivity extends BaseActivity {
                             .getString(PrefKeys.ID, "0"));
                     String idCreator = "";
                     for (MemberDetails memberDetails : members) {
-                        if (memberDetails.getUserId().equals(myUserId + "")) {
+                        if (!TextUtils.isEmpty(memberDetails.getUserId()) && memberDetails.getUserId().equals(myUserId + "")) {
                             idCreator = memberDetails.getId() + "";
                         }
                     }
@@ -209,7 +209,6 @@ public class MemberDetailsActivity extends BaseActivity {
     private void initRecyclerView() {
         memberTransactions = new ArrayList<>();
         memberId = member.getId();
-//        memberId = Long.parseLong(member.getUserId());
         for (Transaction transaction : allTransactions) {
             if (transaction.getMemberFromId() == memberId || transaction.getMemberToId() == memberId)
                 memberTransactions.add(transaction);

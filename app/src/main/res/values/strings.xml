@@ -146,7 +146,7 @@
     <string name="select">Выбрать</string>
     <string name="select_min_2">Выберете минимум двоих участников</string>
     <string name="fields_must_filled">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть заполнены</string>
-    <string name="fields_must_filled_not_equals">Для создания транзакции поля \"От участника\" и \"К участнику\" должны быть различные</string>
+    <string name="fields_must_filled_not_equals">Вы не можете выбрать одного пользователя для двух разных полей</string>
     <string name="attention">Внимание</string>
     <string name="add_participant">ДОБАВИТЬ УЧАСТНИКА</string>
     <string name="select_participants">Выберите участников</string>
@@ -241,6 +241,7 @@
     <string name="price">Цена</string>
     <string name="price_goods">Цена товара</string>
     <string name="from">от</string>
+    <string name="from_">от %s</string>
     <string name="to">до</string>
     <string name="description_is_not_available">описание недоступно</string>
     <string name="date_unknown">дата неизвестна</string>
@@ -314,6 +315,7 @@
     <string name="create_new">Создать новую</string>
     <string name="to_work">Вернутся к роботе</string>
     <string name="pay_request_success">Ваш запрос успешно отправлен. Вы всегда можете его посмотреть в разделе \"Исходящие\"!</string>
+    <string name="group_spends_add_success">Ваш расход успешно добавлен в группу «%s». Вы всегда можете его посмотреть в списке расходов</string>
     <string name="out_coming_pay_request">Исходящий запрос</string>
     <string name="status_request">Статус запроса</string>
     <string name="status_out_request">статус:</string>
@@ -351,6 +353,7 @@
     <string name="lang_en" translatable="false">English</string>
     <string name="alert_delete_contact">Вы действительно хотите удалить из списка контактов?</string>
     <string name="alert_delete_contact_description">Контакт будет удален и из истории операций</string>
+    <string name="alert_delete_transaction_description">Вы уверены, что хотите удалить транзакцию? Общая сумма будет изменена</string>
     <string name="select_a_photo">Выберите фото</string>
     <string name="You_dont_need_to_remember">Больше не нужно запоминать длинные номера счетов просто выбирайте нужного адресата из контактной книги</string>
     <string name="work_with_names_you_know">Работайте с знакомыми Вам именами вместо номеров</string>

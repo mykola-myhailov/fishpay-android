@@ -343,7 +343,7 @@
     <string name="privacy_licence_switch">Я згоден з договором публічної оферти</string>
     <string name="privacy_licence_error">Прочитайте договір публічної оферти</string>
     <string name="offer">Оферта</string>
-    <string name="fields_must_filled_not_equals">Для створення транзакції поля \'Від учасника\' і \'До учасника\' повинні бути різні</string>
+    <string name="fields_must_filled_not_equals">Ви не можете вибрати одного користувача для двох різних полів</string>
     <string name="contribution_of_common_spend">Запит на переказ коштів в рамках спільних витрат</string>
     <string name="max_amount">Сума не повинна перевищувати 14999грн</string>
     <string name="user_unknown">Невідомий користувач</string>
@@ -353,4 +353,7 @@
     <string name="cancel_search">Скасувати</string>
     <string name="yesterday_">вчора в %s</string>
     <string name="status_out_request">статус:</string>
+    <string name="from_">від %s</string>
+    <string name="alert_delete_transaction_description">Ви впевнені, що хочете видалити транзакцію? Загальна сума буде змінена</string>
+    <string name="group_spends_add_success">Ваша витрата успішно додана до групи «%s». Ви завжди можете його подивитися в списку витрат</string>
 </resources>

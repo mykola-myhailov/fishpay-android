@@ -73,7 +73,7 @@ public abstract class BaseCallback<T> implements Callback<BaseResponse<T>> {
     }
 
     protected void closeProgressDialog(){
-        if (progressDialog != null) progressDialog.cancel();
+        if (progressDialog != null && progressDialog.isShowing()) progressDialog.cancel();
     }
 
 

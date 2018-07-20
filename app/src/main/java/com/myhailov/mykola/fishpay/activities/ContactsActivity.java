@@ -229,20 +229,6 @@ public class ContactsActivity extends DrawerActivity {
     private void initSearchView() {
         searchView = findViewById(R.id.search);
         tvCancel = findViewById(R.id.tv_cancel);
-
-//        try {
-//            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-//            searchField.setAccessible(true);
-//            ImageView mSearchCloseButton = (ImageView) searchField.get(searchView);
-//            if (mSearchCloseButton != null) {
-//                mSearchCloseButton.setEnabled(false);
-//                mSearchCloseButton.setVisibility(View.GONE);
-//                mSearchCloseButton.setImageDrawable(getResources().getDrawable(R.drawable.transparent));
-//            }
-//        } catch (Exception e) {
-//            Log.e("sss", "Error finding close button", e);
-//        }
-
         tvCancel.setOnClickListener(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -200,19 +200,22 @@
             android:text="@string/uah2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <EditText
-            android:theme="@style/editTextTheme"
-            android:id="@+id/etAmount"
-            android:layout_toStartOf="@+id/tvCurrency"
-            android:inputType="numberDecimal"
-            android:layout_alignBaseline="@+id/tvCurrency"
-            android:layout_below="@+id/divider2"
-            android:layout_marginEnd="10dp"
-            android:text="0"
-            android:layout_width="wrap_content"
-            android:textSize="30dp"
-            android:textColor="@color/blue1"
-            android:layout_height="wrap_content" />
+                android:layout_marginStart="40dp"
+                android:textAlignment="textEnd"
+                android:theme="@style/editTextTheme"
+                android:id="@+id/etAmount"
+                android:layout_toStartOf="@+id/tvCurrency"
+                android:inputType="numberDecimal"
+                android:layout_alignBaseline="@+id/tvCurrency"
+                android:layout_below="@+id/divider2"
+                android:layout_marginEnd="10dp"
+                android:text="0"
+                android:layout_width="match_parent"
+                android:textSize="30dp"
+                android:textColor="@color/blue1"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 

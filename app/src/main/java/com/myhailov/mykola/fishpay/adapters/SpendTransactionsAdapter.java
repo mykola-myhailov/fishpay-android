@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.myhailov.mykola.fishpay.R;
-import com.myhailov.mykola.fishpay.api.results.MemberDetails;
 import com.myhailov.mykola.fishpay.api.results.Transaction;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
@@ -20,15 +20,17 @@ import java.util.ArrayList;
 /**
  * Created by Mykola Myhailov  on 15.05.18.
  */
-public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransactionsAdapter.TransactionHolder>{
+public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransactionsAdapter.TransactionHolder> {
 
     private Context context;
     private ArrayList<Transaction> transactions;
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
 
     public SpendTransactionsAdapter(Context context, ArrayList<Transaction> transactions) {
         this.context = context;
         this.transactions = transactions;
+        viewBinderHelper.setOpenOnlyOne(true);
         Log.e("transactons.size", transactions.size() + "");
     }
 
@@ -39,9 +41,9 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
         return new TransactionHolder(itemView);
     }
 
-    class TransactionHolder extends RecyclerView.ViewHolder{
+    class TransactionHolder extends RecyclerView.ViewHolder {
         private SwipeRevealLayout swipeRevealLayout;
-        private TextView tvDelete, tvFrom, tvTo,  tvDate, tvDescription, tvAmount, tvToTitle, tvFromTitle;
+        private TextView tvDelete, tvFrom, tvTo, tvDate, tvDescription, tvAmount, tvToTitle, tvFromTitle;
         private View container;
 
         public TransactionHolder(View itemView) {
@@ -64,6 +66,17 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
     public void onBindViewHolder(TransactionHolder holder, int position) {
         Transaction transaction = transactions.get(position);
         if (transaction == null) return;
+        viewBinderHelper.bind(holder.swipeRevealLayout, transaction.getId() + "");
+
+        if (transaction.getMemberToId() != 0) {
+            holder.swipeRevealLayout.close(false);
+            holder.swipeRevealLayout.setLockDrag(true);
+        } else {
+            holder.swipeRevealLayout.setLockDrag(false);
+        }
+        holder.tvDelete.setTag(transaction);
+        holder.tvDelete.setOnClickListener((View.OnClickListener) context);
+
         Utils.setText(holder.tvAmount, Utils.pennyToUah(transaction.getAmount()));
         Utils.setText(holder.tvDescription, transaction.getComment());
         Utils.setText(holder.tvFrom, transaction.getMemberFromName() + " " + transaction.getMemberFromSurname());
@@ -71,22 +84,20 @@ public class SpendTransactionsAdapter extends RecyclerView.Adapter<SpendTransact
         if (memberToName.length() < 1) holder.tvTo.setVisibility(View.GONE);
         else holder.tvTo.setText(memberToName);
 
-        if (TextUtils.isEmpty(holder.tvFrom.getText().toString()) || holder.tvFrom.getText().toString().equals(" ")){
+        if (TextUtils.isEmpty(holder.tvFrom.getText().toString()) || holder.tvFrom.getText().toString().equals(" ")) {
             holder.tvFromTitle.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.tvFromTitle.setVisibility(View.VISIBLE);
         }
-        if (TextUtils.isEmpty(holder.tvTo.getText().toString())|| holder.tvTo.getText().toString().equals(" ")){
+        if (TextUtils.isEmpty(holder.tvTo.getText().toString()) || holder.tvTo.getText().toString().equals(" ")) {
             holder.tvToTitle.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.tvToTitle.setVisibility(View.VISIBLE);
         }
 
-
-
         holder.tvDate.setText(Utils.checkDateIsToday(context, transaction.getDate()));
 //        Utils.setText(holder.tvDate, transaction.getDate());
-      //  transaction.getM
+        //  transaction.getM
     }
 
 

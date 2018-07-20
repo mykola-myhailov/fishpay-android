@@ -146,7 +146,7 @@ public class ManualTransferActivity extends BaseActivity {
             return;
         }
         ApiClient.getApiInterface().spendTransaction(TokenStorage.getToken(context),
-                spend.getId(), true, fromId, toId, amount, comment)
+                spend.getId() + "", true, fromId, toId, amount, comment)
                 .enqueue(new BaseCallback<JsonElement>(context, true) {
 
                     @Override

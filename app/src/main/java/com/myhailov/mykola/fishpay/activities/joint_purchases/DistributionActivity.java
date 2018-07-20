@@ -47,7 +47,7 @@ public class DistributionActivity extends BaseActivity {
     private int groupSpendAmount;
     private String groupName;
     private String groupSpendDescription;
-    private String  proportion;
+    private String proportion, proportionCreator;
     private Member[] members;
 
     @Override
@@ -60,9 +60,9 @@ public class DistributionActivity extends BaseActivity {
         from = extras.getString(Keys.FROM);
         members = new Member[]{};
 
-        switch (from){
+        switch (from) {
             case ChooseMembersActivity.FROM_GROUP_SPENDS:
-                groupSpendAmount =  extras.getInt(Keys.AMOUNT);
+                groupSpendAmount = extras.getInt(Keys.AMOUNT);
                 groupSpendDescription = extras.getString(Keys.DESCRIPTION);
                 groupName = extras.getString(Keys.GROUP);
                 initCustomToolbar(getString(R.string.distribution_of_parts));
@@ -79,12 +79,20 @@ public class DistributionActivity extends BaseActivity {
 
     private void initViews() {
         int amount = 0;
-        switch (from){
+        switch (from) {
 
             case ChooseMembersActivity.FROM_GROUP_SPENDS:
                 amount = groupSpendAmount;
                 (findViewById(R.id.llAmount)).setVisibility(View.GONE);
                 proportion = calculateProportion();
+                double prop = 0;
+                for (int i = 0; i < contacts.size(); i++) {
+                    prop += Double.parseDouble(proportion);
+                }
+                if (prop != 100) {
+                    proportionCreator = String.format(Locale.ENGLISH, "%.1f", (Double.parseDouble(proportion) + 100 - prop));
+                } else proportionCreator = proportion;
+
                 break;
             case ChooseMembersActivity.FROM_JOINT_PURCHASES:
                 amount = Integer.parseInt(commonPurchaseBody.getAmount());
@@ -94,21 +102,21 @@ public class DistributionActivity extends BaseActivity {
                 initTabLayout();
                 break;
         }
-            if (contacts != null) {
-                defineAmounts(contacts, ((float) amount) / 100);
-                adapter = new DistributionContactsAdapter(contacts);
-                RecyclerView rvContacts = findViewById(R.id.rv_contacts);
-                rvContacts.setLayoutManager(new LinearLayoutManager(context));
-                rvContacts.setAdapter(adapter);
-            }
+        if (contacts != null) {
+            defineAmounts(contacts, ((float) amount) / 100);
+            adapter = new DistributionContactsAdapter(contacts);
+            RecyclerView rvContacts = findViewById(R.id.rv_contacts);
+            rvContacts.setLayoutManager(new LinearLayoutManager(context));
+            rvContacts.setAdapter(adapter);
+        }
 
-            findViewById(R.id.tv_finish).setOnClickListener(this);
+        findViewById(R.id.tv_finish).setOnClickListener(this);
     }
 
     private String calculateProportion() {
-         int quantity = contacts.size();
-         float proportion = 100.0f/quantity;
-         return String.format(Locale.ENGLISH,"%.1f", (proportion));
+        int quantity = contacts.size();
+        float proportion = 100.0f / quantity;
+        return String.format(Locale.ENGLISH, "%.1f", (proportion));
     }
 
     private void initTabLayout() {
@@ -121,7 +129,7 @@ public class DistributionActivity extends BaseActivity {
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case  R.id.ivBack:
+            case R.id.ivBack:
                 onBackPressed();
                 break;
             case R.id.tv_finish:
@@ -140,7 +148,10 @@ public class DistributionActivity extends BaseActivity {
                     case ChooseMembersActivity.FROM_GROUP_SPENDS:
                         for (Contact contact : contacts) {
                             members[i] = new Member();
-                            members[i].set(contact, proportion );
+                            if (i == 0) {
+                                members[i].set(contact, proportionCreator);
+                            } else
+                                members[i].set(contact, proportion);
                             i++;
                         }
                         createGroupSpendRequest();
@@ -152,7 +163,7 @@ public class DistributionActivity extends BaseActivity {
     }
 
     private void createGroupSpendRequest() {
-        if (Utils.isOnline(context)){
+        if (Utils.isOnline(context)) {
             GroupSpendBody groupSpendBody
                     = new GroupSpendBody(groupName, groupSpendDescription, groupSpendAmount, members);
             ApiClient.getApiInterface()
@@ -190,11 +201,11 @@ public class DistributionActivity extends BaseActivity {
     private void defineAmounts(ArrayList<Contact> contacts, float amount) {
         int count = contacts.size();
         float oneAmount = amount / count;
-        oneAmount = Float.valueOf(String.format(Locale.ENGLISH,"%.2f", oneAmount));
+        oneAmount = Float.valueOf(String.format(Locale.ENGLISH, "%.2f", oneAmount));
         for (Contact contact : contacts)
             contact.setAmountToPay(oneAmount);
         if (oneAmount * count != amount) {
-            float remainder = Float.valueOf(String.format(Locale.ENGLISH,"%.2f",amount - oneAmount * count));
+            float remainder = Float.valueOf(String.format(Locale.ENGLISH, "%.2f", amount - oneAmount * count));
             contacts.get(0).setAmountToPay(oneAmount + remainder);
         }
     }
@@ -225,7 +236,7 @@ public class DistributionActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.bind(contacts.get(position));
+            holder.bind(contacts.get(position), position);
         }
 
         @Override
@@ -251,7 +262,7 @@ public class DistributionActivity extends BaseActivity {
                 tvUnits = itemView.findViewById(R.id.tvUnits);
             }
 
-            void bind(Contact contact) {
+            void bind(Contact contact, int pos) {
                 String initials = Utils.extractInitials(contact.getName(), contact.getSurname());
                 if (contact.getPhoto() != null && !contact.getPhoto().equals("") && !contact.getPhoto().equals("null")) {
                     Uri photoUri = Uri.parse(ApiClient.BASE_API_URL + "api/resources/photo/" + contact.getPhoto());
@@ -262,9 +273,13 @@ public class DistributionActivity extends BaseActivity {
                     tvInitials.setText(initials);
                 }
                 tvName.setText(contact.getFullName());
-                switch (from){
+                switch (from) {
                     case ChooseMembersActivity.FROM_GROUP_SPENDS:
-                        tvAmount.setText(proportion);
+                        if (pos == 0) {
+                            tvAmount.setText(proportionCreator);
+                        } else {
+                            tvAmount.setText(proportion);
+                        }
                         tvUnits.setText("%");
                         break;
                     case ChooseMembersActivity.FROM_JOINT_PURCHASES:
