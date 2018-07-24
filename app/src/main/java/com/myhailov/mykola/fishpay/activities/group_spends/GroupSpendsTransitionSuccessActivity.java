@@ -75,6 +75,7 @@ public class GroupSpendsTransitionSuccessActivity extends BaseActivity {
 
         GroupSpend spend = new GroupSpend(spendDetail.getId());
         context.startActivity(new Intent(context, MemberDetailsActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(ROLE, role)
                 .putExtra(SPEND, spend)
                 .putExtra(MEMBERS, spendDetail.getMembers())

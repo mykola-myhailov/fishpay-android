@@ -8,9 +8,14 @@
         android:id="@+id/swipe_layout"
         app:mode="same_level"
         app:dragEdge="right">
-
+    <FrameLayout
+            android:background="@android:color/holo_red_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
     <TextView
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -22,9 +27,12 @@
             android:textColor="@color/white"
             android:text="@string/delete"/>
 
+    </FrameLayout>
     <RelativeLayout
             android:id="@+id/container"
-            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -117,7 +125,6 @@
                 android:background="#CECED2"
                 android:layout_below="@+id/tv_to"
                 android:layout_marginTop="5dp"
-                android:paddingBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"/>
 

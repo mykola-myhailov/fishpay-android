@@ -50,7 +50,7 @@ public class SpendDetailActivity extends BaseActivity {
     private ArrayList<Transaction> transactions;
     private GroupSpend spend;
     private long spendId, transId, transMemberId;
-    private boolean iAmCreator;
+    private boolean iAmCreator, reload = false;
     private long myUserId;
 
     @Override
@@ -81,7 +81,11 @@ public class SpendDetailActivity extends BaseActivity {
                         protected void onResult(int code, SpendDetailResult result) {
                             if (result == null) return;
                             spendDetail = result;
-                            tvAmount.setText(Utils.pennyToUah(result.getSum()));
+                            if (result.getSum() != 0) {
+                                tvAmount.setText(Utils.pennyToUah(result.getSum()));
+                            }else {
+                                tvAmount.setText("0.00");
+                            }
                             members = result.getMembers();
                             transactions = result.getTransactions();
                             initCustomToolbar(result.getTitle());
@@ -194,7 +198,7 @@ public class SpendDetailActivity extends BaseActivity {
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
-                        recreate();
+                        spendDetailRequest();
                         toast(getString(R.string.deleted));
                     }
                 });
