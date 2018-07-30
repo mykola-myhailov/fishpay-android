@@ -63,7 +63,7 @@ public class RegistrationActivity extends BaseActivity {
         ivAvatar.setOnClickListener(this);
         tvSave = findViewById(R.id.tvSave);
         tvSave.setOnClickListener(this);
-        uploadContactsRequest();
+//        uploadContactsRequest();
     }
 
 
@@ -149,7 +149,7 @@ public class RegistrationActivity extends BaseActivity {
                     Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
                 }
                 imageUri = Uri.fromFile(imageFile);
-                uploadContactsRequest();
+//                uploadContactsRequest();
             }
         }
     }
