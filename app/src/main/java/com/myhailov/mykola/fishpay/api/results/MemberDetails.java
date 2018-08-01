@@ -57,7 +57,7 @@ public class MemberDetails implements Parcelable{
     private double partInOverpaiment;
 
     @SerializedName("relative_balance")
-    private double relativeBallance;
+    private long relativeBallance;
 
 
     // getters
@@ -126,7 +126,7 @@ public class MemberDetails implements Parcelable{
         return partInOverpaiment;
     }
 
-    public double getRelativeBallance() {
+    public long getRelativeBallance() {
         return relativeBallance;
     }
 
@@ -153,7 +153,7 @@ public class MemberDetails implements Parcelable{
         parcel.writeLong(commitment);
         parcel.writeLong(overpaiment);
         parcel.writeDouble(partInOverpaiment);
-        parcel.writeDouble(relativeBallance);
+        parcel.writeLong(relativeBallance);
     }
 
     protected MemberDetails(Parcel in) {
@@ -172,7 +172,7 @@ public class MemberDetails implements Parcelable{
         commitment = in.readLong();
         overpaiment = in.readLong();
         partInOverpaiment = in.readDouble();
-        relativeBallance = in.readDouble();
+        relativeBallance = in.readLong();
     }
 
     public static final Creator<MemberDetails> CREATOR = new Creator<MemberDetails>() {

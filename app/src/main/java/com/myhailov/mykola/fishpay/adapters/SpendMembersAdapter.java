@@ -59,7 +59,7 @@ public class SpendMembersAdapter extends RecyclerView.Adapter<SpendMembersAdapte
         if (member == null) return;
         String name = member.getName() + " " + member.getSurname();
         holder.tvName.setText(name);
-        holder.tvAmount.setText(Utils.pennyToUah(member.getOverpaiment()));
+        holder.tvAmount.setText(Utils.pennyToUah(member.getRelativeBallance()));
         holder.tvTotalCost.setText(Utils.pennyToUah(member.getSum()));
         holder.tvShare.setText(member.getPart() + " %");
         String initials = Utils.extractInitials(member.getName(), member.getSurname());

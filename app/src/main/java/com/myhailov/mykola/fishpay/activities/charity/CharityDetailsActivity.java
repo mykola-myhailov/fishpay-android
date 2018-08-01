@@ -38,6 +38,7 @@ import static com.myhailov.mykola.fishpay.utils.Utils.buildPhotoUrl;
 import static com.myhailov.mykola.fishpay.utils.Utils.showInfoAlert;
 
 public class CharityDetailsActivity extends BaseActivity implements TabLayout.OnTabChangedListener {
+    public final int CLOSE_CHARITY_REQUEST = 12;
     public static final long NOTHING = -1;
     private final int TAB_DESCRIPTION = 0;
     private final int TAB_CONTACT = 1;
@@ -87,7 +88,7 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
                 intent.putExtra(CHARITY_MEMBERS_VISIBILITY, membersVisibility);
                 intent.putExtra(CHARITY_VISIBILITY, charityVisibility);
                 intent.putExtra(CHARITY_RESULT, charity);
-                startActivity(intent);
+                startActivityForResult(intent, CLOSE_CHARITY_REQUEST);
                 break;
             case R.id.tv_contribution:
 //                showInfoAlert(context);
@@ -113,6 +114,15 @@ public class CharityDetailsActivity extends BaseActivity implements TabLayout.On
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == CLOSE_CHARITY_REQUEST){
+            charity.setStatus("CLOSED");
+            findViewById(R.id.tv_contribution).setVisibility(View.GONE);
+            findViewById(R.id.view).setVisibility(View.GONE);
+        }
+    }
 
     private void assignViews() {
         tabLayout = findViewById(R.id.tab_layout_activity_сharity);

@@ -83,14 +83,14 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                 alertDialog.cancel();
                 break;
             case R.id.tv_close_charity_alert:
-                closeCharity(charity.getId().toString());
                 alertDialog.cancel();
+                closeCharity(charity.getId().toString());
                 break;
             case R.id.tv_close:
                 if (newCharity) {
                     if (swPseudonym.isChecked()) {
                         charityCreate.setPseudonym(etPseudonym.getText().toString());
-                    }else {
+                    } else {
                         charityCreate.setPseudonym("");
                     }
                     Intent intent = new Intent(context, CharityPreviewActivity.class);
@@ -137,9 +137,9 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         etPseudonym.setText("");
-        if (isChecked){
+        if (isChecked) {
             etPseudonym.setEnabled(true);
-        }else {
+        } else {
             etPseudonym.setEnabled(false);
         }
     }
@@ -229,6 +229,8 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                     @Override
                     protected void onResult(int code, Object result) {
                         toast(getString(R.string.charity_close));
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 });
     }

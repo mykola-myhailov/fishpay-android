@@ -99,11 +99,11 @@ public class AddMoreSpendsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == MENU_CODE){
+        if (resultCode == RESULT_OK && requestCode == MENU_CODE) {
             GroupSpend item;
             item = data.getParcelableExtra(Keys.SPEND);
             userId = data.getStringExtra(Keys.MEMBER_ID);
-            if (item != null){
+            if (item != null) {
                 spendId = item.getId();
                 spendTitle = item.getTitle();
                 tvSpendTitle.setText(spendTitle);
@@ -114,6 +114,14 @@ public class AddMoreSpendsActivity extends BaseActivity {
 
     private void initViews() {
         etAmount = findViewById(R.id.etAmount);
+        etAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && etAmount.getText().toString().equals("0")) {
+                    etAmount.setText("");
+                }
+            }
+        });
         etComment = findViewById(R.id.etComment);
 
         tvUserName = findViewById(R.id.tvName);
@@ -149,7 +157,7 @@ public class AddMoreSpendsActivity extends BaseActivity {
                         @Override
                         protected void onResult(int code, JsonElement result) {
                             startActivity(new Intent(context, GroupSpendsAddActivity.class)
-                                .putExtra(Keys.JSON_ELEMENT, result.toString()));
+                                    .putExtra(Keys.JSON_ELEMENT, result.toString()));
                             finish();
                         }
 
