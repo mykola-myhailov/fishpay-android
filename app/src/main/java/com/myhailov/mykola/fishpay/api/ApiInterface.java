@@ -203,8 +203,8 @@ public interface ApiInterface {
     @POST("api/user/cards")
     Call<BaseResponse<Object>> createCard(@Header("Authorization") String token,
                                           @Field("name") String cardName,
-                                          @Field("pan") String cardNumber,
-                                          @Field("expiresAt") String expiresAt);
+                                          @Field("panMasked") String panMasked,
+                                          @Field("cardToken") String cardToken);
 
     @GET("api/user/withoutCard")
     Call<BaseResponse<Object>> setWithoutCard(@Header("Authorization") String token);

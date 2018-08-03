@@ -124,7 +124,7 @@
     <string name="apply">Подать заявку</string>
     <string name="select_1_reason">Выберите минимум 1 причину или напишите комментарий</string>
     <string name="delete_account_">Удалить аккаунт</string>
-    <string name="null_string" translatable="false"/>
+    <string name="null_string" translatable="false" />
     <string name="group_name">Название группы</string>
     <string name="input_group_name">Введите название группы</string>
     <string name="amount">Сумма</string>
@@ -380,6 +380,7 @@
     <string name="info" translatable="false">INFO</string>
     <string name="info_description">В текущей версии приложения денежные переводы не осуществляются</string>
     <string name="info_not_sup_description">В текущей версии приложения операция не поддерживается</string>
+    <string name="enter_card_name">please, enter card name</string>
 
 
 </resources>

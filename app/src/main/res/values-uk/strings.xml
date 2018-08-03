@@ -356,4 +356,5 @@
     <string name="from_">від %s</string>
     <string name="alert_delete_transaction_description">Ви впевнені, що хочете видалити транзакцію? Загальна сума буде змінена</string>
     <string name="group_spends_add_success">Ваша витрата успішно додана до групи «%s». Ви завжди можете його подивитися в списку витрат</string>
+    <string name="enter_card_name">Введіть назву карти</string>
 </resources>
