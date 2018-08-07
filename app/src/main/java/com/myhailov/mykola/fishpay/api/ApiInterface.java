@@ -30,6 +30,7 @@ import com.myhailov.mykola.fishpay.api.results.RemoveAccResult;
 import com.myhailov.mykola.fishpay.api.results.RemoveReason;
 import com.myhailov.mykola.fishpay.api.results.SearchedContactsResult;
 import com.myhailov.mykola.fishpay.api.results.SpendDetailResult;
+import com.myhailov.mykola.fishpay.api.results.UapayInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -643,4 +644,7 @@ public interface ApiInterface {
                                                   @Field("fpt") String fpt,
                                                   @Field("id") String id,
                                                   @Field("code") String code);
+
+    @GET("/api/uapaydata")
+    Call<BaseResponse<UapayInfo>> getUapayInfo(@Header("Authorization") String token);
 }

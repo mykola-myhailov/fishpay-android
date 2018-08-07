@@ -20,6 +20,7 @@ import com.myhailov.mykola.fishpay.activities.BaseActivity;
 import com.myhailov.mykola.fishpay.api.ApiClient;
 import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
+import com.myhailov.mykola.fishpay.utils.UapayInfoStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import org.json.JSONException;
@@ -124,13 +125,14 @@ public class AddCardActivity extends BaseActivity {
     }
 
     private String generateToken() {
-        String key = "cURkWWxmU0h5MGpaSExpQlRpeUJlZz09";
+        String key = UapayInfoStorage.getUapayKeyKey(context);
         Calendar calendar = Calendar.getInstance();
         long time = calendar.getTimeInMillis();
 
         JSONObject data = new JSONObject();
         JSONObject params = new JSONObject();
-        try { params.put("clientId", "545"); } catch (JSONException e){ e.printStackTrace();}
+        try { params.put("clientId", UapayInfoStorage.getUapayIdKey(context)); }
+        catch (JSONException e){ e.printStackTrace();}
         try { params.put("method", "createCard"); } catch (JSONException e) { e.printStackTrace();}
         try { data.put("params", params); } catch (JSONException e) { e.printStackTrace(); }
         try { data.put("iat", time/1000); } catch (JSONException e) { e.printStackTrace(); }

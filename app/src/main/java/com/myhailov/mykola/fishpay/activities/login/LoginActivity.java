@@ -2,6 +2,7 @@ package com.myhailov.mykola.fishpay.activities.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Handler;
@@ -27,11 +28,13 @@ import com.myhailov.mykola.fishpay.api.BaseCallback;
 import com.myhailov.mykola.fishpay.api.BaseResponse;
 import com.myhailov.mykola.fishpay.api.results.CheckMobileResult;
 import com.myhailov.mykola.fishpay.api.results.ContactsResult;
+import com.myhailov.mykola.fishpay.api.results.UapayInfo;
 import com.myhailov.mykola.fishpay.database.Contact;
 import com.myhailov.mykola.fishpay.database.DBUtils;
 import com.myhailov.mykola.fishpay.utils.DeviceIDStorage;
 import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
+import com.myhailov.mykola.fishpay.utils.UapayInfoStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
 import org.json.JSONArray;
@@ -193,6 +196,7 @@ public class LoginActivity extends BaseActivity {
                                     TokenStorage.setToken(context, loginResult.get("access_token").getAsString());
                                     getContactsRequest();
                                     uploadContactsRequest();
+                                    getUapayInfoRequest();
                                     setLang(loginResult.get("UI_LANG").getAsString());
                                     context.startActivity(new Intent(context, ProfileSettingsActivity.class));
                                     break;
@@ -272,6 +276,25 @@ public class LoginActivity extends BaseActivity {
                         }
                     });*/
         }
+    }
+
+    private void getUapayInfoRequest() {
+        if (!Utils.isOnline(context)) {
+            Utils.noInternetToast(context);
+            return;
+        }
+        ApiClient.getApiInterface().getUapayInfo(TokenStorage.getToken(context))
+                .enqueue(new BaseCallback<UapayInfo>(context, false) {
+                    @Override
+                    protected void onResult(int code, UapayInfo result) {
+                        SharedPreferences sharedPreferences
+                                = getSharedPreferences(UapayInfoStorage.UAPAY_STORAGE, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(UapayInfoStorage.UAPAY_ID_KEY, result.getUapayId());
+                        editor.putString(UapayInfoStorage.UAPAY_ID_KEY, result.getUapayKey());
+                        editor.apply();
+                    }
+                });
     }
 
     private void showInvalDialog(final String jti, String message) {
