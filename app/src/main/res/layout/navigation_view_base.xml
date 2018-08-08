@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.NavigationView android:id="@+id/nav_view"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:fitsSystemWindows="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/black_light">
+                                              android:layout_width="wrap_content"
+                                              android:layout_height="match_parent"
+                                              android:layout_gravity="start"
+                                              android:fitsSystemWindows="true"
+                                              xmlns:android="http://schemas.android.com/apk/res/android"
+                                              android:background="@color/black_light"
+                                              xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -305,6 +306,96 @@
                         android:layout_height="0.5dp"
                         android:background="@color/grey"/>
 
+                    <LinearLayout
+                            android:id="@+id/navGroupSpendsItem1"
+                            android:background="@drawable/selector_navigation_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/listPreferredItemHeightSmall"
+                            android:visibility="gone">
+
+                        <ImageView
+                                android:src="@drawable/list_expenses"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="8dip"
+                                android:layout_marginBottom="8dip"
+                                android:scaleType="centerInside"
+                                android:duplicateParentState="true"/>
+
+                        <TextView
+                                android:id="@+id/tv_gs1"
+                                android:drawableEnd="@drawable/dollar"
+                                tools:text="sssssssssssssssssssdddddddddd"
+                                android:textColor="@color/white"
+                                android:layout_width="0dip"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                                android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                                android:textAppearance="?attr/textAppearanceListItemSmall"
+                                android:singleLine="true"
+                                android:duplicateParentState="true"
+                                android:ellipsize="marquee"
+                                android:fadingEdge="horizontal"/>
+                    </LinearLayout>
+
+                    <View
+                            android:id="@+id/gs_item1"
+                            android:layout_marginStart="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/grey"
+                            android:visibility="gone"/>
+
+                    <LinearLayout
+                            android:id="@+id/navGroupSpendsItem2"
+                            android:background="@drawable/selector_navigation_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/listPreferredItemHeightSmall"
+                            android:visibility="gone">
+
+                        <ImageView
+                                android:src="@drawable/list_expenses"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="8dip"
+                                android:layout_marginBottom="8dip"
+                                android:scaleType="centerInside"
+                                android:duplicateParentState="true"/>
+
+                        <TextView
+                                android:id="@+id/tv_gs2"
+                                android:drawableEnd="@drawable/dollar"
+                                tools:text="sssssssssssssssssssdddddddddd"
+                                android:textColor="@color/white"
+                                android:layout_width="0dip"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="?attr/listPreferredItemPaddingLeft"
+                                android:layout_marginEnd="?attr/listPreferredItemPaddingRight"
+                                android:textAppearance="?attr/textAppearanceListItemSmall"
+                                android:singleLine="true"
+                                android:duplicateParentState="true"
+                                android:ellipsize="marquee"
+                                android:fadingEdge="horizontal"/>
+                    </LinearLayout>
+
+                    <View
+                            android:id="@+id/gs_item2"
+                            android:layout_marginStart="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/grey"
+                            android:visibility="gone"/>
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -320,35 +411,15 @@
             android:layout_gravity="bottom">
 
 
-            <LinearLayout
-                    android:id="@+id/ll_pay"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_marginStart="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@drawable/pay"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp" />
-
-                <TextView
-                        android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:text="@string/to_pay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_send_request"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -370,7 +441,7 @@
                     android:id="@+id/ll_about_us"
                 android:layout_marginTop="20dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="40dp"
                 android:orientation="vertical"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"

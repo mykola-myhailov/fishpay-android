@@ -2,22 +2,30 @@ package com.myhailov.mykola.fishpay.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myhailov.mykola.fishpay.R;
+import com.myhailov.mykola.fishpay.activities.group_spends.SpendDetailActivity;
+import com.myhailov.mykola.fishpay.api.ApiClient;
+import com.myhailov.mykola.fishpay.api.BaseCallback;
+import com.myhailov.mykola.fishpay.api.results.GroupSpend;
+import com.myhailov.mykola.fishpay.utils.Keys;
 import com.myhailov.mykola.fishpay.utils.PrefKeys;
 import com.myhailov.mykola.fishpay.utils.TokenStorage;
 import com.myhailov.mykola.fishpay.utils.Utils;
 
-import static com.myhailov.mykola.fishpay.utils.Utils.showInfoNotSuportedAlert;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public abstract class DrawerActivity extends BaseActivity {
 
@@ -33,6 +41,7 @@ public abstract class DrawerActivity extends BaseActivity {
     private ImageView ivAvatarInDrawer;
 
     private String nameInDrawer, surnameInDrawer, phoneInDrawer, avatarInDrawer;
+    private GroupSpend groupSpend1, groupSpend2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +51,21 @@ public abstract class DrawerActivity extends BaseActivity {
         extras = getIntent().getExtras();
     }
 
-    protected void createDrawer(){
+    protected void createDrawer() {
         if (nameInDrawer == null || phoneInDrawer == null) loadDrawerData();
         navClickListener = createNavClickListener();
         initNavigationViews();
         updateDrawerHeader();
+        getSpends();
     }
 
     private View.OnClickListener createNavClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Utils.isOnline(context)){
+                if (Utils.isOnline(context)) {
                     Class<?> nextActivityClass = null;
-                    switch (view.getId()){
+                    switch (view.getId()) {
                        /* case R.id.tvDrawerName:
                         case R.id.tvDrawerPhone:
                         case R.id.ivAvatar:*/
@@ -86,11 +96,20 @@ public abstract class DrawerActivity extends BaseActivity {
                         case R.id.ll_send_request:
                             nextActivityClass = TransactionActivity.class;
                             break;
-                        case R.id.ll_pay:
-                            showInfoNotSuportedAlert(context);
-                            break;
+//                        case R.id.ll_pay:
+//                            showInfoNotSuportedAlert(context);
+//                            break;
                         case R.id.ll_about_us:
                             nextActivityClass = AboutUsActivity.class;
+                            break;
+
+                        case R.id.navGroupSpendsItem1:
+                            startActivity(new Intent(context, SpendDetailActivity.class)
+                                    .putExtra(Keys.SPEND, groupSpend1));
+                            break;
+                        case R.id.navGroupSpendsItem2:
+                            startActivity(new Intent(context, SpendDetailActivity.class)
+                                    .putExtra(Keys.SPEND, groupSpend2));
                             break;
                     }
                     if (nextActivityClass != null/* && !(nextActivityClass.equals(context.getClass()) )*/)
@@ -117,8 +136,12 @@ public abstract class DrawerActivity extends BaseActivity {
         navigationView.findViewById(R.id.navActivity).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.navGroupSpends).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.ll_send_request).setOnClickListener(navClickListener);
-        navigationView.findViewById(R.id.ll_pay).setOnClickListener(navClickListener);
+//        navigationView.findViewById(R.id.ll_pay).setOnClickListener(navClickListener);
         navigationView.findViewById(R.id.ll_about_us).setOnClickListener(navClickListener);
+
+
+        navigationView.findViewById(R.id.navGroupSpendsItem1).setOnClickListener(navClickListener);
+        navigationView.findViewById(R.id.navGroupSpendsItem2).setOnClickListener(navClickListener);
     }
 
     protected void initDrawerToolbar(String title) {
@@ -143,7 +166,6 @@ public abstract class DrawerActivity extends BaseActivity {
     }
 
 
-
     private void updateDrawerHeader() {
         String visibleName = nameInDrawer + " " + surnameInDrawer;
         String initials = Utils.extractInitials(nameInDrawer, surnameInDrawer);
@@ -153,7 +175,7 @@ public abstract class DrawerActivity extends BaseActivity {
         Utils.displayAvatar(context, ivAvatarInDrawer, avatarInDrawer, initials);
     }
 
-    protected void setToolBarTitle(String title){
+    protected void setToolBarTitle(String title) {
         ((TextView) findViewById(R.id.tvToolBarTitle)).setText(title.toUpperCase());
     }
 
@@ -176,5 +198,57 @@ public abstract class DrawerActivity extends BaseActivity {
 
     protected void openDrawer() {
         drawer.openDrawer(Gravity.LEFT);
+    }
+
+    protected void updateGroupSpends(GroupSpend item1, GroupSpend item2) {
+        Log.d("sss", "updateGroupSpends: 0");
+        if (item1 != null) {
+            Log.d("sss", "updateGroupSpends: 1");
+            navigationView.findViewById(R.id.navGroupSpendsItem1).setVisibility(View.VISIBLE);
+            navigationView.findViewById(R.id.gs_item1).setVisibility(View.VISIBLE);
+            ((TextView) navigationView.findViewById(R.id.tv_gs1)).setText(item1.getTitle());
+        } else {
+            navigationView.findViewById(R.id.navGroupSpendsItem1).setVisibility(View.GONE);
+            navigationView.findViewById(R.id.gs_item1).setVisibility(View.GONE);
+        }
+        if (item2 != null) {
+            Log.d("sss", "updateGroupSpends: 2");
+            navigationView.findViewById(R.id.navGroupSpendsItem2).setVisibility(View.VISIBLE);
+            navigationView.findViewById(R.id.gs_item2).setVisibility(View.VISIBLE);
+            ((TextView) navigationView.findViewById(R.id.tv_gs2)).setText(item2.getTitle());
+        } else {
+            navigationView.findViewById(R.id.navGroupSpendsItem2).setVisibility(View.GONE);
+            navigationView.findViewById(R.id.gs_item2).setVisibility(View.GONE);
+        }
+
+    }
+
+    private void getSpends() {
+        ApiClient.getApiInterface().getSpending(TokenStorage.getToken(context))
+                .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, true) {
+                    @Override
+                    protected void onResult(int code, ArrayList<GroupSpend> result) {
+                        if (code < 204) {
+                            Collections.sort(result, new Comparator<GroupSpend>() {
+                                @Override
+                                public int compare(GroupSpend o1, GroupSpend o2) {
+                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                                        return 0;
+                                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                                }
+                            });
+                            if (result.size() == 1) {
+                                updateGroupSpends(result.get(0), null);
+                                groupSpend1 = result.get(0);
+                            }
+                            else if (result.size() > 1) {
+                                groupSpend1 = result.get(0);
+                                groupSpend2 = result.get(1);
+                                updateGroupSpends(groupSpend1, groupSpend2);
+                            }
+
+                        }
+                    }
+                });
     }
 }
