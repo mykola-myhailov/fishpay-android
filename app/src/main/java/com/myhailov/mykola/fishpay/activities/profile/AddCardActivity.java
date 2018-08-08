@@ -150,7 +150,40 @@ public class AddCardActivity extends BaseActivity {
 
         webview.getSettings().setJavaScriptEnabled(true);
 
+        //prod
         String html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
+                "<iframe id=\"uapayFrame\" " +
+                "style=\"height: 40%; width: 100%; background: #fff;\"" +
+                "src=\"http://api.uapay.ua/api/iframe/"+ token +"\"></iframe>" +
+                "<div><button id=\"btnSubmit\" style=\"border: 2px solid #f6db3e; font-size: 18px;" +
+                " background: transparent; color: #f6db3e; display: block;" +
+                " width: 40%; padding: 10px 15px; margin: 30px auto 0 auto; " +
+                "text-transform: capitalize; cursor: pointer;\">Send</button></div>" +
+                "<script>" +
+                "var iframe = document.getElementById('uapayFrame').contentWindow," +
+                "btn = document.getElementById('btnSubmit');" +
+                "btn.addEventListener('click', function (e) {iframe.postMessage('Submit', \"*\");});" +
+                "function listener(event) {" +
+                "if(event.origin !='https://addcard.uapay.ua'){\n" +
+                "return;\n" +
+                "}"+
+                "if(event.data){" +
+                "if(event.data.name === 'Success')" +
+                "{ window.AndroidInterface.receive('{\"Success\":\"'+event.data.payload+'\"}');}" +
+                "else if(event.data.name === 'Error')" +
+                "{ window.AndroidInterface.receive('{\"Error\":\"'+event.data.code+'\"}');" +
+                "}}}\n" + "window.addEventListener(\"message\", listener, false);\n" +
+                "</script></body>";
+
+
+
+
+
+
+
+        // dev
+
+     /*   String html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
                 "<iframe id=\"uapayFrame\" " +
                 "style=\"height: 40%; width: 100%; background: #fff;\"" +
                 "src=\"http://api.demo.uapay.ua/api/iframe/"+ token +"\"></iframe>" +
@@ -169,7 +202,7 @@ public class AddCardActivity extends BaseActivity {
                 "else if(event.data.name === 'Error')" +
                 "{ window.AndroidInterface.receive('{\"Error\":\"'+event.data.code+'\"}');" +
                 "}}}\n" + "window.addEventListener(\"message\", listener, false);\n" +
-                "</script></body>";
+                "</script></body>";*/
         webview.addJavascriptInterface(new JsInterface(), "AndroidInterface");
         webview.loadData(html, "text/html", null);
     }
