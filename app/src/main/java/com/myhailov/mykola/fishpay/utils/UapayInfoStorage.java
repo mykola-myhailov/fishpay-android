@@ -12,6 +12,9 @@ public class UapayInfoStorage {
     public static String UAPAY_STORAGE = "uapay_storage";
     public static String UAPAY_ID_KEY = "uapay_id_key";
     public static String UAPAY_KEY_KEY = "uapay_key_key";
+    public static String UAPAY_SANDBOX = "uapay_sandbo";
+
+   // "sanbox":true
 
 
     public static String getUapayIdKey(Context context){
