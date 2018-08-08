@@ -12,7 +12,7 @@ public class UapayInfoStorage {
     public static String UAPAY_STORAGE = "uapay_storage";
     public static String UAPAY_ID_KEY = "uapay_id_key";
     public static String UAPAY_KEY_KEY = "uapay_key_key";
-    public static String UAPAY_SANDBOX = "uapay_sandbo";
+    public static String UAPAY_SANBOX = "uapay_sanbox";
 
    // "sanbox":true
 
@@ -27,5 +27,12 @@ public class UapayInfoStorage {
         return context.getSharedPreferences(UAPAY_STORAGE, Context.MODE_PRIVATE)
                 .getString(UAPAY_ID_KEY, "");
     }
+
+    public static boolean getUapaySandbox(Context context){
+        return context.getSharedPreferences(UAPAY_STORAGE, Context.MODE_PRIVATE)
+                .getBoolean(UAPAY_SANBOX, false);
+    }
+
+
 
 }

@@ -194,7 +194,7 @@ public class LoginActivity extends BaseActivity {
                                 case 200:
                                     JsonObject loginResult = result.getAsJsonObject();
                                     TokenStorage.setToken(context, loginResult.get("access_token").getAsString());
-                                    getContactsRequest();
+
                                     uploadContactsRequest();
                                     getUapayInfoRequest();
                                     setLang(loginResult.get("UI_LANG").getAsString());
@@ -291,7 +291,8 @@ public class LoginActivity extends BaseActivity {
                                 = getSharedPreferences(UapayInfoStorage.UAPAY_STORAGE, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(UapayInfoStorage.UAPAY_ID_KEY, result.getUapayId());
-                        editor.putString(UapayInfoStorage.UAPAY_ID_KEY, result.getUapayKey());
+                        editor.putString(UapayInfoStorage.UAPAY_KEY_KEY, result.getUapayKey());
+                        editor.putBoolean(UapayInfoStorage.UAPAY_SANBOX, result.getSanbox());
                         editor.apply();
                     }
                 });
@@ -332,7 +333,7 @@ public class LoginActivity extends BaseActivity {
                 .enqueue(new BaseCallback<Object>(context, false) {
                     @Override
                     protected void onResult(int code, Object result) {
-//                        getContactsRequest();
+                       getContactsRequest();
                     }
                 });
     }

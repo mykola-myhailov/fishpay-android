@@ -34,7 +34,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AddCardActivity extends BaseActivity {
 
-
     private WebView webview;
     private String token;
     private EditText etCardName;
@@ -52,9 +51,7 @@ public class AddCardActivity extends BaseActivity {
         initWebWiew();
     }
 
-
     public class JsInterface  {
-
         //This method will be called from the script after receiving a response from Uapay
         @JavascriptInterface
         public void receive(String value) {
@@ -77,8 +74,6 @@ public class AddCardActivity extends BaseActivity {
                         tvAddCard.setOnClickListener((View.OnClickListener) context);
                     }
                 });
-
-
             } else {
                 String error = jSdata.error;
             }
@@ -149,9 +144,30 @@ public class AddCardActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 19) { webview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); }
 
         webview.getSettings().setJavaScriptEnabled(true);
+        boolean sanbox = UapayInfoStorage.getUapaySandbox(context);
+        String html = null;
+        if (sanbox)  html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
+                "<iframe id=\"uapayFrame\" " +
+                "style=\"height: 40%; width: 100%; background: #fff;\"" +
+                "src=\"http://api.demo.uapay.ua/api/iframe/"+ token +"\"></iframe>" +
+                "<div><button id=\"btnSubmit\" style=\"border: 2px solid #f6db3e; font-size: 18px;" +
+                " background: transparent; color: #f6db3e; display: block;" +
+                " width: 40%; padding: 10px 15px; margin: 30px auto 0 auto; " +
+                "text-transform: capitalize; cursor: pointer;\">Send</button></div>" +
+                "<script>" +
+                "var iframe = document.getElementById('uapayFrame').contentWindow," +
+                "btn = document.getElementById('btnSubmit');" +
+                "btn.addEventListener('click', function (e) {iframe.postMessage('Submit', \"*\");});" +
+                "function listener(event) {" +
+                "if(event.data){" +
+                "if(event.data.name === 'Success')" +
+                "{ window.AndroidInterface.receive('{\"Success\":\"'+event.data.payload+'\"}');}" +
+                "else if(event.data.name === 'Error')" +
+                "{ window.AndroidInterface.receive('{\"Error\":\"'+event.data.code+'\"}');" +
+                "}}}\n" + "window.addEventListener(\"message\", listener, false);\n" +
+                "</script></body>";
 
-        //prod
-        String html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
+        else html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
                 "<iframe id=\"uapayFrame\" " +
                 "style=\"height: 40%; width: 100%; background: #fff;\"" +
                 "src=\"http://api.uapay.ua/api/iframe/"+ token +"\"></iframe>" +
@@ -175,34 +191,6 @@ public class AddCardActivity extends BaseActivity {
                 "}}}\n" + "window.addEventListener(\"message\", listener, false);\n" +
                 "</script></body>";
 
-
-
-
-
-
-
-        // dev
-
-     /*   String html ="<body style=\"margin: 0; background: #1d1b1d;\">" +
-                "<iframe id=\"uapayFrame\" " +
-                "style=\"height: 40%; width: 100%; background: #fff;\"" +
-                "src=\"http://api.demo.uapay.ua/api/iframe/"+ token +"\"></iframe>" +
-                "<div><button id=\"btnSubmit\" style=\"border: 2px solid #f6db3e; font-size: 18px;" +
-                " background: transparent; color: #f6db3e; display: block;" +
-                " width: 40%; padding: 10px 15px; margin: 30px auto 0 auto; " +
-                "text-transform: capitalize; cursor: pointer;\">Send</button></div>" +
-                "<script>" +
-                "var iframe = document.getElementById('uapayFrame').contentWindow," +
-                "btn = document.getElementById('btnSubmit');" +
-                "btn.addEventListener('click', function (e) {iframe.postMessage('Submit', \"*\");});" +
-                "function listener(event) {" +
-                "if(event.data){" +
-                "if(event.data.name === 'Success')" +
-                "{ window.AndroidInterface.receive('{\"Success\":\"'+event.data.payload+'\"}');}" +
-                "else if(event.data.name === 'Error')" +
-                "{ window.AndroidInterface.receive('{\"Error\":\"'+event.data.code+'\"}');" +
-                "}}}\n" + "window.addEventListener(\"message\", listener, false);\n" +
-                "</script></body>";*/
         webview.addJavascriptInterface(new JsInterface(), "AndroidInterface");
         webview.loadData(html, "text/html", null);
     }
@@ -216,11 +204,4 @@ public class AddCardActivity extends BaseActivity {
         }
         return new String(bi.toByteArray());
     }
-
-
-
-
-
-
-
 }
