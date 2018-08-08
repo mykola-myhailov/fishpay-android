@@ -168,6 +168,9 @@ public class CharitySettingsActivity extends BaseActivity implements PopupMenu.O
                 tvListDonation.setText(getString(R.string.charity_close));
             }
         }
+
+        if (charity.getStatus().equals("CLOSED")) findViewById(R.id.tv_close).setVisibility(View.GONE);
+
         setValue();
     }
 

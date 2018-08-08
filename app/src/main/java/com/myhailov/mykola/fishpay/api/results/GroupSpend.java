@@ -19,6 +19,9 @@ public class GroupSpend implements Parcelable {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("created_at")
+    private String created_at;
+
 
     @SerializedName("start_amount")
     private int startAmount;
@@ -52,6 +55,13 @@ public class GroupSpend implements Parcelable {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCreatedAt() {
+        return created_at;
+    }
 
     public int getStartAmount() {
         return startAmount;

@@ -7,16 +7,18 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/** Created by Mykola Myhailov  on 14.11.17. */
+/**
+ * Created by Mykola Myhailov  on 14.11.17.
+ */
 
 public class ApiClient {
 
     // test
-   public static final String BANK_REDIRECT = "http://bank4u.pp.ua/";
-    public static final String BASE_API_URL = "http://bank4u.pp.ua/rest/";
+//    public static final String BANK_REDIRECT = "http://bank4u.pp.ua/";
+//    public static final String BASE_API_URL = "http://bank4u.pp.ua/rest/";
     //prod
- //   public static final String BANK_REDIRECT = "http://167.99.240.38/";
-  //  public static final String BASE_API_URL = "http://167.99.240.38/rest/";
+    public static final String BANK_REDIRECT = "http://167.99.240.38/";
+    public static final String BASE_API_URL = "http://167.99.240.38/rest/";
 
     private static Retrofit retrofit = null;
 
@@ -26,7 +28,7 @@ public class ApiClient {
 
 
     public static Retrofit getRetrofit() {
-        if (retrofit==null) {
+        if (retrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)

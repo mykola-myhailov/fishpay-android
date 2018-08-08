@@ -30,10 +30,10 @@ import com.myhailov.mykola.fishpay.views.Tab;
 import com.myhailov.mykola.fishpay.views.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 
-public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnTabChangedListener  {
+public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnTabChangedListener {
 
     private final static int TAB_ALL = 0;
     private final static int TAB_MY = 1;
@@ -49,7 +49,8 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);;
+        super.onCreate(savedInstanceState);
+        ;
         setContentView(R.layout.activity_group_spends);
 
         initDrawerToolbar(getString(R.string.joint_costs));
@@ -76,10 +77,16 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, true) {
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {
-
-                        if (code < 204){
+                        if (code < 204) {
                             allSpends = result;
-                            Collections.reverse(allSpends);
+                            Collections.sort(allSpends, new Comparator<GroupSpend>() {
+                                @Override
+                                public int compare(GroupSpend o1, GroupSpend o2) {
+                                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                                        return 0;
+                                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                                }
+                            });
                             for (GroupSpend spend : allSpends)
                                 if (spend.getCreatorId() == myUserId)
                                     myCreationSpends.add(spend);
@@ -107,20 +114,20 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
 
     public void setSpendsList(ArrayList<GroupSpend> spendsList) {
         selectedSpends = spendsList;
-       rvSpends.setAdapter(new SpendsAdapter());
+        rvSpends.setAdapter(new SpendsAdapter());
     }
 
 
     @Override
     public void onClick(View view) {
         GroupSpend spend = (GroupSpend) view.getTag();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_main_item:
-               context.startActivity(new Intent(context, SpendDetailActivity.class)
-                .putExtra(Keys.SPEND, spend));
+                context.startActivity(new Intent(context, SpendDetailActivity.class)
+                        .putExtra(Keys.SPEND, spend));
                 break;
             case R.id.tv_delete:
-                idDeletedSpend = ((GroupSpend)view.getTag()).getId();
+                idDeletedSpend = ((GroupSpend) view.getTag()).getId();
                 showDeleteAlert();
                 break;
             case R.id.tv_first_action:
@@ -144,7 +151,7 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
                 });
     }
 
-    private void showDeleteAlert(){
+    private void showDeleteAlert() {
         TextView tvDeleteSpend, tvClose, tvDescription, tvTitle;
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -202,10 +209,10 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         @Override
         public void onBindViewHolder(SpendsViewHolder holder, int position) {
             GroupSpend spend = selectedSpends.get(position);
-            if(spend.getCreatorId() != myUserId){
+            if (spend.getCreatorId() != myUserId) {
                 holder.swipeRevealLayout.close(false);
                 holder.swipeRevealLayout.setLockDrag(true);
-            }else holder.swipeRevealLayout.setLockDrag(false);
+            } else holder.swipeRevealLayout.setLockDrag(false);
 
             if (spend.getStatus().equals("NOT_VIEWED")) holder.viewed.setVisibility(View.VISIBLE);
             else holder.viewed.setVisibility(View.INVISIBLE);
@@ -221,7 +228,9 @@ public class GroupSpendsActivity extends DrawerActivity implements TabLayout.OnT
         }
 
         @Override
-        public int getItemCount() { return selectedSpends.size(); }
+        public int getItemCount() {
+            return selectedSpends.size();
+        }
     }
 
     @Override
