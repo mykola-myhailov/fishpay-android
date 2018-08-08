@@ -48,6 +48,8 @@ public class AddCardActivity extends BaseActivity {
         llCardData = findViewById(R.id.llCardData);
         llCardData.setVisibility(View.GONE);
         token = generateToken();
+        Log.e("token", token);
+
         initWebWiew();
     }
 
@@ -131,6 +133,8 @@ public class AddCardActivity extends BaseActivity {
         try { params.put("method", "createCard"); } catch (JSONException e) { e.printStackTrace();}
         try { data.put("params", params); } catch (JSONException e) { e.printStackTrace(); }
         try { data.put("iat", time/1000); } catch (JSONException e) { e.printStackTrace(); }
+        Log.e("json", data.toString());
+        Log.e("key", key);
         return Jwts.builder()
                 .setPayload(data.toString())
                 .signWith(SignatureAlgorithm.HS256, key)

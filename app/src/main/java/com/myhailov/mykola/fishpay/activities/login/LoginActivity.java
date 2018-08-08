@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
@@ -284,16 +285,24 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         ApiClient.getApiInterface().getUapayInfo(TokenStorage.getToken(context))
-                .enqueue(new BaseCallback<UapayInfo>(context, false) {
+                .enqueue(new Callback<UapayInfo>() {
+
+
                     @Override
-                    protected void onResult(int code, UapayInfo result) {
+                    public void onResponse(Call<UapayInfo> call, Response<UapayInfo> response) {
                         SharedPreferences sharedPreferences
                                 = getSharedPreferences(UapayInfoStorage.UAPAY_STORAGE, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                        UapayInfo result = response.body();
                         editor.putString(UapayInfoStorage.UAPAY_ID_KEY, result.getUapayId());
                         editor.putString(UapayInfoStorage.UAPAY_KEY_KEY, result.getUapayKey());
                         editor.putBoolean(UapayInfoStorage.UAPAY_SANBOX, result.getSanbox());
                         editor.apply();
+                    }
+
+                    @Override
+                    public void onFailure(Call<UapayInfo> call, Throwable t) {
+
                     }
                 });
     }

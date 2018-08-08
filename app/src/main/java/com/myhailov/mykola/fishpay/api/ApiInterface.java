@@ -645,6 +645,6 @@ public interface ApiInterface {
                                                   @Field("id") String id,
                                                   @Field("code") String code);
 
-    @GET("/api/uapaydata")
-    Call<BaseResponse<UapayInfo>> getUapayInfo(@Header("Authorization") String token);
+    @GET("api/uapaydata")
+    Call<UapayInfo> getUapayInfo(@Header("Authorization") String token);
 }

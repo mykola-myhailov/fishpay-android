@@ -25,7 +25,7 @@ public class UapayInfoStorage {
 
     public static String getUapayKeyKey(Context context){
         return context.getSharedPreferences(UAPAY_STORAGE, Context.MODE_PRIVATE)
-                .getString(UAPAY_ID_KEY, "");
+                .getString(UAPAY_KEY_KEY, "");
     }
 
     public static boolean getUapaySandbox(Context context){
