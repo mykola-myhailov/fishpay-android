@@ -152,6 +152,10 @@ public class MemberDetailsActivity extends BaseActivity {
     }
 
     private void initViews() {
+        tvManually = findViewById(R.id.tv_manually);
+        tvEqualiseExpenses = findViewById(R.id.tv_equalise_expenses);
+        tvExpense = findViewById(R.id.tv_expense);
+
         String name = member.getName();
         String surname = member.getSurname();
         ((TextView) findViewById(R.id.tvName)).setText(String.format("%s %s", name, surname));
@@ -177,12 +181,10 @@ public class MemberDetailsActivity extends BaseActivity {
         }
         if ((long) member.getRelativeBallance() == 0) {
             tvForYou.setText("0.00");
+            tvEqualiseExpenses.setVisibility(View.GONE);
         } else {
             Utils.setText(tvForYou, Utils.pennyToUah((long) member.getRelativeBallance()));
         }
-        tvManually = findViewById(R.id.tv_manually);
-        tvEqualiseExpenses = findViewById(R.id.tv_equalise_expenses);
-        tvExpense = findViewById(R.id.tv_expense);
 
         if (!TextUtils.isEmpty(member.getPhone()) && !member.getRole().equals("no_account")) {
             ((TextView) findViewById(R.id.tvRole)).setText(member.getPhone());
