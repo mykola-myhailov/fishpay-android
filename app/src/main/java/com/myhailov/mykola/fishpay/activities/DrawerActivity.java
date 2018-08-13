@@ -201,9 +201,7 @@ public abstract class DrawerActivity extends BaseActivity {
     }
 
     protected void updateGroupSpends(GroupSpend item1, GroupSpend item2) {
-        Log.d("sss", "updateGroupSpends: 0");
         if (item1 != null) {
-            Log.d("sss", "updateGroupSpends: 1");
             navigationView.findViewById(R.id.navGroupSpendsItem1).setVisibility(View.VISIBLE);
             navigationView.findViewById(R.id.gs_item1).setVisibility(View.VISIBLE);
             ((TextView) navigationView.findViewById(R.id.tv_gs1)).setText(item1.getTitle());
@@ -212,7 +210,6 @@ public abstract class DrawerActivity extends BaseActivity {
             navigationView.findViewById(R.id.gs_item1).setVisibility(View.GONE);
         }
         if (item2 != null) {
-            Log.d("sss", "updateGroupSpends: 2");
             navigationView.findViewById(R.id.navGroupSpendsItem2).setVisibility(View.VISIBLE);
             navigationView.findViewById(R.id.gs_item2).setVisibility(View.VISIBLE);
             ((TextView) navigationView.findViewById(R.id.tv_gs2)).setText(item2.getTitle());
@@ -225,7 +222,7 @@ public abstract class DrawerActivity extends BaseActivity {
 
     private void getSpends() {
         ApiClient.getApiInterface().getSpending(TokenStorage.getToken(context))
-                .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, true) {
+                .enqueue(new BaseCallback<ArrayList<GroupSpend>>(context, false) {
                     @Override
                     protected void onResult(int code, ArrayList<GroupSpend> result) {
                         if (code < 204) {

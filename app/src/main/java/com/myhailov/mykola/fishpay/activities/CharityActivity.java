@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -184,8 +183,8 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
             String name = item.getAuthorName().toLowerCase();
             String title = item.getTitle().toLowerCase();
             String pseudonym = "";
-            if (!TextUtils.isEmpty(item.getPseudonym())){
-                pseudonym  = item.getPseudonym();
+            if (!TextUtils.isEmpty(item.getPseudonym())) {
+                pseudonym = item.getPseudonym();
             }
             if (name.contains(search) || title.contains(search) || pseudonym.contains(search)) {
                 filteredCharity.add(item);
@@ -200,13 +199,31 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
                     .enqueue(new BaseCallback<CharityResult>(this, true) {
                         @Override
                         protected void onResult(int code, CharityResult result) {
-                                if (result == null) return;
-                                if (result.getCharityProgram().size() == 0){
-                                    rvCharity.setVisibility(View.GONE);
-                                    tvDescription.setText(getString(R.string.charity_empty_global));
-                                    tvDescription.setVisibility(View.VISIBLE);
-                                }
-                                setValue(result);
+                            if (result == null) return;
+                            if (result.getCharityProgram() == null || result.getCharityProgram().size() == 0) {
+                                rvCharity.setVisibility(View.GONE);
+                                tvDescription.setText(getString(R.string.charity_empty_global));
+                                tvDescription.setVisibility(View.VISIBLE);
+                            }
+
+                            CharityResult filteredCharity = new CharityResult();
+                            filteredCharity.setTotalDonation(result.getTotalDonation());
+                            filteredCharity.setDonation(result.getDonation());
+                            filteredCharity.setCharityProgram(new ArrayList<CharityProgram>());
+                            for (CharityProgram charityProgram : result.getCharityProgram()) {
+                                if (charityProgram.getStatus().equals("CLOSED")) {
+                                    if (myId != charityProgram.getUserId()) {
+                                        for (CharityResult.Donation donation : result.getDonation()) {
+                                            if (donation.getCharityItemId().equals(charityProgram.getId())) {
+                                                filteredCharity.getCharityProgram().add(charityProgram);
+                                            }
+                                        }
+
+                                    } else filteredCharity.getCharityProgram().add(charityProgram);
+
+                                } else filteredCharity.getCharityProgram().add(charityProgram);
+                            }
+                            setValue(filteredCharity);
                         }
                     });
         } else Utils.noInternetToast(context);
@@ -237,13 +254,13 @@ public class CharityActivity extends DrawerActivity implements TabLayout.OnTabCh
     }
 
     private List<CharityProgram> getGlobalCharity() {
-        List<CharityProgram> list = new ArrayList<>();
-        for (CharityProgram charity : charities) {
-            if (charity.getItemVisibility().equals("PUBLIC")) {
-                list.add(charity);
-            }
-        }
-        return list;
+//        List<CharityProgram> list = new ArrayList<>();
+//        for (CharityProgram charity : charities) {
+//            if (charity.getItemVisibility().equals("PUBLIC")) {
+//                list.add(charity);
+//            }
+//        }
+        return charities;
     }
 
 
