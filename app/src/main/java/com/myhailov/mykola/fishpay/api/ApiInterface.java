@@ -602,7 +602,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/moneyRequest/{requestId}/attemptpay")
     Call<BaseResponse<Object>> paymentIncoming(@Header("Authorization") String token,
-                                               @Field("requestId") String requestId,
+                                               @Query("requestId") String requestId,
                                                @Field("card_id") String card_id,
                                                @Field("securityCode") String securityCode);
 
@@ -610,13 +610,13 @@ public interface ApiInterface {
     @POST("api/moneyRequest/{requestId}/auditpay")
     Call<BaseResponse<Object>> auditpayIncomging(@Header("Authorization") String token,
                                                  @Field("fpt") String fpt,
-                                                 @Field("requestId") String requestId,
+                                                 @Query("requestId") String requestId,
                                                  @Field("id") String id);
 
     @FormUrlEncoded
     @POST("api/moneyRequest/{requestId}/sendlookup")
     Call<BaseResponse<String>> sendLookupIncoming(@Header("Authorization") String token,
-                                                  @Field("requestId") String requestId,
+                                                  @Query("requestId") String requestId,
                                                   @Field("fpt") String fpt,
                                                   @Field("id") String id,
                                                   @Field("code") String code);
@@ -626,7 +626,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/commonPurchases/member/{purchasesId}/attemptpay")
     Call<BaseResponse<Object>> paymentPurchase(@Header("Authorization") String token,
-                                               @Field("purchasesId") String purchaseId,
+                                               @Query("purchasesId") String purchaseId,
                                                @Field("card_id") String card_id,
                                                @Field("securityCode") String securityCode);
 
@@ -634,13 +634,13 @@ public interface ApiInterface {
     @POST("api/commonPurchases/member/{purchasesId}/auditpay")
     Call<BaseResponse<Object>> auditpayPurchase(@Header("Authorization") String token,
                                                 @Field("fpt") String fpt,
-                                                @Field("purchasesId") String purchasesId,
+                                                @Query("purchasesId") String purchasesId,
                                                 @Field("id") String id);
 
     @FormUrlEncoded
     @POST("api/commonPurchases/member/{purchasesId}/sendlookup")
     Call<BaseResponse<String>> sendLookupPurhcase(@Header("Authorization") String token,
-                                                  @Field("purchasesId") String purchasesId,
+                                                  @Query("purchasesId") String purchasesId,
                                                   @Field("fpt") String fpt,
                                                   @Field("id") String id,
                                                   @Field("code") String code);

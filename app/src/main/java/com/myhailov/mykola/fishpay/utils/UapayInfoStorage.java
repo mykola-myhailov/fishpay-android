@@ -1,8 +1,6 @@
 package com.myhailov.mykola.fishpay.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 /**
  * Created by Mykola Myhailov  on 07.08.18.
