@@ -2,6 +2,8 @@ package com.myhailov.mykola.fishpay.api.results;
 
 import com.google.gson.annotations.SerializedName;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -193,6 +195,13 @@ public class CharityResult implements Serializable{
         private String createdAt;
         @SerializedName("author_name")
         private String authorName;
+        @SerializedName("status")
+        private String status;
+
+        public String getStatus() {
+            if (TextUtils.isEmpty(status)) return "";
+            return status;
+        }
 
         public Integer getId() {
             return id;

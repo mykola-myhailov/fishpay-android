@@ -41,6 +41,10 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final CharityProgram item = list.get(position);
 
+        if (item.getStatus().equals("CLOSED")){
+            setClosed(holder);
+        }else setActive(holder);
+
         holder.tvTitle.setText(item.getTitle());
         if (TextUtils.isEmpty(item.getPseudonym())) {
             holder.tvName.setText(item.getAuthorName());
@@ -83,6 +87,36 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         }
     }
 
+    private void setClosed(ViewHolder holder){
+        holder.tvName.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvTitle.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvGoal.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvPercent.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvPercentChar.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvCurency.setTextColor(context.getResources().getColor(R.color.grey_disabled));
+        holder.tvName.setAlpha(0.50f);
+        holder.tvTitle.setAlpha(0.50f);
+        holder.tvGoal.setAlpha(0.50f);
+        holder.tvPercent.setAlpha(0.50f);
+        holder.tvPercentChar.setAlpha(0.50f);
+        holder.tvCurency.setAlpha(0.50f);
+    }
+
+    private void setActive(ViewHolder holder){
+        holder.tvName.setTextColor(context.getResources().getColor(R.color.grey_text_secondary));
+        holder.tvTitle.setTextColor(context.getResources().getColor(R.color.black_text));
+        holder.tvGoal.setTextColor(context.getResources().getColor(R.color.grey_text_secondary));
+        holder.tvPercent.setTextColor(context.getResources().getColor(R.color.black_text));
+        holder.tvPercentChar.setTextColor(context.getResources().getColor(R.color.black_text));
+        holder.tvCurency.setTextColor(context.getResources().getColor(R.color.grey_text_secondary));
+        holder.tvName.setAlpha(1);
+        holder.tvTitle.setAlpha(1);
+        holder.tvGoal.setAlpha(1);
+        holder.tvPercent.setAlpha(1);
+        holder.tvPercentChar.setAlpha(1);
+        holder.tvCurency.setAlpha(1);
+    }
+
     public void setList(List<CharityProgram> list) {
         this.list = list;
         this.notifyDataSetChanged();
@@ -99,6 +133,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
         private TextView tvPercent;
         private TextView tvPercentChar;
         private TextView tvReport;
+        private TextView tvCurency;
         private View container;
         private SwipeRevealLayout swipeRevealLayout;
 
@@ -112,6 +147,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.ViewHold
             tvPercent = itemView.findViewById(R.id.tv_percent);
             tvReport = itemView.findViewById(R.id.tv_report);
             tvPercentChar = itemView.findViewById(R.id.textView23);
+            tvCurency = itemView.findViewById(R.id.textView25);
         }
     }
 }
