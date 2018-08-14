@@ -114,9 +114,9 @@ public class MembersPartActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_pay:
-                showInfoAlert(context);
+               //showInfoAlert(context);
                 // TODO: 06.07.2018 в розробці
-//                startPaymentMemberActivity();
+               startPaymentMemberActivity();
                 break;
             case R.id.tv_request:
                 context.startActivity(new Intent(context, CreatePayRequestActivity.class)

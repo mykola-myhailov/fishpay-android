@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -116,6 +118,7 @@ public class AddCardActivity extends BaseActivity {
                 .enqueue(new BaseCallback<Object>(context, true) {
                     @Override
                     protected void onResult(int code, Object result) {
+                        if (code == 242) Utils.toast(context, getString(R.string.already_has_card));
                         context.startActivity(new Intent(context, CardsActivity.class));
                     }
                 });

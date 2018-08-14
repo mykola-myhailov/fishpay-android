@@ -329,7 +329,7 @@ public class CreatePayRequestActivity extends BaseActivity implements View.OnKey
         }
     }
 
-    private void showInfoAlert() {
+ /*   private void showInfoAlert() {
         TextView tvTitle;
         final AlertDialog infoAlert;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -359,7 +359,7 @@ public class CreatePayRequestActivity extends BaseActivity implements View.OnKey
             }
         });
     }
-
+*/
     private void initViews() {
         findViewById(R.id.iv_choose_contact).setOnClickListener(this);
         findViewById(R.id.tv_send_request).setOnClickListener(this);

@@ -197,7 +197,7 @@
     <string name="user_no_have_operations_yet">У користувача ще немає здійснених операцій</string>
     <string name="participants">Учасники</string>
     <string name="list">Список</string>
-    <string name="outgoing_transaction">Исходящий перевод</string>
+    <string name="outgoing_transaction">Вихідний переказ</string>
     <string name="alert_block_user">Ви дійсно хочете заблокувати користувача? %s?</string>
     <string name="role">роль:</string>
     <string name="send_across_fishpay">Запит відправлено  %s в %s через систему FISHPAY</string>
@@ -357,4 +357,6 @@
     <string name="alert_delete_transaction_description">Ви впевнені, що хочете видалити транзакцію? Загальна сума буде змінена</string>
     <string name="group_spends_add_success">Ваша витрата успішно додана до групи «%s». Ви завжди можете його подивитися в списку витрат</string>
     <string name="enter_card_name">Введіть назву карти</string>
+    <string name="send">Відправити</string>
+    <string name="already_has_card">Ця карта уже додана</string>
 </resources>

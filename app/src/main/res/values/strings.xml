@@ -381,6 +381,7 @@
     <string name="info_description">В текущей версии приложения денежные переводы не осуществляются</string>
     <string name="info_not_sup_description">В текущей версии приложения операция не поддерживается</string>
     <string name="enter_card_name">please, enter card name</string>
+    <string name="send">Send</string>
 
 
 </resources>

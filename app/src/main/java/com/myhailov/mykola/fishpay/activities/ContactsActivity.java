@@ -114,6 +114,12 @@ public class ContactsActivity extends DrawerActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        filter();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ivPlus:

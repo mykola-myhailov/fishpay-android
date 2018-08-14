@@ -181,7 +181,7 @@ public class TransactionActivity extends DrawerActivity {
                 break;
         }
     }
-
+/*
     private void showInfoAlert() {
         TextView tvTitle;
         final AlertDialog infoAlert;
@@ -211,7 +211,7 @@ public class TransactionActivity extends DrawerActivity {
                 finish();
             }
         });
-    }
+    }*/
 
     private boolean dataIsValid() {
         amountUAH = etAmount.getText().toString();

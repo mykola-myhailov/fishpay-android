@@ -218,7 +218,8 @@ public class CardsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_add_card:
-                context.startActivity(new Intent(context, AddCardActivity.class));
+                context.startActivity(new Intent(context, AddCardActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                 break;
             case R.id.tv_delete:
 //                showConfirmation((Card) view.getTag());
