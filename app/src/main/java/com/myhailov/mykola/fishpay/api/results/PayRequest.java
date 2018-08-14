@@ -90,21 +90,7 @@ public class PayRequest {
         this.changedAt = changedAt;
     }
 
-    public String getStatus() {
-        switch (status) {
-            case "ACTIVE":
-                return "Доставлено";
-            case "VIEWED":
-            case "DELETED_BY_RECIPIENT":
-                return "Прочитано";
-            case "ACCEPTED":
-                return "Одобрено";
-            case "REJECTED":
-                return "Отклонено";
-            default:
-                return status;
-        }
-    }
+
 
     public String getStatus(Context context) {
         switch (status) {
@@ -117,6 +103,8 @@ public class PayRequest {
                 return context.getString(R.string.approved);
             case "REJECTED":
                 return context.getString(R.string.rejected);
+            case "PAID":
+                return context.getString(R.string.paid);
             default:
                 return status;
         }

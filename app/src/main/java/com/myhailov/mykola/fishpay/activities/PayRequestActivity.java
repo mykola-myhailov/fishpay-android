@@ -119,7 +119,7 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                     ArrayList<PayRequest> result = response.body().getResult();
                     if (result != null) {
                         for (PayRequest request : result) {
-                            if (!request.getStatus().equals("DELETED")) {
+                            if (!request._getStatus().equals("DELETED")) {
                                 currentList.add(request);
                             }
                         }
@@ -290,6 +290,8 @@ public class PayRequestActivity extends DrawerActivity implements TabLayout.OnTa
                 if (TAB_OUTCOMING == tabPosition){
                     tvStatus.setText(getString(R.string.status, getString(R.string.status_out_request), request.getStatus(context)));
                     setActive();
+                } else {
+                    tvStatus.setText(request.getStatus(context));
                 }
                 tvDelete.setTag(request);
                 rlPayRequest.setTag(request);

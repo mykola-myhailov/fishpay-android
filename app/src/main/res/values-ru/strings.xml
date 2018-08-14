@@ -359,5 +359,6 @@
     <string name="enter_card_name">Введите название карты</string>
     <string name="send">Отправить</string>
     <string name="already_has_card">Эта карта уже была добавлена раньше</string>
+    <string name="paid">Оплачено</string>
 
 </resources>

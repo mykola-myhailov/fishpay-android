@@ -34,7 +34,8 @@ import java.util.List;
 import static com.myhailov.mykola.fishpay.utils.Keys.GOODS_ID;
 
 public class IncomingDetailsActivity extends BaseActivity {
-    private final String REJECTED = "REJECTED", ACCEPTED = "ACCEPTED";
+
+    private final String REJECTED = "REJECTED", ACCEPTED = "ACCEPTED", PAID = "PAID";
 
     private AlertDialog alertDialog, alertBlockUser;
 
@@ -69,7 +70,7 @@ public class IncomingDetailsActivity extends BaseActivity {
                                 amount = Utils.pennyToUah(result.getAmount());
                                 comment = result.getComment();
                                 status = result.getStatus();
-                                if (status.equals(REJECTED) || status.equals(ACCEPTED)) {
+                                if (status.equals(REJECTED) || status.equals(ACCEPTED)  || status.equals(PAID)) {
                                     findViewById(R.id.linear2).setVisibility(View.INVISIBLE);
                                 }
                                 createAt = result.getCreatedAt();

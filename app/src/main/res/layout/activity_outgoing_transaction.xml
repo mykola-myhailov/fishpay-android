@@ -299,7 +299,7 @@
                             android:id="@+id/tv_send_request"
                             android:textColor="@color/blue1"
                             android:textSize="18sp"
-                            android:text="@string/send_request"
+                            android:text="@string/send"
                             android:gravity="center"
                             android:background="?android:attr/selectableItemBackground"
                             android:layout_width="match_parent"
