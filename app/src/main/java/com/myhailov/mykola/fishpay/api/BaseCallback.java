@@ -18,8 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- *  Created by Mykola Myhailov  on 14.11.17.
- *
  *  <T> is value type of field "result" in is response json {@link BaseResponse}
  *  necessary model classes are in in package {@link com.myhailov.mykola.fishpay.api.results}
  *

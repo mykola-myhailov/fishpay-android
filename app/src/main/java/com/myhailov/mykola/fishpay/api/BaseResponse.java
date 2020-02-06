@@ -3,8 +3,6 @@ package com.myhailov.mykola.fishpay.api;
 import com.google.gson.annotations.SerializedName;
 
 /**
- *  Created by Mykola Myhailov  on 15.11.17.
- *
  *  Response json of all request in this app
  *  <T> is model class different depending on the request
  *  these classes are in package {@link com.myhailov.mykola.fishpay.api.results}
